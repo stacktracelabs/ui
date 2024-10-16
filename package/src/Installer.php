@@ -5,16 +5,33 @@ namespace StackTrace\Ui;
 
 
 use Closure;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 class Installer
 {
+    /**
+     * The installer output.
+     */
+    protected ?OutputStyle $output = null;
+
     public function __construct(
         protected string $configPath
     ) { }
+
+    /**
+     * Set output of the installer.
+     */
+    public function withOutput(?OutputStyle $output): static
+    {
+        $this->output = $output;
+
+        return $this;
+    }
 
     /**
      * Determine whether UI is installed.
@@ -29,6 +46,14 @@ class Installer
      */
     public function install(array $options = []): void
     {
+        if (! $this->requireComposerPackages([
+            "inertiajs/inertia-laravel:^1.0",
+            "laravel/sanctum:^4.0",
+            "tightenco/ziggy:^2.0"
+        ])) {
+            throw new RuntimeException("Unable to install composer packages.");
+        }
+
         $this->removeFile([
             'vite.config.js',
         ]);
@@ -167,6 +192,30 @@ class Installer
             $path,
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
+    }
+
+    /**
+     * Installs the given Composer Packages into the application.
+     */
+    protected function requireComposerPackages(array $packages, $asDev = false): bool
+    {
+        $composer = null; // TODO: Get from config
+
+        if ($composer !== 'global') {
+            $command = ['php', $composer, 'require'];
+        }
+
+        $command = array_merge(
+            $command ?? ['composer', 'require'],
+            $packages,
+            $asDev ? ['--dev'] : [],
+        );
+
+        return (new Process($command, $this->getInstallationPath(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+                ->setTimeout(null)
+                ->run(function ($type, $output) {
+                    $this->output?->write($output);
+                }) === 0;
     }
 
     /**

@@ -22,7 +22,7 @@ class InstallCommand extends Command
             return Command::SUCCESS;
         }
 
-        $installer->install();
+        $installer->withOutput($this->output)->install();
 
         return Command::SUCCESS;
     }
