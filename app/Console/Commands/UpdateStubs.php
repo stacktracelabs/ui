@@ -21,10 +21,10 @@ class UpdateStubs extends Command
             'Models',
             'Providers',
         ]);
-        // $this->copyDirectory('resources');
-        // $this->copyDirectory('routes', [
-        //     'console.php',
-        // ]);
+        $this->copyDirectory('resources');
+        $this->copyDirectory('routes', [
+            'console.php',
+        ]);
 
         return Command::SUCCESS;
     }
@@ -33,29 +33,35 @@ class UpdateStubs extends Command
     {
         $stub = base_path("package/stubs/{$path}");
 
-        // if (File::exists($stub)) {
-        //     File::deleteDirectory($stub);
-        // }
-        //
-        // File::makeDirectory($stub);
+        if (File::exists($stub)) {
+            File::deleteDirectory($stub);
+        }
+
+        File::makeDirectory($stub);
 
         $base = base_path($path);
 
         collect(Finder::create()->in($base)->files())->keys()->each(function (string $file) use ($stub, $base, $except) {
             $relativeName = Str::of($file)->replaceFirst($base, '')->ltrim('/')->value();
 
-
-
-            if (in_array($relativeName, $except)) {
-                return;
+            foreach ($except as $exclude) {
+                if (File::extension($exclude)) {
+                    if ($relativeName == $exclude) {
+                        return;
+                    }
+                } else {
+                    if (Str::startsWith($relativeName, "{$exclude}/")) {
+                        return;
+                    }
+                }
             }
 
-            // $fileDestination = $stub.Str::replaceFirst($base, '', $file);
-            //
-            // $dir = File::dirname($fileDestination);
-            // File::ensureDirectoryExists($dir);
-            //
-            // copy($file, $fileDestination);
+            $fileDestination = $stub.Str::replaceFirst($base, '', $file);
+
+            $dir = File::dirname($fileDestination);
+            File::ensureDirectoryExists($dir);
+
+            copy($file, $fileDestination);
         });
     }
 
