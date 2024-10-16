@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
@@ -15,15 +16,22 @@ class UpdateStubs extends Command
 
     public function handle(): int
     {
-        $this->copyDirectory('app', [
-            'Console',
-            'Http/Controllers/Controller.php',
-            'Models',
-            'Providers',
-        ]);
-        $this->copyDirectory('resources');
-        $this->copyDirectory('routes', [
-            'console.php',
+        // $this->copyDirectory('app', [
+        //     'Console',
+        //     'Http/Controllers/Controller.php',
+        //     'Models',
+        //     'Providers',
+        // ]);
+        // $this->copyDirectory('resources');
+        // $this->copyDirectory('routes', [
+        //     'console.php',
+        // ]);
+
+        $this->copyFiles([
+            'postcss.config.js',
+            'tailwind.config.js',
+            'tsconfig.json',
+            'vite.config.ts',
         ]);
 
         return Command::SUCCESS;
@@ -65,8 +73,16 @@ class UpdateStubs extends Command
         });
     }
 
-    protected function copyFile(string $path): void
+    protected function copyFiles(string|array $path): void
     {
+        foreach (Arr::wrap($path) as $file) {
+            $out = base_path("package/stubs/{$file}");
 
+            if (file_exists($out)) {
+                unlink($out);
+            }
+
+            copy(base_path($file), $out);
+        }
     }
 }
