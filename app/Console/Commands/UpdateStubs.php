@@ -24,34 +24,27 @@ class UpdateStubs extends Command
     {
         $stub = base_path("package/stubs/{$path}");
 
-        // if (File::exists($stub)) {
-        //     File::deleteDirectory($stub);
-        // }
-        //
-        // File::makeDirectory($stub);
+        if (File::exists($stub)) {
+            File::deleteDirectory($stub);
+        }
+
+        File::makeDirectory($stub);
 
         $base = base_path($path);
 
-        collect(Finder::create()->in($base)->files())->keys()->each(function (string $file) use ($stub, $base) {
-            $fileDestination = Str::replaceFirst($base, '', $file);
+        collect(Finder::create()->in($base)->files())->keys()->each(function (string $file) use ($stub, $base, $except) {
+            $relativeName = Str::of($file)->replaceFirst($base, '')->ltrim('/')->value();
 
-            dd($fileDestination);
+            if (in_array($relativeName, $except)) {
+                return;
+            }
 
-            // $fileDestination = $to.Str::replaceFirst($source, '', $file);
-            //
-            // $dir = File::dirname($fileDestination);
-            //
-            // File::ensureDirectoryExists($this->getInstallationPath($dir));
-            //
-            // $fileName = File::basename($file);
-            //
-            // $destinationFilePath = $this->getInstallationPath("{$dir}/{$fileName}");
-            //
-            // if (file_exists($destinationFilePath) && !$force) {
-            //     throw new RuntimeException("The file [$destinationFilePath] already exist.");
-            // }
-            //
-            // copy($file, $destinationFilePath);
+            $fileDestination = $stub.Str::replaceFirst($base, '', $file);
+
+            $dir = File::dirname($fileDestination);
+            File::ensureDirectoryExists($dir);
+
+            copy($file, $fileDestination);
         });
     }
 
