@@ -115,17 +115,17 @@ class Installer
     {
         $to = $to ?: $path;
 
-        $source = $this->resolveStubDir($path);
+        $source = $this->resolveStubPath($path);
         File::ensureDirectoryExists($this->getInstallationPath($to));
 
-        collect(Finder::create()->in($source)->name("*.stub"))->keys()->each(function (string $file) use ($source, $to, $force) {
+        collect(Finder::create()->in($source)->files())->keys()->each(function (string $file) use ($source, $to, $force) {
             $fileDestination = $to.Str::replaceFirst($source, '', $file);
 
             $dir = File::dirname($fileDestination);
 
             File::ensureDirectoryExists($this->getInstallationPath($dir));
 
-            $fileName = Str::replaceLast('.stub', '', File::basename($file));
+            $fileName = File::basename($file);
 
             $destinationFilePath = $this->getInstallationPath("{$dir}/{$fileName}");
 
@@ -198,18 +198,6 @@ class Installer
      * Resolve path to stub file.
      */
     protected function resolveStubPath(string $name): string
-    {
-        if (! Str::endsWith($name, '.stub')) {
-            $name .= '.stub';
-        }
-
-        return realpath(__DIR__."/../stubs/{$name}");
-    }
-
-    /**
-     * Resolve path to stub file.
-     */
-    protected function resolveStubDir(string $name): string
     {
         return realpath(__DIR__."/../stubs/{$name}");
     }
