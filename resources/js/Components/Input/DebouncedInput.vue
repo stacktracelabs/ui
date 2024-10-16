@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, watch } from 'vue'
 import { cn } from '@/Utils'
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 defineOptions({
   inheritAttrs: false,
