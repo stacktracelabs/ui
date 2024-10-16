@@ -30,10 +30,10 @@ class UpdateStubs extends Command
         ]);
 
         $this->copyFiles([
-            // 'postcss.config.js',
-            // 'tailwind.config.js',
-            // 'tsconfig.json',
-            // 'vite.config.ts',
+            'postcss.config.js',
+            'tailwind.config.js',
+            'tsconfig.json',
+            'vite.config.ts',
             'resources/js/Components/ApplicationLogo.vue',
         ]);
 
