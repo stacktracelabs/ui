@@ -30,10 +30,10 @@ class UpdateStubs extends Command
         ]);
 
         $this->copyFiles([
-            'postcss.config.js',
-            'tailwind.config.js',
-            'tsconfig.json',
-            'vite.config.ts',
+            // 'postcss.config.js',
+            // 'tailwind.config.js',
+            // 'tsconfig.json',
+            // 'vite.config.ts',
             'resources/js/Components/ApplicationLogo.vue',
         ]);
 
@@ -84,6 +84,8 @@ class UpdateStubs extends Command
             if (file_exists($out)) {
                 unlink($out);
             }
+
+            File::ensureDirectoryExists(File::dirname($out));
 
             copy(base_path($file), $out);
         }
