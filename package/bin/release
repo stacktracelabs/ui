@@ -10,7 +10,6 @@ fi
 VERSION=$(npm version $1 --no-git-tag-version)
 npm run build
 git commit -m "bump @stacktrace/ui $VERSION" package.json package-lock.json
-git push
 
 npm pack && npm publish --access public && rm -f *.tgz
 
