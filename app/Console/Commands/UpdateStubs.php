@@ -16,16 +16,16 @@ class UpdateStubs extends Command
 
     public function handle(): int
     {
-        // $this->copyDirectory('app', [
-        //     'Console',
-        //     'Http/Controllers/Controller.php',
-        //     'Models',
-        //     'Providers',
-        // ]);
-        // $this->copyDirectory('resources');
-        // $this->copyDirectory('routes', [
-        //     'console.php',
-        // ]);
+        $this->copyDirectory('app', [
+            'Console',
+            'Http/Controllers/Controller.php',
+            'Models',
+            'Providers',
+        ]);
+        $this->copyDirectory('resources');
+        $this->copyDirectory('routes', [
+            'console.php',
+        ]);
 
         $this->copyFiles([
             'postcss.config.js',
