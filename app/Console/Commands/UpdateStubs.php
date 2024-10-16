@@ -15,6 +15,12 @@ class UpdateStubs extends Command
 
     public function handle(): int
     {
+        $this->copyDirectory('app', [
+            'Console',
+            'Http/Controllers/Controller.php',
+            'Models',
+            'Providers',
+        ]);
         $this->copyDirectory('resources');
         $this->copyDirectory('routes', [
             'console.php',
@@ -37,6 +43,8 @@ class UpdateStubs extends Command
 
         collect(Finder::create()->in($base)->files())->keys()->each(function (string $file) use ($stub, $base, $except) {
             $relativeName = Str::of($file)->replaceFirst($base, '')->ltrim('/')->value();
+
+            
 
             if (in_array($relativeName, $except)) {
                 return;
