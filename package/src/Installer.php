@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class Installer
@@ -62,6 +63,8 @@ class Installer
             'resources/views/welcome.blade.php',
         ]);
 
+        $this->copyStubsDir('resources');
+
         // $this->copyStubs([
         //     'postcss.config.js',
         //     'tailwind.config.js',
@@ -99,6 +102,35 @@ class Installer
                 unlink($file);
             }
         }
+    }
+
+    /**
+     * Install entire stub directory.
+     */
+    public function copyStubsDir(string $path, ?string $to = null, bool $force = true): void
+    {
+        $to = $to ?: $path;
+
+        $source = $this->resolveStubDir($path);
+        File::ensureDirectoryExists($this->getInstallationPath($to));
+
+        collect(Finder::create()->in($source)->name("*.stub"))->keys()->each(function (string $file) use ($source, $to, $force) {
+            $fileDestination = $to.Str::replaceFirst($source, '', $file);
+
+            $dir = File::dirname($fileDestination);
+
+            File::ensureDirectoryExists($this->getInstallationPath($dir));
+
+            $fileName = Str::replaceLast('.stub', '', File::basename($file));
+
+            $destinationFilePath = $this->getInstallationPath("{$dir}/{$fileName}");
+
+            if (file_exists($destinationFilePath) && !$force) {
+                throw new RuntimeException("The file [$destinationFilePath] already exist.");
+            }
+
+            copy($file, $destinationFilePath);
+        });
     }
 
     /**
@@ -167,6 +199,14 @@ class Installer
             $name .= '.stub';
         }
 
+        return realpath(__DIR__."/../stubs/{$name}");
+    }
+
+    /**
+     * Resolve path to stub file.
+     */
+    protected function resolveStubDir(string $name): string
+    {
         return realpath(__DIR__."/../stubs/{$name}");
     }
 
