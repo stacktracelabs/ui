@@ -83,7 +83,7 @@ class ComponentLibrary
      */
     protected function copyDir(string $from, string $to, array $except = []): void
     {
-        collect(Finder::create()->in($from)->files()->exclude($except))->keys()->each(function (string $file) use ($from, $to, $except) {
+        collect(Finder::create()->in($from)->files()->notName($except))->keys()->each(function (string $file) use ($from, $to, $except) {
             $relativeName = Str::of($file)->replaceFirst($from, '')->ltrim('/')->value();
 
             $out = $to.'/'.$relativeName;
