@@ -1,9 +1,10 @@
 <template>
-  <BaseButton v-bind="forwardedProps" as-child>
+  <Button v-bind="forwardedProps" as-child>
+    <!-- @vue-ignore -->
     <Link :as="props.as || undefined">
       <slot />
     </Link>
-  </BaseButton>
+  </Button>
 </template>
 
 <script setup lang="ts">

@@ -34,10 +34,10 @@
             <!-- Settings Dropdown -->
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <BaseButton variant="ghost" class="inline-flex flex-row items-center gap-2">
+                <Button variant="ghost" class="inline-flex flex-row items-center gap-2">
                   {{ $page.props.auth.user.name }}
                   <ChevronDownIcon class="w-4 h-4" />
-                </BaseButton>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" class="w-48">
                 <DropdownMenuLink :href="route('profile.edit')">
@@ -53,10 +53,10 @@
 
           <!-- Hamburger -->
           <div class="-me-2 flex items-center sm:hidden">
-            <BaseButton variant="ghost" class="px-3" @click="showingNavigationDropdown = !showingNavigationDropdown">
+            <Button variant="ghost" class="px-3" @click="showingNavigationDropdown = !showingNavigationDropdown">
               <XIcon v-if="showingNavigationDropdown" class="w-5 h-5" />
               <MenuIcon v-else class="w-5 h-5" />
-            </BaseButton>
+            </Button>
           </div>
         </div>
       </div>
