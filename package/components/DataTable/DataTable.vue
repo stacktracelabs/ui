@@ -28,7 +28,7 @@
           <template v-if="table.isSearchable">
             <div class="relative">
               <SearchIcon class="w-4 h-4 absolute left-2 top-2 text-muted-foreground" />
-              <DebouncedInput :debounce="50" v-model="searchFilter.search" class="h-8 w-[250px] pl-8 pr-8" :placeholder="$t('Search…')" />
+              <DebouncedInput :debounce="50" v-model="searchFilter.search" class="h-8 w-[250px] pl-8 pr-8" placeholder="Search…" />
               <button v-if="searchFilter.applied" @click.prevent="searchFilter.reset()" class="absolute right-2 top-2.5 text-muted-foreground hover:text-destructive transition-colors">
                 <CircleXIcon class="w-3 h-3" />
               </button>
@@ -39,17 +39,17 @@
         <div>
           <div class="flex flex-row items-center gap-2">
             <div v-if="somethingSelected" class="text-sm font-medium mr-4">
-              {{ $t('Selected :count of :of', { count: `${selectableRows.selectedCount.value}`, of: `${selectableRows.totalCount.value}` }) }}
+              Selected {{ selectableRows.selectedCount.value }} of {{ selectableRows.totalCount.value }}
             </div>
 
             <DropdownMenu v-if="showBulkActions && bulkActions.length > 0">
               <DropdownMenuTrigger as-child>
-                <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> {{ $t('Actions') }}</Button>
+                <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> Actions</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <ActionList
                   :actions="bulkActions"
-                  @event="onEvent($event, selectableRows.selection.value)"
+                  @event="onEvent($event, toRaw(selectableRows.selection.value))"
                   @exec="onExecAction($event, selectableRows.selection.value)"
                 />
               </DropdownMenuContent>
@@ -57,22 +57,22 @@
 
             <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
               <XIcon class="w-4 h-4 mr-1" />
-              {{ $t('Cancel selected') }}
+              Cancel selection
             </Button>
 
             <DropdownMenu v-if="hasPerPageSettings">
               <DropdownMenuTrigger as-child>
-                <Button variant="outline" size="sm"><SlidersHorizontalIcon class="w-4 h-4 mr-2" /> {{ $t('View options') }}</Button>
+                <Button variant="outline" size="sm"><SlidersHorizontalIcon class="w-4 h-4 mr-2" /> View options</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <template v-if="table.perPageOptions.length > 0">
-                  <DropdownMenuLabel>{{ $t('Per page') }}</DropdownMenuLabel>
+                  <DropdownMenuLabel>Per page</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuCheckboxItem
                       v-for="option in table.perPageOptions"
                       @select="setPerPage(option)"
                       :checked="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
-                  >{{ $tChoice(':count result|:count results', option, { count: `${option}` }) }}</DropdownMenuCheckboxItem>
+                  >{{ option }} results</DropdownMenuCheckboxItem>
                 </template>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -173,7 +173,7 @@
         </Table>
 
         <div v-if="table.pagination" class="border-t py-2 flex justify-between items-center w-full" :class="cn(insetLeft || 'pl-4', insetRight || 'pr-4')">
-          <span class="pr-2 text-sm font-semibold"><span class="text-foreground/60 font-normal">{{ $t('Paginator::Total') }}</span> {{ table.pagination.total }}</span>
+          <span class="pr-2 text-sm font-semibold"><span class="text-foreground/60 font-normal">Total</span> {{ table.pagination.total }}</span>
 
           <div class="flex flex-row gap-2 items-center">
             <Button class="px-2" :as="table.pagination.firstPageUrl ? Link : undefined" :disabled="!table.pagination.firstPageUrl" :href="table.pagination.firstPageUrl || undefined" variant="outline">
@@ -182,7 +182,7 @@
             <Button class="px-2" :as="table.pagination.prevPageUrl ? Link : undefined" :disabled="!table.pagination.prevPageUrl" :href="table.pagination.prevPageUrl || undefined" variant="outline">
               <ChevronLeftIcon class="w-4 h-4" />
             </Button>
-            <span class="px-2 text-sm font-semibold">{{ table.pagination.currentPage }} <span class="text-foreground/60 font-normal">{{ $t('Paginator::of') }}</span> {{ table.pagination.lastPage }}</span>
+            <span class="px-2 text-sm font-semibold">{{ table.pagination.currentPage }} <span class="text-foreground/60 font-normal">of</span> {{ table.pagination.lastPage }}</span>
             <Button class="px-2" :as="table.pagination.nextPageUrl ? Link : undefined" :disabled="!table.pagination.nextPageUrl" :href="table.pagination.nextPageUrl || undefined" variant="outline">
               <ChevronRightIcon class="w-4 h-4" />
             </Button>
@@ -202,10 +202,10 @@
             <SearchIcon class="w-6 h-6" />
           </div>
 
-          <p class="font-semibold text-center">{{ emptyResultsMessage || $t('No records found.') }}</p>
-          <p class="max-w-lg text-center text-muted-foreground text-sm mt-1">{{ emptyResultsDescription || $t('Try to adjust your search criteria.') }}</p>
+          <p class="font-semibold text-center">{{ emptyResultsMessage || 'No records found.' }}</p>
+          <p class="max-w-lg text-center text-muted-foreground text-sm mt-1">{{ emptyResultsDescription || 'Try to adjust your search criteria.' }}</p>
 
-          <Button class="mt-6" @click="clearSearch"><XIcon class="w-4 h-4 mr-2" /> {{ $t('Clear Search') }}</Button>
+          <Button class="mt-6" @click="clearSearch"><XIcon class="w-4 h-4 mr-2" /> Clear Search</Button>
 
           <slot name="empty-results" />
         </div>
@@ -228,8 +228,9 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableValue, DataTableRow, DataTableAction, ExecutableAction } from "@/Components/DataTable";
+import type { DataTableValue, DataTableRow, DataTableAction, ExecutableAction } from "./";
 import { useSelectableRows } from '@/Components/Table'
+import TableCell from "@/Components/Table/TableCell.vue";
 import { Primitive } from "radix-vue";
 import { computed, ref, toRaw } from "vue";
 import { cn } from "@/Utils";
@@ -246,10 +247,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-vue-next'
-import ActionList from "@/Components/DataTable/ActionList.vue";
+import ActionList from "./ActionList.vue";
 import { onDeactivated, useFilter, useToggle } from "@/Composables";
 import EmptyPattern from './EmptyPattern.vue'
-import { router, useForm, usePage } from "@inertiajs/vue3";
+import { router, useForm, usePage, Link } from "@inertiajs/vue3";
 
 const emit = defineEmits()
 

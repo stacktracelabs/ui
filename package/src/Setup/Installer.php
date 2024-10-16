@@ -1,7 +1,7 @@
 <?php
 
 
-namespace StackTrace\Ui;
+namespace StackTrace\Ui\Setup;
 
 
 use Closure;

@@ -5,7 +5,7 @@ namespace StackTrace\Ui\Commands;
 
 
 use Illuminate\Console\Command;
-use StackTrace\Ui\Installer;
+use StackTrace\Ui\Setup\Installer;
 
 class InstallCommand extends Command
 {

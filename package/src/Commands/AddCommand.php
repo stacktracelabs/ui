@@ -5,7 +5,7 @@ namespace StackTrace\Ui\Commands;
 
 
 use Illuminate\Console\Command;
-use StackTrace\Ui\ComponentLibrary;
+use StackTrace\Ui\Setup\ComponentLibrary;
 use Throwable;
 
 class AddCommand extends Command
