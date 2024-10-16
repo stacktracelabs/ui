@@ -97,7 +97,35 @@ class Installer
             "vue-tsc" => "^2.0.24"
         ] + $packages);
 
+        $this->putFile('ui.json', json_encode((object) [
+            //
+        ], JSON_PRETTY_PRINT));
+
+        ComponentLibrary::make()->add([
+            'Alert',
+            'AlertDialog',
+            'Button',
+            'Card',
+            'Checkbox',
+            'DropdownMenu',
+            'Form',
+            'Input',
+            'Label',
+            'NavigationMenu',
+            'Spinner',
+        ]);
+
         $this->runCommands(['npm install', 'npm run build']);
+    }
+
+    /**
+     * Write contents to given file.
+     */
+    public function putFile(string $fileName, string $contents): void
+    {
+        File::ensureDirectoryExists(File::dirname($fileName));
+
+        file_put_contents($fileName, $contents);
     }
 
     /**
