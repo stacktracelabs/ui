@@ -64,6 +64,7 @@ class Installer
             'resources/views/welcome.blade.php',
         ]);
 
+        $this->copyStubsDir('app');
         $this->copyStubsDir('resources');
         $this->copyStubsDir('routes');
 
