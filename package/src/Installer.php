@@ -65,6 +65,7 @@ class Installer
         ]);
 
         $this->copyStubsDir('resources');
+        $this->copyStubsDir('routes');
 
         $this->copyStubs([
             'postcss.config.js',
