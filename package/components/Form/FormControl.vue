@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useId } from 'radix-vue'
-import { computed } from 'vue'
-
 const props = defineProps<{
   for?: string
   label?: string | null | undefined

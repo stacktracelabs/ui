@@ -1,5 +1,7 @@
 import type { App, DefineComponent } from "vue";
-import { registerNamespacedComponents } from "@/Utils";
+import { registerNamespacedComponents } from "@stacktrace/ui";
+
+export { default as DataTable } from './DataTable.vue'
 
 export interface BaseAction {
   name: string

@@ -248,7 +248,7 @@ import {
   ChevronRightIcon,
 } from 'lucide-vue-next'
 import ActionList from "./ActionList.vue";
-import { onDeactivated, useFilter, useToggle } from "@/Composables";
+import { onDeactivated, useFilter, useToggle } from "@stacktrace/ui";
 import EmptyPattern from './EmptyPattern.vue'
 import { router, useForm, usePage, Link } from "@inertiajs/vue3";
 

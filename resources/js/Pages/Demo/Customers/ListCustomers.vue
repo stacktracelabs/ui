@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import type { DataTableValue } from "@/Components/DataTable";
-import { useToggle } from "@/Composables";
+import { useToggle } from "@stacktrace/ui";
 import { useForm } from "@inertiajs/vue3";
 
 defineProps<{

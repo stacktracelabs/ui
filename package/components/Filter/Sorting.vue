@@ -16,7 +16,6 @@
 import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
 import { computed } from "vue";
 import type { SortDirection } from "@/Composables";
-import { Button } from '@/Components'
 
 const props = defineProps<{
   value: string

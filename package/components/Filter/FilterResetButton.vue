@@ -5,7 +5,6 @@
 <script setup lang="ts">
 import type { Filter } from "@/Composables";
 import { XIcon } from "lucide-vue-next";
-import { Button } from '@/Components'
 
 defineProps<{
   filter: Filter<any>

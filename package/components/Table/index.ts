@@ -1,5 +1,18 @@
 import { computed, type ComputedRef, type Ref, ref, watch } from "vue";
 
+export { default as Table } from './Table.vue'
+export { default as TableBody } from './TableBody.vue'
+export { default as TableCaption } from './TableCaption.vue'
+export { default as TableCell } from './TableCell.vue'
+export { default as TableEmpty } from './TableEmpty.vue'
+export { default as TableFooter } from './TableFooter.vue'
+export { default as TableHead } from './TableHead.vue'
+export { default as TableHeader } from './TableHeader.vue'
+export { default as TableRow } from './TableRow.vue'
+export { default as BulkSelect } from './BulkSelect.vue'
+export { default as RowSelect } from './RowSelect.vue'
+export { default as SelectableTableRow } from './SelectableTableRow.vue'
+
 export interface SelectableRows<T = string | number> {
   selection: Ref<Array<T>>
   somethingSelected: ComputedRef<boolean>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DialogRoot, type DialogRootEmits, type DialogRootProps, useForwardPropsEmits } from 'radix-vue'
-import type { Toggle } from "@/Composables";
+import type { Toggle } from "@stacktrace/ui";
 
 const props = defineProps<DialogRootProps & {
   control?: Toggle

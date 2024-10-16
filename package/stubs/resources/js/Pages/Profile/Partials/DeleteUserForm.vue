@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3'
-import { useToggle } from '@/Composables'
+import { useToggle } from '@stacktrace/ui'
 
 const confirmModal = useToggle()
 

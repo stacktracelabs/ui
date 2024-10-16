@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { buttonVariants } from '@/Components/ui/button'
+import { buttonVariants } from '@/Components/Button'
 import { cn } from '@/Utils'
 import { AlertDialogCancel, type AlertDialogCancelProps } from 'radix-vue'
 import { computed, type HTMLAttributes } from 'vue'

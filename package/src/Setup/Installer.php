@@ -83,11 +83,13 @@ class Installer
         $this->updatePackages(fn(array $packages) => [
             "@inertiajs/vue3" => "^1.0.0",
             "@radix-icons/vue" => "^1.0.0",
+            "@types/lodash" => "^4.17.10",
             "@stacktrace/ui" => "^0.0.2",
             "@vitejs/plugin-vue" => "^5.0.0",
             "@vueuse/core" => "^10.11.0",
             "class-variance-authority" => "^0.7.0",
             "clsx" => "^2.1.1",
+            "lodash" => "^4.17.21",
             "lucide-vue-next" => "^0.453.0",
             "radix-vue" => "^1.9.0",
             "tailwind-merge" => "^2.4.0",
@@ -95,7 +97,7 @@ class Installer
             "typescript" => "^5.5.3",
             "unplugin-vue-components" => "^0.27.4",
             "vue" => "^3.4.0",
-            "vue-tsc" => "^2.0.24"
+            "vue-tsc" => "^2.0.24",
         ] + $packages);
 
         $this->putFile('ui.json', json_encode((object) [

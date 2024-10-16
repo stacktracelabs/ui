@@ -1,6 +1,10 @@
 import { type VariantProps, cva } from 'class-variance-authority'
 import type { Component } from 'vue'
 
+export { default as Button } from './Button.vue'
+export { default as ActionButton } from './ActionButton.vue'
+export { default as LinkButton } from './LinkButton.vue'
+
 export interface ButtonProps {
   as?: string | Component
   variant?: NonNullable<Parameters<typeof buttonVariants>[0]>['variant']
