@@ -30,7 +30,7 @@
           <Input v-model="form.password_confirmation" autocomplete="new-password" type="password" required id="password_confirmation" />
         </FormControl>
 
-        <Button :processing="form.processing">Register</Button>
+        <ActionButton :processing="form.processing">Register</ActionButton>
       </form>
     </div>
   </GuestLayout>

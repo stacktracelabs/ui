@@ -14,7 +14,7 @@
           <Input v-model="form.password" autocomplete="current-password" type="password" required id="password" />
         </FormControl>
 
-        <Button :processing="form.processing">Confirm</Button>
+        <ActionButton :processing="form.processing">Confirm</ActionButton>
       </form>
     </div>
   </GuestLayout>

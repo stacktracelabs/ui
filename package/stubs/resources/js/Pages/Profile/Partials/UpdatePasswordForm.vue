@@ -33,7 +33,7 @@
           />
         </FormControl>
 
-        <Button :recently-successful="form.recentlySuccessful" :processing="form.processing">Save</Button>
+        <ActionButton :recently-successful="form.recentlySuccessful" :processing="form.processing">Save</ActionButton>
       </form>
     </CardContent>
   </Card>

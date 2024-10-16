@@ -21,7 +21,7 @@
       </div>
 
       <form @submit.prevent="submit" class="flex justify-center">
-        <Button :processing="form.processing">Resend Verification Email</Button>
+        <ActionButton :processing="form.processing">Resend Verification Email</ActionButton>
       </form>
     </div>
   </GuestLayout>

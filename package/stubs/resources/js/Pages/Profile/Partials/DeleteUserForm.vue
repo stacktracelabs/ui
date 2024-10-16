@@ -8,7 +8,7 @@
       </CardDescription>
     </CardHeader>
     <CardContent>
-      <Button @click="confirmModal.activate" variant="destructive">Delete Account</Button>
+      <ActionButton @click="confirmModal.activate" variant="destructive">Delete Account</ActionButton>
 
       <AlertDialog :control="confirmModal">
         <AlertDialogContent>
@@ -33,7 +33,7 @@
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-            <Button @click="deleteUser" variant="destructive" :processing="form.processing">Delete Account</Button>
+            <ActionButton @click="deleteUser" variant="destructive" :processing="form.processing">Delete Account</ActionButton>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

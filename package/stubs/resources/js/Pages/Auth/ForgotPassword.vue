@@ -27,7 +27,7 @@
             <Input v-model="form.email" autocomplete="username" type="email" required autofocus id="email" />
           </FormControl>
 
-          <Button :processing="form.processing">Email Password Reset Link</Button>
+          <ActionButton :processing="form.processing">Email Password Reset Link</ActionButton>
         </form>
       </div>
     </div>

@@ -33,7 +33,7 @@
           </Label>
         </FormControl>
 
-        <Button :processing="form.processing">Log in</Button>
+        <ActionButton :processing="form.processing">Log in</ActionButton>
       </form>
 
       <p v-if="canResetPassword" class="px-8 text-center text-sm text-muted-foreground">
