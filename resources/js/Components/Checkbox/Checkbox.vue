@@ -1,5 +1,5 @@
 <template>
-  <input type="checkbox" v-model="checked" :value="value" :class="cn('w-4 h-4 text-primary bg-white border rounded border-muted-foreground/40 appearance-none p-0 inline-flex align-middle bg-origin-border flex-shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-1')">
+  <input type="checkbox" v-model="checked" :value="value" :class="cn('w-4 h-4 text-primary bg-white border rounded border-muted-foreground/40 appearance-none p-0 inline-flex align-middle bg-origin-border flex-shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-1 disabled:bg-muted disabled:opacity-50 disabled:cursor-auto')">
 </template>
 
 <script setup lang="ts">
