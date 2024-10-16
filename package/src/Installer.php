@@ -6,6 +6,7 @@ namespace StackTrace\Ui;
 
 use Closure;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -47,13 +48,13 @@ class Installer
      */
     public function install(array $options = []): void
     {
-        // if (! $this->requireComposerPackages([
-        //     "inertiajs/inertia-laravel:^1.0",
-        //     "laravel/sanctum:^4.0",
-        //     "tightenco/ziggy:^2.0"
-        // ])) {
-        //     throw new RuntimeException("Unable to install composer packages.");
-        // }
+        if (! $this->requireComposerPackages([
+            "inertiajs/inertia-laravel:^1.0",
+            "laravel/sanctum:^4.0",
+            "tightenco/ziggy:^2.0"
+        ])) {
+            throw new RuntimeException("Unable to install composer packages.");
+        }
 
         $this->removeFile([
             'vite.config.js',
@@ -65,29 +66,31 @@ class Installer
 
         $this->copyStubsDir('resources');
 
-        // $this->copyStubs([
-        //     'postcss.config.js',
-        //     'tailwind.config.js',
-        //     'tsconfig.json',
-        //     'vite.config.ts',
-        // ]);
+        $this->copyStubs([
+            'postcss.config.js',
+            'tailwind.config.js',
+            'tsconfig.json',
+            'vite.config.ts',
+        ]);
 
-        // $this->updatePackages(fn(array $packages) => [
-        //     "@inertiajs/vue3" => "^1.0.0",
-        //     "@radix-icons/vue" => "^1.0.0",
-        //     "@vitejs/plugin-vue" => "^5.0.0",
-        //     "@vueuse/core" => "^10.11.0",
-        //     "class-variance-authority" => "^0.7.0",
-        //     "clsx" => "^2.1.1",
-        //     "lucide-vue-next" => "^0.407.0",
-        //     "radix-vue" => "^1.9.0",
-        //     "tailwind-merge" => "^2.4.0",
-        //     "tailwindcss-animate" => "^1.0.7",
-        //     "typescript" => "^5.5.3",
-        //     "unplugin-vue-components" => "^0.27.2",
-        //     "vue" => "^3.4.0",
-        //     "vue-tsc" => "^2.0.24"
-        // ] + $packages);
+        $this->updatePackages(fn(array $packages) => [
+            "@inertiajs/vue3" => "^1.0.0",
+            "@radix-icons/vue" => "^1.0.0",
+            "@vitejs/plugin-vue" => "^5.0.0",
+            "@vueuse/core" => "^10.11.0",
+            "class-variance-authority" => "^0.7.0",
+            "clsx" => "^2.1.1",
+            "lucide-vue-next" => "^0.407.0",
+            "radix-vue" => "^1.9.0",
+            "tailwind-merge" => "^2.4.0",
+            "tailwindcss-animate" => "^1.0.7",
+            "typescript" => "^5.5.3",
+            "unplugin-vue-components" => "^0.27.2",
+            "vue" => "^3.4.0",
+            "vue-tsc" => "^2.0.24"
+        ] + $packages);
+
+        $this->runCommands(['npm install', 'npm run build']);
     }
 
     /**
@@ -260,6 +263,42 @@ class Installer
                 ->run(function ($type, $output) {
                     $this->output?->write($output);
                 }) === 0;
+    }
+
+    /**
+     * Delete the "node_modules" directory and remove the associated lock files.
+     */
+    protected function flushNodeModules(): void
+    {
+        tap(new Filesystem, function (Filesystem $files) {
+            $files->deleteDirectory($this->getInstallationPath('node_modules'));
+
+            $files->delete($this->getInstallationPath('pnpm-lock.yaml'));
+            $files->delete($this->getInstallationPath('yarn.lock'));
+            $files->delete($this->getInstallationPath('bun.lockb'));
+            $files->delete($this->getInstallationPath('deno.lock'));
+            $files->delete($this->getInstallationPath('package-lock.json'));
+        });
+    }
+
+    /**
+     * Run the given commands.
+     */
+    protected function runCommands(array $commands): void
+    {
+        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
+
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            try {
+                $process->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output?->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
+            }
+        }
+
+        $process->run(function ($type, $line) {
+            $this->output?->write('    '.$line);
+        });
     }
 
     /**
