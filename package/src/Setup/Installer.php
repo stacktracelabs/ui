@@ -83,7 +83,7 @@ class Installer
         $this->updatePackages(fn(array $packages) => [
             "@inertiajs/vue3" => "^1.0.0",
             "@radix-icons/vue" => "^1.0.0",
-            "@stacktrace/ui" => "^0.0.1",
+            "@stacktrace/ui" => "^0.0.2",
             "@vitejs/plugin-vue" => "^5.0.0",
             "@vueuse/core" => "^10.11.0",
             "class-variance-authority" => "^0.7.0",
