@@ -1,0 +1,106 @@
+<template>
+  <div :class="cn('grid gap-2', $attrs.class ?? '')">
+    <Popover>
+      <PopoverTrigger as-child>
+        <Button
+          id="date"
+          :variant="'outline'"
+          :class="cn(
+            'border-dashed h-8',
+            !isSelected && 'font-medium',
+          )"
+        >
+          <CalendarIcon class="mr-2 h-4 w-4" />
+
+          {{ title }}
+
+          <template v-if="label">
+            <Separator orientation="vertical" class="mx-2 h-4" />
+            <Badge variant="secondary" class="rounded-sm px-1 font-normal">{{ label }}</Badge>
+          </template>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent class="w-auto p-0" align="start">
+        <!-- @vue-ignore -->
+        <Calendar locale="sk" v-model.range.string="date" :masks="masks" :columns="2" />
+
+        <div v-if="isSelected" class="px-4 pb-2">
+          <Button @click="clear" class="w-full" variant="ghost">Vymazať</Button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  </div>
+</template>
+
+<script setup lang="ts">
+const emit = defineEmits(['update:from', 'update:until'])
+import { format, parse } from 'date-fns'
+import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { computed, ref, watch } from 'vue'
+import { cn } from '@/Utils'
+import { Popover, PopoverTrigger, Button, Separator, Badge, PopoverContent, Calendar } from "@/Components";
+
+const props = defineProps<{
+  title: string
+  from?: string
+  until?: string
+}>()
+
+const masks = ref({
+  modelValue: 'YYYY-MM-DD',
+});
+
+const date = ref({
+  start: props.from || null,
+  end: props.until || null,
+})
+
+const clear = () => {
+  date.value = { start: null, end: null }
+}
+
+watch(date, newDate => {
+  if (newDate.start != props.from) {
+    emit('update:from', newDate.start)
+  }
+
+  if (newDate.end != props.until) {
+    emit('update:until', newDate.end)
+  }
+})
+
+watch(computed(() => props.from), newFrom => {
+  if (newFrom != date.value.start) {
+    date.value.start = newFrom || null
+  }
+})
+
+watch(computed(() => props.until), newUntil => {
+  if (newUntil != date.value.end) {
+    date.value.end = newUntil || null
+  }
+})
+
+const isSelected = computed(() => date.value.start || date.value.end)
+
+const label = computed(() => {
+  const start = date.value.start
+  const end = date.value.end
+
+  const from = start ? parse(start, 'yyyy-MM-dd', new Date()) : null
+  const until = end ? parse(end, 'yyyy-MM-dd', new Date()) : null
+
+  const fromFormat = from ? format(from, 'dd.MM.yyyy') : null
+  const untilFormat = until ? format(until, 'dd.MM.yyyy') : null
+
+  if (from && until) {
+    if (fromFormat == untilFormat) {
+      return fromFormat
+    }
+
+    return `${fromFormat} - ${untilFormat}`
+  }
+
+  return null
+})
+</script>
