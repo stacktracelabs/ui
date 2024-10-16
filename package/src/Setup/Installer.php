@@ -89,6 +89,7 @@ class Installer
             "@vueuse/core" => "^10.11.0",
             "class-variance-authority" => "^0.7.0",
             "clsx" => "^2.1.1",
+            "date-fns" => "^4.1.0",
             "lodash" => "^4.17.21",
             "lucide-vue-next" => "^0.453.0",
             "radix-vue" => "^1.9.0",

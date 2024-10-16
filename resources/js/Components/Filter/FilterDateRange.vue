@@ -25,7 +25,7 @@
         <Calendar locale="sk" v-model.range.string="date" :masks="masks" :columns="2" />
 
         <div v-if="isSelected" class="px-4 pb-2">
-          <Button @click="clear" class="w-full" variant="ghost">Vymazať</Button>
+          <Button @click="clear" class="w-full" variant="ghost">Clear</Button>
         </div>
       </PopoverContent>
     </Popover>
@@ -38,7 +38,6 @@ import { format, parse } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 import { cn } from '@/Utils'
-import { Popover, PopoverTrigger, Button, Separator, Badge, PopoverContent, Calendar } from "@/Components";
 
 const props = defineProps<{
   title: string

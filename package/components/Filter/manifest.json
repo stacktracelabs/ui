@@ -1,0 +1,10 @@
+{
+    "dependencies": [
+        "Button",
+        "Checkbox",
+        "Badge",
+        "Calendar",
+        "Popover",
+        "Separator"
+    ]
+}

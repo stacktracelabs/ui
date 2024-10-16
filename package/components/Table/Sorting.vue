@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
 import { computed } from "vue";
-import type { SortDirection } from "@/Composables";
+import type { SortDirection } from "@stacktrace/ui";
 
 const props = defineProps<{
   value: string

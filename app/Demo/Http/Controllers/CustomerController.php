@@ -5,16 +5,21 @@ namespace App\Demo\Http\Controllers;
 
 
 use App\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use StackTrace\Ui\Table;
 use StackTrace\Ui\Table\Columns;
 use StackTrace\Ui\Table\Actions;
+use StackTrace\Ui\Table\Filters;
 
 class CustomerController
 {
     public function index()
     {
         $table = Table::make(Customer::query())
+            ->searchable(function (Builder $builder, string $term) {
+                $builder->where('name', 'like', "%{$term}%");
+            })
             ->column(Columns\Text::make('Name'))
             ->column(Columns\Text::make('Company'))
             ->column(Columns\Text::make('E-Mail', 'email'))
@@ -29,9 +34,10 @@ class CustomerController
                         false => 'default',
                     ])
             )
-            ->action(
-                Actions\Event::make('Update Plan', 'updatePlan')->bulk(),
-            )
+            ->column(Columns\Date::make('Founded', 'created_at')->sortable())
+            ->action(Actions\Event::make('Update Plan', 'updatePlan')->bulk())
+            ->filter(Filters\Boolean::make('Premium only', 'premium')->using(fn (Builder $builder, bool $value) => $builder->where('is_premium', $value)))
+            ->filter(Filters\DateRange::make('Founded', 'founded')->using(fn () => dd(func_get_args())))
         ;
 
         return Inertia::render('Demo/Customers/ListCustomers', [

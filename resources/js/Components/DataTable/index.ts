@@ -97,8 +97,8 @@ export function registerDataTableColumns(app: App) {
 }
 
 export function registerDataTableFilters(app: App) {
-  // // @ts-ignore
-  // const columns = import.meta.glob<DefineComponent>('./Filters/**/*.vue', { eager: true })
-  //
-  // registerNamespacedComponents(app, columns, 'Hub')
+  // @ts-ignore
+  const columns = import.meta.glob<DefineComponent>('./Filters/**/*.vue', { eager: true })
+
+  registerNamespacedComponents(app, columns, 'Hub')
 }

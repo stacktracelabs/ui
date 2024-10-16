@@ -12,6 +12,7 @@ export { default as TableRow } from './TableRow.vue'
 export { default as BulkSelect } from './BulkSelect.vue'
 export { default as RowSelect } from './RowSelect.vue'
 export { default as SelectableTableRow } from './SelectableTableRow.vue'
+export { default as Sorting } from './Sorting.vue'
 
 export interface SelectableRows<T = string | number> {
   selection: Ref<Array<T>>

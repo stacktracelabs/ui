@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,6 +17,7 @@ class CustomerFactory extends Factory
             'company' => fake()->company(),
             'email' => fake()->unique()->safeEmail(),
             'is_premium' => fake()->boolean(),
+            'created_at' => Carbon::parse(fake()->dateTime()),
         ];
     }
 }
