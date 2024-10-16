@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Support\Arr;
 use StackTrace\Ui\Table\Column;
 
-class StatusBadge extends Column
+class Badge extends Column
 {
     /**
      * Status label mapping.
@@ -70,6 +70,6 @@ class StatusBadge extends Column
 
     public function component(): string
     {
-        return 'Hub::Columns/StatusBadge';
+        return 'Hub::Columns/Badge';
     }
 }

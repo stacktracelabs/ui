@@ -14,9 +14,19 @@ class CustomerController
     public function index()
     {
         $table = Table::make(Customer::query())
+            ->column(Columns\Text::make('Name'))
             ->column(
-                Columns\Text::make('Name'),
-            );
+                Columns\Badge::make('Premium', 'is_premium')
+                    ->label([
+                        true => 'Premium',
+                        false => 'Basic',
+                    ])
+                    ->variant([
+                        true => 'positive',
+                        false => 'default',
+                    ])
+            )
+        ;
 
         return Inertia::render('Demo/Customers/ListCustomers', [
             'customers' => $table,
