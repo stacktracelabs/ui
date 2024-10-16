@@ -10,7 +10,7 @@ use Throwable;
 
 class AddCommand extends Command
 {
-    protected $signature = 'ui:add {name} {--force} {--forceDeps}';
+    protected $signature = 'ui:add {name} {--force} {--force-deps}';
 
     protected $description = 'Install UI component to application';
 
@@ -22,7 +22,7 @@ class AddCommand extends Command
             $library->withOutput($this->output)->add(
                 name: $this->argument('name'),
                 force: $this->option('force'),
-                forceDeps: $this->option('forceDeps'),
+                forceDeps: $this->option('force-deps'),
             );
 
             return Command::SUCCESS;

@@ -67,6 +67,10 @@ class ComponentLibrary
     {
         $base = realpath(__DIR__."/../components/{$component}");
 
+        if (! $base) {
+            throw new RuntimeException("The [$component] component does not exist.");
+        }
+
         $out = $this->resolveComponentPath($component);
 
         if (File::exists($out)) {
@@ -111,6 +115,14 @@ class ComponentLibrary
      */
     protected function resolveDependencies(string $component): array
     {
+        $manifest = __DIR__."/../components/{$component}/manifest.json";
+
+        if (file_exists($manifest)) {
+            $meta = json_decode(file_get_contents($manifest), true);
+
+            return Arr::get($meta, 'dependencies', []);
+        }
+
         return [];
     }
 
