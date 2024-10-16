@@ -75,6 +75,11 @@ class Installer
             'vite.config.ts',
         ]);
 
+        $this->installMiddleware([
+            '\App\Http\Middleware\HandleInertiaRequests::class',
+            '\Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class',
+        ]);
+
         $this->updatePackages(fn(array $packages) => [
             "@inertiajs/vue3" => "^1.0.0",
             "@radix-icons/vue" => "^1.0.0",
@@ -289,6 +294,32 @@ class Installer
         $process->run(function ($type, $line) {
             $this->output?->write('    '.$line);
         });
+    }
+
+    /**
+     * Install the given middleware names into the application.
+     */
+    protected function installMiddleware($names, $group = 'web', $modifier = 'append'): void
+    {
+        $bootstrapApp = file_get_contents($this->getInstallationPath('bootstrap/app.php'));
+
+        collect(Arr::wrap($names))
+            ->filter(fn ($name) => ! Str::contains($bootstrapApp, $name))
+            ->whenNotEmpty(function ($names) use ($bootstrapApp, $group, $modifier) {
+                $names = $names->map(fn ($name) => "$name")->implode(','.PHP_EOL.'            ');
+
+                $bootstrapApp = str_replace(
+                    '->withMiddleware(function (Middleware $middleware) {',
+                    '->withMiddleware(function (Middleware $middleware) {'
+                    .PHP_EOL."        \$middleware->$group($modifier: ["
+                    .PHP_EOL."            $names,"
+                    .PHP_EOL.'        ]);'
+                    .PHP_EOL,
+                    $bootstrapApp,
+                );
+
+                file_put_contents($this->getInstallationPath('bootstrap/app.php'), $bootstrapApp);
+            });
     }
 
     /**
