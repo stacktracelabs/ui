@@ -22,7 +22,9 @@ class UpdateStubs extends Command
             'Models',
             'Providers',
         ]);
-        $this->copyDirectory('resources');
+        $this->copyDirectory('resources', [
+            'js/Components',
+        ]);
         $this->copyDirectory('routes', [
             'console.php',
         ]);
@@ -32,6 +34,7 @@ class UpdateStubs extends Command
             'tailwind.config.js',
             'tsconfig.json',
             'vite.config.ts',
+            'resources/js/Components/ApplicationLogo.vue',
         ]);
 
         return Command::SUCCESS;
