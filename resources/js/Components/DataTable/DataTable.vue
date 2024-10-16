@@ -228,7 +228,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableValue, DataTableRow, DataTableAction, ExecutableAction } from "@/Components/DataTable";
+import type { DataTableValue, DataTableRow, DataTableAction, ExecutableAction } from "./";
 import { useSelectableRows } from '@/Components/Table'
 import { Primitive } from "radix-vue";
 import { computed, ref, toRaw } from "vue";
@@ -246,7 +246,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-vue-next'
-import ActionList from "@/Components/DataTable/ActionList.vue";
+import ActionList from "./ActionList.vue";
 import { onDeactivated, useFilter, useToggle } from "@/Composables";
 import EmptyPattern from './EmptyPattern.vue'
 import { router, useForm, usePage } from "@inertiajs/vue3";

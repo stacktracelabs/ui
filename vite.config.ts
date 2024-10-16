@@ -18,7 +18,15 @@ export default defineConfig({
       }
     }),
     components({
-      dirs: ['resources/js/Components', 'resources/js/Layouts'],
+      globs: [
+        'resources/js/Components/**/*.vue',
+        'resources/js/Layouts/**/*.vue',
+
+        '!resources/js/Components/DataTable/Columns/*.vue',
+        '!resources/js/Components/DataTable/Filters/*.vue',
+        '!resources/js/Components/DataTable/ActionList.vue',
+        '!resources/js/Components/DataTable/EmptyPattern.vue',
+      ],
       resolvers: [
         componentName => {
           if (['Link', 'Head'].includes(componentName)) {

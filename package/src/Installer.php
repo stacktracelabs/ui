@@ -92,7 +92,7 @@ class Installer
             "tailwind-merge" => "^2.4.0",
             "tailwindcss-animate" => "^1.0.7",
             "typescript" => "^5.5.3",
-            "unplugin-vue-components" => "^0.27.2",
+            "unplugin-vue-components" => "^0.27.4",
             "vue" => "^3.4.0",
             "vue-tsc" => "^2.0.24"
         ] + $packages);
