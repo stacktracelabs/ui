@@ -39,7 +39,7 @@
         <div>
           <div class="flex flex-row items-center gap-2">
             <div v-if="somethingSelected" class="text-sm font-medium mr-4">
-              Selected {{ selectedRows.selectedCount.value }} of {{ selectableRows.totalCount.value }}
+              Selected {{ selectableRows.selectedCount.value }} of {{ selectableRows.totalCount.value }}
             </div>
 
             <DropdownMenu v-if="showBulkActions && bulkActions.length > 0">
@@ -49,7 +49,7 @@
               <DropdownMenuContent align="end">
                 <ActionList
                   :actions="bulkActions"
-                  @event="onEvent($event, selectableRows.selection.value)"
+                  @event="onEvent($event, toRaw(selectableRows.selection.value))"
                   @exec="onExecAction($event, selectableRows.selection.value)"
                 />
               </DropdownMenuContent>
@@ -57,7 +57,7 @@
 
             <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
               <XIcon class="w-4 h-4 mr-1" />
-              Cancel selected
+              Cancel selection
             </Button>
 
             <DropdownMenu v-if="hasPerPageSettings">

@@ -8,6 +8,7 @@ use App\Models\Customer;
 use Inertia\Inertia;
 use StackTrace\Ui\Table;
 use StackTrace\Ui\Table\Columns;
+use StackTrace\Ui\Table\Actions;
 
 class CustomerController
 {
@@ -15,8 +16,10 @@ class CustomerController
     {
         $table = Table::make(Customer::query())
             ->column(Columns\Text::make('Name'))
+            ->column(Columns\Text::make('Company'))
+            ->column(Columns\Text::make('E-Mail', 'email'))
             ->column(
-                Columns\Badge::make('Premium', 'is_premium')
+                Columns\Badge::make('Plan', 'is_premium')
                     ->label([
                         true => 'Premium',
                         false => 'Basic',
@@ -25,6 +28,9 @@ class CustomerController
                         true => 'positive',
                         false => 'default',
                     ])
+            )
+            ->action(
+                Actions\Event::make('Update Plan', 'updatePlan')->bulk(),
             )
         ;
 

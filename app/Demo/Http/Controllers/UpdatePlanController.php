@@ -8,7 +8,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UpdatePremiumController
+class UpdatePlanController
 {
     public function __invoke(Request $request)
     {
