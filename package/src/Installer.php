@@ -4,6 +4,7 @@
 namespace StackTrace\Ui;
 
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -38,6 +39,23 @@ class Installer
             'tsconfig.json',
             'vite.config.ts',
         ]);
+
+        $this->updatePackages(fn(array $packages) => [
+            "@inertiajs/vue3" => "^1.0.0",
+            "@radix-icons/vue" => "^1.0.0",
+            "@vitejs/plugin-vue" => "^5.0.0",
+            "@vueuse/core" => "^10.11.0",
+            "class-variance-authority" => "^0.7.0",
+            "clsx" => "^2.1.1",
+            "lucide-vue-next" => "^0.407.0",
+            "radix-vue" => "^1.9.0",
+            "tailwind-merge" => "^2.4.0",
+            "tailwindcss-animate" => "^1.0.7",
+            "typescript" => "^5.5.3",
+            "unplugin-vue-components" => "^0.27.2",
+            "vue" => "^3.4.0",
+            "vue-tsc" => "^2.0.24"
+        ] + $packages);
     }
 
     /**
@@ -121,6 +139,34 @@ class Installer
         }
 
         return realpath(__DIR__."/../stubs/{$name}");
+    }
+
+    /**
+     * Update the "package.json" file.
+     */
+    protected function updatePackages(Closure $using, $dev = true): void
+    {
+        $path = $this->getInstallationPath('package.json');
+
+        if (! file_exists($path)) {
+            return;
+        }
+
+        $configurationKey = $dev ? 'devDependencies' : 'dependencies';
+
+        $packages = json_decode(file_get_contents($path), true);
+
+        $packages[$configurationKey] = $using(
+            array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
+            $configurationKey
+        );
+
+        ksort($packages[$configurationKey]);
+
+        file_put_contents(
+            $path,
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+        );
     }
 
     /**
