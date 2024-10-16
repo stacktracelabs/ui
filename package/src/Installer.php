@@ -199,7 +199,7 @@ class Installer
      */
     protected function requireComposerPackages(array $packages, $asDev = false): bool
     {
-        $composer = null; // TODO: Get from config
+        $composer = 'global'; // TODO: Get from config
 
         if ($composer !== 'global') {
             $command = ['php', $composer, 'require'];
