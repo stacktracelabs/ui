@@ -16,6 +16,9 @@ class UpdateStubs extends Command
     public function handle(): int
     {
         $this->copyDirectory('resources');
+        $this->copyDirectory('routes', [
+            'console.php',
+        ]);
 
         return Command::SUCCESS;
     }
