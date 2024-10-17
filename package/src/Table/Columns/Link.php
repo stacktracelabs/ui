@@ -61,6 +61,6 @@ class Link extends Text
 
     public function component(): string
     {
-        return 'Hub::Columns/Link';
+        return 'DataTable::Columns/Link';
     }
 }

@@ -6,7 +6,7 @@
       <h2 class="font-semibold text-xl leading-tight">Customers</h2>
     </template>
 
-    <div class="py-12">
+    <div class="py-8">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <Card class="p-0">
           <DataTable :table="customers" @update-plan="onUpdatePlan" />
@@ -17,7 +17,7 @@
     <Dialog :control="updatePlanDialog">
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Update Plan</DialogTitle>
+          <DialogTitle>Change Plan</DialogTitle>
           <DialogDescription>Choose new plan for selected customers</DialogDescription>
         </DialogHeader>
 

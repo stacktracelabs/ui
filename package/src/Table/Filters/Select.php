@@ -47,7 +47,7 @@ class Select extends FilterWidget
 
     public function component(): string
     {
-        return 'Hub::Filters/MultiSelect';
+        return 'DataTable::Filters/MultiSelect';
     }
 
     protected function getOptions(): Collection

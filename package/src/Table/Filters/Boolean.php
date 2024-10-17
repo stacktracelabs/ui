@@ -28,7 +28,7 @@ class Boolean extends FilterWidget
 
     public function component(): string
     {
-        return 'Hub::Filters/Checkbox';
+        return 'DataTable::Filters/Checkbox';
     }
 
     public function toView(): array

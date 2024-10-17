@@ -150,7 +150,7 @@ class Model extends FilterWidget
 
     public function component(): string
     {
-        return 'Hub::Filters/MultiSelect';
+        return 'DataTable::Filters/MultiSelect';
     }
 
     public function defaultValue(): array

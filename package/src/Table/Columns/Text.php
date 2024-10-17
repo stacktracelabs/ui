@@ -109,6 +109,6 @@ class Text extends Column implements Wrappable
 
     public function component(): string
     {
-        return 'Hub::Columns/Text';
+        return 'DataTable::Columns/Text';
     }
 }

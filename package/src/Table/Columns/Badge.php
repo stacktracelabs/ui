@@ -70,6 +70,6 @@ class Badge extends Column
 
     public function component(): string
     {
-        return 'Hub::Columns/Badge';
+        return 'DataTable::Columns/Badge';
     }
 }

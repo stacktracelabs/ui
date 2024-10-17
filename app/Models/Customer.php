@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BusinessArea;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $email
  * @property string $company
  * @property boolean $is_premium
+ * @property BusinessArea|null $business_area
  */
 class Customer extends Model
 {
@@ -19,5 +21,6 @@ class Customer extends Model
 
     protected $casts = [
         'is_premium' => 'boolean',
+        'business_area' => BusinessArea::class,
     ];
 }

@@ -24,15 +24,13 @@
             <CommandItem v-for="option in options" :key="`${option.value}`" :value="option" @select="onSelect(option)">
               <Checkbox class="mr-2" :model-value="isSelected(option)" />
               <span>{{ option.label }}</span>
-              <!-- TODO: Number of values -->
-              <!--<span class="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">10</span>-->
             </CommandItem>
           </CommandGroup>
 
           <template v-if="selectedValues.length >0">
             <CommandSeparator />
             <CommandGroup>
-              <CommandItem :value="{ label: 'Clear' }" class="justify-center text-center" @select="onClear">Vymazať</CommandItem>
+              <CommandItem :value="{ label: 'Clear' }" class="justify-center text-center" @select="onClear">Clear</CommandItem>
             </CommandGroup>
           </template>
         </CommandList>
@@ -44,8 +42,7 @@
 <script setup lang="ts">
 import { PlusCircleIcon } from "lucide-vue-next";
 import { computed } from "vue";
-import type { SelectOption } from "@/Types";
-import { Popover, PopoverTrigger, PopoverContent, Separator, Badge, Button, Command, CommandInput, CommandItem, CommandList, CommandGroup, CommandSeparator, Checkbox } from '@/Components'
+import type { SelectOption } from "@stacktrace/ui";
 
 const emit = defineEmits(['update:modelValue'])
 

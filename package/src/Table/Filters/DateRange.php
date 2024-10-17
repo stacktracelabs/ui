@@ -55,7 +55,7 @@ class DateRange extends FilterWidget
 
     public function component(): string
     {
-        return 'Hub::Filters/DateRange';
+        return 'DataTable::Filters/DateRange';
     }
 
     public function toView(): array

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\BusinessArea;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,6 +18,7 @@ class CustomerFactory extends Factory
             'company' => fake()->company(),
             'email' => fake()->unique()->safeEmail(),
             'is_premium' => fake()->boolean(),
+            'business_area' => collect(BusinessArea::cases())->random(),
             'created_at' => Carbon::parse(fake()->dateTime()),
         ];
     }

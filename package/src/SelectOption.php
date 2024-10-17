@@ -4,14 +4,13 @@
 namespace StackTrace\Ui;
 
 
+use BackedEnum;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use IntBackedEnum;
 use InvalidArgumentException;
 use StackTrace\Ui\Contracts\HasLabel;
-use StringBackedEnum;
 
 class SelectOption extends ViewModel
 {
@@ -50,8 +49,8 @@ class SelectOption extends ViewModel
             throw new InvalidArgumentException("The enum [$class] does not exist.");
         }
 
-        return Collection::make($class::cases())->map(fn(StringBackedEnum|IntBackedEnum $enum) => new static(
-            label: $enum instanceof HasLabel ? $enum->label() : Str::title($enum->name),
+        return Collection::make($class::cases())->map(fn(BackedEnum $enum) => new static(
+            label: $enum instanceof HasLabel ? $enum->label() : Str::headline($enum->name),
             value: $enum->value,
             extra: $extra instanceof Closure ? call_user_func($extra, $enum) : [],
         ))->sortBy('label')->values();

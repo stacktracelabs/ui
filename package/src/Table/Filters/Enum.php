@@ -7,9 +7,10 @@ use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
-use StackTrace\Ui\Contracts\LabeledEnum;
+use Illuminate\Support\Str;
+use StackTrace\Ui\Contracts\HasLabel;
+use StackTrace\Ui\SelectOption;
 use StackTrace\Ui\Table\FilterWidget;
-use StackTrace\Ui\View\Form\SelectOption;
 
 class Enum extends FilterWidget
 {
@@ -62,7 +63,7 @@ class Enum extends FilterWidget
 
     public function component(): string
     {
-        return 'Hub::Filters/MultiSelect';
+        return 'DataTable::Filters/MultiSelect';
     }
 
     protected function getOptions(): Collection
@@ -78,11 +79,11 @@ class Enum extends FilterWidget
                     label: call_user_func($this->labels, $enum),
                     value: $enum->value
                 );
-            } else if ($enum instanceof LabeledEnum) {
+            } else if ($enum instanceof HasLabel) {
                 return new SelectOption($enum->label(), $enum->value);
+            } else {
+                return new SelectOption(Str::headline($enum->name), $enum->value);
             }
-
-            throw new \RuntimeException("Unable to guess enum label.");
         });
     }
 

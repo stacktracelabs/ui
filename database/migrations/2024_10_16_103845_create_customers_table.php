@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('company');
             $table->string('email');
             $table->boolean('is_premium')->default(false);
+            $table->string('business_area')->nullable();
             $table->timestamps();
         });
     }
