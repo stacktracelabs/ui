@@ -5,7 +5,7 @@
         variant="outline"
         class="border-dashed border-input h-8"
       >
-        <HashIcon class="w-4 h-4 mr-1" />
+        <HashIcon class="w-4 h-4 mr-2" />
         {{ label }}
 
         <template v-if="currentValue">
@@ -22,26 +22,26 @@
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="lt">je menšie</SelectItem>
-            <SelectItem value="lte">je menšie alebo rovné</SelectItem>
-            <SelectItem value="eq">sa rovná</SelectItem>
-            <SelectItem value="gte">je väčšie alebo rovné</SelectItem>
-            <SelectItem value="gt">je väčšie</SelectItem>
-            <SelectItem value="be">je medzi</SelectItem>
-            <SelectItem value="nbe">nie je medzi</SelectItem>
+            <SelectItem value="lt">less than</SelectItem>
+            <SelectItem value="lte">less then or equal</SelectItem>
+            <SelectItem value="eq">equal to</SelectItem>
+            <SelectItem value="gte">greater than or equal</SelectItem>
+            <SelectItem value="gt">greater than</SelectItem>
+            <SelectItem value="be">between</SelectItem>
+            <SelectItem value="nbe">not between</SelectItem>
           </SelectContent>
         </Select>
 
         <div class="grid grid-cols-2 gap-2" v-if="operator == 'be' || operator == 'nbe'">
-          <Input type="number" placeholder="Od" v-model="inputFrom" class="h-7" />
-          <Input type="number" placeholder="Do" v-model="inputTo" class="h-7" @keydown.enter="open = false" />
+          <Input type="number" placeholder="From" v-model="inputFrom" class="h-7" />
+          <Input type="number" placeholder="To" v-model="inputTo" class="h-7" @keydown.enter="open = false" />
         </div>
 
-        <Input v-else type="number" placeholder="Hodnota" v-model="input" class="h-7" @keydown.enter="open = false" />
+        <Input v-else type="number" placeholder="Value" v-model="input" class="h-7" @keydown.enter="open = false" />
       </div>
 
       <div class="border-t p-1">
-        <Button @click="clear" size="sm" class="w-full" variant="ghost">Vymazať</Button>
+        <Button @click="clear" size="sm" class="w-full" variant="ghost">Clear</Button>
       </div>
     </PopoverContent>
   </Popover>
@@ -50,20 +50,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { HashIcon } from "lucide-vue-next";
-// import {
-//   Popover,
-//   PopoverTrigger,
-//   Button,
-//   Separator,
-//   Badge,
-//   PopoverContent,
-//   Select,
-//   SelectTrigger,
-//   SelectValue,
-//   SelectContent,
-//   SelectItem,
-//   Input
-// } from '@/Components'
 
 const emit = defineEmits(['update:modelValue'])
 

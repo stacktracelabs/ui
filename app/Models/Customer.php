@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $email
  * @property string $company
  * @property boolean $is_premium
+ * @property int $employee_count
  * @property BusinessArea|null $business_area
  */
 class Customer extends Model

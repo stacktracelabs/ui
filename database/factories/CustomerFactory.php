@@ -19,6 +19,7 @@ class CustomerFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'is_premium' => fake()->boolean(),
             'business_area' => collect(BusinessArea::cases())->random(),
+            'employee_count' => fake()->numberBetween(1, 1000),
             'created_at' => Carbon::parse(fake()->dateTime()),
         ];
     }

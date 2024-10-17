@@ -31,7 +31,7 @@ class SelectOption extends ViewModel
     /**
      * Create collection of select options from collection of models.
      */
-    public static function fromModels(Collection|array $models, string $label, ?string $value = null, ?Closure $extra = null): Collection
+    public static function collectFromModels(Collection|array $models, string $label, ?string $value = null, ?Closure $extra = null): Collection
     {
         return Collection::wrap($models)->map(fn (Model $model) => new static(
             label: $model->getAttribute($label),
@@ -43,7 +43,7 @@ class SelectOption extends ViewModel
     /**
      * Create collection of options from enums.
      */
-    public static function fromEnum(string $class, ?Closure $extra = null): Collection
+    public static function collectFromEnum(string $class, ?Closure $extra = null): Collection
     {
         if (! enum_exists($class)) {
             throw new InvalidArgumentException("The enum [$class] does not exist.");

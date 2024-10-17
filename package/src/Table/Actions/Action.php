@@ -5,8 +5,8 @@ namespace StackTrace\Ui\Table\Actions;
 
 
 use Closure;
+use StackTrace\Ui\Selection;
 use StackTrace\Ui\Table\BaseAction;
-use StackTrace\Ui\Table\Selection;
 
 abstract class Action extends BaseAction
 {

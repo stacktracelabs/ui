@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Merq\Contracts\HasTitle;
-use StackTrace\Ui\Table\ModelSelection;
+use StackTrace\Ui\ModelSelection;
 use StackTrace\Ui\Table\FilterWidget;
 use StackTrace\Ui\View\Form\SelectOption;
 

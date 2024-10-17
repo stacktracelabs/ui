@@ -5,9 +5,9 @@ namespace StackTrace\Ui\Table\Filters;
 
 
 use Illuminate\Support\Facades\Request;
+use StackTrace\Ui\DateRange as Range;
 use StackTrace\Ui\Table\FilterWidget;
 use Throwable;
-use StackTrace\Ui\Table\DateRange as Range;
 
 class DateRange extends FilterWidget
 {

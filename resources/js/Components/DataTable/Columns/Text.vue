@@ -13,7 +13,7 @@
 import { cn } from "@/Utils";
 
 defineProps<{
-  value: string | null
+  value: string | null | number
   fontWeight: string | number
   noWrap: boolean
   tabularNums: boolean

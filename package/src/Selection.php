@@ -1,7 +1,7 @@
 <?php
 
 
-namespace StackTrace\Ui\Table;
+namespace StackTrace\Ui;
 
 
 use Illuminate\Support\Collection;

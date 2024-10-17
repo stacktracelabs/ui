@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('email');
             $table->boolean('is_premium')->default(false);
             $table->string('business_area')->nullable();
+            $table->unsignedBigInteger('employee_count')->default(0);
             $table->timestamps();
         });
     }
