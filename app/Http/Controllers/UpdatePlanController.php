@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Demo\Http\Controllers;
+namespace App\Http\Controllers;
 
 
 use App\Models\Customer;

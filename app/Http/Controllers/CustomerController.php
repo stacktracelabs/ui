@@ -1,15 +1,15 @@
 <?php
 
 
-namespace App\Demo\Http\Controllers;
+namespace App\Http\Controllers;
 
 
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use StackTrace\Ui\Table;
-use StackTrace\Ui\Table\Columns;
 use StackTrace\Ui\Table\Actions;
+use StackTrace\Ui\Table\Columns;
 use StackTrace\Ui\Table\Filters;
 
 class CustomerController
@@ -40,7 +40,7 @@ class CustomerController
             ->filter(Filters\DateRange::make('Founded', 'founded')->using(fn (Builder $builder, Table\DateRange $range) => $range->applyToQuery($builder, 'created_at')))
         ;
 
-        return Inertia::render('Demo/Customers/ListCustomers', [
+        return Inertia::render('Customers/ListCustomers', [
             'customers' => $table,
         ]);
     }

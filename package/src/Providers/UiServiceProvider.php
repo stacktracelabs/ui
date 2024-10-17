@@ -1,9 +1,10 @@
 <?php
 
 
-namespace StackTrace\Ui;
+namespace StackTrace\Ui\Providers;
 
 
+use StackTrace\Ui\Commands;
 use Illuminate\Support\ServiceProvider;
 
 class UiServiceProvider extends ServiceProvider
