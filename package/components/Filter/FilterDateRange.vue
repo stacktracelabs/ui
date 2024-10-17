@@ -21,11 +21,10 @@
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto p-0" align="start">
-        <!-- @vue-ignore -->
-        <Calendar locale="sk" v-model.range.string="date" :masks="masks" :columns="2" />
+        <RangeCalendar locale="sk" v-model="date" initial-focus :number-of-months="2" />
 
         <div v-if="isSelected" class="px-4 pb-2">
-          <Button @click="clear" class="w-full" variant="ghost">Vymazať</Button>
+          <Button @click="clear" class="w-full" variant="ghost">Clear</Button>
         </div>
       </PopoverContent>
     </Popover>
@@ -34,11 +33,15 @@
 
 <script setup lang="ts">
 const emit = defineEmits(['update:from', 'update:until'])
-import { format, parse } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { computed, ref, watch } from 'vue'
+import { computed, type Ref, ref, watch } from 'vue'
 import { cn } from '@/Utils'
-import { Popover, PopoverTrigger, Button, Separator, Badge, PopoverContent, Calendar } from "@/Components";
+import {
+  DateFormatter,
+  parseDate,
+  getLocalTimeZone,
+} from '@internationalized/date'
+import type { DateRange } from 'radix-vue'
 
 const props = defineProps<{
   title: string
@@ -46,54 +49,60 @@ const props = defineProps<{
   until?: string
 }>()
 
-const masks = ref({
-  modelValue: 'YYYY-MM-DD',
-});
-
-const date = ref({
-  start: props.from || null,
-  end: props.until || null,
+const df = new DateFormatter('sk-SK', { // TODO: Locale Support
+  dateStyle: 'medium',
 })
 
+const date = ref({
+  start: props.from ? parseDate(props.from) : undefined,
+  end: props.until ? parseDate(props.until) : undefined,
+}) as Ref<DateRange>
+
 const clear = () => {
-  date.value = { start: null, end: null }
+  date.value = { start: undefined, end: undefined }
 }
 
 watch(date, newDate => {
-  if (newDate.start != props.from) {
-    emit('update:from', newDate.start)
+  const start = newDate.start?.toString() || undefined
+  const end = newDate.end?.toString() || undefined
+
+  if (start !== props.from) {
+    emit('update:from', start)
   }
 
-  if (newDate.end != props.until) {
-    emit('update:until', newDate.end)
+  if (end !== props.until) {
+    emit('update:until', end)
   }
 })
 
 watch(computed(() => props.from), newFrom => {
-  if (newFrom != date.value.start) {
-    date.value.start = newFrom || null
+  const currentFrom = date.value.start?.toString() || undefined
+  const updatedFrom = newFrom || undefined
+
+  if (updatedFrom !== currentFrom) {
+    date.value.start = updatedFrom ? parseDate(updatedFrom) : undefined
   }
 })
 
 watch(computed(() => props.until), newUntil => {
-  if (newUntil != date.value.end) {
-    date.value.end = newUntil || null
+  const currentUntil = date.value.end?.toString() || undefined
+  const updatedUntil = newUntil || undefined
+
+  if (updatedUntil !== currentUntil) {
+    date.value.end = updatedUntil ? parseDate(updatedUntil) : undefined
   }
 })
 
 const isSelected = computed(() => date.value.start || date.value.end)
 
 const label = computed(() => {
-  const start = date.value.start
-  const end = date.value.end
-
-  const from = start ? parse(start, 'yyyy-MM-dd', new Date()) : null
-  const until = end ? parse(end, 'yyyy-MM-dd', new Date()) : null
-
-  const fromFormat = from ? format(from, 'dd.MM.yyyy') : null
-  const untilFormat = until ? format(until, 'dd.MM.yyyy') : null
+  const from = date.value.start?.toDate(getLocalTimeZone()) || null
+  const until = date.value.end?.toDate(getLocalTimeZone()) || null
 
   if (from && until) {
+    const fromFormat = df.format(from)
+    const untilFormat = df.format(until)
+
     if (fromFormat == untilFormat) {
       return fromFormat
     }

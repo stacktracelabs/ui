@@ -37,7 +37,7 @@ class CustomerController
             ->column(Columns\Date::make('Founded', 'created_at')->sortable())
             ->action(Actions\Event::make('Update Plan', 'updatePlan')->bulk())
             ->filter(Filters\Boolean::make('Premium only', 'premium')->using(fn (Builder $builder, bool $value) => $builder->where('is_premium', $value)))
-            ->filter(Filters\DateRange::make('Founded', 'founded')->using(fn () => dd(func_get_args())))
+            ->filter(Filters\DateRange::make('Founded', 'founded')->using(fn (Builder $builder, Table\DateRange $range) => $range->applyToQuery($builder, 'created_at')))
         ;
 
         return Inertia::render('Demo/Customers/ListCustomers', [

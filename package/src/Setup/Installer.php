@@ -82,6 +82,7 @@ class Installer
 
         $this->updatePackages(fn(array $packages) => [
             "@inertiajs/vue3" => "^1.0.0",
+            "@internationalized/date" => "^3.5.6",
             "@radix-icons/vue" => "^1.0.0",
             "@types/lodash" => "^4.17.10",
             "@stacktrace/ui" => "^0.0.3",
