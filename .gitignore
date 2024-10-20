@@ -20,3 +20,5 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+docs/.vitepress/dist/
+docs/.vitepress/cache/
