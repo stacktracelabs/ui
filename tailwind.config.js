@@ -11,6 +11,7 @@ export default {
     "./storage/framework/views/*.php",
     "./resources/views/**/*.blade.php",
     "./resources/js/**/*.{ts,tsx,vue}",
+    "./docs/.vitepress/**/*.{ts,tsx,vue}",
   ],
 
   theme: {
