@@ -1,0 +1,13 @@
+{
+    "dependencies": [
+        "Badge",
+        "Button",
+        "Checkbox",
+        "Command",
+        "Input",
+        "Popover",
+        "RangeCalendar",
+        "Select",
+        "Separator"
+    ]
+}

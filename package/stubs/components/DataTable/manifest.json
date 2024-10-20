@@ -1,0 +1,11 @@
+{
+    "dependencies": [
+        "Badge",
+        "Button",
+        "Dialog",
+        "DropdownMenu",
+        "Filter",
+        "Input",
+        "Table"
+    ]
+}
