@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
-use Symfony\Component\Finder\Finder;
 
 class ComponentLibrary
 {
@@ -65,37 +64,15 @@ class ComponentLibrary
      */
     protected function installComponent(string $component): void
     {
-        $base = realpath(__DIR__."/../components/{$component}");
+        $src = realpath(__DIR__."/../../stubs/components/{$component}");
 
-        if (! $base) {
+        if (! $src) {
             throw new RuntimeException("The [$component] component does not exist.");
         }
 
-        $out = $this->resolveComponentPath($component);
+        $dest = $this->resolveComponentPath($component);
 
-        if (File::exists($out)) {
-            File::deleteDirectory($out);
-        }
-
-        $this->copyDir($base, $out, [
-            'manifest.json',
-        ]);
-    }
-
-    /**
-     * Copy content of the source directory to destination directory.
-     */
-    protected function copyDir(string $from, string $to, array $except = []): void
-    {
-        collect(Finder::create()->in($from)->files()->notName($except))->keys()->each(function (string $file) use ($from, $to, $except) {
-            $relativeName = Str::of($file)->replaceFirst($from, '')->ltrim('/')->value();
-
-            $out = $to.'/'.$relativeName;
-
-            File::ensureDirectoryExists(File::dirname($out));
-
-            copy($file, $out);
-        });
+        Utils::copyDirectory($src, $dest, except: ['manifest.json']);
     }
 
     /**
@@ -115,7 +92,7 @@ class ComponentLibrary
      */
     protected function resolveDependencies(string $component): array
     {
-        $manifest = __DIR__."/../components/{$component}/manifest.json";
+        $manifest = __DIR__."/../../stubs/components/{$component}/manifest.json";
 
         if (file_exists($manifest)) {
             $meta = json_decode(file_get_contents($manifest), true);
