@@ -17,23 +17,23 @@ export default defineConfig({
         }
       }
     }),
-    components({
-      globs: [
-        'resources/js/Components/**/*.vue',
-        'resources/js/Layouts/**/*.vue',
-
-        '!resources/js/Components/DataTable/Columns/*.vue',
-        '!resources/js/Components/DataTable/Filters/*.vue',
-        '!resources/js/Components/DataTable/ActionList.vue',
-        '!resources/js/Components/DataTable/EmptyPattern.vue',
-      ],
-      resolvers: [
-        componentName => {
-          if (['Link', 'Head'].includes(componentName)) {
-            return { name: componentName, from: '@inertiajs/vue3' }
-          }
-        }
-      ]
-    })
+    // components({
+    //   globs: [
+    //     'resources/js/Components/**/*.vue',
+    //     'resources/js/Layouts/**/*.vue',
+    //
+    //     '!resources/js/Components/DataTable/Columns/*.vue',
+    //     '!resources/js/Components/DataTable/Filters/*.vue',
+    //     '!resources/js/Components/DataTable/ActionList.vue',
+    //     '!resources/js/Components/DataTable/EmptyPattern.vue',
+    //   ],
+    //   resolvers: [
+    //     componentName => {
+    //       if (['Link', 'Head'].includes(componentName)) {
+    //         return { name: componentName, from: '@inertiajs/vue3' }
+    //       }
+    //     }
+    //   ]
+    // })
   ]
 })

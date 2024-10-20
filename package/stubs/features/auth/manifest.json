@@ -5,10 +5,8 @@
         "Button",
         "Card",
         "Checkbox",
-        "DropdownMenu",
         "Form",
         "Input",
-        "Label",
-        "NavigationMenu"
+        "Label"
     ]
 }

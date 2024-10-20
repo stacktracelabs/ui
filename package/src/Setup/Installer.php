@@ -99,11 +99,11 @@ class Installer
             //
         ], JSON_PRETTY_PRINT));
 
-        $this->runCommands(['npm install', 'npm run build']);
-
         foreach ($features as $feature) {
             $this->installFeature($feature);
         }
+
+        $this->runCommands(['npm install', 'npm run build']);
     }
 
     /**
