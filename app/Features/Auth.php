@@ -14,7 +14,6 @@ class Auth extends Feature
             'app/Http/Requests/Auth',
             'app/Http/Requests/ProfileUpdateRequest.php',
 
-            'resources/js/Components/ApplicationLogo.vue',
             'resources/js/Layouts/GuestLayout.vue',
             'resources/js/Pages/Auth',
             'resources/js/Pages/Profile',

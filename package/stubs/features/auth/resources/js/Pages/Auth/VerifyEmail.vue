@@ -29,7 +29,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, Head } from '@inertiajs/vue3'
+import { GuestLayout } from "@/Layouts";
+import { LinkButton, ActionButton } from "@/Components/Button";
+import { Alert, AlertDescription } from "@/Components/Alert";
 
 const props = defineProps<{
   status?: string;

@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { type InertiaLinkProps } from '@inertiajs/vue3'
-import type { ButtonProps } from '@/Components/Button'
+import { type InertiaLinkProps, Link } from '@inertiajs/vue3'
+import { type ButtonProps, Button } from '@/Components/Button'
 import { useForwardProps } from 'radix-vue'
 import { computed } from 'vue'
 

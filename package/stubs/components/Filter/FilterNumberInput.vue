@@ -50,6 +50,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { HashIcon } from "lucide-vue-next";
+import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
+import { Separator } from '@/Components/Separator'
+import { Button } from '@/Components/Button'
+import { Input } from '@/Components/Input'
+import { Select, SelectValue, SelectItem, SelectContent, SelectTrigger } from '@/Components/Select'
+import { Badge } from '@/Components/Badge'
 
 const emit = defineEmits(['update:modelValue'])
 

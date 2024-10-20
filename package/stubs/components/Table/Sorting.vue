@@ -16,6 +16,7 @@
 import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
 import { computed } from "vue";
 import type { SortDirection } from "@stacktrace/ui";
+import { Button } from '@/Components/Button'
 
 const props = defineProps<{
   value: string

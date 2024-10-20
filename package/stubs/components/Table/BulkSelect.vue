@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { type SelectableRows } from "./";
 import { computed, nextTick } from "vue";
+import { Checkbox } from "@/Components/Checkbox";
 
 const props = defineProps<{
   selectable: SelectableRows

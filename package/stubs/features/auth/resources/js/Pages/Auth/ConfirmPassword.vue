@@ -21,7 +21,11 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, Head } from '@inertiajs/vue3'
+import { GuestLayout } from "@/Layouts";
+import { FormControl} from "@/Components/Form";
+import { Input } from '@/Components/Input';
+import { ActionButton } from "@/Components/Button";
 
 const form = useForm({
   password: ''

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { FormItem, FormLabel, FormMessage, FormDescription } from './'
+
 const props = defineProps<{
   for?: string
   label?: string | null | undefined

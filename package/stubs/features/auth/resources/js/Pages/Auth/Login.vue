@@ -48,7 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { GuestLayout } from '@/Layouts'
+import { Alert, AlertDescription } from "@/Components/Alert"
+import { ActionButton, LinkButton } from "@/Components/Button"
+import { FormControl } from "@/Components/Form";
+import { Input } from '@/Components/Input'
+import { Label } from "@/Components/Label"
+import { Checkbox } from "@/Components/Checkbox"
+import { useForm, Head, Link } from '@inertiajs/vue3'
 
 defineProps<{
   canResetPassword?: boolean;
