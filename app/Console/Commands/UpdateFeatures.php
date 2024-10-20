@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\DependencyDetector;
 use App\Features\Feature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -16,8 +17,12 @@ class UpdateFeatures extends Command
 
     protected $description = 'Update feature files in components.';
 
-    public function handle(): int
+    protected DependencyDetector $dependencyDetector;
+
+    public function handle(DependencyDetector $dependencyDetector): int
     {
+        $this->dependencyDetector = $dependencyDetector;
+
         $features = collect(Finder::create()->in(app_path('Features'))->notName('Feature.php')->depth(0)->name('*.php'))
             ->map(fn (SplFileInfo $file) => $file->getFilenameWithoutExtension())
             ->values()
@@ -67,6 +72,16 @@ class UpdateFeatures extends Command
             File::put($dest, $content);
         });
 
-        dd('ok');
+        // Search for component dependencies
+        $dependencies = $this->dependencyDetector->getDependencies(collect(Finder::create()->in($featureDir)->name('*.vue')->files())->keys()->all());
+
+        if (! empty($dependencies)) {
+            $manifest = [
+                'dependencies' => $dependencies,
+            ];
+
+
+            file_put_contents($featureDir.'/manifest.json', json_encode($manifest, JSON_PRETTY_PRINT));
+        }
     }
 }

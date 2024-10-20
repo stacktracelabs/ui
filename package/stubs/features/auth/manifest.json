@@ -1,0 +1,14 @@
+{
+    "dependencies": [
+        "Alert",
+        "AlertDialog",
+        "Button",
+        "Card",
+        "Checkbox",
+        "DropdownMenu",
+        "Form",
+        "Input",
+        "Label",
+        "NavigationMenu"
+    ]
+}

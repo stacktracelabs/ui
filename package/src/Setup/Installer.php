@@ -6,12 +6,10 @@ namespace StackTrace\Ui\Setup;
 
 use Closure;
 use Illuminate\Console\OutputStyle;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class Installer
@@ -96,23 +94,9 @@ class Installer
             "vue-tsc" => "^2.0.24",
         ] + $packages);
 
-        $this->putFile('ui.json', json_encode((object) [
+        $this->putFile($this->getInstallationPath('ui.json'), json_encode((object) [
             //
         ], JSON_PRETTY_PRINT));
-
-        // ComponentLibrary::make()->add([
-        //     'Alert',
-        //     'AlertDialog',
-        //     'Button',
-        //     'Card',
-        //     'Checkbox',
-        //     'DropdownMenu',
-        //     'Form',
-        //     'Input',
-        //     'Label',
-        //     'NavigationMenu',
-        //     'Spinner',
-        // ]);
 
         $this->runCommands(['npm install', 'npm run build']);
     }
@@ -139,82 +123,6 @@ class Installer
                 unlink($file);
             }
         }
-    }
-
-    /**
-     * Install entire stub directory.
-     */
-    public function copyStubsDir(string $path, ?string $to = null, bool $force = true): void
-    {
-        $to = $to ?: $path;
-
-        $source = $this->resolveStubPath($path);
-        File::ensureDirectoryExists($this->getInstallationPath($to));
-
-        collect(Finder::create()->in($source)->files())->keys()->each(function (string $file) use ($source, $to, $force) {
-            $fileDestination = $to.Str::replaceFirst($source, '', $file);
-
-            $dir = File::dirname($fileDestination);
-
-            File::ensureDirectoryExists($this->getInstallationPath($dir));
-
-            $fileName = File::basename($file);
-
-            $destinationFilePath = $this->getInstallationPath("{$dir}/{$fileName}");
-
-            if (file_exists($destinationFilePath) && !$force) {
-                throw new RuntimeException("The file [$destinationFilePath] already exist.");
-            }
-
-            copy($file, $destinationFilePath);
-        });
-    }
-
-    /**
-     * Copy list of stubs to installation directory.
-     */
-    public function copyStubs(array $stubs): void
-    {
-        foreach ($stubs as $from => $to) {
-            if (is_numeric($from)) {
-                $this->copyStub($to);
-            } else {
-                $this->copyStub($from, $to);
-            }
-        }
-    }
-
-    /**
-     * Copy stub to given location.
-     */
-    public function copyStub(string $path, ?string $to = null, bool $force = true): void
-    {
-        $to = $to ?: $path;
-
-        $source = $this->resolveStubPath($path);
-        $destination = $this->getInstallationPath($to);
-
-        if (file_exists($destination) && !$force) {
-            throw new RuntimeException("The file [$destination] already exist.");
-        }
-
-        $this->ensureDirectoryForFile($destination);
-
-        if (file_exists($destination)) {
-            unlink($destination);
-        }
-
-        copy($source, $destination);
-    }
-
-    /**
-     * Ensure all directories exist for given file.
-     */
-    protected function ensureDirectoryForFile(string $filePath): void
-    {
-        $dir = File::dirname($filePath);
-
-        File::ensureDirectoryExists($dir);
     }
 
     /**
@@ -285,22 +193,6 @@ class Installer
                 ->run(function ($type, $output) {
                     $this->output?->write($output);
                 }) === 0;
-    }
-
-    /**
-     * Delete the "node_modules" directory and remove the associated lock files.
-     */
-    protected function flushNodeModules(): void
-    {
-        tap(new Filesystem, function (Filesystem $files) {
-            $files->deleteDirectory($this->getInstallationPath('node_modules'));
-
-            $files->delete($this->getInstallationPath('pnpm-lock.yaml'));
-            $files->delete($this->getInstallationPath('yarn.lock'));
-            $files->delete($this->getInstallationPath('bun.lockb'));
-            $files->delete($this->getInstallationPath('deno.lock'));
-            $files->delete($this->getInstallationPath('package-lock.json'));
-        });
     }
 
     /**
