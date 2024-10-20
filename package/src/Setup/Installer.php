@@ -9,6 +9,7 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 
@@ -44,7 +45,7 @@ class Installer
     /**
      * Install UI component library.
      */
-    public function install(array $options = []): void
+    public function install(array $features = []): void
     {
         if (! $this->requireComposerPackages([
             "inertiajs/inertia-laravel:^1.0",
@@ -99,6 +100,41 @@ class Installer
         ], JSON_PRETTY_PRINT));
 
         $this->runCommands(['npm install', 'npm run build']);
+
+        foreach ($features as $feature) {
+            $this->installFeature($feature);
+        }
+    }
+
+    /**
+     * Install UI feature.
+     */
+    public function installFeature(string $feature): void
+    {
+        $src = realpath(__DIR__."/../../stubs/features/{$feature}");
+
+        if (! $src) {
+            throw new InvalidArgumentException("Feature {$feature} does not exist.");
+        }
+
+        // Copy files
+        Utils::copyDirectory(
+            src: $src,
+            dest: $this->getInstallationPath(),
+            except: ['manifest.json'],
+        );
+
+        $manifestFile = $src.'/manifest.json';
+        if (File::exists($manifestFile)) {
+            $manifest = File::json($manifestFile);
+
+            $dependencies = Arr::get($manifest, 'dependencies', []);
+            if (! empty($dependencies)) {
+                ComponentLibrary::make()
+                    ->withOutput($this->output)
+                    ->add($dependencies);
+            }
+        }
     }
 
     /**
