@@ -50,7 +50,6 @@ class Installer
     {
         if (! $this->requireComposerPackages([
             "inertiajs/inertia-laravel:^1.0",
-            "laravel/sanctum:^4.0",
             "tightenco/ziggy:^2.0"
         ])) {
             throw new RuntimeException("Unable to install composer packages.");
@@ -64,16 +63,11 @@ class Installer
             'resources/views/welcome.blade.php',
         ]);
 
-        $this->copyStubsDir('app');
-        $this->copyStubsDir('resources');
-        $this->copyStubsDir('routes');
-
-        $this->copyStubs([
-            'postcss.config.js',
-            'tailwind.config.js',
-            'tsconfig.json',
-            'vite.config.ts',
-        ]);
+        // Copy Setup stubs
+        Utils::copyDirectory(
+            src: $this->resolveStubPath("setup"),
+            dest: $this->getInstallationPath()
+        );
 
         $this->installMiddleware([
             '\App\Http\Middleware\HandleInertiaRequests::class',
@@ -106,19 +100,19 @@ class Installer
             //
         ], JSON_PRETTY_PRINT));
 
-        ComponentLibrary::make()->add([
-            'Alert',
-            'AlertDialog',
-            'Button',
-            'Card',
-            'Checkbox',
-            'DropdownMenu',
-            'Form',
-            'Input',
-            'Label',
-            'NavigationMenu',
-            'Spinner',
-        ]);
+        // ComponentLibrary::make()->add([
+        //     'Alert',
+        //     'AlertDialog',
+        //     'Button',
+        //     'Card',
+        //     'Checkbox',
+        //     'DropdownMenu',
+        //     'Form',
+        //     'Input',
+        //     'Label',
+        //     'NavigationMenu',
+        //     'Spinner',
+        // ]);
 
         $this->runCommands(['npm install', 'npm run build']);
     }
@@ -238,7 +232,7 @@ class Installer
      */
     protected function resolveStubPath(string $name): string
     {
-        return realpath(__DIR__."/../stubs/{$name}");
+        return realpath(__DIR__."/../../stubs/{$name}");
     }
 
     /**
