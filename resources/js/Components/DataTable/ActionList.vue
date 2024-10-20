@@ -6,7 +6,7 @@
       </template>
       <template v-else-if="action.type === 'Link'">
         <DropdownMenuItem as-child>
-          <Link :href="action.url" :external="action.isExternal">{{ action.label }}</Link>
+          <component :is="action.isExternal ? 'a' : Link" :href="action.url">{{ action.label }}</component>
         </DropdownMenuItem>
       </template>
       <template v-else-if="action.type === 'Executable'">
@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
+import { DropdownMenuItem } from "@/Components/DropdownMenu";
 import type { DataTableAction } from "./";
 
 const emit = defineEmits(['event', 'exec'])

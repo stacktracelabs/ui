@@ -35,7 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { useForm, Head } from '@inertiajs/vue3'
+import { GuestLayout } from '@/Layouts'
+import { LinkButton, ActionButton } from "@/Components/Button";
+import { Alert, AlertDescription } from "@/Components/Alert";
+import { FormControl } from "@/Components/Form";
+import { Input } from '@/Components/Input';
 
 defineProps<{
   status?: string

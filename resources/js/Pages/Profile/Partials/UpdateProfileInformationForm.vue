@@ -41,7 +41,12 @@
 </template>
 
 <script setup lang="ts">
-import { useForm, usePage } from '@inertiajs/vue3';
+import { Alert, AlertDescription } from '@/Components/Alert'
+import { ActionButton } from "@/Components/Button"
+import { FormControl } from "@/Components/Form"
+import { Input } from "@/Components/Input"
+import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/Components/Card'
+import { useForm, usePage, Link } from '@inertiajs/vue3'
 
 defineProps<{
   mustVerifyEmail?: Boolean;

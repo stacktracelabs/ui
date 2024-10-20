@@ -27,10 +27,8 @@
               <SelectValue placeholder="Select a plan" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                <SelectItem value="basic">Basic</SelectItem>
-                <SelectItem value="premium">Premium</SelectItem>
-              </SelectGroup>
+              <SelectItem value="basic">Basic</SelectItem>
+              <SelectItem value="premium">Premium</SelectItem>
             </SelectContent>
           </Select>
         </FormControl>
@@ -45,9 +43,15 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableValue } from "@/Components/DataTable";
+import { type DataTableValue, DataTable } from "@/Components/DataTable";
 import { useToggle } from "@stacktrace/ui";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, Head } from "@inertiajs/vue3";
+import { AuthenticatedLayout } from "@/Layouts";
+import { Card } from "@/Components/Card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/Components/Dialog'
+import { ActionButton, Button } from "@/Components/Button";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/Components/Select";
+import { FormControl } from "@/Components/Form";
 
 defineProps<{
   customers: DataTableValue

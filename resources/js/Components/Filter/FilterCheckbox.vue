@@ -5,6 +5,9 @@
 </template>
 
 <script setup lang="ts">
+import { Button } from "@/Components/Button";
+import { Checkbox } from "@/Components/Checkbox";
+
 const value = defineModel({ required: false })
 
 defineProps<{

@@ -1,5 +1,6 @@
 <template>
   <DropdownMenuItem v-bind="forwardedProps" as-child>
+    <!-- @vue-ignore -->
     <Link :as="props.as || undefined" class="w-full">
       <slot />
     </Link>
@@ -9,7 +10,8 @@
 <script setup lang="ts">
 import { DropdownMenuItemProps, useForwardProps } from 'radix-vue'
 import { computed, HTMLAttributes } from 'vue'
-import type { InertiaLinkProps } from '@inertiajs/vue3'
+import { Link, type InertiaLinkProps } from '@inertiajs/vue3'
+import { DropdownMenuItem } from './'
 
 const props = defineProps<DropdownMenuItemProps & InertiaLinkProps & {
   class?: HTMLAttributes['class']

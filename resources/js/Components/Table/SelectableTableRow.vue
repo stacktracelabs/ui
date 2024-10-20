@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
 import { computed, provide } from "vue";
+import { TableRow } from './'
 
 const emit = defineEmits(['update:modelValue'])
 

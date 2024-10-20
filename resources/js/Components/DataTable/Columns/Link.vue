@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import { cn } from "@/Utils";
 import { Link } from '@inertiajs/vue3'
+import { TableCell } from '@/Components/Table'
 
 defineProps<{
   value: string | null

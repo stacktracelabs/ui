@@ -20,10 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonProps, buttonVariants } from './index'
+import { ButtonProps, buttonVariants, Button } from './'
 import { cn } from '@/Utils'
 import { computed } from 'vue'
 import { CheckIcon } from 'lucide-vue-next'
+import { Spinner } from '@/Components/Spinner'
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   as: 'button',

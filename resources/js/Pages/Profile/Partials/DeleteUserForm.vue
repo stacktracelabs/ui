@@ -42,6 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import { ActionButton } from '@/Components/Button'
+import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/Components/Card'
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel  } from '@/Components/AlertDialog'
+import { FormControl } from "@/Components/Form"
+import { Input } from "@/Components/Input"
 import { useForm } from '@inertiajs/vue3'
 import { useToggle } from '@stacktrace/ui'
 
