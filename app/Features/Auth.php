@@ -15,6 +15,7 @@ class Auth extends Feature
             'app/Http/Requests/ProfileUpdateRequest.php',
 
             'resources/js/Layouts/GuestLayout.vue',
+            'resources/js/Layouts/index.ts',
             'resources/js/Pages/Auth',
             'resources/js/Pages/Profile',
             'resources/js/Pages/Dashboard.vue',
@@ -118,7 +119,7 @@ require __DIR__.'/auth.php';
 
 PHP
             ,
-            'resources/js/Layouts/AuthenticatedLayout' => <<<'VUE'
+            'resources/js/Layouts/AuthenticatedLayout.vue' => <<<'VUE'
 <template>
   <div class="min-h-screen flex flex-col bg-stone-50 dark:bg-background">
     <div class="border-b bg-background">
