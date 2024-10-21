@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
           { text: 'Text Area', link: '/components/textarea' },
+          { text: 'Tooltip', link: '/components/tooltip' },
         ]
       }
     ],
