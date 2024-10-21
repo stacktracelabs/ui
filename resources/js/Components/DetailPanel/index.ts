@@ -1,0 +1,5 @@
+export { default as DetailPanel } from './DetailPanel.vue'
+export { default as DetailPanelContent } from './DetailPanelContent.vue'
+export { default as DetailPanelHeader } from './DetailPanelHeader.vue'
+export { default as DetailPanelItem } from './DetailPanelItem.vue'
+export { default as DetailPanelTitle } from './DetailPanelTitle.vue'

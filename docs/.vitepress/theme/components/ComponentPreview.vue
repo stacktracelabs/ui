@@ -6,7 +6,7 @@
     </TabsList>
     <TabsContent value="preview" class="pt-2">
       <div class="bg-background py-16 px-8 border rounded flex items-center justify-center">
-        <component v-if="component" :is="component" v-bind="delegatedProps" />
+        <component v-if="component" :is="component" v-bind="delegatedProps" :class="$attrs.class || ''" />
       </div>
     </TabsContent>
     <TabsContent value="code" class="">
