@@ -27,6 +27,7 @@ export default defineConfig({
         text: 'Components',
         items: [
           { text: 'Alert', link: '/components/alert' },
+          { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Radio Group', link: '/components/radio-group' },
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
