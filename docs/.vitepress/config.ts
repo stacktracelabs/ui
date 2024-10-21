@@ -29,6 +29,7 @@ export default defineConfig({
           { text: 'Alert', link: '/components/alert' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Command', link: '/components/command' },
+          { text: 'Popover', link: '/components/popover' },
           { text: 'Radio Group', link: '/components/radio-group' },
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
