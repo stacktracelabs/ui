@@ -1,5 +1,6 @@
 {
     "name": "stacktrace/ui",
+    "description": "Component library for Laravel, Vue and Inertia.js based on shadcn-vue.",
     "type": "library",
     "license": "MIT",
     "require": {
