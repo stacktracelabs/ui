@@ -24,7 +24,7 @@ export default defineConfig({
       {
         text: 'Components',
         items: [
-          { text: 'Alert', link: '/alert' },
+          { text: 'Alert', link: '/components/alert' },
         ]
       }
     ],
@@ -32,6 +32,10 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/stacktrace/ui' }
     ],
+
+    outline: {
+      level: [2, 3],
+    }
   },
 
   vite: {
