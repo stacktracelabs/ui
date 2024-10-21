@@ -32,7 +32,6 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['update:from', 'update:until'])
 import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
 import { Separator } from '@/Components/Separator'
 import { RangeCalendar } from "@/Components/RangeCalendar";
@@ -47,6 +46,8 @@ import {
   getLocalTimeZone,
 } from '@internationalized/date'
 import type { DateRange } from 'radix-vue'
+
+const emit = defineEmits(['update:from', 'update:until'])
 
 const props = defineProps<{
   title: string
