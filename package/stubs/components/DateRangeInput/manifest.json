@@ -1,0 +1,7 @@
+{
+    "dependencies": [
+        "Button",
+        "Popover",
+        "RangeCalendar"
+    ]
+}

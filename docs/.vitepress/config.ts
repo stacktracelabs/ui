@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Command', link: '/components/command' },
           { text: 'Date Input', link: '/components/date-input' },
+          { text: 'Date Range Input', link: '/components/date-range-input' },
           { text: 'Date Time Input', link: '/components/date-time-input' },
           { text: 'Detail Panel', link: '/components/detail-panel' },
           { text: 'Popover', link: '/components/popover' },
