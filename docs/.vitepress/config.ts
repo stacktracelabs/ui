@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Command', link: '/components/command' },
           { text: 'Popover', link: '/components/popover' },
           { text: 'Radio Group', link: '/components/radio-group' },
+          { text: 'Separator', link: '/components/separator' },
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
           { text: 'Text Area', link: '/components/textarea' },
