@@ -3,6 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+    /* Reset of Vitepress base */
+    input,
+    optgroup,
+    select,
+    textarea {
+        border: inherit;
+    }
+
+    button {
+        border-style: solid;
+    }
+
     html.dark .shiki,
     html.dark .shiki span {
         color: var(--shiki-dark) !important;
