@@ -6,7 +6,7 @@ A set of checkable buttons—known as radio buttons—where no more than one of 
 
 ## Installation
 
-```bash
+```shell
 php artisan ui:add radio-group
 ```
 
