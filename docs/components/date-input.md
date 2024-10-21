@@ -7,7 +7,7 @@ A date picker component.
 ## Installation
 
 ```shell
-php artisan ui:add date-picker
+php artisan ui:add date-input
 ```
 
 ## Usage

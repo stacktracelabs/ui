@@ -4,8 +4,9 @@
       <Button
         variant="outline"
         :class="cn(
-          'w-[280px] justify-start text-left font-normal',
+          'w-full justify-start text-left font-normal',
           !date && 'text-muted-foreground',
+          $attrs.class || ''
         )"
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
@@ -29,7 +30,7 @@ import {
   parseDate,
   getLocalTimeZone,
 } from '@internationalized/date'
-import { CalendarIcon } from '@radix-icons/vue'
+import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { computed, ref, type Ref, watch } from 'vue'
 
 const emit = defineEmits(['update:modelValue'])
