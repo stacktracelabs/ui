@@ -11,13 +11,15 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
+      { text: 'Docs', link: '/introduction' },
+      { text: 'Components', link: '/components/alert' },
     ],
 
     sidebar: [
       {
         text: 'Getting Started',
         items: [
+          { text: 'Introduction', link: '/introduction' },
           { text: 'Installation', link: '/installation' },
         ]
       },
