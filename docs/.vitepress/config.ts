@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'Radio Group', link: '/components/radio-group' },
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
+          { text: 'Text Area', link: '/components/textarea' },
         ]
       }
     ],
