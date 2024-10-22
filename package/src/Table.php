@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use JsonSerializable;
 use StackTrace\Ui\Table\BaseAction;
@@ -24,6 +25,8 @@ use StackTrace\Ui\Table\FilterWidget;
 
 class Table implements Arrayable, JsonSerializable
 {
+    use Conditionable;
+
     /**
      * List of table columns.
      */
@@ -127,7 +130,9 @@ class Table implements Arrayable, JsonSerializable
     public function withFilters(array $filters): static
     {
         foreach ($filters as $filter) {
-            $this->filter($filter);
+            if ($filter !== null) {
+                $this->filter($filter);
+            }
         }
 
         return $this;
@@ -183,7 +188,9 @@ class Table implements Arrayable, JsonSerializable
     public function withColumns(array $columns): static
     {
         foreach ($columns as $column) {
-            $this->column($column);
+            if ($column !== null) {
+                $this->column($column);
+            }
         }
 
         return $this;
@@ -205,6 +212,10 @@ class Table implements Arrayable, JsonSerializable
     public function withActions(array $actions): static
     {
         foreach ($actions as $name => $action) {
+            if (is_null($action)) {
+                continue;
+            }
+
             if (is_numeric($name)) {
                 $this->action($action);
             } else {
