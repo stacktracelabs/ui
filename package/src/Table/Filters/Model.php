@@ -160,7 +160,7 @@ class Model extends FilterWidget
         ];
     }
 
-    protected function getSelectableModels(): Collection
+    protected function resolveModelsOrOptions(): Collection
     {
         if ($this->options instanceof Collection) {
             return $this->options;
@@ -169,25 +169,29 @@ class Model extends FilterWidget
         }
     }
 
-    public function toOptions(Collection $models): Collection
+    public function toOptions(Collection $modelsOrOptions): Collection
     {
-        return $models->map(function (EloquentModel $model) {
+        return $modelsOrOptions->map(function (SelectOption|EloquentModel $modelOrOption) {
+            if ($modelOrOption instanceof SelectOption) {
+                return $modelOrOption;
+            }
+
             if ($this->label instanceof Closure) {
                 return new SelectOption(
-                    label: call_user_func($this->label, $model),
-                    value: $model->getKey()
+                    label: call_user_func($this->label, $modelOrOption),
+                    value: $modelOrOption->getKey()
                 );
             } else if (is_string($this->label)) {
                 $attribute = $this->label;
 
                 return new SelectOption(
-                    label: $model->$attribute,
-                    value: $model->getKey()
+                    label: $modelOrOption->$attribute,
+                    value: $modelOrOption->getKey()
                 );
-            } else if ($model instanceof HasTitle) {
+            } else if ($modelOrOption instanceof HasTitle) {
                 return new SelectOption(
-                    label: $model->getTitle(),
-                    value: $model->getKey()
+                    label: $modelOrOption->getTitle(),
+                    value: $modelOrOption->getKey()
                 );
             }
 
@@ -200,7 +204,7 @@ class Model extends FilterWidget
         return [
             'title' => $this->title,
             'field' => $this->field,
-            'options' => $this->toOptions($this->getSelectableModels()),
+            'options' => $this->toOptions($this->resolveModelsOrOptions()),
         ];
     }
 }
