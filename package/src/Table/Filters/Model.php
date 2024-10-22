@@ -96,21 +96,17 @@ class Model extends FilterWidget
 
         $model = $this->newModel();
 
+        // If the collection is list of models, we'll select only models from the collection.
         if ($this->options instanceof Collection) {
-            // If the collection is list of models, we'll select only models from the collection.
-            if ($this->options->every(fn ($it) => $it instanceof EloquentModel)) {
-                $results = $model->newCollection($this->options->all())
-                    ->whereIn($model->getKeyName(), $identifiers)
-                    ->values();
+            $results = $model->newCollection($this->options->filter(fn ($option) => $option instanceof EloquentModel)->values()->all())
+                ->whereIn($model->getKeyName(), $identifiers)
+                ->values();
 
-                if ($results->isEmpty()) {
-                    return null;
-                }
-
-                return $results;
+            if ($results->isEmpty()) {
+                return null;
             }
 
-            throw new \RuntimeException("Currently only collection of models is supported.");
+            return $results;
         } else if ($this->options instanceof Closure) {
             throw new \RuntimeException("Currently only collection of models is supported.");
         }
