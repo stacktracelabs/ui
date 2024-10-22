@@ -36,6 +36,7 @@ export default defineConfig({
           { text: 'Panel', link: '/components/panel' },
           { text: 'Popover', link: '/components/popover' },
           { text: 'Radio Group', link: '/components/radio-group' },
+          { text: 'Select', link: '/components/select' },
           { text: 'Separator', link: '/components/separator' },
           { text: 'Sheet', link: '/components/sheet' },
           { text: 'Switch', link: '/components/switch' },
