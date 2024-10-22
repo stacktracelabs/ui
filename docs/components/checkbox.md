@@ -1,24 +1,24 @@
-# Switch
+# Checkbox
 
 A control that allows the user to toggle between checked and not checked.
 
-<ComponentPreview name="Switch" />
+<ComponentPreview name="Checkbox" />
 
 ## Installation
 
 ```shell
-php artisan ui:add switch
+php artisan ui:add checkbox
 ```
 
 ## Usage
 
 ```vue
 <template>
-  <Switch />
+  <Checkbox />
 </template>
 
 <script setup lang="ts">
-import { Switch } from '@/Components/Switch'
+import { Checkbox } from '@/Components/Checkbox'
 </script>
 ```
 
@@ -26,8 +26,8 @@ import { Switch } from '@/Components/Switch'
 
 ### Default
 
-<ComponentPreview name="Switch" />
+<ComponentPreview name="Checkbox" />
 
 ### Control
 
-<ComponentPreview name="SwitchControl" />
+<ComponentPreview name="CheckboxControl" />

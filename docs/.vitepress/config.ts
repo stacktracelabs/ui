@@ -28,6 +28,7 @@ export default defineConfig({
         items: [
           { text: 'Alert', link: '/components/alert' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
+          { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
           { text: 'Date Input', link: '/components/date-input' },
           { text: 'Date Range Input', link: '/components/date-range-input' },
