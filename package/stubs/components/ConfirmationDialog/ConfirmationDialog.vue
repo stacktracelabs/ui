@@ -7,17 +7,19 @@
       </AlertDialogHeader>
 
       <AlertDialogFooter>
-        <Button @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Zrušiť' }}</Button>
-        <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Potvrdiť' }}</Button>
+        <ActionButton @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Zrušiť' }}</ActionButton>
+        <ActionButton @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Potvrdiť' }}</ActionButton>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
 </template>
 
 <script setup lang="ts">
-import { useConfirmationDialogRoot } from "@/Components/ConfirmationDialog";
-import { ref } from "vue";
-import { onDeactivated } from "@stacktrace/ui";
+import { useConfirmationDialogRoot } from "."
+import { ref } from "vue"
+import { onDeactivated } from "@stacktrace/ui"
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/Components/AlertDialog'
+import { ActionButton } from '@/Components/Button'
 
 const { control, dialog, close: closeDialog } = useConfirmationDialogRoot()
 
