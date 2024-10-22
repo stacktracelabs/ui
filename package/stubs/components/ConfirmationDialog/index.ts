@@ -1,6 +1,8 @@
 import { useToggle } from "@stacktrace/ui";
 import { computed, ref } from "vue";
 
+export { default as ConfirmationDialog } from './ConfirmationDialog.vue'
+
 export declare type ConfirmationCallback = (() => any) | (() => Promise<any>)
 
 export interface Confirmation {
