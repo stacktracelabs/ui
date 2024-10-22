@@ -32,7 +32,7 @@ export default defineConfig({
           { text: 'Date Input', link: '/components/date-input' },
           { text: 'Date Range Input', link: '/components/date-range-input' },
           { text: 'Date Time Input', link: '/components/date-time-input' },
-          { text: 'Detail Panel', link: '/components/detail-panel' },
+          { text: 'Panel', link: '/components/panel' },
           { text: 'Popover', link: '/components/popover' },
           { text: 'Radio Group', link: '/components/radio-group' },
           { text: 'Separator', link: '/components/separator' },

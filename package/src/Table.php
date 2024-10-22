@@ -18,16 +18,12 @@ use JsonSerializable;
 use StackTrace\Ui\Table\BaseAction;
 use StackTrace\Ui\Table\Column;
 use StackTrace\Ui\Table\ColumnCollection;
-use StackTrace\Ui\Table\Concerns\RenderComponents;
 use StackTrace\Ui\Table\Direction;
 use StackTrace\Ui\Table\Filter;
 use StackTrace\Ui\Table\FilterWidget;
-use StackTrace\Ui\Table\Wrappable;
 
 class Table implements Arrayable, JsonSerializable
 {
-    use RenderComponents;
-
     /**
      * List of table columns.
      */
@@ -292,17 +288,7 @@ class Table implements Arrayable, JsonSerializable
     protected function toRows(Collection $items): Collection
     {
         return $items->map(function ($resource, int $resourceIndex) {
-            $cells = $this->getColumns()->map(fn(Column $column, string $id) => [
-                'column' => $id,
-                'component' => $this->resolveComponentName($column->component()),
-                'props' => $this->resolveComponentProps($column->toView($column->resolveValue($resource))),
-                'align' => $column->getAlignment()->value,
-                'verticalAlign' => $column->getVerticalAlignment()->value,
-                'asChild' => $column->shouldDisplayAsChild(),
-                'width' => $column->getWidth(),
-                'minWidth' => $column->getMinWidth(),
-                'maxWidth' => $column->getMaxWidth(),
-            ])->values();
+            $cells = $this->getColumns()->map(fn(Column $column, string $id) => $column->renderCell($id, $resource))->values();
 
             $actions = $this->getActionsForResource($resource);
 
@@ -346,20 +332,12 @@ class Table implements Arrayable, JsonSerializable
         );
     }
 
-    public function getHeaderColumns(): Collection
+    /**
+     * Render header columns,
+     */
+    protected function renderHeaderColumns(): Collection
     {
-        return $this->getColumns()->map(function (Column $column, string $id) {
-            return [
-                'id' => $id,
-                'name' => $column->getTitle(),
-                'align' => $column->getAlignment()->value,
-                'width' => $column->getWidth(),
-                'minWidth' => $column->getMinWidth(),
-                'maxWidth' => $column->getMaxWidth(),
-                'noWrap' => $column instanceof Wrappable && !$column->shouldWrap(),
-                'sortableAs' => $column->getSortableAs(),
-            ];
-        });
+        return $this->getColumns()->map(fn (Column $column, string $id) => $column->renderHeader($id));
     }
 
     /**
@@ -474,7 +452,7 @@ class Table implements Arrayable, JsonSerializable
         }
 
         return [
-            'headings' => $this->getHeaderColumns(),
+            'headings' => $this->renderHeaderColumns(),
             'rows' => $this->getRows(),
             'perPageOptions' => $this->perPageOptions,
             'perPage' => $this->getPerPage(),

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use StackTrace\Ui\DateRange;
+use StackTrace\Ui\Link;
 use StackTrace\Ui\NumberValue;
 use StackTrace\Ui\SelectOption;
 use StackTrace\Ui\Table;
@@ -25,24 +26,21 @@ class CustomerController
             ->searchable(function (Builder $builder, string $term) {
                 $builder->where('name', 'like', "%{$term}%");
             })
-            ->column(
+            ->withColumns([
                 Columns\Text::make('Name')
-            )
-            ->column(
-                Columns\Text::make('Company')
-            )
-            ->column(
-                Columns\Text::make('E-Mail', 'email')
-            )
-            ->column(
+                    ->link(fn (Customer $customer) => Link::to(route('customers.show', $customer)))
+                    ->verticalAlign(Table\VerticalAlign::Middle),
+
+                Columns\Text::make('Company'),
+
+                Columns\Text::make('E-Mail', 'email'),
+
                 Columns\Text::make('Employees', 'employee_count')
                     ->tabularNums()
-                    ->sortable()
-            )
-            ->column(
-                Columns\Text::make('Area', fn (Customer $customer) => $customer->business_area ? Str::headline($customer->business_area->name) : null)
-            )
-            ->column(
+                    ->sortable(),
+
+                Columns\Text::make('Area', fn (Customer $customer) => $customer->business_area ? Str::headline($customer->business_area->name) : null),
+
                 Columns\Badge::make('Plan', 'is_premium')
                     ->label([
                         true => 'Premium',
@@ -51,37 +49,42 @@ class CustomerController
                     ->variant([
                         true => 'positive',
                         false => 'default',
-                    ])
-            )
-            ->column(
+                    ]),
+
                 Columns\Date::make('Founded', 'created_at')
-                    ->sortable()
-            )
-            ->action(
+                    ->sortable(),
+            ])
+            ->withActions([
                 Actions\Event::make('Change Plan', 'updatePlan')
-                    ->bulk()
-            )
-            ->filter(
+                    ->bulk(),
+            ])
+            ->withFilters([
                 Filters\Boolean::make('Premium only', 'premium')
-                    ->using(fn (Builder $builder, bool $value) => $builder->where('is_premium', $value))
-            )
-            ->filter(
+                    ->using(fn (Builder $builder, bool $value) => $builder->where('is_premium', $value)),
+
                 Filters\DateRange::make('Founded', 'founded')
-                    ->using(fn (Builder $builder, DateRange $range) => $range->applyToQuery($builder, 'created_at'))
-            )
-            ->filter(
+                    ->using(fn (Builder $builder, DateRange $range) => $range->applyToQuery($builder, 'created_at')),
+
                 Filters\Enum::make('Area', BusinessArea::class, 'area')
-                    ->using(fn (Builder $builder, array $areas) => $builder->whereIn('business_area', $areas))
-            )
-            ->filter(
+                    ->using(fn (Builder $builder, array $areas) => $builder->whereIn('business_area', $areas)),
+
                 Filters\Number::make('No. of Employees', 'employees')
                     ->using(fn (Builder $builder, NumberValue $value) => $value->where($builder, 'employee_count'))
-            )
+            ])
         ;
 
         return Inertia::render('Customers/ListCustomers', [
             'customers' => $table,
             'businessAreas' => SelectOption::collectFromEnum(BusinessArea::class),
+        ]);
+    }
+
+    public function show(Customer $customer)
+    {
+        return Inertia::render('Customers/ShowCustomer', [
+            'name' => $customer->name,
+            'company' => $customer->company,
+            'email' => $customer->email,
         ]);
     }
 }

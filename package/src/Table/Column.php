@@ -9,9 +9,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use StackTrace\Ui\Link;
+use StackTrace\Ui\Table\Concerns\RenderComponents;
 
 abstract class Column
 {
+    use RenderComponents;
+
     /**
      * Horizonal alignment of the cell value.
      */
@@ -53,7 +57,7 @@ abstract class Column
     protected ?Direction $defaultDirection = null;
 
     /**
-     * The name of the sorting if it is different than column.
+     * The name of the sorting if it is different then column.
      */
     protected ?string $sortingName = null;
 
@@ -62,10 +66,90 @@ abstract class Column
      */
     protected ?string $name = null;
 
+    /**
+     * The link under the column.
+     */
+    protected Link|Closure|null $link = null;
+
+    /**
+     * Text font weight.
+     */
+    protected ?string $fontWeight = 'normal';
+
+    /**
+     * Set whitespace to no-wrap.
+     */
+    protected bool $noWrap = false;
+
+    /**
+     * Whether numbers should be displayed in fixed size.
+     */
+    protected bool $tabularNums = false;
+
     public function __construct(
         protected string              $title,
         protected string|null|Closure $attribute = null,
     ) { }
+
+    /**
+     * Set whitespace to no-wrap.
+     */
+    public function noWrap(bool $noWrap = true): static
+    {
+        $this->noWrap = $noWrap;
+
+        return $this;
+    }
+
+    /**
+     * Set font weight to normal.
+     */
+    public function normal(): static
+    {
+        $this->fontWeight = 'normal';
+
+        return $this;
+    }
+
+    /**
+     * Set font weight to bold.
+     */
+    public function bold(): static
+    {
+        $this->fontWeight = 'bold';
+
+        return $this;
+    }
+
+    /**
+     * Set font weight to medium.
+     */
+    public function medium(): static
+    {
+        $this->fontWeight = 'medium';
+
+        return $this;
+    }
+
+    /**
+     * Display numbers with fixed size.
+     */
+    public function tabularNums(bool $tabularNums = true): static
+    {
+        $this->tabularNums = $tabularNums;
+
+        return $this;
+    }
+
+    /**
+     * Set the link for given column.
+     */
+    public function link(Link|Closure|null $link): static
+    {
+        $this->link = $link;
+
+        return $this;
+    }
 
     /**
      * Set column as sortable.
@@ -268,6 +352,52 @@ abstract class Column
     public function shouldDisplayAsChild(): bool
     {
         return $this->asChild;
+    }
+
+    /**
+     * Render column as header.
+     */
+    public function renderHeader($id): array
+    {
+        return [
+            'id' => $id,
+            'name' => $this->getTitle(),
+            'align' => $this->getAlignment()->value,
+            'width' => $this->getWidth(),
+            'minWidth' => $this->getMinWidth(),
+            'maxWidth' => $this->getMaxWidth(),
+            'noWrap' => $this->noWrap,
+            'sortableAs' => $this->getSortableAs(),
+        ];
+    }
+
+    /**
+     * Render column as cell.
+     */
+    public function renderCell($id, $resource): array
+    {
+        $value = $this->resolveValue($resource);
+
+        $link = $this->link instanceof Closure ? call_user_func($this->link, $resource, $value) : $this->link;
+
+        return [
+            'column' => $id,
+            'component' => $this->resolveComponentName($this->component()),
+            'props' => $this->resolveComponentProps($this->toView($value)),
+            'align' => $this->getAlignment()->value,
+            'verticalAlign' => $this->getVerticalAlignment()->value,
+            'asChild' => $this->shouldDisplayAsChild(),
+            'width' => $this->getWidth(),
+            'minWidth' => $this->getMinWidth(),
+            'maxWidth' => $this->getMaxWidth(),
+            'fontWeight' => $this->fontWeight,
+            'noWrap' => $this->noWrap,
+            'tabularNums' => $this->tabularNums,
+            'link' => $link ? [
+                'url' => $link->url,
+                'isExternal' => $link->isExternal,
+            ] : null,
+        ];
     }
 
     /**

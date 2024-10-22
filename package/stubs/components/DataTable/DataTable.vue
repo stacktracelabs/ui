@@ -131,9 +131,7 @@
                 <RowSelect />
               </TableCell>
               <template v-for="(cell, idx) in row.cells">
-                <Primitive
-                    :as="TableCell"
-                    :as-child="cell.asChild"
+                <TableCell
                     :class="cn({
                       'text-left': cell.align == 'left',
                       'text-center': cell.align == 'center',
@@ -141,6 +139,10 @@
                       'align-top': cell.verticalAlign == 'top',
                       'align-middle': cell.verticalAlign == 'middle',
                       'align-bottom': cell.verticalAlign == 'bottom',
+                      'font-medium': fontWeight == 'medium',
+                      'font-bold': fontWeight == 'bold',
+                      'whitespace-nowrap': noWrap,
+                      'tabular-nums': tabularNums,
                     }, !hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : '')"
                     :style="{
                       width: cell.width || undefined,
@@ -148,11 +150,11 @@
                       maxWidth: cell.maxWidth || undefined,
                     }"
                 >
-                  <component
-                      :is="cell.component"
-                      v-bind="cell.props"
-                  />
-                </Primitive>
+                  <Primitive v-if="cell.link" :as="cell.link.isExternal ? 'a' : Link" :href="cell.link.url">
+                    <component :is="cell.component" v-bind="cell.props" />
+                  </Primitive>
+                  <component v-else :is="cell.component" v-bind="cell.props" />
+                </TableCell>
               </template>
               <TableCell v-if="hasRowActions" class="py-1" :class="cn(insetRight || '')">
                 <DropdownMenu v-if="row.actions.length > 0">

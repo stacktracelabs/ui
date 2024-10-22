@@ -45,6 +45,13 @@ export interface DataTableRow<R = any> {
     width: string | null
     minWidth: string | null
     maxWidth: string | null
+    fontWeight: string | number
+    noWrap: boolean
+    tabularNums: boolean
+    link: {
+      url: string
+      isExternal: boolean
+    } | null
   }>
   actions: Array<DataTableAction>
   resource: R
