@@ -20,6 +20,7 @@ const props = defineProps<SelectRootProps & {
   options: Array<SelectOption>
   placeholder?: string | undefined
   class?: HTMLAttributes['class']
+  modelValue?: string | number | undefined
 }>()
 const emits = defineEmits<SelectRootEmits>()
 

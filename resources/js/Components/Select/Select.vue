@@ -2,7 +2,9 @@
 import type { SelectRootEmits, SelectRootProps } from 'radix-vue'
 import { SelectRoot, useForwardPropsEmits } from 'radix-vue'
 
-const props = defineProps<SelectRootProps>()
+const props = defineProps<SelectRootProps & {
+  modelValue?: string | number | undefined
+}>()
 const emits = defineEmits<SelectRootEmits>()
 
 const forwarded = useForwardPropsEmits(props, emits)
