@@ -10,8 +10,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Merq\Contracts\HasTitle;
 use StackTrace\Ui\ModelSelection;
+use StackTrace\Ui\SelectOption;
 use StackTrace\Ui\Table\FilterWidget;
-use StackTrace\Ui\View\Form\SelectOption;
 
 class Model extends FilterWidget
 {
