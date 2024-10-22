@@ -139,10 +139,10 @@
                       'align-top': cell.verticalAlign == 'top',
                       'align-middle': cell.verticalAlign == 'middle',
                       'align-bottom': cell.verticalAlign == 'bottom',
-                      'font-medium': fontWeight == 'medium',
-                      'font-bold': fontWeight == 'bold',
-                      'whitespace-nowrap': noWrap,
-                      'tabular-nums': tabularNums,
+                      'font-medium': cell.fontWeight == 'medium',
+                      'font-bold': cell.fontWeight == 'bold',
+                      'whitespace-nowrap': cell.noWrap,
+                      'tabular-nums': cell.tabularNums,
                     }, !hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : '')"
                     :style="{
                       width: cell.width || undefined,
