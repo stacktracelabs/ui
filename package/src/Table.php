@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use JsonSerializable;
 use StackTrace\Ui\Table\BaseAction;
 use StackTrace\Ui\Table\Column;
 use StackTrace\Ui\Table\ColumnCollection;
@@ -23,7 +24,7 @@ use StackTrace\Ui\Table\Filter;
 use StackTrace\Ui\Table\FilterWidget;
 use StackTrace\Ui\Table\Wrappable;
 
-class Table implements Arrayable, \JsonSerializable
+class Table implements Arrayable, JsonSerializable
 {
     use RenderComponents;
 
@@ -125,6 +126,18 @@ class Table implements Arrayable, \JsonSerializable
     }
 
     /**
+     * Add filters to the table.
+     */
+    public function withFilters(array $filters): static
+    {
+        foreach ($filters as $filter) {
+            $this->filter($filter);
+        }
+
+        return $this;
+    }
+
+    /**
      * Configure search callback on the source.
      */
     public function searchable(?Closure $using): static
@@ -155,7 +168,7 @@ class Table implements Arrayable, \JsonSerializable
     }
 
     /**
-     * Add column to table.
+     * Add column to the table.
      */
     public function column(Column $column): static
     {
@@ -169,11 +182,39 @@ class Table implements Arrayable, \JsonSerializable
     }
 
     /**
+     * Add columns to the table.
+     */
+    public function withColumns(array $columns): static
+    {
+        foreach ($columns as $column) {
+            $this->column($column);
+        }
+
+        return $this;
+    }
+
+    /**
      * Add action to table.
      */
     public function action(BaseAction $action, ?string $name = null): static
     {
         $this->actions[$name ?: Str::uuid()->toString()] = $action;
+
+        return $this;
+    }
+
+    /**
+     * Add actions to the table.
+     */
+    public function withActions(array $actions): static
+    {
+        foreach ($actions as $name => $action) {
+            if (is_numeric($name)) {
+                $this->action($action);
+            } else {
+                $this->action($action, $name);
+            }
+        }
 
         return $this;
     }
