@@ -1,4 +1,4 @@
-import type { App, DefineComponent } from "vue";
+import type { DefineComponent, Plugin } from "vue";
 import { registerNamespacedComponents } from "@stacktrace/ui";
 
 export { default as DataTable } from './DataTable.vue'
@@ -89,16 +89,12 @@ export interface DataTableValue<R = any> {
   isEmpty: boolean
 }
 
-export function registerDataTableColumns(app: App) {
-  // @ts-ignore
-  const columns = import.meta.glob<DefineComponent>('./Columns/**/*.vue', { eager: true })
+export const DataTablePlugin: Plugin = {
+  install: app => {
+    const columns = import.meta.glob<DefineComponent>('./Columns/**/*.vue', { eager: true })
+    registerNamespacedComponents(app, columns, 'DataTable')
 
-  registerNamespacedComponents(app, columns, 'DataTable')
-}
-
-export function registerDataTableFilters(app: App) {
-  // @ts-ignore
-  const columns = import.meta.glob<DefineComponent>('./Filters/**/*.vue', { eager: true })
-
-  registerNamespacedComponents(app, columns, 'DataTable')
+    const filters = import.meta.glob<DefineComponent>('./Filters/**/*.vue', { eager: true })
+    registerNamespacedComponents(app, filters, 'DataTable')
+  }
 }

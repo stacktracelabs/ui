@@ -1,11 +1,11 @@
 import './bootstrap';
 import '../css/app.css';
 
-import { createApp, h, DefineComponent, type App } from 'vue';
+import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import { registerDataTableColumns, registerDataTableFilters } from "@/Components/DataTable";
+import { DataTablePlugin } from "@/Components/DataTable";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -15,12 +15,7 @@ createInertiaApp({
   setup({el, App, props, plugin}) {
     createApp({render: () => h(App, props)})
       .use(plugin)
-      .use({
-        install: (app: App) => {
-          registerDataTableColumns(app)
-          registerDataTableFilters(app)
-        }
-      })
+      .use(DataTablePlugin)
       .use(ZiggyVue)
       .mount(el);
   },

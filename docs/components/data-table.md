@@ -8,6 +8,23 @@ A backend driven table component.
 php artisan ui:add data-table
 ```
 
+After installation, register `DataTablePlugin` within your Vue application:
+
+```typescript
+import { createInertiaApp } from '@inertiajs/vue3';
+import { DataTablePlugin } from "@/Components/DataTable";
+
+createInertiaApp({
+  // ...
+  setup({el, App, props, plugin}) {
+    createApp({render: () => h(App, props)})
+      .use(plugin)
+      .use(DataTablePlugin)
+      .mount(el);
+  },
+});
+```
+
 ## Usage
 
 ::: code-group
