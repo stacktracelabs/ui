@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonProps, buttonVariants, Button } from './'
+import { type ButtonProps, buttonVariants, Button } from './'
 import { cn } from '@/Utils'
 import { computed } from 'vue'
 import { CheckIcon } from 'lucide-vue-next'

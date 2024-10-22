@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownMenuItemProps, useForwardProps } from 'radix-vue'
-import { computed, HTMLAttributes } from 'vue'
+import { type DropdownMenuItemProps, useForwardProps } from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { Link, type InertiaLinkProps } from '@inertiajs/vue3'
 import { DropdownMenuItem } from './'
 
