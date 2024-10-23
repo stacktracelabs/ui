@@ -24,7 +24,7 @@ class Badge extends Column
     public function toView($value): array
     {
         $textValue = $value instanceof BackedEnum
-            ? $value->textValue
+            ? $value->value
             : $value;
 
         if ($this->label instanceof Closure) {
