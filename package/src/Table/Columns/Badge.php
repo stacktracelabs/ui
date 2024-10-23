@@ -4,6 +4,7 @@
 namespace StackTrace\Ui\Table\Columns;
 
 
+use BackedEnum;
 use Closure;
 use Illuminate\Support\Arr;
 use StackTrace\Ui\Table\Column;
@@ -22,14 +23,14 @@ class Badge extends Column
 
     public function toView($value): array
     {
-        $value = $value instanceof \BackedEnum
-            ? $value->value
+        $textValue = $value instanceof BackedEnum
+            ? $value->textValue
             : $value;
 
         if ($this->label instanceof Closure) {
             $label = call_user_func($this->label, $value);
         } else if (is_array($this->label)) {
-            $label = Arr::get($this->label, $value);
+            $label = Arr::get($this->label, $textValue);
         } else {
             $label = $this->label;
         }
@@ -37,7 +38,7 @@ class Badge extends Column
         if ($this->variant instanceof Closure) {
             $variant = call_user_func($this->variant, $value);
         } else if (is_array($this->variant)) {
-            $variant = Arr::get($this->variant, $value);
+            $variant = Arr::get($this->variant, $textValue);
         } else {
             $variant = $this->variant;
         }
