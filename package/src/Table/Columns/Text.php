@@ -5,6 +5,7 @@ namespace StackTrace\Ui\Table\Columns;
 
 
 use Closure;
+use StackTrace\Ui\Contracts\HasLabel;
 use StackTrace\Ui\Table\Column;
 
 class Text extends Column
@@ -25,6 +26,8 @@ class Text extends Column
     {
         if ($this->displayUsing instanceof Closure) {
             return call_user_func($this->displayUsing, $value);
+        } else if ($value instanceof HasLabel) {
+            return $value->label();
         }
 
         return $value;
