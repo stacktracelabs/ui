@@ -4,8 +4,7 @@
 namespace StackTrace\Ui\Table\Actions;
 
 
-use Closure;
-use StackTrace\Ui\Selection;
+use Illuminate\Support\Facades\Crypt;
 use StackTrace\Ui\Table\BaseAction;
 
 abstract class Action extends BaseAction
@@ -35,10 +34,10 @@ abstract class Action extends BaseAction
      */
     protected ?string $confirmLabel = null;
 
-    public function __construct(Closure|string|null $label = null)
-    {
-        parent::__construct($label ?: 'Action');
-    }
+    /**
+     * The params of the action.
+     */
+    protected array $arguments = [];
 
     /**
      * Retrieve type of the action.
@@ -88,16 +87,6 @@ abstract class Action extends BaseAction
         return $this->confirmLabel ?: __('Confirm');
     }
 
-    /**
-     * Authorization callback whether action is allowed to be run.
-     */
-    public abstract function authorize(): bool;
-
-    /**
-     * Handler for the action.
-     */
-    public abstract function handle(Selection $selection): void;
-
     public function toView(mixed $resource): array
     {
         return [
@@ -108,6 +97,18 @@ abstract class Action extends BaseAction
             'confirmLabel' => $this->getConfirmLabel(),
             'action' => get_called_class(),
             'isDestructive' => $this->isDestructive(),
+            'args' => Crypt::encrypt($this->arguments),
         ];
+    }
+
+    public static function make(): static
+    {
+        $arguments = func_get_args();
+
+        $action = new static(...$arguments);
+
+        $action->arguments = $arguments;
+
+        return $action;
     }
 }

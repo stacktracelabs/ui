@@ -358,6 +358,7 @@ const runExecAction = (action: ExecutableAction, selection: Array<number | strin
   execActionForm.transform(() => ({
     selection: toRaw(selection),
     action: action.action,
+    args: action.args,
   })).post(route('ui.data-table-action'), {
     preserveScroll: true,
     onFinish: () => {

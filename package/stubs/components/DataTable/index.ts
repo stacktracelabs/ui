@@ -29,6 +29,7 @@ export interface ExecutableAction extends BaseAction {
   confirmLabel: string
   action: string
   isDestructive: boolean
+  args: string
 }
 
 export type DataTableAction = EventAction | LinkAction | ExecutableAction

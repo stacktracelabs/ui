@@ -8,13 +8,14 @@ use Closure;
 
 abstract class BaseAction
 {
+    /**
+     * The action label.
+     */
+    protected string $label;
+
     protected Closure|bool $canRun = true;
 
     protected bool $bulk = false;
-
-    public function __construct(
-        protected string|Closure $label
-    ) { }
 
     /**
      * Allow action to be run as bulk action.
@@ -48,16 +49,11 @@ abstract class BaseAction
 
     protected abstract function getType(): string;
 
-    protected function getLabel(mixed $resource): string
-    {
-        return $this->label instanceof Closure ? call_user_func($this->label) : $this->label;
-    }
-
     public function toView(mixed $resource): array
     {
         return [
             'type' => $this->getType(),
-            'label' => $this->getLabel($resource),
+            'label' => $this->label,
             'canRun' => $this->isRunnable($resource),
             'isBulk' => $this->bulk,
         ];

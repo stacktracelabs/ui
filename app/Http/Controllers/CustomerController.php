@@ -59,7 +59,7 @@ class CustomerController
                 Actions\Event::make('Change Plan', 'updatePlan')
                     ->bulk(),
 
-                MakePremiumAction::make()->bulk(),
+                MakePremiumAction::make(Customer::class)->bulk(),
             ])
             ->withFilters([
                 Filters\Boolean::make('Premium only', 'premium')

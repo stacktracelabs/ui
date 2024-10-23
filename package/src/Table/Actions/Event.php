@@ -14,7 +14,7 @@ class Event extends BaseAction
         protected string|Closure $event,
     )
     {
-        parent::__construct($label);
+        $this->label = $label;
     }
 
     public function getType(): string
