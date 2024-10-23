@@ -10,12 +10,12 @@ use StackTrace\Ui\Table\BaseAction;
 class Link extends BaseAction
 {
     public function __construct(
-        string|Closure $label,
+        string $label,
         protected string|Closure $url,
         protected bool           $external = false,
     )
     {
-        parent::__construct($label);
+        $this->label = $label;
     }
 
     /**

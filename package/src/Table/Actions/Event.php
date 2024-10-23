@@ -10,7 +10,7 @@ use StackTrace\Ui\Table\BaseAction;
 class Event extends BaseAction
 {
     public function __construct(
-        string|Closure $label,
+        string $label,
         protected string|Closure $event,
     )
     {
