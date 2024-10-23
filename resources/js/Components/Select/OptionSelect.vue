@@ -1,5 +1,5 @@
 <template>
-  <Select v-bind="forwarded">
+  <Select v-bind="forwarded" v-model="value">
     <SelectTrigger :class="props.class">
       <SelectValue :placeholder="placeholder" />
     </SelectTrigger>
@@ -12,9 +12,10 @@
 <script setup lang="ts">
 import { type SelectOption } from '@stacktrace/ui'
 import type { SelectRootEmits, SelectRootProps } from 'radix-vue'
-import { useForwardPropsEmits } from 'radix-vue'
+import { useForwardProps } from 'radix-vue'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '.'
 import { computed, type HTMLAttributes } from "vue";
+import { useVModel } from "@vueuse/core";
 
 const props = defineProps<SelectRootProps & {
   options: Array<SelectOption>
@@ -25,10 +26,12 @@ const props = defineProps<SelectRootProps & {
 const emits = defineEmits<SelectRootEmits>()
 
 const delegatedProps = computed(() => {
-  const { options, placeholder, class: _, ...delegated } = props
+  const { options, placeholder, class: _, modelValue, ...delegated } = props
 
   return delegated
 })
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const value = useVModel(props, 'modelValue', emits)
+
+const forwarded = useForwardProps(delegatedProps)
 </script>
