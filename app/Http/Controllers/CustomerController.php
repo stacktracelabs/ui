@@ -63,6 +63,7 @@ class CustomerController
             ])
             ->withFilters([
                 Filters\Boolean::make('Premium only', 'premium')
+                    ->name('Premium')
                     ->using(fn (Builder $builder, bool $value) => $builder->where('is_premium', $value)),
 
                 Filters\DateRange::make('Founded', 'founded')
@@ -73,6 +74,9 @@ class CustomerController
 
                 Filters\Number::make('No. of Employees', 'employees')
                     ->using(fn (Builder $builder, NumberValue $value) => $value->where($builder, 'employee_count'))
+                    ->displayUnless(function (Table\Filter $filter) {
+                        return $filter->isApplied('Premium');
+                    }),
             ])
         ;
 

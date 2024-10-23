@@ -4,7 +4,7 @@
 namespace StackTrace\Ui\Table;
 
 
-use Illuminate\Database\Eloquent\Builder;
+use Closure;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
 
 class Filter
@@ -19,6 +19,13 @@ class Filter
     protected array $widgets = [];
 
     /**
+     * List of filters which are applied.
+     *
+     * @var array<\StackTrace\Ui\Table\FilterWidget>
+     */
+    protected array $applied = [];
+
+    /**
      * Register new filter.
      */
     public function widget(FilterWidget $filter): static
@@ -29,14 +36,29 @@ class Filter
     }
 
     /**
+     * Check whether given filter is applied.
+     */
+    public function isApplied(string $name): bool
+    {
+        return collect($this->applied)->first(fn (FilterWidget $widget) => $widget->getName() == $name) != null;
+    }
+
+    /**
      * Apply this filter on the source.
      */
     public function apply(mixed $source): mixed
     {
-        foreach ($this->widgets as $widget) {
-            $source = $widget->filter($source);
-        }
+        $this->applied = [];
 
+        foreach ($this->widgets as $widget) {
+            if ($widget->shouldDisplay($this)) {
+                [$source, $applied] = $widget->filter($source);
+
+                if ($applied) {
+                    $this->applied[] = $widget;
+                }
+            }
+        }
 
         return $source;
     }
@@ -63,12 +85,13 @@ class Filter
     {
         return [
             'defaultValue' => $this->getDefaultValue(),
-            'widgets' => collect($this->widgets)->map(function (FilterWidget $widget) {
-                return [
+            'widgets' => collect($this->widgets)
+                ->filter(fn (FilterWidget $widget) => $widget->shouldDisplay($this))
+                ->values()
+                ->map(fn (FilterWidget $widget) => [
                     'component' => $this->resolveComponentName($widget->component()),
                     'props' => $this->resolveComponentProps($widget->toView()),
-                ];
-            }),
+                ]),
         ];
     }
 }
