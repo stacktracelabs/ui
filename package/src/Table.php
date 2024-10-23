@@ -83,6 +83,21 @@ class Table implements Arrayable, JsonSerializable
     protected bool $withoutResource = true;
 
     /**
+     * Default sorting on the table.
+     */
+    protected ?Closure $defaultSorting = null;
+
+    /**
+     * Set default table sorting, when no column sorting is applied.
+     */
+    public function defaultSorting(?Closure $using): static
+    {
+        $this->defaultSorting = $using;
+
+        return $this;
+    }
+
+    /**
      * Do not send resource to the frontend.
      */
     public function withoutResource(bool $without = true): static
@@ -255,6 +270,8 @@ class Table implements Arrayable, JsonSerializable
 
             if ($sortBy && $sortAs) {
                 $sortBy->applySorting($this->source, $sortAs);
+            } else if ($this->defaultSorting instanceof Closure) {
+                call_user_func($this->defaultSorting, $this->source);
             }
 
             $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
