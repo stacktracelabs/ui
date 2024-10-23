@@ -321,8 +321,6 @@ const bulkActions = computed<Array<DataTableAction>>(() => {
   return Object.keys(actions).map(it => actions[it])
 })
 
-const totalSelectable = computed(() => props.table.rows.filter(it => shouldShowCheckboxForRow(it)).length)
-
 // Called when either row action or bulk action is triggered.
 const onEvent = (name: string, selection: Array<number | string>) => {
   emit(name, selection)
@@ -360,8 +358,7 @@ const runExecAction = (action: ExecutableAction, selection: Array<number | strin
   execActionForm.transform(() => ({
     selection: toRaw(selection),
     action: action.action,
-  // @ts-ignore
-  })).post(route('hub.actions.run'), {
+  })).post(route('ui.data-table-action'), {
     preserveScroll: true,
     onFinish: () => {
       execActionDialog.deactivate()

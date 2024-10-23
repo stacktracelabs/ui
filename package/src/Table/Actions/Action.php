@@ -89,6 +89,11 @@ abstract class Action extends BaseAction
     }
 
     /**
+     * Authorization callback whether action is allowed to be run.
+     */
+    public abstract function authorize(): bool;
+
+    /**
      * Handler for the action.
      */
     public abstract function handle(Selection $selection): void;

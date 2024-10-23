@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\BusinessArea;
 use App\Models\Customer;
+use App\Table\Actions\MakePremiumAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -57,6 +58,8 @@ class CustomerController
             ->withActions([
                 Actions\Event::make('Change Plan', 'updatePlan')
                     ->bulk(),
+
+                MakePremiumAction::make()->bulk(),
             ])
             ->withFilters([
                 Filters\Boolean::make('Premium only', 'premium')
