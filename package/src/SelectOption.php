@@ -29,14 +29,39 @@ class SelectOption extends ViewModel
     }
 
     /**
+     * Create new instance of option from enum.
+     */
+    public static function fromEnum(BackedEnum $value, array $extra = []): static
+    {
+        return new static(
+            label: $value instanceof HasLabel ? $value->label() : Str::headline($value->name),
+            value: $value->value,
+            extra: $extra,
+        );
+    }
+
+    /**
+     * Create new instance of option from model.
+     */
+    public static function fromModel(Model $model, string $label, ?string $value = null, array $extra = []): static
+    {
+        return new static(
+            label: $model->getAttribute($label),
+            value: $value ? $model->getAttribute($value) : $model->getKey(),
+            extra: $extra,
+        );
+    }
+
+    /**
      * Create collection of select options from collection of models.
      */
     public static function collectFromModels(Collection|array $models, string $label, ?string $value = null, ?Closure $extra = null): Collection
     {
-        return Collection::wrap($models)->map(fn (Model $model) => new static(
-            label: $model->getAttribute($label),
-            value: $value ? $model->getAttribute($value) : $model->getKey(),
-            extra: $extra instanceof Closure ? call_user_func($extra, $model) : [],
+        return Collection::wrap($models)->map(fn (Model $model) => static::fromModel(
+            model: $model,
+            label: $label,
+            value: $value,
+            extra: $extra instanceof Closure ? call_user_func($extra, $model) : []
         ))->sortBy('label')->values();
     }
 
@@ -49,10 +74,9 @@ class SelectOption extends ViewModel
             throw new InvalidArgumentException("The enum [$class] does not exist.");
         }
 
-        return Collection::make($class::cases())->map(fn(BackedEnum $enum) => new static(
-            label: $enum instanceof HasLabel ? $enum->label() : Str::headline($enum->name),
-            value: $enum->value,
-            extra: $extra instanceof Closure ? call_user_func($extra, $enum) : [],
+        return Collection::make($class::cases())->map(fn(BackedEnum $enum) => static::fromEnum(
+            value: $enum,
+            extra: $extra instanceof Closure ? call_user_func($extra, $enum) : []
         ))->sortBy('label')->values();
     }
 }
