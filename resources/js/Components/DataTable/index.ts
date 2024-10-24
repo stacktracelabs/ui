@@ -2,6 +2,7 @@ import type { DefineComponent, Plugin } from "vue";
 import { registerNamespacedComponents } from "@stacktrace/ui";
 
 export { default as DataTable } from './DataTable.vue'
+export { default as DataTableCell } from './DataTableCell.vue'
 
 export interface BaseAction {
   name: string
@@ -32,33 +33,35 @@ export interface ExecutableAction extends BaseAction {
   args: string
 }
 
-export type DataTableAction = EventAction | LinkAction | ExecutableAction
+export type Action = EventAction | LinkAction | ExecutableAction
 
-export interface DataTableRow<R = any> {
+export interface Cell {
+  column: string
+  component: string
+  props: Record<string, any>
+  align: 'left' | 'center' | 'right'
+  verticalAlign: 'top' | 'middle' | 'bottom'
+  asChild: boolean
+  width: string | null
+  minWidth: string | null
+  maxWidth: string | null
+  fontWeight: string | number
+  noWrap: boolean
+  tabularNums: boolean
+  link: {
+    url: string
+    isExternal: boolean
+  } | null
+}
+
+export interface Row<R = any> {
   key: string | number
-  cells: Array<{
-    column: string
-    component: string
-    props: Record<string, any>
-    align: 'left' | 'center' | 'right'
-    verticalAlign: 'top' | 'middle' | 'bottom'
-    asChild: boolean
-    width: string | null
-    minWidth: string | null
-    maxWidth: string | null
-    fontWeight: string | number
-    noWrap: boolean
-    tabularNums: boolean
-    link: {
-      url: string
-      isExternal: boolean
-    } | null
-  }>
-  actions: Array<DataTableAction>
+  cells: Array<Cell>
+  actions: Array<Action>
   resource: R
 }
 
-export interface DataTablePagination {
+export interface Pagination {
   currentPage: number
   lastPage: number
   total: number
@@ -68,7 +71,7 @@ export interface DataTablePagination {
   lastPageUrl: string | null
 }
 
-export interface DataTableFilter {
+export interface Filter {
   defaultValue: Record<string, any>
   widgets: Array<{
     component: string
@@ -87,13 +90,14 @@ export interface DataTableValue<R = any> {
     noWrap: boolean
     sortableAs: string | null
   }>
-  rows: Array<DataTableRow<R>>
+  rows: Array<Row<R>>
+  footerCells: Array<Cell | null>
   perPageOptions: Array<number>
   perPage: number
   defaultPerPage: number
-  pagination: DataTablePagination | null
+  pagination: Pagination | null
   isSearchable: boolean
-  filter: DataTableFilter | null
+  filter: Filter | null
   isEmpty: boolean
 }
 

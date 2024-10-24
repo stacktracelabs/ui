@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use StackTrace\Ui\Link;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
@@ -86,10 +87,25 @@ abstract class Column
      */
     protected bool $tabularNums = false;
 
+    /**
+     * The summary of the column in the footer.
+     */
+    protected ?Closure $sumarizer = null;
+
     public function __construct(
         protected string              $title,
         protected string|null|Closure $attribute = null,
     ) { }
+
+    /**
+     * Set the column summary displayed in the footer.
+     */
+    public function sumarize(?Closure $closure): static
+    {
+        $this->sumarizer = $closure;
+
+        return $this;
+    }
 
     /**
      * Set whitespace to no-wrap.
@@ -277,6 +293,10 @@ abstract class Column
      */
     public function resolveValue($resource): mixed
     {
+        if ($resource instanceof CellValue) {
+            return $resource->value;
+        }
+
         $attribute = $this->getAttribute();
 
         if ($this->attribute instanceof Closure) {
@@ -369,6 +389,20 @@ abstract class Column
             'noWrap' => $this->noWrap,
             'sortableAs' => $this->getSortableAs(),
         ];
+    }
+
+    /**
+     * Render column as footer.
+     */
+    public function renderFooter($id, Collection $resources, Collection|Builder $source): ?array
+    {
+        if (is_null($this->sumarizer)) {
+            return null;
+        }
+
+        $summary = call_user_func($this->sumarizer, $resources, $source);
+
+        return $this->renderCell($id, CellValue::warp($summary));
     }
 
     /**

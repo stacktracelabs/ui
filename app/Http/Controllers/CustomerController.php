@@ -8,6 +8,7 @@ use App\Enums\BusinessArea;
 use App\Models\Customer;
 use App\Table\Actions\MakePremiumAction;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use StackTrace\Ui\DateRange;
@@ -38,7 +39,8 @@ class CustomerController
 
                 Columns\Text::make('Employees', 'employee_count')
                     ->tabularNums()
-                    ->sortable(),
+                    ->sortable()
+                    ->sumarize(fn (Collection $customers) => $customers->sum('employee_count')),
 
                 Columns\Text::make('Area', fn (Customer $customer) => $customer->business_area ? Str::headline($customer->business_area->name) : null),
 

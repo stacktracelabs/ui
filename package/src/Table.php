@@ -242,6 +242,20 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Retrieve resources for the table.
+     */
+    protected function getResources(): Collection
+    {
+        $items = $this->getItems();
+
+        if ($items instanceof LengthAwarePaginator) {
+            return $items->collect();
+        }
+
+        return $items;
+    }
+
+    /**
      * Retrieve table items.
      */
     protected function getItems(): LengthAwarePaginator|Collection
@@ -349,7 +363,7 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Retrieve table rows.
      */
-    protected function getRows(): Collection
+    protected function renderRows(): Collection
     {
         $items = $this->getItems();
 
@@ -366,6 +380,22 @@ class Table implements Arrayable, JsonSerializable
     protected function renderHeaderColumns(): Collection
     {
         return $this->getColumns()->map(fn (Column $column, string $id) => $column->renderHeader($id));
+    }
+
+    /**
+     * Render footer cells.
+     */
+    protected function renderFooterCells(): Collection
+    {
+        $resources = $this->getResources();
+
+        $cells = $this->getColumns()->map(fn (Column $column, string $id) => $column->renderFooter($id, $resources, $this->source))->values();
+
+        if ($cells->every(fn ($it) => is_null($it))) {
+            return collect();
+        }
+
+        return $cells;
     }
 
     /**
@@ -481,7 +511,8 @@ class Table implements Arrayable, JsonSerializable
 
         return [
             'headings' => $this->renderHeaderColumns(),
-            'rows' => $this->getRows(),
+            'rows' => $this->renderRows(),
+            'footerCells' => $this->renderFooterCells(),
             'perPageOptions' => $this->perPageOptions,
             'perPage' => $this->getPerPage(),
             'defaultPerPage' => $this->getDefaultPerPage(),

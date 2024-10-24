@@ -131,30 +131,7 @@
                 <RowSelect />
               </TableCell>
               <template v-for="(cell, idx) in row.cells">
-                <TableCell
-                    :class="cn({
-                      'text-left': cell.align == 'left',
-                      'text-center': cell.align == 'center',
-                      'text-right': cell.align == 'right',
-                      'align-top': cell.verticalAlign == 'top',
-                      'align-middle': cell.verticalAlign == 'middle',
-                      'align-bottom': cell.verticalAlign == 'bottom',
-                      'font-medium': cell.fontWeight == 'medium',
-                      'font-bold': cell.fontWeight == 'bold',
-                      'whitespace-nowrap': cell.noWrap,
-                      'tabular-nums': cell.tabularNums,
-                    }, !hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : '')"
-                    :style="{
-                      width: cell.width || undefined,
-                      minWidth: cell.minWidth || undefined,
-                      maxWidth: cell.maxWidth || undefined,
-                    }"
-                >
-                  <Primitive v-if="cell.link" :as="cell.link.isExternal ? 'a' : Link" :href="cell.link.url">
-                    <component :is="cell.component" v-bind="cell.props" />
-                  </Primitive>
-                  <component v-else :is="cell.component" v-bind="cell.props" />
-                </TableCell>
+                <DataTableCell :cell="cell" :class="!hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : ''" />
               </template>
               <TableCell v-if="hasRowActions" class="py-1" :class="cn(insetRight || '')">
                 <DropdownMenu v-if="row.actions.length > 0">
@@ -172,6 +149,16 @@
               </TableCell>
             </SelectableTableRow>
           </TableBody>
+          <TableFooter v-if="table.footerCells.length > 0">
+            <TableRow>
+              <TableCell />
+              <template v-for="cell in table.footerCells">
+                <DataTableCell v-if="cell" :cell="cell" />
+                <TableCell v-else />
+              </template>
+              <TableCell v-if="hasRowActions" />
+            </TableRow>
+          </TableFooter>
         </Table>
 
         <div v-if="table.pagination" class="border-t py-2 flex justify-between items-center w-full" :class="cn(insetLeft || 'pl-4', insetRight || 'pr-4')">
@@ -230,8 +217,8 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableValue, DataTableRow, DataTableAction, ExecutableAction } from "./";
-import { Primitive } from "radix-vue";
+import type { DataTableValue, Row, Action, ExecutableAction } from "./";
+import { DataTableCell } from '.'
 import { computed, ref, toRaw } from "vue";
 import { cn } from "@/Utils";
 import {
@@ -251,7 +238,7 @@ import { onDeactivated, useFilter, useToggle } from "@stacktrace/ui";
 import { router, useForm, usePage, Link } from "@inertiajs/vue3";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/Components/Dialog";
 import { Button, ActionButton } from '@/Components/Button'
-import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, BulkSelect, useSelectableRows } from '@/Components/Table'
+import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect, useSelectableRows } from '@/Components/Table'
 import { DebouncedInput } from "@/Components/Input";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem } from "@/Components/DropdownMenu";
 import ActionList from "./ActionList.vue";
@@ -291,7 +278,7 @@ const sortFilter = useFilter(() => ({
 const rows = computed(() => props.table.rows)
 const headings = computed(() => props.table.headings)
 
-const shouldShowCheckboxForRow = (row: DataTableRow) => row.actions.some(it => it.isBulk && it.canRun)
+const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun)
 
 const selectableRows = useSelectableRows(
     computed(() => rows.value.map(it => it.key)),
@@ -309,8 +296,8 @@ const showBulkActions = computed(() => somethingSelected.value)
 
 const selectedRows = computed(() => props.table.rows.filter(row => selectableRows.selection.value.includes(row.key)))
 
-const bulkActions = computed<Array<DataTableAction>>(() => {
-  const actions: Record<string, DataTableAction> = {}
+const bulkActions = computed<Array<Action>>(() => {
+  const actions: Record<string, Action> = {}
 
   selectedRows.value.flatMap(it => it.actions.filter(action => action.canRun && action.isBulk)).forEach(action => {
     if (!actions.hasOwnProperty(action.name)) {
