@@ -26,13 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import { type DataTableCell } from './'
+import { type Cell } from './'
 import { cn } from "@/Utils";
 import { Link } from "@inertiajs/vue3";
 import { Primitive } from "radix-vue";
 import { TableCell } from "@/Components/Table";
 
 defineProps<{
-  cell: DataTableCell
+  cell: Cell
 }>()
 </script>
