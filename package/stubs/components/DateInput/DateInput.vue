@@ -10,7 +10,7 @@
         )"
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ date ? df.format(date.toDate(getLocalTimeZone())) : "Pick a date" }}
+        {{ date ? df.format(date.toDate(getLocalTimeZone())) : (placeholder || "Pick a date") }}
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">
@@ -37,6 +37,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps<{
   modelValue?: string | null | undefined
+  placeholder?: string | null | undefined
 }>()
 
 const df = new DateFormatter('sk-SK', {
