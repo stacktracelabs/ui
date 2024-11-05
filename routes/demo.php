@@ -1,10 +1,11 @@
 <?php
 
-use App\Demo\Http\Controllers;
+use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/customers', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customers');
-    Route::get('/customers/{customer}', [\App\Http\Controllers\CustomerController::class, 'show'])->name('customers.show');
-    Route::post('/customers/plan', \App\Http\Controllers\UpdatePlanController::class)->name('customers.update-plan');
+    Route::get('/customers', [Controllers\CustomerController::class, 'index'])->name('customers');
+    Route::get('/customers/{customer}', [Controllers\CustomerController::class, 'show'])->name('customers.show');
+    Route::patch('/customers/{customer}', [Controllers\CustomerController::class, 'update'])->name('customers.update');
+    Route::post('/customers/plan', Controllers\UpdatePlanController::class)->name('customers.update-plan');
 });

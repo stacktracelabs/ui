@@ -8,6 +8,7 @@ use App\Enums\BusinessArea;
 use App\Models\Customer;
 use App\Table\Actions\MakePremiumAction;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -91,9 +92,21 @@ class CustomerController
     public function show(Customer $customer)
     {
         return Inertia::render('Customers/ShowCustomer', [
+            'id' => $customer->id,
             'name' => $customer->name,
             'company' => $customer->company,
             'email' => $customer->email,
         ]);
+    }
+
+    public function update(Request $request, Customer $customer)
+    {
+        $input = $request->validate([
+            'name' => ['required', 'string', 'max:254'],
+        ]);
+
+        $customer->update($input);
+
+        return back();
     }
 }
