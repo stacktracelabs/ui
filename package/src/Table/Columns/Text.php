@@ -33,7 +33,7 @@ class Text extends Column
         return $value;
     }
 
-    public function toView($value): array
+    public function toView($value, $resource): array
     {
         return [
             'value' => $this->toDisplayValue($value),

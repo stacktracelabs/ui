@@ -21,7 +21,7 @@ class Badge extends Column
      */
     protected array|Closure|string $variant = 'default';
 
-    public function toView($value): array
+    public function toView($value, $resource): array
     {
         $textValue = $value instanceof BackedEnum
             ? $value->value

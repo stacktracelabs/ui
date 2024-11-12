@@ -417,7 +417,7 @@ abstract class Column
         return [
             'column' => $id,
             'component' => $this->resolveComponentName($this->component()),
-            'props' => $this->resolveComponentProps($this->toView($value)),
+            'props' => $this->resolveComponentProps($this->toView($value, $resource)),
             'align' => $this->getAlignment()->value,
             'verticalAlign' => $this->getVerticalAlignment()->value,
             'asChild' => $this->shouldDisplayAsChild(),
@@ -437,7 +437,7 @@ abstract class Column
     /**
      * Retrieve component props.
      */
-    public abstract function toView($value): array;
+    public abstract function toView($value, $resource): array;
 
     /**
      * Retrieve name of the component to render.

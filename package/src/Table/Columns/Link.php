@@ -47,10 +47,10 @@ class Link extends Text
         return $this->internal(! $external);
     }
 
-    public function toView($value): array
+    public function toView($value, $resource): array
     {
         return [
-            ...parent::toView($value),
+            ...parent::toView($value, $resource),
             'href' => $this->href instanceof Closure
                 ? call_user_func($this->href, $value)
                 : $this->href,
