@@ -88,6 +88,21 @@ class Table implements Arrayable, JsonSerializable
     protected ?Closure $defaultSorting = null;
 
     /**
+     * A closure called after items have been retrieved from source.
+     */
+    protected ?Closure $afterRetrieved = null;
+
+    /**
+     * Set a closure which will be called after items have been retrieved from source.
+     */
+    public function afterRetrieved(?Closure $closure): static
+    {
+        $this->afterRetrieved = $closure;
+
+        return $this;
+    }
+
+    /**
      * Set default table sorting, when no column sorting is applied.
      */
     public function defaultSorting(?Closure $using): static
@@ -291,6 +306,10 @@ class Table implements Arrayable, JsonSerializable
             $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
         } else {
             throw new InvalidArgumentException("The source type is not supported.");
+        }
+
+        if ($this->afterRetrieved instanceof Closure) {
+            call_user_func($this->afterRetrieved, $this->items);
         }
 
         return $this->items;

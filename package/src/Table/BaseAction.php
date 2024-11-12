@@ -47,13 +47,21 @@ abstract class BaseAction
             : $this->canRun;
     }
 
+    /**
+     * Retrieve label of the action.
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
     protected abstract function getType(): string;
 
     public function toView(mixed $resource): array
     {
         return [
             'type' => $this->getType(),
-            'label' => $this->label,
+            'label' => $this->getLabel(),
             'canRun' => $this->isRunnable($resource),
             'isBulk' => $this->bulk,
         ];
