@@ -19,11 +19,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { DropdownMenuItem } from "@/Components/DropdownMenu";
-import type { DataTableAction } from "./";
+import type { Action } from "./internal";
 
 const emit = defineEmits(['event', 'exec'])
 
 defineProps<{
-  actions: Array<DataTableAction>
+  actions: Array<Action>
 }>()
 </script>

@@ -351,12 +351,16 @@ class Table implements Arrayable, JsonSerializable
         return $items->map(function ($resource, int $resourceIndex) {
             $cells = $this->getColumns()->map(fn(Column $column, string $id) => $column->renderCell($id, $resource))->values();
 
-            $actions = $this->getActionsForResource($resource);
+            [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
 
             return [
                 'key' => $resource instanceof Model ? $resource->getKey() : $resourceIndex,
                 'cells' => $cells,
-                'actions' => $actions->map(fn (BaseAction $action, string $name) => [
+                'actions' => $rowActions->map(fn (BaseAction $action, string $name) => [
+                    'name' => $name,
+                    ...$action->toView($resource),
+                ])->values(),
+                'inlineActions' => $inlineActions->map(fn (BaseAction $action, string $name) => [
                     'name' => $name,
                     ...$action->toView($resource),
                 ])->values(),

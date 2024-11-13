@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Cell } from './'
+import { type Cell } from './internal'
 import { cn } from "@/Utils";
 import { Link } from "@inertiajs/vue3";
 import { Primitive } from "radix-vue";

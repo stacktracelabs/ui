@@ -11,7 +11,7 @@ use StackTrace\Ui\Table\Actions\Action;
 
 class MakePremiumAction extends Action
 {
-    protected string $label = 'Move to Premim';
+    protected ?string $label = 'Move to Premium';
     protected ?string $title = 'Move to Premium';
     protected ?string $description = 'Are you sure you want to move selected customers to Premium plan?';
     protected ?string $confirmLabel = 'Move to Premium';

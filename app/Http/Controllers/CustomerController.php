@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Enums\BusinessArea;
 use App\Models\Customer;
 use App\Table\Actions\MakePremiumAction;
+use App\Table\Actions\RefreshAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -63,6 +64,8 @@ class CustomerController
                     ->bulk(),
 
                 MakePremiumAction::make(Customer::class)->bulk(),
+
+                RefreshAction::make()->bulk(),
             ])
             ->withFilters([
                 Filters\Boolean::make('Premium only', 'premium')

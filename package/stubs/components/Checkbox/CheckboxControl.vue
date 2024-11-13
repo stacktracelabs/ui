@@ -1,5 +1,5 @@
 <template>
-  <div :class="cn('flex items-center space-x-2', props.class || '')">
+  <div :class="cn('flex items-center space-x-2', $attrs.class || '')">
     <Checkbox v-model="checked" :value="value" :indeterminate="indeterminate" :id="id" />
     <Label :for="id">
       <slot />

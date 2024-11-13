@@ -22,3 +22,4 @@ yarn-error.log
 /.zed
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+package/src/Icons

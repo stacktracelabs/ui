@@ -35,6 +35,11 @@ abstract class Action extends BaseAction
     protected ?string $confirmLabel = null;
 
     /**
+     * Flag whether action needs to be confirmed.
+     */
+    protected bool $confirmable = true;
+
+    /**
      * The params of the action.
      */
     protected array $arguments = [];
@@ -97,6 +102,7 @@ abstract class Action extends BaseAction
             'confirmLabel' => $this->getConfirmLabel(),
             'action' => get_called_class(),
             'isDestructive' => $this->isDestructive(),
+            'confirmable' => $this->confirmable,
             'args' => Crypt::encrypt($this->arguments),
         ];
     }
