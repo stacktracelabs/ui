@@ -1,7 +1,7 @@
 import { useSelectableRows } from '@/Components/Table'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { onDeactivated, useFilter, useToggle } from '@stacktrace/ui'
-import { computed, ComputedRef, inject, provide, ref, toRaw } from 'vue'
+import { computed, type ComputedRef, inject, provide, ref, toRaw } from 'vue'
 
 export interface BaseAction {
   name: string
@@ -233,7 +233,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     execActionDialog,
     execAction,
     execActionSelection,
-    execActionForm,
+    execActionFormProcessing: computed(() => execActionForm.processing),
     onExecAction,
     runExecAction,
   }

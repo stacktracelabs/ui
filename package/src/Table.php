@@ -438,7 +438,7 @@ class Table implements Arrayable, JsonSerializable
             return Arr::first($this->perPageOptions);
         }
 
-        return 15;
+        return $this->defaultPerPage ?: 15;
     }
 
     /**
@@ -536,7 +536,7 @@ class Table implements Arrayable, JsonSerializable
             'headings' => $this->renderHeaderColumns(),
             'rows' => $this->renderRows(),
             'footerCells' => $this->renderFooterCells(),
-            'perPageOptions' => $this->perPageOptions,
+            'perPageOptions' => count($this->perPageOptions) > 1 ? $this->perPageOptions : [],
             'perPage' => $this->getPerPage(),
             'defaultPerPage' => $this->getDefaultPerPage(),
             'pagination' => $this->getPagination(),

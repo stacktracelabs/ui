@@ -226,7 +226,7 @@
           </DialogHeader>
           <DialogFooter>
             <Button @click="execActionDialog.deactivate" variant="outline">{{ execAction.cancelLabel }}</Button>
-            <ActionButton :processing="execActionForm.processing" @click="runExecAction(execAction, execActionSelection)" :variant="execAction.isDestructive ? 'destructive' : 'default'">{{ execAction.confirmLabel }}</ActionButton>
+            <ActionButton :processing="execActionFormProcessing" @click="runExecAction(execAction, execActionSelection)" :variant="execAction.isDestructive ? 'destructive' : 'default'">{{ execAction.confirmLabel }}</ActionButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -236,7 +236,7 @@
 
 <script setup lang="ts">
 import type { DataTableValue } from "./";
-import { Row, Action, createContext } from './internal'
+import { createContext } from './internal'
 import { DataTableCell } from '.'
 import { computed, toRaw } from "vue";
 import { cn } from "@/Utils";
@@ -253,11 +253,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-vue-next'
-import { useFilter } from "@stacktrace/ui";
 import { Link } from "@inertiajs/vue3";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/Components/Dialog";
 import { Button, ActionButton } from '@/Components/Button'
-import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect, useSelectableRows } from '@/Components/Table'
+import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/Components/Table'
 import { DebouncedInput } from "@/Components/Input";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem } from "@/Components/DropdownMenu";
 import ActionList from "./ActionList.vue";
@@ -305,7 +304,7 @@ const {
 
   execActionDialog,
   execAction,
-  execActionForm,
+  execActionFormProcessing,
   execActionSelection,
   runExecAction,
   onExecAction,
