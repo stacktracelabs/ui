@@ -197,6 +197,18 @@
               </Button>
             </div>
           </div>
+          <div v-else-if="table.cursorPagination" class="border-t py-2 flex justify-end items-center w-full" :class="cn(insetLeft || 'pl-4', insetRight || 'pr-4')">
+            <div class="flex flex-row gap-2 items-center">
+              <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.prevPageUrl ? Link : undefined" :disabled="!table.cursorPagination.prevPageUrl" :href="table.cursorPagination.prevPageUrl || undefined" variant="outline">
+                <ChevronLeftIcon class="w-4 h-4" />
+                Previous
+              </Button>
+              <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.nextPageUrl ? Link : undefined" :disabled="!table.cursorPagination.nextPageUrl" :href="table.cursorPagination.nextPageUrl || undefined" variant="outline">
+                Next
+                <ChevronRightIcon class="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
         </template>
 
         <!-- No filter results -->

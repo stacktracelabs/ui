@@ -6,8 +6,10 @@ namespace StackTrace\Ui;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -35,12 +37,12 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Loaded table items.
      */
-    protected LengthAwarePaginator|Collection|null $items = null;
+    protected LengthAwarePaginator|CursorPaginator|Collection|null $items = null;
 
     /**
      * Total number for items without applied filters.
      */
-    protected int $baseTotalCount = 0;
+    protected ?int $baseTotalCount = null;
 
     /**
      * Append resource to each row.
@@ -75,12 +77,17 @@ class Table implements Arrayable, JsonSerializable
     /**
      * The source of the table.
      */
-    protected Builder|Collection|Closure|null $source = null;
+    protected EloquentBuilder|ScoutBuilder|Collection|Closure|null $source = null;
 
     /**
      * Do not pass resource to the frontend.
      */
     protected bool $withoutResource = true;
+
+    /**
+     * Determine whether cursor pagination should be used.
+     */
+    protected bool $cursorPagination = false;
 
     /**
      * Default sorting on the table.
@@ -133,7 +140,7 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Set query builder as source of the table.
      */
-    public function setQuery(Builder $builder): static
+    public function setQuery(EloquentBuilder|ScoutBuilder $builder): static
     {
         $this->source = $builder;
 
@@ -257,13 +264,23 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Set the cursor pagination on the table.
+     */
+    public function cursorPaginate(bool $cursorPagination = true): static
+    {
+        $this->cursorPagination = $cursorPagination;
+
+        return $this;
+    }
+
+    /**
      * Retrieve resources for the table.
      */
     protected function getResources(): Collection
     {
         $items = $this->getItems();
 
-        if ($items instanceof LengthAwarePaginator) {
+        if ($items instanceof LengthAwarePaginator || $items instanceof CursorPaginator) {
             return $items->collect();
         }
 
@@ -273,13 +290,36 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Retrieve table items.
      */
-    protected function getItems(): LengthAwarePaginator|Collection
+    protected function getItems(): LengthAwarePaginator|CursorPaginator|Collection
     {
         if ($this->items != null) {
             return $this->items;
         }
 
-        if ($this->source instanceof Builder) {
+        if ($this->source instanceof ScoutBuilder) {
+            if ($this->searchUsing instanceof Closure && ($term = $this->getSearchTerm())) {
+                call_user_func($this->searchUsing, $this->source, $term);
+            }
+
+            if ($this->filter) {
+                $this->filter->apply($this->source);
+            }
+
+            $sortBy = $this->getSortColumn() ?: $this->getDefaultSortColumn();
+            $sortAs = $this->getSortDirection() ?: $sortBy?->getDefaultSortDirection();
+
+            if ($sortBy && $sortAs) {
+                $sortBy->applySorting($this->source, $sortAs);
+            } else if ($this->defaultSorting instanceof Closure) {
+                call_user_func($this->defaultSorting, $this->source);
+            }
+
+            if ($this->cursorPagination) {
+                $this->items = $this->source->cursorPaginate($this->getPerPage())->withQueryString();
+            } else {
+                $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
+            }
+        } else if ($this->source instanceof EloquentBuilder) {
             $this->baseTotalCount = $this->source->clone()->count();
 
             if ($this->searchUsing instanceof Closure) {
@@ -303,9 +343,17 @@ class Table implements Arrayable, JsonSerializable
                 call_user_func($this->defaultSorting, $this->source);
             }
 
-            $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
+            if ($this->cursorPagination) {
+                $this->items = $this->source->cursorPaginate($this->getPerPage())->withQueryString();
+            } else {
+                $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
+            }
         } else {
             throw new InvalidArgumentException("The source type is not supported.");
+        }
+
+        if ($this->items instanceof CursorPaginator && !$this->items->previousCursor() && $this->items->isEmpty()) {
+            $this->baseTotalCount = 0;
         }
 
         if ($this->afterRetrieved instanceof Closure) {
@@ -391,7 +439,7 @@ class Table implements Arrayable, JsonSerializable
         $items = $this->getItems();
 
         return $this->toRows(
-            $items instanceof LengthAwarePaginator
+            ($items instanceof LengthAwarePaginator || $items instanceof CursorPaginator)
                 ? $items->collect()
                 : $items
         );
@@ -456,14 +504,6 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
-     * Determine whether table is paginated.
-     */
-    protected function isPaginated(): bool
-    {
-        return $this->getItems() instanceof LengthAwarePaginator;
-    }
-
-    /**
      * Retrieve current search term.
      */
     protected function getSearchTerm(): ?string
@@ -493,6 +533,23 @@ class Table implements Arrayable, JsonSerializable
                 'nextPageUrl' => $paginator->nextPageUrl(),
                 'firstPageUrl' => $paginator->currentPage() > 1 ? $paginator->url(1) : null,
                 'lastPageUrl' => $paginator->lastPage() > 1 && $paginator->currentPage() < $paginator->lastPage() ? $paginator->url($paginator->lastPage()) : null,
+            ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieve cursor paginator for the table.
+     */
+    protected function getCursorPagination(): ?array
+    {
+        $paginator = $this->getItems();
+
+        if ($paginator instanceof CursorPaginator) {
+            return [
+                'prevPageUrl' => $paginator->previousPageUrl(),
+                'nextPageUrl' => $paginator->nextPageUrl(),
             ];
         }
 
@@ -540,9 +597,10 @@ class Table implements Arrayable, JsonSerializable
             'perPage' => $this->getPerPage(),
             'defaultPerPage' => $this->getDefaultPerPage(),
             'pagination' => $this->getPagination(),
+            'cursorPagination' => $this->getCursorPagination(),
             'isSearchable' => $this->searchUsing != null,
             'filter' => $this->filter?->toView(),
-            'isEmpty' => $this->baseTotalCount == 0,
+            'isEmpty' => $this->baseTotalCount === 0,
         ];
     }
 
@@ -556,7 +614,7 @@ class Table implements Arrayable, JsonSerializable
         return $this->toArray();
     }
 
-    public static function make(Builder|string|null $source = null): static
+    public static function make(EloquentBuilder|ScoutBuilder|string|null $source = null): static
     {
         if (is_null($source)) {
             return app(static::class);

@@ -77,6 +77,7 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
     });
 
     delete query['page']
+    delete query['cursor']
 
     return urlWithQuery(query)
   }

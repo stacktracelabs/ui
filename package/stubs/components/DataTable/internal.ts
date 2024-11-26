@@ -64,6 +64,11 @@ export interface Row<R = any> {
   resource: R
 }
 
+export interface CursorPagination {
+  prevPageUrl: string | null
+  nextPageUrl: string | null
+}
+
 export interface Pagination {
   currentPage: number
   lastPage: number
@@ -99,6 +104,7 @@ export interface DataTableValue<R = any> {
   perPage: number
   defaultPerPage: number
   pagination: Pagination | null
+  cursorPagination: CursorPagination | null
   isSearchable: boolean
   filter: Filter | null
   isEmpty: boolean
@@ -201,7 +207,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   const setPerPage = (limit: number) => {
     paginationFilter.limit = limit
   }
-  const hasPerPageSettings = computed(() => table.value.pagination && table.value.perPageOptions.length > 0)
+  const hasPerPageSettings = computed(() => (table.value.pagination || table.value.cursorPagination) && table.value.perPageOptions.length > 0)
 
   return {
     rows,

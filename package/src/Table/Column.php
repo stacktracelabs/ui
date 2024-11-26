@@ -5,7 +5,8 @@ namespace StackTrace\Ui\Table;
 
 
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -394,7 +395,7 @@ abstract class Column
     /**
      * Render column as footer.
      */
-    public function renderFooter($id, Collection $resources, Collection|Builder $source): ?array
+    public function renderFooter($id, Collection $resources, Collection|EloquentBuilder|ScoutBuilder $source): ?array
     {
         if (is_null($this->sumarizer)) {
             return null;
@@ -461,7 +462,7 @@ abstract class Column
      */
     public function applySorting(mixed $source, Direction $direction): mixed
     {
-        if (is_string($this->sortableUsing) && $source instanceof Builder) {
+        if (is_string($this->sortableUsing) && $source instanceof EloquentBuilder) {
             return $source->orderBy($this->sortableUsing, $direction->value);
         } else if ($this->sortableUsing instanceof Closure) {
             if ($result = call_user_func($this->sortableUsing, $source, $direction)) {
