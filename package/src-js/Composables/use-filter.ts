@@ -25,14 +25,18 @@ export interface FilterProps<TFilter extends FilterData> {
 }
 export type Filter<TFilter extends FilterData> = TFilter & FilterProps<TFilter>
 
-export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter)): Filter<TFilter> {
+export interface FilterOptions {
+  onSuccess: VoidFunction
+}
+
+export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter> {
   const defaults = typeof state === 'object' ? cloneDeep(state) : cloneDeep(state())
 
   const getInitialValue = () => {
     const query = parseQuery() as TFilter
 
     return (Object.keys(defaults) as Array<keyof TFilter>).reduce((carry, key) => {
-      if (isSame(query[key], defaults[key])) {
+      if (isSame(query[key], defaults[key]) || query[key] === undefined) {
         carry[key] = defaults[key]
       } else {
         carry[key] = query[key]
@@ -98,6 +102,10 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
       },
       onSuccess: () => {
         filter.applied = isApplied(filter.data())
+
+        if (options?.onSuccess) {
+          options.onSuccess()
+        }
       }
     })
   }, 50)
