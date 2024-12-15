@@ -2,7 +2,7 @@
   <DatePickerRoot :locale="locale" v-model="date" prevent-deselect>
     <DatePickerField v-slot="{ segments }">
       <DatePickerTrigger :class="cn(
-          'h-9 w-full rounded-md border border-input shadow-sm flex flex-row hover:bg-accent transition-colors gap-2 items-center px-4 focus:outline-none text-foreground',
+          'h-9 w-full rounded-md border focus:ring-1 focus:ring-ring border-input shadow-sm flex flex-row hover:bg-accent transition-colors gap-2 items-center px-4 focus:outline-none text-foreground',
           $attrs.class || '',
         )">
         <CalendarIcon class="w-4 h-4" />
