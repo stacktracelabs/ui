@@ -12,13 +12,13 @@
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">
-      <Command>
+      <Command v-model:search-term="searchTerm">
         <CommandInput class="h-9" :placeholder="searchLabel" />
         <CommandEmpty>{{ notFoundLabel }}</CommandEmpty>
         <CommandList>
           <CommandGroup>
             <CommandItem
-              v-for="option in options"
+              v-for="option in filteredOptions"
               :key="option.value"
               :value="option.value"
               @select="onSelected(option)"
@@ -37,25 +37,25 @@
     </PopoverContent>
   </Popover>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" generic="V extends string | number">
 import { Button } from '@/Components/Button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/Components/Command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/Popover'
 import { cn } from '@/Utils'
 import { CaretSortIcon, CheckIcon } from '@radix-icons/vue'
 import { useVModel } from '@vueuse/core'
-import { ref } from 'vue'
+import { computed, ref, type Ref } from 'vue'
 import { type SelectOption } from '@stacktrace/ui'
 
 const emit = defineEmits(['update:modelValue'])
 
 const props = withDefaults(defineProps<{
-  options: Array<SelectOption>
+  options: Array<SelectOption<{}, V>>
   searchLabel?: string | undefined
   selectLabel?: string | null
   notFoundLabel?: string | null
   nullable?: boolean
-  modelValue?: string | null
+  modelValue?: V | null
 }>(), {
   searchLabel: 'Search options…',
   selectLabel: 'Select option…',
@@ -64,9 +64,9 @@ const props = withDefaults(defineProps<{
 })
 
 const open = ref(false)
-const value = useVModel(props, 'modelValue', emit)
+const value = useVModel(props, 'modelValue', emit) as Ref<V | null>
 
-const onSelected = (option: SelectOption) => {
+const onSelected = (option: SelectOption<{}, V>) => {
   if (props.nullable && value.value === option.value) {
     value.value = null
   } else {
@@ -75,4 +75,10 @@ const onSelected = (option: SelectOption) => {
 
   open.value = false
 }
+
+const searchTerm = ref('')
+const filteredOptions = computed(() =>
+  searchTerm.value == ''
+    ? props.options
+    : props.options.filter(it => it.label.toLowerCase().includes(searchTerm.value.toLowerCase())))
 </script>

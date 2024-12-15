@@ -35,6 +35,11 @@
                 </FormControl>
               </PanelItem>
               <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Combobox Numbers" variant="horizontal" :error="form.errors.comboNumber">
+                  <Combobox v-model="form.comboNumber" :options="numberOptions" class="sm:max-w-md" nullable />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
                 <pre class="text-xs">{{ input }}</pre>
               </PanelItem>
             </PanelContent>
@@ -62,6 +67,7 @@ const form = useForm(() => ({
   text: '',
   date: undefined,
   select: '',
+  comboNumber: null as number | null,
 }))
 
 const options = ref<Array<SelectOption>>([
@@ -70,6 +76,14 @@ const options = ref<Array<SelectOption>>([
   { value: 'nuxt', label: 'Nuxt' },
   { value: 'remix', label: 'Remix' },
   { value: 'astro', label: 'Astro' },
+])
+
+const numberOptions = ref<Array<SelectOption<{}, number>>>([
+  { value: 1, label: 'Next.js' },
+  { value: 2, label: 'SvelteKit' },
+  { value: 3, label: 'Nuxt' },
+  { value: 4, label: 'Remix' },
+  { value: 5, label: 'Astro' },
 ])
 
 const input = computed(() => JSON.stringify(form.data(), undefined, 2))
