@@ -7,7 +7,7 @@
         :aria-expanded="open"
         :class="cn('w-full justify-between text-left', $attrs.class || '')"
       >
-        {{ value ? options.find((framework) => framework.value === value)?.label : selectLabel }}
+        {{ value ? options.find((option) => option.value === value)?.label : selectLabel }}
         <CaretSortIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
