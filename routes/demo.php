@@ -8,4 +8,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/customers/{customer}', [Controllers\CustomerController::class, 'show'])->name('customers.show');
     Route::patch('/customers/{customer}', [Controllers\CustomerController::class, 'update'])->name('customers.update');
     Route::post('/customers/plan', Controllers\UpdatePlanController::class)->name('customers.update-plan');
+
+    Route::get('/forms', Controllers\FormController::class)->name('forms');
 });

@@ -31,6 +31,14 @@
                       :active="route().current('customer*')"
                     >Customers</NavigationMenuLink>
                   </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      :href="route('forms')"
+                      :class="navigationMenuTriggerStyle()"
+                      :active="route().current('forms*')"
+                    >Form Components</NavigationMenuLink>
+                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -79,6 +87,10 @@
 
           <Link :href="route('customers')" :class="cn(navigationMenuTriggerStyle(), 'w-full justify-start px-2')" :data-active="route().current('customer*') || undefined">
             Customers
+          </Link>
+
+          <Link :href="route('forms')" :class="cn(navigationMenuTriggerStyle(), 'w-full justify-start px-2')" :data-active="route().current('form*') || undefined">
+            Form Components
           </Link>
         </div>
 
