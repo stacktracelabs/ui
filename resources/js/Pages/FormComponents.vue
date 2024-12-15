@@ -30,6 +30,11 @@
                 </FormControl>
               </PanelItem>
               <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Combobox" variant="horizontal" :error="form.errors.select">
+                  <Combobox v-model="form.select" :options="options" class="sm:max-w-md" nullable />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
                 <pre class="text-xs">{{ input }}</pre>
               </PanelItem>
             </PanelContent>
@@ -45,16 +50,27 @@ import { Card } from '@/Components/Card'
 import { FormControl } from '@/Components/Form'
 import { DateInput } from '@/Components/DateInput'
 import { DatePicker } from '@/Components/DatePicker'
+import { Combobox } from '@/Components/Combobox'
 import { Input } from '@/Components/Input'
 import { Panel, PanelContent, PanelHeader, PanelItem, PanelTitle } from '@/Components/Panel'
 import { AuthenticatedLayout } from '@/Layouts'
 import { Head, useForm } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { type SelectOption } from '@stacktrace/ui'
 
 const form = useForm(() => ({
   text: '',
   date: undefined,
+  select: '',
 }))
+
+const options = ref<Array<SelectOption>>([
+  { value: 'next.js', label: 'Next.js' },
+  { value: 'sveltekit', label: 'SvelteKit' },
+  { value: 'nuxt', label: 'Nuxt' },
+  { value: 'remix', label: 'Remix' },
+  { value: 'astro', label: 'Astro' },
+])
 
 const input = computed(() => JSON.stringify(form.data(), undefined, 2))
 
