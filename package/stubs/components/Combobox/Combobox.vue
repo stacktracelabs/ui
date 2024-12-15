@@ -11,7 +11,7 @@
         <CaretSortIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-auto p-0">
+    <PopoverContent class="p-0" style="width: var(--radix-popover-trigger-width)">
       <Command v-model:search-term="searchTerm">
         <CommandInput class="h-9" :placeholder="searchLabel" />
         <CommandEmpty>{{ notFoundLabel }}</CommandEmpty>
