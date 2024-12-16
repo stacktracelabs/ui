@@ -7,7 +7,7 @@
         :aria-expanded="open"
         :class="cn('w-full justify-between text-left', $attrs.class || '')"
       >
-        {{ value ? options.find((option) => option.value === value)?.label : selectLabel }}
+        {{ value ? options.find((option) => option.value === value)?.label : placeholder }}
         <CaretSortIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
@@ -52,13 +52,13 @@ const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(defineProps<{
   options: Array<SelectOption<{}, V>>
   searchLabel?: string | undefined
-  selectLabel?: string | null
+  placeholder?: string | null
   notFoundLabel?: string | null
   nullable?: boolean
   modelValue?: V | null
 }>(), {
   searchLabel: 'Search options…',
-  selectLabel: 'Select option…',
+  placeholder: 'Select option…',
   notFoundLabel: 'No options found.',
   nullable: false,
 })
