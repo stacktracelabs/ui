@@ -38,6 +38,7 @@ export default defineConfig({
           { text: 'Calendar', link: '/components/calendar' },
           { text: 'Card', link: '/components/card' },
           { text: 'Checkbox', link: '/components/checkbox' },
+          { text: 'Collapsible', link: '/components/collapsible' },
           { text: 'Command', link: '/components/command' },
           { text: 'Date Input', link: '/components/date-input' },
           { text: 'Date Range Input', link: '/components/date-range-input' },
