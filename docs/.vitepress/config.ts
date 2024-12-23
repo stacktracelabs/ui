@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Alert', link: '/components/alert' },
           { text: 'Alert Dialog', link: '/components/alert-dialog' },
           { text: 'Aspect Ratio', link: '/components/aspect-ratio' },
+          { text: 'Avatar', link: '/components/avatar' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
