@@ -55,7 +55,31 @@ By default, the `BreadcrumbLink` component is rendered as `Link` component from 
 you should set custom element with `as` property.
 
 ```vue
-<BreadcrumbLink as="a" href="/">
-    Link outside Inertia app
-</BreadcrumbLink>
+<BreadcrumbLink as="a" href="/">Link outside Inertia app</BreadcrumbLink>
 ```
+
+### Collapsed
+
+We provide a `<BreadcrumbEllipsis />` component to show a collapsed state when the breadcrumb is too long.
+
+<ComponentPreview name="BreadcrumbCollapsed" />
+
+### Custom Separator
+
+Use a custom component as `slot` for `<BreadcrumbSeparator />` to create a custom separator.
+
+<ComponentPreview name="BreadcrumbCustomSeparator" />
+
+### Dropdown
+
+You can compose `<BreadcrumbItem />` with a `<DropdownMenu />` to create a dropdown in the breadcrumb.
+
+<ComponentPreview name="BreadcrumbDropdown" />
+
+### Responsive
+
+Here's an example of a responsive breadcrumb that composes `<BreadcrumbItem />` with `<BreadcrumbEllipsis />`, `<DropdownMenu />`, and `<Drawer />`.
+
+It displays a dropdown on desktop and a drawer on mobile.
+
+<ComponentPreview name="BreadcrumbResponsive" />
