@@ -2,6 +2,12 @@
 
 A control that allows the user to toggle between checked and not checked.
 
+<ComponentSource
+  source="components/Checkbox"
+  primitive="https://www.radix-vue.com/components/checkbox"
+  ui="https://www.shadcn-vue.com/docs/components/checkbox.html"
+/>
+
 <ComponentPreview name="Checkbox" />
 
 ## Installation
@@ -26,7 +32,7 @@ import { Checkbox } from '@/Components/Checkbox'
 
 ### Default
 
-<ComponentPreview name="Checkbox" />
+<ComponentPreview name="CheckboxDefault" />
 
 ### Control
 
