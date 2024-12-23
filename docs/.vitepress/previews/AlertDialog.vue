@@ -5,8 +5,7 @@
         Show Dialog
       </Button>
     </AlertDialogTrigger>
-    <!-- vp-raw class is not needed, it's just there for correct Vitepress styling, so you can remove it -->
-    <AlertDialogContent class="vp-raw">
+    <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>

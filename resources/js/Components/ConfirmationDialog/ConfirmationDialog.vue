@@ -2,13 +2,13 @@
   <AlertDialog :control="control">
     <AlertDialogContent v-if="dialog">
       <AlertDialogHeader>
-        <AlertDialogTitle>{{ dialog.title || 'Potvrdenie' }}</AlertDialogTitle>
-        <AlertDialogDescription>{{ dialog.message || 'Skutočne chceš vykonať túto akciu?' }}</AlertDialogDescription>
+        <AlertDialogTitle>{{ dialog.title || 'Confirm' }}</AlertDialogTitle>
+        <AlertDialogDescription>{{ dialog.message || 'Are you sure you want to run this action?' }}</AlertDialogDescription>
       </AlertDialogHeader>
 
       <AlertDialogFooter>
-        <ActionButton @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Zrušiť' }}</ActionButton>
-        <ActionButton @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Potvrdiť' }}</ActionButton>
+        <ActionButton @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</ActionButton>
+        <ActionButton @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</ActionButton>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
