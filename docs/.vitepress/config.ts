@@ -29,6 +29,7 @@ export default defineConfig({
         items: [
           { text: 'Accordion', link: '/components/accordion' },
           { text: 'Alert', link: '/components/alert' },
+          { text: 'Alert Dialog', link: '/components/alert-dialog' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
