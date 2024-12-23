@@ -2,6 +2,11 @@
 
 Displays a callout for user attention.
 
+<ComponentSource
+  source="components/Alert"
+  ui="https://www.shadcn-vue.com/docs/components/alert.html"
+/>
+
 <ComponentPreview name="Alert" />
 
 ## Installation
