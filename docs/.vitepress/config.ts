@@ -27,8 +27,8 @@ export default defineConfig({
       {
         text: 'Components',
         items: [
-          { text: 'Alert', link: '/components/alert' },
           { text: 'Accordion', link: '/components/accordion' },
+          { text: 'Alert', link: '/components/alert' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
