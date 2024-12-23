@@ -7,8 +7,3 @@
 "@unovis/ts": "^1.4.5",
 "@unovis/vue": "^1.4.5",
 ```
-
-## Docs
-
-- [ ] useConfirmable
-- [ ] useToggle

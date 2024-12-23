@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'Accordion', link: '/components/accordion' },
           { text: 'Alert', link: '/components/alert' },
           { text: 'Alert Dialog', link: '/components/alert-dialog' },
+          { text: 'Aspect Ratio', link: '/components/aspect-ratio' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
