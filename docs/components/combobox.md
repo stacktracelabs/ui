@@ -1,6 +1,6 @@
 # Combobox
 
-Autocomplete input and command palette with a list of suggestions.
+A select with input for option search.
 
 <ComponentSource
   source="components/Combobox"
@@ -34,3 +34,9 @@ import { ref } from 'vue'
 const value = ref()
 </script>
 ```
+
+## Advanced usage
+
+You may use `Combobox` in more advanced usages such as in `Popover` or in `DropdownMenu`. 
+However, you have to build the `Combobox` yourself using `Command` component.
+See original [documentation](https://www.shadcn-vue.com/docs/components/combobox.html) on how to achieve that.

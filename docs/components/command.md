@@ -2,6 +2,12 @@
 
 Fast, composable, unstyled command menu.
 
+<ComponentSource
+  source="components/Command"
+  primitive="https://www.radix-vue.com/components/combobox"
+  ui="https://www.shadcn-vue.com/docs/components/command.html"
+/>
+
 <ComponentPreview name="Command" />
 
 ## Installation
@@ -132,7 +138,3 @@ watch(CmdJ, (v) => {
 })
 </script>
 ```
-
-### Combobox
-
-You can use the `<Command />` component as a combobox. See the [Combobox](/components/combobox) page for more information.
