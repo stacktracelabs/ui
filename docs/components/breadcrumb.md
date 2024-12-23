@@ -2,6 +2,11 @@
 
 Displays the path to the current resource using a hierarchy of links.
 
+<ComponentSource
+  source="components/Breadcrumb"
+  ui="https://www.shadcn-vue.com/docs/components/breadcrumb.html"
+/>
+
 <ComponentPreview name="Breadcrumb" />
 
 ## Installation
