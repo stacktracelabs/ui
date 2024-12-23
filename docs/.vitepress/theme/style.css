@@ -44,6 +44,12 @@
     --ring: 20 14.3% 4.1%;
 
     --radius: 0.5rem;
+
+    --vp-c-primary-1: #1c1918;
+    --vp-c-primary-2: #1c1918;
+    --vp-c-primary-3: #1c1918;
+
+    --vp-home-hero-name-background: #1c1918;
   }
 
   .dark {
@@ -78,6 +84,15 @@
 
     --vp-nav-bg-color: transparent;
     --vp-c-gutter: transparent;
+
+    --vp-c-primary-1: #fafaf9;
+    --vp-c-primary-2: #fafaf9;
+    --vp-c-primary-3: #fafaf9;
+
+    --vp-home-hero-name-background: #fafaf9;
+    --vp-button-brand-text: #1c1918;
+    --vp-button-brand-hover-text: #1c1918;
+    --vp-button-brand-active-text: #1c1918;
   }
 
   /**
@@ -129,10 +144,10 @@
     --vp-c-default-3: var(--vp-c-gray-3);
     --vp-c-default-soft: var(--vp-c-gray-soft);
 
-    --vp-c-brand-1: var(--vp-c-indigo-1);
-    --vp-c-brand-2: var(--vp-c-indigo-2);
-    --vp-c-brand-3: var(--vp-c-indigo-3);
-    --vp-c-brand-soft: var(--vp-c-indigo-soft);
+    --vp-c-brand-1: var(--vp-c-primary-1);
+    --vp-c-brand-2: var(--vp-c-primary-2);
+    --vp-c-brand-3: var(--vp-c-primary-3);
+    --vp-c-brand-soft: var(--vp-c-primary-soft);
 
     --vp-c-tip-1: var(--vp-c-brand-1);
     --vp-c-tip-2: var(--vp-c-brand-2);
@@ -155,13 +170,10 @@
    * -------------------------------------------------------------------------- */
   :root {
     --vp-button-brand-border: transparent;
-    --vp-button-brand-text: var(--vp-c-white);
     --vp-button-brand-bg: var(--vp-c-brand-3);
     --vp-button-brand-hover-border: transparent;
-    --vp-button-brand-hover-text: var(--vp-c-white);
     --vp-button-brand-hover-bg: var(--vp-c-brand-2);
     --vp-button-brand-active-border: transparent;
-    --vp-button-brand-active-text: var(--vp-c-white);
     --vp-button-brand-active-bg: var(--vp-c-brand-1);
   }
 
@@ -170,17 +182,6 @@
    * -------------------------------------------------------------------------- */
   :root {
     --vp-home-hero-name-color: transparent;
-    --vp-home-hero-name-background: -webkit-linear-gradient(
-      120deg,
-      #bd34fe 30%,
-      #41d1ff
-    );
-
-    --vp-home-hero-image-background-image: linear-gradient(
-      -45deg,
-      #bd34fe 50%,
-      #47caff 50%
-    );
     --vp-home-hero-image-filter: blur(44px);
   }
 
