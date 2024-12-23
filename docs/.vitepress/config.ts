@@ -34,6 +34,7 @@ export default defineConfig({
           { text: 'Avatar', link: '/components/avatar' },
           { text: 'Badge', link: '/components/badge' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
+          { text: 'Button', link: '/components/button' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
           { text: 'Date Input', link: '/components/date-input' },
