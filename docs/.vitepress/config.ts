@@ -3,6 +3,7 @@ import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 // @ts-ignore
 import path from 'node:path'
+import { postcssIsolateStyles } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -27,6 +28,7 @@ export default defineConfig({
         text: 'Components',
         items: [
           { text: 'Alert', link: '/components/alert' },
+          { text: 'Accordion', link: '/components/accordion' },
           { text: 'Breadcrumb', link: '/components/breadcrumb' },
           { text: 'Checkbox', link: '/components/checkbox' },
           { text: 'Command', link: '/components/command' },
@@ -61,6 +63,9 @@ export default defineConfig({
         plugins: [
           tailwind() as any,
           autoprefixer(),
+          postcssIsolateStyles({
+            includeFiles: [/vp-doc\.css/, /base\.css/],
+          }),
         ],
       },
     },
