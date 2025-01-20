@@ -2,11 +2,19 @@
 
 A backend driven table component.
 
+<ComponentSource
+  source="components/DataTable"
+/>
+
 ## Installation
+
+#### Run the following command
 
 ```shell
 php artisan ui:add data-table
 ```
+
+#### Register `DataTablePlugin`
 
 After installation, register `DataTablePlugin` within your Vue application:
 
@@ -43,20 +51,20 @@ class CustomerController
     {
         return Inertia::render('ListCustomers', [
             'customers' => Table::make(Customer::query())
-              ->withColumns([
-                  Columns\Text::make('Name'),
-                  
-                  Columns\Text::make('Company'),
-                  
-                  Columns\Text::make('E-Mail', 'email'),
-                  
-                  Columns\Text::make('Employees', 'employee_count')
-                      ->tabularNums()
-                      ->sortable(),
-              ])
-              ->searchable(function (Builder $builder, string $term) {
-                  $builder->where('name', 'like', "%{$term}%");
-              }),
+                ->withColumns([
+                    Columns\Text::make('Name'),
+                    
+                    Columns\Text::make('Company'),
+                    
+                    Columns\Text::make('E-Mail', 'email'),
+                    
+                    Columns\Text::make('Employees', 'employee_count')
+                        ->tabularNums()
+                        ->sortable(),
+                ])
+                ->searchable(function (Builder $builder, string $term) {
+                    $builder->where('name', 'like', "%{$term}%");
+                }),
         ]);    
     }  
 }

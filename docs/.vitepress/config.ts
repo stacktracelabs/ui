@@ -43,6 +43,7 @@ export default defineConfig({
           { text: 'Command', link: '/components/command' },
           { text: 'Confirmation Dialog', link: '/components/confirmation-dialog' },
           { text: 'Context Menu', link: '/components/context-menu' },
+          { text: 'Data Table', link: '/components/data-table' },
           { text: 'Date Input', link: '/components/date-input' },
           { text: 'Date Range Input', link: '/components/date-range-input' },
           { text: 'Date Time Input', link: '/components/date-time-input' },
