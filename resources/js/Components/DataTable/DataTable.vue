@@ -11,8 +11,8 @@
               <TableIcon class="w-6 h-6" />
             </div>
 
-            <p class="font-semibold text-center" v-if="emptyTableMessage">{{ emptyTableMessage }}</p>
-            <p class="max-w-lg text-center text-muted-foreground text-sm mt-1" v-if="emptyTableDescription">{{ emptyTableDescription }}</p>
+            <p class="font-semibold text-center">{{ emptyTableMessage || messages.emptyTableTitle }}</p>
+            <p class="max-w-lg text-center text-muted-foreground text-sm mt-1">{{ emptyTableDescription || messages.emptyTableDescription }}</p>
 
             <slot name="empty-table" />
           </div>
@@ -26,10 +26,11 @@
           :class="cn(insetLeft || 'pl-2', insetRight || 'pr-2', { 'border-b py-2': ! borderless, 'pb-3': borderless })"
         >
           <div class="inline-flex items-center gap-4">
+            <slot name="search" />
             <template v-if="table.isSearchable">
               <div class="relative">
                 <SearchIcon class="w-4 h-4 absolute left-2 top-2 text-muted-foreground" />
-                <DebouncedInput :debounce="50" v-model="searchFilter.search" class="h-8 w-[250px] pl-8 pr-8" placeholder="Search…" />
+                <DebouncedInput :debounce="50" v-model="searchFilter.search" class="h-8 w-[250px] pl-8 pr-8" :placeholder="messages.searchPlaceholder" />
                 <button v-if="searchFilter.applied" @click.prevent="searchFilter.reset()" class="absolute right-2 top-2.5 text-muted-foreground hover:text-destructive transition-colors">
                   <CircleXIcon class="w-3 h-3" />
                 </button>
@@ -39,9 +40,7 @@
 
           <div>
             <div class="flex flex-row items-center gap-2">
-              <div v-if="somethingSelected" class="text-sm font-medium mr-4">
-                Selected {{ selectableRows.selectedCount.value }} of {{ selectableRows.totalCount.value }}
-              </div>
+              <div v-if="somethingSelected" class="text-sm font-medium mr-4">{{ messages.selectedRows(selectableRows.selectedCount.value, selectableRows.totalCount.value) }}</div>
 
               <ActionRow bulk
                 v-if="inlineBulkActions.length > 0"
@@ -52,7 +51,7 @@
 
               <DropdownMenu v-if="showBulkActions && bulkActions.length > 0">
                 <DropdownMenuTrigger as-child>
-                  <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> Actions</Button>
+                  <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> {{ messages.actions }}</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <ActionList
@@ -65,22 +64,24 @@
 
               <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
                 <XIcon class="w-4 h-4 mr-1" />
-                Cancel selection
+                {{ messages.cancelSelection }}
               </Button>
+
+              <slot name="actions" />
 
               <DropdownMenu v-if="hasPerPageSettings">
                 <DropdownMenuTrigger as-child>
-                  <Button variant="outline" size="sm"><SlidersHorizontalIcon class="w-4 h-4 mr-2" /> View options</Button>
+                  <Button variant="outline" size="sm"><SlidersHorizontalIcon class="w-4 h-4 mr-2" /> {{ messages.viewOptions }}</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <template v-if="table.perPageOptions.length > 0">
-                    <DropdownMenuLabel>Per page</DropdownMenuLabel>
+                    <DropdownMenuLabel>{{ messages.perPage }}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuCheckboxItem
                       v-for="option in table.perPageOptions"
                       @select="setPerPage(option)"
                       :checked="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
-                    >{{ option }} results</DropdownMenuCheckboxItem>
+                    >{{ messages.perPageOption(option) }}</DropdownMenuCheckboxItem>
                   </template>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -179,7 +180,7 @@
           </Table>
 
           <div v-if="table.pagination" class="border-t py-2 flex justify-between items-center w-full" :class="cn(insetLeft || 'pl-4', insetRight || 'pr-4')">
-            <span class="pr-2 text-sm font-semibold"><span class="text-foreground/60 font-normal">Total</span> {{ table.pagination.total }}</span>
+            <span class="pr-2 text-sm font-semibold"><span class="text-foreground/60 font-normal">{{ messages.paginatorTotal }}</span> {{ table.pagination.total }}</span>
 
             <div class="flex flex-row gap-2 items-center">
               <Button class="px-2" :as="table.pagination.firstPageUrl ? Link : undefined" :disabled="!table.pagination.firstPageUrl" :href="table.pagination.firstPageUrl || undefined" variant="outline">
@@ -188,7 +189,7 @@
               <Button class="px-2" :as="table.pagination.prevPageUrl ? Link : undefined" :disabled="!table.pagination.prevPageUrl" :href="table.pagination.prevPageUrl || undefined" variant="outline">
                 <ChevronLeftIcon class="w-4 h-4" />
               </Button>
-              <span class="px-2 text-sm font-semibold">{{ table.pagination.currentPage }} <span class="text-foreground/60 font-normal">of</span> {{ table.pagination.lastPage }}</span>
+              <span class="px-2 text-sm font-semibold">{{ table.pagination.currentPage }} <span class="text-foreground/60 font-normal">{{ messages.paginatorOf }}</span> {{ table.pagination.lastPage }}</span>
               <Button class="px-2" :as="table.pagination.nextPageUrl ? Link : undefined" :disabled="!table.pagination.nextPageUrl" :href="table.pagination.nextPageUrl || undefined" variant="outline">
                 <ChevronRightIcon class="w-4 h-4" />
               </Button>
@@ -201,10 +202,10 @@
             <div class="flex flex-row gap-2 items-center">
               <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.prevPageUrl ? Link : undefined" :disabled="!table.cursorPagination.prevPageUrl" :href="table.cursorPagination.prevPageUrl || undefined" variant="outline">
                 <ChevronLeftIcon class="w-4 h-4" />
-                Previous
+                {{ messages.paginatorPrevious }}
               </Button>
               <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.nextPageUrl ? Link : undefined" :disabled="!table.cursorPagination.nextPageUrl" :href="table.cursorPagination.nextPageUrl || undefined" variant="outline">
-                Next
+                {{ messages.paginatorNext }}
                 <ChevronRightIcon class="w-4 h-4" />
               </Button>
             </div>
@@ -220,10 +221,10 @@
               <SearchIcon class="w-6 h-6" />
             </div>
 
-            <p class="font-semibold text-center">{{ emptyResultsMessage || 'No records found.' }}</p>
-            <p class="max-w-lg text-center text-muted-foreground text-sm mt-1">{{ emptyResultsDescription || 'Try to adjust your search criteria.' }}</p>
+            <p class="font-semibold text-center">{{ emptyResultsMessage || messages.searchEmptyTitle }}</p>
+            <p class="max-w-lg text-center text-muted-foreground text-sm mt-1">{{ emptyResultsDescription || messages.searchEmptyDescription }}</p>
 
-            <Button class="mt-6" @click="clearSearch"><XIcon class="w-4 h-4 mr-2" /> Clear Search</Button>
+            <Button class="mt-6" @click="clearSearch"><XIcon class="w-4 h-4 mr-2" /> {{ messages.clearSearch }}</Button>
 
             <slot name="empty-results" />
           </div>
@@ -276,6 +277,7 @@ import ActionRow from './ActionRow.vue'
 import EmptyPattern from './EmptyPattern.vue'
 import DataTableProvider from './DataTableProvider.vue'
 import { FilterResetButton } from "@/Components/Filter";
+import messages from './messages'
 
 const emit = defineEmits()
 

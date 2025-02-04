@@ -100,6 +100,21 @@ class Table implements Arrayable, JsonSerializable
     protected ?Closure $afterRetrieved = null;
 
     /**
+     * Custom callback for retrieving unique resource key.
+     */
+    protected ?Closure $keyBy = null;
+
+    /**
+     * Set custom callback for resolving key of the resource.
+     */
+    public function keyBy(?Closure $closure): static
+    {
+        $this->keyBy = $closure;
+
+        return $this;
+    }
+
+    /**
      * Set a closure which will be called after items have been retrieved from source.
      */
     public function afterRetrieved(?Closure $closure): static
@@ -139,10 +154,20 @@ class Table implements Arrayable, JsonSerializable
 
     /**
      * Set query builder as source of the table.
+     *
+     * @deprecated Use setSource instead.
      */
     public function setQuery(EloquentBuilder|ScoutBuilder $builder): static
     {
-        $this->source = $builder;
+        return $this->setSource($builder);
+    }
+
+    /**
+     * Set the table source.
+     */
+    public function setSource(EloquentBuilder|ScoutBuilder|Collection $source): static
+    {
+        $this->source = $source;
 
         return $this;
     }
@@ -348,6 +373,9 @@ class Table implements Arrayable, JsonSerializable
             } else {
                 $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
             }
+        } else if ($this->source instanceof Collection) {
+            $this->items = $this->source->toBase();
+            $this->baseTotalCount = $this->source->count();
         } else {
             throw new InvalidArgumentException("The source type is not supported.");
         }
@@ -402,7 +430,9 @@ class Table implements Arrayable, JsonSerializable
             [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
 
             return [
-                'key' => $resource instanceof Model ? $resource->getKey() : $resourceIndex,
+                'key' => $this->keyBy instanceof Closure
+                    ? call_user_func($this->keyBy, $resource) :
+                    ($resource instanceof Model ? $resource->getKey() : $resourceIndex),
                 'cells' => $cells,
                 'actions' => $rowActions->map(fn (BaseAction $action, string $name) => [
                     'name' => $name,
@@ -428,6 +458,8 @@ class Table implements Arrayable, JsonSerializable
     {
         $this->resourceCallback = $closure;
 
+        $this->withoutResource = false;
+
         return $this;
     }
 
@@ -450,7 +482,7 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function renderHeaderColumns(): Collection
     {
-        return $this->getColumns()->map(fn (Column $column, string $id) => $column->renderHeader($id));
+        return $this->getColumns()->map(fn (Column $column, string $id) => $column->renderHeader($id))->values();
     }
 
     /**
@@ -614,16 +646,16 @@ class Table implements Arrayable, JsonSerializable
         return $this->toArray();
     }
 
-    public static function make(EloquentBuilder|ScoutBuilder|string|null $source = null): static
+    public static function make(Collection|EloquentBuilder|ScoutBuilder|string|null $source = null): static
     {
         if (is_null($source)) {
             return app(static::class);
         }
 
         if (is_string($source) && class_exists($source) && in_array(Model::class, class_parents($source))) {
-            return app(static::class)->setQuery($source::query());
+            return app(static::class)->setSource($source::query());
         }
 
-        return app(static::class)->setQuery($source);
+        return app(static::class)->setSource($source);
     }
 }
