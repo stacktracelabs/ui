@@ -249,7 +249,7 @@
 </template>
 
 <script setup lang="ts">
-import { DataTableValue, tableRowHighlightVariants } from "./";
+import { type DataTableValue, tableRowHighlightVariants } from "./";
 import { createContext } from './internal'
 import { DataTableCell } from '.'
 import { computed, toRaw } from "vue";
