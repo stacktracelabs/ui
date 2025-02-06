@@ -407,13 +407,25 @@ abstract class Column
     }
 
     /**
+     * Resolve link to given resource.
+     */
+    protected function resolveLink(mixed $resource, mixed $value): ?Link
+    {
+        if (($link = $this->link instanceof Closure ? call_user_func($this->link, $resource, $value) : $this->link) && $link->shouldShow($resource, $value)) {
+            return $link;
+        }
+
+        return null;
+    }
+
+    /**
      * Render column as cell.
      */
     public function renderCell($id, $resource): array
     {
         $value = $this->resolveValue($resource);
 
-        $link = $this->link instanceof Closure ? call_user_func($this->link, $resource, $value) : $this->link;
+        $link = $this->resolveLink($resource, $value);
 
         return [
             'column' => $id,
