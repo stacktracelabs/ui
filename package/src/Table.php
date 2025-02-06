@@ -105,6 +105,21 @@ class Table implements Arrayable, JsonSerializable
     protected ?Closure $keyBy = null;
 
     /**
+     * Closure which will determine how the row should be highlighted.
+     */
+    protected ?Closure $highlightUsing = null;
+
+    /**
+     * Set how the row should be highlighted.
+     */
+    public function highlight(?Closure $closure): static
+    {
+        $this->highlightUsing = $closure;
+
+        return $this;
+    }
+
+    /**
      * Set custom callback for resolving key of the resource.
      */
     public function keyBy(?Closure $closure): static
@@ -429,6 +444,10 @@ class Table implements Arrayable, JsonSerializable
 
             [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
 
+            $highlightAs = $this->highlightUsing instanceof Closure
+                ? call_user_func($this->highlightUsing, $resource)
+                : null;
+
             return [
                 'key' => $this->keyBy instanceof Closure
                     ? call_user_func($this->keyBy, $resource) :
@@ -447,6 +466,7 @@ class Table implements Arrayable, JsonSerializable
                         ? call_user_func($this->resourceCallback, $resource)
                         : $resource
                 ),
+                'highlightAs' => $highlightAs,
             ];
         });
     }

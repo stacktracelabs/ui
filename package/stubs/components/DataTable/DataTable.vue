@@ -135,14 +135,15 @@
               </TableRow>
             </TableHeader>
             <TableBody>
-              <SelectableTableRow v-for="row in rows" :value="row.key" v-model="selectableRows.selection.value" :disabled="! shouldShowCheckboxForRow(row)">
+              <SelectableTableRow v-for="row in rows" :class="cn(tableRowHighlightVariants({ highlight: row.highlightAs || 'default' }))" :value="row.key" v-model="selectableRows.selection.value" :disabled="! shouldShowCheckboxForRow(row)">
                 <TableCell class="text-center" :class="cn(insetLeft || '')">
                   <RowSelect />
                 </TableCell>
+
                 <template v-for="(cell, idx) in row.cells">
                   <DataTableCell :cell="cell" :class="!hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : ''" />
                 </template>
-                <TableCell v-if="hasRowActions" class="py-1" :class="cn(insetRight || '')">
+                <TableCell v-if="hasRowActions" class="py-0.5" :class="cn(insetRight || '')">
                   <div class="inline-flex flex-row gap-1">
                     <ActionRow
                       v-if="row.inlineActions.length > 0"
@@ -151,7 +152,7 @@
                       @event="onEvent($event, [row.key])"
                     />
 
-                    <DropdownMenu v-if="row.actions.length > 0">
+                    <DropdownMenu v-if="row.actions.filter(it => it.canRun).length > 0">
                       <DropdownMenuTrigger as-child>
                         <Button variant="ghost" class="px-2 data-[state=open]:bg-muted" size="sm"><EllipsisIcon class="w-4 h-4" /></Button>
                       </DropdownMenuTrigger>
@@ -248,7 +249,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DataTableValue } from "./";
+import { DataTableValue, tableRowHighlightVariants } from "./";
 import { createContext } from './internal'
 import { DataTableCell } from '.'
 import { computed, toRaw } from "vue";

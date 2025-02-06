@@ -62,6 +62,7 @@ export interface Row<R = any> {
   actions: Array<Action>
   inlineActions: Array<Action>
   resource: R
+  highlightAs: string | null
 }
 
 export interface CursorPagination {
