@@ -174,7 +174,10 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   }
   const hasPerPageSettings = computed(() => (table.value.pagination || table.value.cursorPagination) && table.value.perPageOptions.length > 0)
 
+  const isSearchable = computed(() => table.value.isSearchable)
+
   return {
+    table,
     rows,
     headings,
 
@@ -186,6 +189,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     paginationFilter,
     setPerPage,
     hasPerPageSettings,
+    isSearchable,
 
     // Bulk selection
     hasRowActions,

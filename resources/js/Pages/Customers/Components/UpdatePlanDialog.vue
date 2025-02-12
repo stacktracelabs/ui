@@ -56,6 +56,7 @@ const savePlan = () => {
     customers,
     is_premium: plan === 'premium',
   })).post(route('customers.update-plan'), {
+    preserveState: true,
     onSuccess: () => {
       props.control.deactivate()
     }

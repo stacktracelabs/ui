@@ -27,52 +27,20 @@
         >
           <div class="inline-flex items-center gap-4">
             <slot name="search" />
-            <template v-if="table.isSearchable">
-              <div class="relative">
-                <SearchIcon class="w-4 h-4 absolute left-2 top-2 text-muted-foreground" />
-                <DebouncedInput :debounce="50" v-model="searchFilter.search" class="h-8 w-[250px] pl-8 pr-8" :placeholder="messages.searchPlaceholder" />
-                <button v-if="searchFilter.applied" @click.prevent="searchFilter.reset()" class="absolute right-2 top-2.5 text-muted-foreground hover:text-destructive transition-colors">
-                  <CircleXIcon class="w-3 h-3" />
-                </button>
-              </div>
-            </template>
+
+            <DataTableSearch />
           </div>
 
-          <div>
-            <div class="flex flex-row items-center gap-2">
-              <div v-if="somethingSelected" class="text-sm font-medium mr-4">{{ messages.selectedRows(selectableRows.selectedCount.value, selectableRows.totalCount.value) }}</div>
+          <div class="flex flex-row items-center gap-2">
+            <div v-if="somethingSelected" class="text-sm font-medium mr-4">{{ messages.selectedRows(selectableRows.selectedCount.value, selectableRows.totalCount.value) }}</div>
 
-              <DataTableBulkActions
-                v-if="showBulkActions"
-                :actions="bulkActions"
-                :selection="selectableRows.selection.value"
-                @event="onEvent($event.name, $event.selection)"
-              />
+            <DataTableBulkActions @event="onEvent($event.name, $event.selection)" />
 
-              <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
-                <XIcon class="w-4 h-4 mr-1" />
-                {{ messages.cancelSelection }}
-              </Button>
+            <DataTableClearSelectionButton />
 
-              <slot name="actions" />
+            <slot name="actions" />
 
-              <DropdownMenu v-if="hasPerPageSettings">
-                <DropdownMenuTrigger as-child>
-                  <Button variant="outline" size="sm"><SlidersHorizontalIcon class="w-4 h-4 mr-2" /> {{ messages.viewOptions }}</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <template v-if="table.perPageOptions.length > 0">
-                    <DropdownMenuLabel>{{ messages.perPage }}</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuCheckboxItem
-                      v-for="option in table.perPageOptions"
-                      @select="setPerPage(option)"
-                      :checked="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
-                    >{{ messages.perPageOption(option) }}</DropdownMenuCheckboxItem>
-                  </template>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            <DataTableViewSettings />
           </div>
         </div>
 
@@ -230,6 +198,9 @@ import { FilterResetButton } from "@/Components/Filter";
 import messages from './messages'
 import DataTableRowActions from './DataTableRowActions.vue'
 import DataTableBulkActions from './DataTableBulkActions.vue'
+import DataTableSearch from './DataTableSearch.vue'
+import DataTableClearSelectionButton from './DataTableClearSelectionButton.vue'
+import DataTableViewSettings from './DataTableViewSettings.vue'
 
 const emit = defineEmits() // eslint-disable-line vue/valid-define-emits
 
@@ -251,12 +222,8 @@ const {
   headings,
 
   clearSearch,
-  searchFilter,
   filter,
   sortFilter,
-  paginationFilter,
-  setPerPage,
-  hasPerPageSettings,
 
   shouldShowCheckboxForRow,
   selectableRows,
@@ -264,8 +231,6 @@ const {
 
   hasRowActions,
   hasBulkActions,
-  showBulkActions,
-  bulkActions,
 } = context
 
 // Called when either row action or bulk action is triggered.

@@ -1,25 +1,27 @@
 <template>
-  <DataTableActionButton
-    v-for="action in inlineActions"
-    :action="action"
-    :selection="selection"
-    @event="onEvent"
-  />
+  <template v-if="showBulkActions">
+    <DataTableActionButton
+      v-for="action in inlineActions"
+      :action="action"
+      :selection="selection"
+      @event="onEvent"
+    />
 
-  <DropdownMenu v-if="menuActions.length > 0">
-    <DropdownMenuTrigger as-child>
-      <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> {{ messages.actions }}</Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DataTableActionDropdownMenuItem
-        v-for="action in menuActions"
-        :action="action"
-        :selection="selection"
-        @event="onEvent"
-        @exec="onExecAction"
-      />
-    </DropdownMenuContent>
-  </DropdownMenu>
+    <DropdownMenu v-if="menuActions.length > 0">
+      <DropdownMenuTrigger as-child>
+        <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> {{ messages.actions }}</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DataTableActionDropdownMenuItem
+          v-for="action in menuActions"
+          :action="action"
+          :selection="selection"
+          @event="onEvent"
+          @exec="onExecAction"
+        />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </template>
 
   <DataTableActionDialog
     v-if="actionToRun"
@@ -36,20 +38,19 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Compon
 import { useToggle } from '@stacktrace/ui'
 import { ChevronDownIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
-import { type Action, type ExecutableAction, useActionRunner } from './internal'
+import { type ExecutableAction, injectContext, useActionRunner } from './internal'
 import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
 import DataTableActionButton from './DataTableActionButton.vue'
 import DataTableActionDialog from './DataTableActionDialog.vue'
 
 const emit = defineEmits(['event'])
 
-const props = defineProps<{
-  actions: Array<Action>
-  selection: Array<ResourceKey>
-}>()
+const { showBulkActions, selectableRows, bulkActions } = injectContext()
+
+const selection = computed(() => selectableRows.selection.value as Array<ResourceKey>)
 
 const onEvent = (event: string) => {
-  emit('event', { name: event, selection: [...props.selection] })
+  emit('event', { name: event, selection: [...selection.value] })
 }
 
 const { run } = useActionRunner<ResourceKey>()
@@ -57,7 +58,7 @@ const actionToRun = ref<ExecutableAction>()
 const actionDialog = useToggle()
 const onExecAction = (action: ExecutableAction) => {
   if (action.isInline) {
-    run(action, [...props.selection])
+    run(action, [...selection.value])
     return
   } else {
     actionToRun.value = action
@@ -65,6 +66,6 @@ const onExecAction = (action: ExecutableAction) => {
   }
 }
 
-const inlineActions = computed(() => props.actions.filter(it => it.canRun && it.isInline && it.isBulk))
-const menuActions = computed(() => props.actions.filter(it => it.canRun && !it.isInline && it.isBulk))
+const inlineActions = computed(() => bulkActions.value.filter(it => it.canRun && it.isInline && it.isBulk))
+const menuActions = computed(() => bulkActions.value.filter(it => it.canRun && !it.isInline && it.isBulk))
 </script>
