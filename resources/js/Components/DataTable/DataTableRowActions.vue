@@ -66,6 +66,6 @@ const onExecAction = (action: ExecutableAction) => {
 }
 
 const selection = computed(() => [props.row.key])
-const inlineActions = computed(() => props.row.actions.inline.filter(it => it.canRun))
-const menuActions = computed(() => props.row.actions.row.filter(it => it.canRun))
+const inlineActions = computed(() => props.row.actions.filter(it => it.isInline && it.canRun))
+const menuActions = computed(() => props.row.actions.filter(it => !it.isInline && it.canRun))
 </script>

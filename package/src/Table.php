@@ -7,7 +7,6 @@ namespace StackTrace\Ui;
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use JsonSerializable;
+use Laravel\Scout\Builder as ScoutBuilder;
 use StackTrace\Ui\Table\ActionCollection;
 use StackTrace\Ui\Table\BaseAction;
 use StackTrace\Ui\Table\Column;
@@ -27,7 +27,6 @@ use StackTrace\Ui\Table\Filter;
 use StackTrace\Ui\Table\FilterWidget;
 use StackTrace\Ui\Table\Resource;
 use StackTrace\Ui\Table\ResourceActions;
-use StackTrace\Ui\Table\TableActions;
 
 class Table implements Arrayable, JsonSerializable
 {
@@ -473,7 +472,7 @@ class Table implements Arrayable, JsonSerializable
         return $items->map(function ($resource, int $resourceIndex) {
             $cells = $this->getColumns()->map(fn(Column $column, string $id) => $column->renderCell($id, $resource))->values();
 
-            $actions = new TableActions($this->resolveActionsForResource($resource), $resource);
+            $actions = $this->resolveActionsForResource($resource);
 
             $highlightAs = $this->highlightUsing instanceof Closure
                 ? call_user_func($this->highlightUsing, $resource)
@@ -484,7 +483,10 @@ class Table implements Arrayable, JsonSerializable
                     ? call_user_func($this->keyBy, $resource) :
                     ($resource instanceof Model ? $resource->getKey() : $resourceIndex),
                 'cells' => $cells,
-                'actions' => $actions->render(),
+                'actions' => $actions->all()->map(fn (BaseAction $action, string $name) => [
+                    'name' => $name,
+                    ...$action->toView($resource),
+                ])->values(),
                 'resource' => $this->withoutResource ? null : value(
                     fn () => $this->resourceCallback instanceof Closure
                         ? call_user_func($this->resourceCallback, $resource)

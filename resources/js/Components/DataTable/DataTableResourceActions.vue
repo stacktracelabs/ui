@@ -8,8 +8,10 @@
     <DropdownMenuContent :align="align">
       <slot :resource="actions.resource" :runnable-actions="runnableActions" />
 
-      <ActionList
-        :actions="runnableActions"
+      <DataTableActionDropdownMenuItem
+        v-for="action in runnableActions"
+        :action="action"
+        :selection="[actions.resource.key]"
         @event="onEvent"
         @exec="onExecAction"
       />
@@ -26,13 +28,13 @@
 
 <script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
 import { Button, type ButtonVariants } from '@/Components/Button'
+import DataTableActionDropdownMenuItem from '@/Components/DataTable/DataTableActionDropdownMenuItem.vue'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { cn } from '@/Utils'
 import { useToggle } from '@stacktrace/ui'
 import { EllipsisIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
 import { type DataTableResourceActionsValue } from '.'
-import ActionList from './ActionList.vue'
 import DataTableActionDialog from './DataTableActionDialog.vue'
 import { type ExecutableAction, useActionRunner } from './internal'
 

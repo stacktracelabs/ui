@@ -42,25 +42,12 @@
             <div class="flex flex-row items-center gap-2">
               <div v-if="somethingSelected" class="text-sm font-medium mr-4">{{ messages.selectedRows(selectableRows.selectedCount.value, selectableRows.totalCount.value) }}</div>
 
-              <ActionRow bulk
-                v-if="inlineBulkActions.length > 0"
-                :actions="inlineBulkActions"
+              <DataTableBulkActions
+                v-if="showBulkActions"
+                :actions="bulkActions"
                 :selection="selectableRows.selection.value"
-                @event="onEvent($event, toRaw(selectableRows.selection.value))"
+                @event="onEvent($event.name, $event.selection)"
               />
-
-              <DropdownMenu v-if="showBulkActions && bulkActions.length > 0">
-                <DropdownMenuTrigger as-child>
-                  <Button size="sm"><ChevronDownIcon class="w-4 h-4 mr-1" /> {{ messages.actions }}</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <ActionList
-                    :actions="bulkActions"
-                    @event="onEvent($event, toRaw(selectableRows.selection.value))"
-                    @exec="onExecAction($event, selectableRows.selection.value)"
-                  />
-                </DropdownMenuContent>
-              </DropdownMenu>
 
               <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
                 <XIcon class="w-4 h-4 mr-1" />
@@ -211,19 +198,6 @@
           </div>
         </div>
       </template>
-
-      <Dialog :control="execActionDialog">
-        <DialogContent v-if="execAction && execActionSelection">
-          <DialogHeader>
-            <DialogTitle>{{ execAction.title }}</DialogTitle>
-            <DialogDescription>{{ execAction.description }}</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button @click="execActionDialog.deactivate" variant="outline">{{ execAction.cancelLabel }}</Button>
-            <ActionButton :processing="execActionFormProcessing" @click="runExecAction(execAction, execActionSelection)" :variant="execAction.isDestructive ? 'destructive' : 'default'">{{ execAction.confirmLabel }}</ActionButton>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </DataTableProvider>
   </div>
 </template>
@@ -232,11 +206,10 @@
 import { type DataTableValue, tableRowHighlightVariants } from "./";
 import { createContext } from './internal'
 import { DataTableCell } from '.'
-import { computed, toRaw } from "vue";
+import { computed } from "vue";
 import { cn } from "@/Utils";
 import {
   SlidersHorizontalIcon,
-  ChevronDownIcon,
   ChevronsRightIcon,
   ChevronsLeftIcon,
   SearchIcon,
@@ -247,18 +220,16 @@ import {
   ChevronRightIcon,
 } from 'lucide-vue-next'
 import { Link } from "@inertiajs/vue3";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/Components/Dialog";
-import { Button, ActionButton } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/Components/Table'
 import { DebouncedInput } from "@/Components/Input";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuCheckboxItem } from "@/Components/DropdownMenu";
-import ActionList from "./ActionList.vue";
-import ActionRow from './ActionRow.vue'
 import EmptyPattern from './EmptyPattern.vue'
 import DataTableProvider from './DataTableProvider.vue'
 import { FilterResetButton } from "@/Components/Filter";
 import messages from './messages'
 import DataTableRowActions from './DataTableRowActions.vue'
+import DataTableBulkActions from './DataTableBulkActions.vue'
 
 const emit = defineEmits() // eslint-disable-line vue/valid-define-emits
 
@@ -294,15 +265,7 @@ const {
   hasRowActions,
   hasBulkActions,
   showBulkActions,
-  inlineBulkActions,
   bulkActions,
-
-  execActionDialog,
-  execAction,
-  execActionFormProcessing,
-  execActionSelection,
-  runExecAction,
-  onExecAction,
 } = context
 
 // Called when either row action or bulk action is triggered.
