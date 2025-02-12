@@ -144,27 +144,7 @@
                   <DataTableCell :cell="cell" :class="!hasRowActions && idx + 1 == row.cells.length ? (insetRight || '') : ''" />
                 </template>
                 <TableCell v-if="hasRowActions" class="py-0.5" :class="cn(insetRight || '')">
-                  <div class="inline-flex flex-row gap-1">
-                    <ActionRow
-                      v-if="row.actions.inline.length > 0"
-                      :actions="row.actions.inline"
-                      :selection="[row.key]"
-                      @event="onEvent($event, [row.key])"
-                    />
-
-                    <DropdownMenu v-if="row.actions.row.filter((it: ExecutableAction) => it.canRun).length > 0">
-                      <DropdownMenuTrigger as-child>
-                        <Button variant="ghost" class="px-2 data-[state=open]:bg-muted" size="sm"><EllipsisIcon class="w-4 h-4" /></Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <ActionList
-                          :actions="row.actions.row"
-                          @event="onEvent($event, [row.key])"
-                          @exec="onExecAction($event, [row.key])"
-                        />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
+                  <DataTableRowActions :row="row" @event="onEvent($event.name, $event.selection)" />
                 </TableCell>
               </SelectableTableRow>
             </TableBody>
@@ -250,12 +230,11 @@
 
 <script setup lang="ts">
 import { type DataTableValue, tableRowHighlightVariants } from "./";
-import { createContext, ExecutableAction } from './internal'
+import { createContext } from './internal'
 import { DataTableCell } from '.'
 import { computed, toRaw } from "vue";
 import { cn } from "@/Utils";
 import {
-  EllipsisIcon,
   SlidersHorizontalIcon,
   ChevronDownIcon,
   ChevronsRightIcon,
@@ -279,6 +258,7 @@ import EmptyPattern from './EmptyPattern.vue'
 import DataTableProvider from './DataTableProvider.vue'
 import { FilterResetButton } from "@/Components/Filter";
 import messages from './messages'
+import DataTableRowActions from './DataTableRowActions.vue'
 
 const emit = defineEmits() // eslint-disable-line vue/valid-define-emits
 

@@ -74,11 +74,11 @@ export interface Cell {
   } | null
 }
 
-export interface Row<R = any> {
-  key: string | number
+export interface Row<ResourceKey = string | number, ResourceValue = object> {
+  key: ResourceKey
   cells: Array<Cell>
   actions: RowActions
-  resource: R
+  resource: ResourceValue | null
   highlightAs: string | null
 }
 
@@ -105,7 +105,7 @@ export interface Filter {
   }>
 }
 
-export interface DataTableValue<R = any> {
+export interface DataTableValue<ResourceValue = object, ResourceKey = string | number> {
   headings: Array<{
     id: string
     name: string
@@ -116,7 +116,7 @@ export interface DataTableValue<R = any> {
     noWrap: boolean
     sortableAs: string | null
   }>
-  rows: Array<Row<R>>
+  rows: Array<Row<ResourceKey, ResourceValue>>
   footerCells: Array<Cell | null>
   perPageOptions: Array<number>
   perPage: number
