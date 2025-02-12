@@ -18,12 +18,16 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use JsonSerializable;
+use StackTrace\Ui\Table\ActionCollection;
 use StackTrace\Ui\Table\BaseAction;
 use StackTrace\Ui\Table\Column;
 use StackTrace\Ui\Table\ColumnCollection;
 use StackTrace\Ui\Table\Direction;
 use StackTrace\Ui\Table\Filter;
 use StackTrace\Ui\Table\FilterWidget;
+use StackTrace\Ui\Table\Resource;
+use StackTrace\Ui\Table\ResourceActions;
+use StackTrace\Ui\Table\TableActions;
 
 class Table implements Arrayable, JsonSerializable
 {
@@ -52,7 +56,7 @@ class Table implements Arrayable, JsonSerializable
     /**
      * List of actions for each row.
      */
-    protected array $actions = [];
+    protected ?ActionCollection $actions = null;
 
     /**
      * Default per page options.
@@ -262,12 +266,16 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Add columns to the table.
      */
-    public function withColumns(array $columns): static
+    public function withColumns(array|ColumnCollection $columns): static
     {
-        foreach ($columns as $column) {
-            if ($column !== null) {
-                $this->column($column);
+        if (is_array($columns)) {
+            foreach ($columns as $column) {
+                if ($column !== null) {
+                    $this->column($column);
+                }
             }
+        } else {
+            $columns->all()->each(fn (Column $column) => $this->column($column));
         }
 
         return $this;
@@ -278,7 +286,11 @@ class Table implements Arrayable, JsonSerializable
      */
     public function action(BaseAction $action, ?string $name = null): static
     {
-        $this->actions[$name ?: Str::uuid()->toString()] = $action;
+        if (! $this->actions) {
+            $this->actions = new ActionCollection;
+        }
+
+        $this->actions->add($action, $name);
 
         return $this;
     }
@@ -286,18 +298,22 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Add actions to the table.
      */
-    public function withActions(array $actions): static
+    public function withActions(array|ActionCollection $actions): static
     {
-        foreach ($actions as $name => $action) {
-            if (is_null($action)) {
-                continue;
-            }
+        if (is_array($actions)) {
+            foreach ($actions as $name => $action) {
+                if (is_null($action)) {
+                    continue;
+                }
 
-            if (is_numeric($name)) {
-                $this->action($action);
-            } else {
-                $this->action($action, $name);
+                if (is_numeric($name)) {
+                    $this->action($action);
+                } else {
+                    $this->action($action, $name);
+                }
             }
+        } else {
+            $actions->all()->each(fn (BaseAction $action, string $name) => $this->action($action, $name));
         }
 
         return $this;
@@ -442,7 +458,9 @@ class Table implements Arrayable, JsonSerializable
         return $items->map(function ($resource, int $resourceIndex) {
             $cells = $this->getColumns()->map(fn(Column $column, string $id) => $column->renderCell($id, $resource))->values();
 
-            [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
+            $actions = new TableActions($this->actions ?: new ActionCollection, $resource);
+
+            // [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
 
             $highlightAs = $this->highlightUsing instanceof Closure
                 ? call_user_func($this->highlightUsing, $resource)
@@ -453,14 +471,15 @@ class Table implements Arrayable, JsonSerializable
                     ? call_user_func($this->keyBy, $resource) :
                     ($resource instanceof Model ? $resource->getKey() : $resourceIndex),
                 'cells' => $cells,
-                'actions' => $rowActions->map(fn (BaseAction $action, string $name) => [
-                    'name' => $name,
-                    ...$action->toView($resource),
-                ])->values(),
-                'inlineActions' => $inlineActions->map(fn (BaseAction $action, string $name) => [
-                    'name' => $name,
-                    ...$action->toView($resource),
-                ])->values(),
+                'actions' => $actions->render(),
+                // 'actions' => $rowActions->map(fn (BaseAction $action, string $name) => [
+                //     'name' => $name,
+                //     ...$action->toView($resource),
+                // ])->values(),
+                // 'inlineActions' => $inlineActions->map(fn (BaseAction $action, string $name) => [
+                //     'name' => $name,
+                //     ...$action->toView($resource),
+                // ])->values(),
                 'resource' => $this->withoutResource ? null : value(
                     fn () => $this->resourceCallback instanceof Closure
                         ? call_user_func($this->resourceCallback, $resource)
@@ -519,14 +538,6 @@ class Table implements Arrayable, JsonSerializable
         }
 
         return $cells;
-    }
-
-    /**
-     * Retrieve available actions for resource.
-     */
-    protected function getActionsForResource(mixed $resource): Collection
-    {
-        return collect($this->actions);
     }
 
     /**
@@ -609,9 +620,9 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
-     * Prepare table view.
+     * Boot the table.
      */
-    protected function toView(): array
+    protected function boot(): void
     {
         if (method_exists($this, 'source')) {
             $this->source = $this->source();
@@ -621,17 +632,23 @@ class Table implements Arrayable, JsonSerializable
             $columns = $this->columns();
 
             if ($columns instanceof ColumnCollection) {
-                $this->columns = $columns;
+                $this->withColumns($columns);
             } else if ($columns instanceof Collection || is_array($columns)) {
-                $this->columns = ColumnCollection::of($columns);
+                $this->withColumns(ColumnCollection::of($columns));
             } else {
                 throw new InvalidArgumentException("Return value of the columns method must be either array, Collection or ColumnCollection.");
             }
         }
 
         if (method_exists($this, 'actions')) {
-            foreach ($this->actions() as $action) {
-                $this->action($action);
+            $actions = $this->actions();
+
+            if ($actions instanceof ActionCollection) {
+                $this->withActions($actions);
+            } else if ($actions instanceof Collection || is_array($actions)) {
+                $this->withActions(ActionCollection::of($actions));
+            } else {
+                throw new InvalidArgumentException("Return value of the actions method must be either array, Collection or ActionCollection.");
             }
         }
 
@@ -640,6 +657,14 @@ class Table implements Arrayable, JsonSerializable
                 $this->filter($filter);
             }
         }
+    }
+
+    /**
+     * Prepare table view.
+     */
+    protected function toView(): array
+    {
+        $this->boot();
 
         return [
             'headings' => $this->renderHeaderColumns(),
@@ -654,6 +679,38 @@ class Table implements Arrayable, JsonSerializable
             'filter' => $this->filter?->toView(),
             'isEmpty' => $this->baseTotalCount === 0,
         ];
+    }
+
+    /**
+     * Create new Resource instance.
+     */
+    protected function createResource(mixed $resource): Resource
+    {
+        return (new Resource($resource))
+            ->map($this->resourceCallback)
+            ->keyBy($this->keyBy)
+            ->withValue(! $this->withoutResource);
+    }
+
+    /**
+     * Resolve available actions for given resource.
+     */
+    protected function resolveActionsForResource(mixed $resource): ActionCollection
+    {
+        return $this->actions ?: new ActionCollection;
+    }
+
+    /**
+     * Retrieve Resource actions for given resource.
+     */
+    public function getActionsForResource(mixed $resource): ResourceActions
+    {
+        $this->boot();
+
+        return new ResourceActions(
+            actions: $this->resolveActionsForResource($resource),
+            resource: $this->createResource($resource)
+        );
     }
 
     public function toArray()

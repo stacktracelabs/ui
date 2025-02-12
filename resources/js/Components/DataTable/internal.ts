@@ -37,6 +37,24 @@ export interface ExecutableAction extends BaseAction {
 
 export type Action = EventAction | LinkAction | ExecutableAction
 
+export interface RowActions {
+  row: Array<Action>
+  inline: Array<Action>
+}
+
+export interface Resource<K = string | number, V = object> {
+  key: K
+  value: V | null
+}
+
+// TODO: Nove akcie
+export interface DataTableResourceActionsValue<ResourceKey = string | number, ResourceValue = object> {
+  actions: Array<Action>
+  resource: Resource<ResourceKey, ResourceValue>
+}
+
+// TODO: End nove akcie
+
 export interface Cell {
   column: string
   component: string
@@ -59,8 +77,7 @@ export interface Cell {
 export interface Row<R = any> {
   key: string | number
   cells: Array<Cell>
-  actions: Array<Action>
-  inlineActions: Array<Action>
+  actions: RowActions
   resource: R
   highlightAs: string | null
 }
@@ -152,7 +169,9 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   })
 
   // Selection
-  const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun) || row.inlineActions.some(it => it.isBulk && it.canRun)
+
+
+  const shouldShowCheckboxForRow = (row: Row) => row.actions.row.some(it => it.isBulk && it.canRun) || row.actions.inline.some(it => it.isBulk && it.canRun)
   const selectableRows = useSelectableRows(
     computed(() => rows.value.map(it => it.key)),
     computed(() => rows.value.filter(row => !shouldShowCheckboxForRow(row)).map(it => it.key))
@@ -162,14 +181,14 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
 
   // Bulk actions
   // Determine whether some row with actions is in the table.
-  const hasRowActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun).length > 0 || it.inlineActions.filter(it => it.canRun).length > 0))
+  const hasRowActions = computed(() => table.value.rows.some(it => it.actions.row.filter(it => it.canRun).length > 0 || it.actions.inline.filter(it => it.canRun).length > 0))
   // Determine whether some row has bulk actions.
-  const hasBulkActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun && it.isBulk).length > 0 || it.inlineActions.filter(it => it.canRun && it.isBulk).length > 0))
+  const hasBulkActions = computed(() => table.value.rows.some(it => it.actions.row.filter(it => it.canRun && it.isBulk).length > 0 || it.actions.inline.filter(it => it.canRun && it.isBulk).length > 0))
   const showBulkActions = computed(() => somethingSelected.value)
   const inlineBulkActions = computed<Array<Action>>(() => {
     const actions: Record<string, Action> = {}
 
-    selectedRows.value.flatMap(it => it.inlineActions.filter(action => action.canRun && action.isBulk)).forEach(action => {
+    selectedRows.value.flatMap(it => it.actions.inline.filter(action => action.canRun && action.isBulk)).forEach(action => {
       if (!actions.hasOwnProperty(action.name)) {
         actions[action.name] = action
       }
@@ -180,7 +199,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   const bulkActions = computed<Array<Action>>(() => {
     const actions: Record<string, Action> = {}
 
-    selectedRows.value.flatMap(it => it.actions.filter(action => action.canRun && action.isBulk)).forEach(action => {
+    selectedRows.value.flatMap(it => it.actions.row.filter(action => action.canRun && action.isBulk)).forEach(action => {
       if (!actions.hasOwnProperty(action.name)) {
         actions[action.name] = action
       }
@@ -253,3 +272,46 @@ export const provideContext = (context: Context) => {
 }
 
 export const injectContext = () => inject<Context>('DataTableContext')!
+
+interface ActionRunnerOptions {
+  onSuccess: () => void
+  onError: () => void
+  onFinish: () => void
+}
+
+export function useActionRunner<ResourceKey = string | number>() {
+  const form = useForm({})
+
+  const run = (action: ExecutableAction, selection: Array<ResourceKey>, options?: Partial<ActionRunnerOptions>) => {
+    form.transform(() => ({
+      selection: toRaw(selection),
+      action: action.action,
+      args: action.args,
+    })).post(route('ui.data-table-action'), {
+      preserveScroll: true,
+      onSuccess: () => {
+        const callback = options?.onSuccess
+        if (callback) {
+          callback()
+        }
+      },
+      onError: () => {
+        const callback = options?.onError
+        if (callback) {
+          callback()
+        }
+      },
+      onFinish: () => {
+        const callback = options?.onFinish
+        if (callback) {
+          callback()
+        }
+      }
+    })
+  }
+
+  return {
+    isRunning: computed(() => form.processing),
+    run,
+  }
+}

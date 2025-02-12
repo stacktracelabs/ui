@@ -10,20 +10,26 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card class="p-0">
           <Panel>
-            <PanelHeader class="px-4 sm:px-6">
+            <PanelHeader class="px-4 sm:px-6 h-14 flex flex-row justify-between items-center">
               <PanelTitle>About</PanelTitle>
+
+              <DataTableResourceActions
+                :actions="actions"
+                @update-plan="onUpdatePlan"
+              />
             </PanelHeader>
             <PanelContent>
               <PanelItem label="Name" class="px-4 sm:px-6">{{ name }}</PanelItem>
               <PanelItem label="Company" class="px-4 sm:px-6">{{ company }}</PanelItem>
               <PanelItem label="E-Mail" class="px-4 sm:px-6">{{ email }}</PanelItem>
+              <PanelItem label="Plan" class="px-4 sm:px-6">{{ plan }}</PanelItem>
             </PanelContent>
           </Panel>
         </Card>
 
         <Card class="mt-6 p-0">
           <Panel as="form" @submit.prevent="save">
-            <PanelHeader class="px-4 sm:px-6">
+            <PanelHeader class="px-4 sm:px-6 h-14 py-0 flex items-center">
               <PanelTitle>Settings</PanelTitle>
             </PanelHeader>
             <PanelContent>
@@ -40,6 +46,11 @@
         </Card>
       </div>
     </div>
+
+    <UpdatePlanDialog
+      :control="updatePlanDialog"
+      :customers="selectedCustomers"
+    />
   </AuthenticatedLayout>
 </template>
 
@@ -51,12 +62,18 @@ import { Card } from "@/Components/Card";
 import { FormControl } from '@/Components/Form'
 import { Input } from '@/Components/Input'
 import { ActionButton } from '@/Components/Button'
+import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/DataTable'
+import { useToggle } from '@stacktrace/ui'
+import { ref } from 'vue'
+import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
 
 const props = defineProps<{
   id: number
   name: string
   company: string
   email: string
+  plan: string
+  actions: DataTableResourceActionsValue
 }>()
 
 const form = useForm(() => ({
@@ -64,4 +81,11 @@ const form = useForm(() => ({
 }))
 
 const save = () => form.patch(route('customers.update', props.id), { preserveScroll: true })
+
+const updatePlanDialog = useToggle()
+const selectedCustomers = ref<Array<number>>([])
+const onUpdatePlan = (selection: Array<number>) => {
+  selectedCustomers.value = [...selection]
+  updatePlanDialog.activate()
+}
 </script>

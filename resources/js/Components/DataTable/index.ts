@@ -4,8 +4,9 @@ import { type VariantProps, cva } from 'class-variance-authority'
 
 export { default as DataTable } from './DataTable.vue'
 export { default as DataTableCell } from './DataTableCell.vue'
+export { default as DataTableResourceActions } from './DataTableResourceActions.vue'
 
-export type { DataTableValue } from './internal'
+export type { DataTableValue, DataTableResourceActionsValue } from './internal'
 
 export const DataTablePlugin: Plugin = {
   install: app => {

@@ -14,68 +14,30 @@
       </div>
     </div>
 
-    <Dialog :control="updatePlanDialog">
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Change Plan</DialogTitle>
-          <DialogDescription>Choose new plan for selected customers</DialogDescription>
-        </DialogHeader>
-
-        <FormControl label="New Plan" required>
-          <Select v-model="updateCustomersForm.plan">
-            <SelectTrigger>
-              <SelectValue placeholder="Select a plan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="basic">Basic</SelectItem>
-              <SelectItem value="premium">Premium</SelectItem>
-            </SelectContent>
-          </Select>
-        </FormControl>
-
-        <DialogFooter>
-          <Button variant="outline" @click="updatePlanDialog.deactivate">Cancel</Button>
-          <ActionButton :processing="updateCustomersForm.processing" @click="savePlan">Save</ActionButton>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <UpdatePlanDialog
+      :control="updatePlanDialog"
+      :customers="selectedCustomers"
+    />
   </AuthenticatedLayout>
 </template>
 
 <script setup lang="ts">
 import { type DataTableValue, DataTable } from "@/Components/DataTable";
 import { useToggle } from "@stacktrace/ui";
-import { useForm, Head } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 import { AuthenticatedLayout } from "@/Layouts";
 import { Card } from "@/Components/Card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/Components/Dialog'
-import { ActionButton, Button } from "@/Components/Button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/Components/Select";
-import { FormControl } from "@/Components/Form";
+import { ref } from 'vue'
+import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
 
 defineProps<{
   customers: DataTableValue
 }>()
 
 const updatePlanDialog = useToggle()
-const updateCustomersForm = useForm({
-  customers: [] as Array<number>,
-  plan: 'basic',
-})
+const selectedCustomers = ref<Array<number>>([])
 const onUpdatePlan = (selection: Array<number>) => {
-  updateCustomersForm.customers = selection
+  selectedCustomers.value = [...selection]
   updatePlanDialog.activate()
 }
-const savePlan = () => {
-  updateCustomersForm.transform(({ customers, plan }) => ({
-    customers,
-    is_premium: plan === 'premium',
-  })).post(route('customers.update-plan'), {
-    onSuccess: () => {
-      updatePlanDialog.deactivate()
-      updateCustomersForm.reset()
-    }
-  })
-}
-
 </script>

@@ -7,9 +7,12 @@ namespace StackTrace\Ui\Table;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 
 class ColumnCollection
 {
+    use Conditionable;
+
     /**
      * List of columns.
      */
