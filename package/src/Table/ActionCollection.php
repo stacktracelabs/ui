@@ -18,6 +18,14 @@ class ActionCollection
     protected array $actions = [];
 
     /**
+     * Filter given list of actions.
+     */
+    public function filter(?callable $callback = null): static
+    {
+        return static::of($this->all()->filter($callback));
+    }
+
+    /**
      * Retrieve all inline actions.
      *
      * @return \Illuminate\Support\Collection<string, \StackTrace\Ui\Table\BaseAction>
@@ -52,7 +60,7 @@ class ActionCollection
      */
     public function add(BaseAction $action, ?string $name = null): static
     {
-        $this->actions[$name ?: Str::uuid()->toString()] = $action;
+        $this->actions[($name ?: $action->getName()) ?: Str::uuid()->toString()] = $action;
 
         return $this;
     }
@@ -64,8 +72,12 @@ class ActionCollection
     {
         $collection = new static;
 
-        foreach (Collection::wrap($actions) as $action) {
-            $collection->add($action);
+        foreach (Collection::wrap($actions)->all() as $name => $action) {
+            if (is_numeric($name)) {
+                $collection->add($action);
+            } else {
+                $collection->add($action, $name);
+            }
         }
 
         return $collection;

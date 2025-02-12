@@ -13,10 +13,9 @@
             <PanelHeader class="px-4 sm:px-6 h-14 flex flex-row justify-between items-center">
               <PanelTitle>About</PanelTitle>
 
-              <DataTableResourceActions
-                :actions="actions"
-                @update-plan="onUpdatePlan"
-              />
+              <DataTableResourceActions :actions="actions" @update-plan="onUpdatePlan" visible v-slot="{ resource }">
+                <DropdownMenuItem @select="copyId(resource.key)">Copy ID</DropdownMenuItem>
+              </DataTableResourceActions>
             </PanelHeader>
             <PanelContent>
               <PanelItem label="Name" class="px-4 sm:px-6">{{ name }}</PanelItem>
@@ -55,6 +54,7 @@
 </template>
 
 <script setup lang="ts">
+import { useToast } from '@/Components/Toast'
 import { Head, useForm } from "@inertiajs/vue3"
 import { AuthenticatedLayout } from "@/Layouts"
 import { Panel, PanelContent, PanelHeader, PanelTitle, PanelItem, PanelFooter } from '@/Components/Panel'
@@ -66,6 +66,8 @@ import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/
 import { useToggle } from '@stacktrace/ui'
 import { ref } from 'vue'
 import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
+import { DropdownMenuItem } from '@/Components/DropdownMenu'
+import { useClipboard } from '@vueuse/core'
 
 const props = defineProps<{
   id: number
@@ -87,5 +89,14 @@ const selectedCustomers = ref<Array<number>>([])
 const onUpdatePlan = (selection: Array<number>) => {
   selectedCustomers.value = [...selection]
   updatePlanDialog.activate()
+}
+
+const { copy } = useClipboard({ legacy: true })
+const { toast } = useToast()
+const copyId = async (id: number) => {
+  setTimeout(() => {
+    copy(`${id}`)
+    toast({ title: 'Copied to clipboard!', description: `${id}` })
+  }, 1)
 }
 </script>

@@ -35,6 +35,29 @@ abstract class BaseAction
     protected ?string $icon = null;
 
     /**
+     * Set the name of the action.
+     */
+    protected ?string $name = null;
+
+    /**
+     * Set the action name.
+     */
+    public function withName(?string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve the action name.
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
      * Set the icon to be inline.
      */
     public function inline(bool $inline = true): static

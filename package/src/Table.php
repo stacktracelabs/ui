@@ -59,6 +59,11 @@ class Table implements Arrayable, JsonSerializable
     protected ?ActionCollection $actions = null;
 
     /**
+     * List of actions which should be excluded.
+     */
+    protected array $excludedActions = [];
+
+    /**
      * Default per page options.
      */
     protected array $perPageOptions = [25, 50, 100];
@@ -296,6 +301,16 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Exclude given action from action list.
+     */
+    public function withoutAction(string|array $name): static
+    {
+        $this->excludedActions = array_merge($this->excludedActions, Arr::wrap($name));
+
+        return $this;
+    }
+
+    /**
      * Add actions to the table.
      */
     public function withActions(array|ActionCollection $actions): static
@@ -458,9 +473,7 @@ class Table implements Arrayable, JsonSerializable
         return $items->map(function ($resource, int $resourceIndex) {
             $cells = $this->getColumns()->map(fn(Column $column, string $id) => $column->renderCell($id, $resource))->values();
 
-            $actions = new TableActions($this->actions ?: new ActionCollection, $resource);
-
-            // [$inlineActions, $rowActions] = $this->getActionsForResource($resource)->partition(fn (BaseAction $action) => $action->isInline());
+            $actions = new TableActions($this->resolveActionsForResource($resource), $resource);
 
             $highlightAs = $this->highlightUsing instanceof Closure
                 ? call_user_func($this->highlightUsing, $resource)
@@ -472,14 +485,6 @@ class Table implements Arrayable, JsonSerializable
                     ($resource instanceof Model ? $resource->getKey() : $resourceIndex),
                 'cells' => $cells,
                 'actions' => $actions->render(),
-                // 'actions' => $rowActions->map(fn (BaseAction $action, string $name) => [
-                //     'name' => $name,
-                //     ...$action->toView($resource),
-                // ])->values(),
-                // 'inlineActions' => $inlineActions->map(fn (BaseAction $action, string $name) => [
-                //     'name' => $name,
-                //     ...$action->toView($resource),
-                // ])->values(),
                 'resource' => $this->withoutResource ? null : value(
                     fn () => $this->resourceCallback instanceof Closure
                         ? call_user_func($this->resourceCallback, $resource)
@@ -697,7 +702,15 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function resolveActionsForResource(mixed $resource): ActionCollection
     {
-        return $this->actions ?: new ActionCollection;
+        $actions = $this->actions ?: new ActionCollection;
+
+        return $actions->filter(function (BaseAction $action, string $name) {
+            if (in_array($name, $this->excludedActions)) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /**

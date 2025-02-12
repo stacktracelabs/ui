@@ -6,7 +6,7 @@
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent :align="align">
-      <slot />
+      <slot :resource="actions.resource" :runnable-actions="runnableActions" />
 
       <ActionList
         :actions="runnableActions"
@@ -31,6 +31,7 @@ import { cn } from '@/Utils'
 import { useToggle } from '@stacktrace/ui'
 import { EllipsisIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
+import { run } from 'vue-tsc'
 import { type DataTableResourceActionsValue } from '.'
 import ActionList from './ActionList.vue'
 import DataTableActionDialog from './DataTableActionDialog.vue'

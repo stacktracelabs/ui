@@ -127,6 +127,8 @@
     <main>
       <slot />
     </main>
+
+    <Toaster />
   </div>
 </template>
 
@@ -140,6 +142,7 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuL
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLink, DropdownMenuSeparator } from '@/Components/DropdownMenu'
 import { Button } from '@/Components/Button'
 import { Logo } from '@/Components/Logo'
+import { Toaster } from '@/Components/Toast'
 
 const showingNavigationDropdown = ref(false)
 </script>

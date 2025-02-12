@@ -16,8 +16,8 @@ use StackTrace\Ui\Link;
 use StackTrace\Ui\NumberValue;
 use StackTrace\Ui\Table;
 use StackTrace\Ui\Table\ActionCollection;
-use StackTrace\Ui\Table\ColumnCollection;
 use StackTrace\Ui\Table\Actions;
+use StackTrace\Ui\Table\ColumnCollection;
 use StackTrace\Ui\Table\Columns;
 use StackTrace\Ui\Table\Filters;
 
@@ -25,11 +25,14 @@ class CustomerTable extends Table
 {
     public function __construct()
     {
-        $this->setSource(Customer::query());
-
         $this->searchable(function (Builder $builder, string $term) {
             $builder->where('name', 'like', "%{$term}%");
         });
+    }
+
+    public function source(): Builder
+    {
+        return Customer::query();
     }
 
     public function columns(): ColumnCollection
@@ -73,7 +76,7 @@ class CustomerTable extends Table
 
             MakePremiumAction::make(Customer::class)->bulk(),
 
-            RefreshAction::make()->bulk(),
+            RefreshAction::make()->bulk()->withName('Sync'),
         ]);
     }
 

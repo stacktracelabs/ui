@@ -20,7 +20,7 @@ class ResourceActions implements Renderable, JsonSerializable, Arrayable
             'actions' => $this->actions->all()->map(fn (BaseAction $action, string $name) => [
                 'name' => $name,
                 ...$action->toView($this->resource->getResource()),
-            ])->values(),
+            ])->values()->all(),
             'resource' => $this->resource->render(),
         ];
     }
