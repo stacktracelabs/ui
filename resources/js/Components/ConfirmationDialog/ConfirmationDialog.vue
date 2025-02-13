@@ -7,8 +7,8 @@
       </AlertDialogHeader>
 
       <AlertDialogFooter>
-        <ActionButton @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</ActionButton>
-        <ActionButton @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</ActionButton>
+        <Button @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</Button>
+        <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -19,7 +19,7 @@ import { useConfirmationDialogRoot } from "."
 import { ref } from "vue"
 import { onDeactivated } from "@stacktrace/ui"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/Components/AlertDialog'
-import { ActionButton } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 
 const { control, dialog, close: closeDialog } = useConfirmationDialogRoot()
 

@@ -27,7 +27,7 @@
             <Input v-model="form.email" autocomplete="username" type="email" required autofocus id="email" />
           </FormControl>
 
-          <ActionButton :processing="form.processing">Email Password Reset Link</ActionButton>
+          <Button :processing="form.processing">Email Password Reset Link</Button>
         </form>
       </div>
     </div>
@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from '@/Layouts'
-import { LinkButton, ActionButton } from "@/Components/Button";
+import { LinkButton, Button } from "@/Components/Button";
 import { Alert, AlertDescription } from "@/Components/Alert";
 import { FormControl } from "@/Components/Form";
 import { Input } from '@/Components/Input';

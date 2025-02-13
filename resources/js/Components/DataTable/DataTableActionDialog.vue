@@ -7,18 +7,18 @@
       </DialogHeader>
       <DialogFooter>
         <Button @click="control.deactivate" variant="outline">{{ action.cancelLabel }}</Button>
-        <ActionButton
+        <Button
           :processing="isRunning"
           :variant="action.isDestructive ? 'destructive' : 'default'"
           @click="runAction"
-        >{{ action.confirmLabel }}</ActionButton>
+        >{{ action.confirmLabel }}</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number">
-import { ActionButton, Button } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 import { type ExecutableAction, useActionRunner } from './internal'
 import {
   Dialog,

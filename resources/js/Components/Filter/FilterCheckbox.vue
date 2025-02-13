@@ -1,5 +1,5 @@
 <template>
-  <Button @click="value = !value" variant="outline" class="h-8 border-dashed">
+  <Button plain @click="value = !value" variant="outline" class="h-8 border-dashed">
     <Checkbox :model-value="value" class="mr-2 -ml-1" /> {{ title }}
   </Button>
 </template>

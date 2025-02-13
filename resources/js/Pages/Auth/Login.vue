@@ -33,7 +33,7 @@
           </Label>
         </FormControl>
 
-        <ActionButton :processing="form.processing">Log in</ActionButton>
+        <Button :processing="form.processing">Log in</Button>
       </form>
 
       <p v-if="canResetPassword" class="px-8 text-center text-sm text-muted-foreground">
@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import { GuestLayout } from '@/Layouts'
 import { Alert, AlertDescription } from "@/Components/Alert"
-import { ActionButton, LinkButton } from "@/Components/Button"
+import { Button, LinkButton } from "@/Components/Button"
 import { FormControl } from "@/Components/Form";
 import { Input } from '@/Components/Input'
 import { Label } from "@/Components/Label"

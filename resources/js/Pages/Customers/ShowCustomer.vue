@@ -39,7 +39,7 @@
               </PanelItem>
             </PanelContent>
             <PanelFooter class="px-4 sm:px-6 justify-end flex">
-              <ActionButton :recently-successful="form.recentlySuccessful" :processing="form.processing" type="submit" label="Save" class="w-full sm:w-auto" />
+              <Button :recently-successful="form.recentlySuccessful" :processing="form.processing" type="submit" label="Save" class="w-full sm:w-auto" />
             </PanelFooter>
           </Panel>
         </Card>
@@ -61,7 +61,7 @@ import { Panel, PanelContent, PanelHeader, PanelTitle, PanelItem, PanelFooter } 
 import { Card } from "@/Components/Card";
 import { FormControl } from '@/Components/Form'
 import { Input } from '@/Components/Input'
-import { ActionButton } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/DataTable'
 import { useToggle } from '@stacktrace/ui'
 import { ref } from 'vue'

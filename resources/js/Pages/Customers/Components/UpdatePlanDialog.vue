@@ -20,14 +20,14 @@
 
       <DialogFooter>
         <Button variant="outline" @click="control.deactivate">Cancel</Button>
-        <ActionButton :processing="form.processing" @click="savePlan">Save</ActionButton>
+        <Button :processing="form.processing" @click="savePlan">Save</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ActionButton, Button } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 import {
   Dialog,
   DialogContent,
