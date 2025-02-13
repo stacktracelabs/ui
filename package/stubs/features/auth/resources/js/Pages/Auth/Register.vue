@@ -30,7 +30,7 @@
           <Input v-model="form.password_confirmation" autocomplete="new-password" type="password" required id="password_confirmation" />
         </FormControl>
 
-        <ActionButton :processing="form.processing">Register</ActionButton>
+        <Button :processing="form.processing">Register</Button>
       </form>
     </div>
   </GuestLayout>
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from "@/Layouts";
-import { ActionButton, LinkButton } from "@/Components/Button";
+import { LinkButton } from "@/Components/Button";
 import { Input } from '@/Components/Input';
 import { FormControl } from "@/Components/Form";
 
