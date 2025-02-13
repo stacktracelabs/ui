@@ -1,7 +1,7 @@
 import { useSelectableRows } from '@/Components/Table'
 import { router, useForm, usePage } from '@inertiajs/vue3'
-import { onDeactivated, useFilter, useToggle } from '@stacktrace/ui'
-import { computed, type ComputedRef, inject, provide, ref, toRaw } from 'vue'
+import { useFilter } from '@stacktrace/ui'
+import { computed, type ComputedRef, inject, provide, toRaw } from 'vue'
 
 export interface BaseAction {
   name: string
@@ -42,13 +42,10 @@ export interface Resource<K = string | number, V = object> {
   value: V | null
 }
 
-// TODO: Nove akcie
 export interface DataTableResourceActionsValue<ResourceKey = string | number, ResourceValue = object> {
   actions: Array<Action>
   resource: Resource<ResourceKey, ResourceValue>
 }
-
-// TODO: End nove akcie
 
 export interface Cell {
   column: string

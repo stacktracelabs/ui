@@ -28,7 +28,7 @@
 
 <script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
 import { Button, type ButtonVariants } from '@/Components/Button'
-import DataTableActionDropdownMenuItem from '@/Components/DataTable/DataTableActionDropdownMenuItem.vue'
+import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { cn } from '@/Utils'
 import { useToggle } from '@stacktrace/ui'

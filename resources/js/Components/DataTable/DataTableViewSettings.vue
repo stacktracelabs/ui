@@ -29,5 +29,5 @@ import {
 import { SlidersHorizontalIcon } from 'lucide-vue-next'
 import { injectContext } from './internal'
 
-const { hasPerPageSettings, setPerPage, table } = injectContext()
+const { hasPerPageSettings, setPerPage, table, paginationFilter } = injectContext()
 </script>

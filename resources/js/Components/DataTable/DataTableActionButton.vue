@@ -8,7 +8,7 @@
     </template>
     <template v-else-if="action.type === 'Executable'">
       <ActionButton :class="{ 'px-2': !bulk }" size="sm" :variant="bulk ? 'default' : 'ghost'" @click="run(action, selection)" :processing="isRunning">
-        <Icon class="w-4 h-4" v-if="action.icon" :src="action.icon.src" />
+        <DataTableIcon class="w-4 h-4" v-if="action.icon" :src="action.icon.src" />
         {{ action.label }}
       </ActionButton>
     </template>
@@ -17,7 +17,7 @@
 
 <script setup lang="ts" generic="ResourceKey = string | number">
 import { ActionButton, LinkButton } from '@/Components/Button'
-import Icon from '@/Components/DataTable/Icon.vue'
+import DataTableIcon from './DataTableIcon.vue'
 import { type Action, useActionRunner } from './internal'
 
 const emit = defineEmits(['event'])

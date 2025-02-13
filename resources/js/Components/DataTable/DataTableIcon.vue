@@ -2,7 +2,6 @@
   <svg v-bind="attributes" v-html="content"></svg>
 </template>
 <script setup lang="ts">
-
 import { shallowRef, watch } from 'vue'
 
 const props = defineProps<{
