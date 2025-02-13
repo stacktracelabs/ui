@@ -2,6 +2,7 @@
   <Popover>
     <PopoverTrigger as-child>
       <Button
+        plain
         variant="outline"
         :class="cn(
           'w-full justify-start text-left font-normal',

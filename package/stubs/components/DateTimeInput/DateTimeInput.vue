@@ -3,6 +3,7 @@
     <PopoverTrigger as-child>
       <div :class="cn('relative w-full', $attrs.class || '')">
         <Button
+          plain
           :variant="'outline'"
           :class="cn(
           'w-full justify-start text-left font-normal',

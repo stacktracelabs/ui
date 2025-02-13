@@ -1,7 +1,7 @@
 import { useSelectableRows } from '@/Components/Table'
 import { router, useForm, usePage } from '@inertiajs/vue3'
-import { onDeactivated, useFilter, useToggle } from '@stacktrace/ui'
-import { computed, type ComputedRef, inject, provide, ref, toRaw } from 'vue'
+import { useFilter } from '@stacktrace/ui'
+import { computed, type ComputedRef, inject, provide, toRaw } from 'vue'
 
 export interface BaseAction {
   name: string
@@ -37,6 +37,16 @@ export interface ExecutableAction extends BaseAction {
 
 export type Action = EventAction | LinkAction | ExecutableAction
 
+export interface Resource<K = string | number, V = object> {
+  key: K
+  value: V | null
+}
+
+export interface DataTableResourceActionsValue<ResourceKey = string | number, ResourceValue = object> {
+  actions: Array<Action>
+  resource: Resource<ResourceKey, ResourceValue>
+}
+
 export interface Cell {
   column: string
   component: string
@@ -56,12 +66,11 @@ export interface Cell {
   } | null
 }
 
-export interface Row<R = any> {
-  key: string | number
+export interface Row<ResourceKey = string | number, ResourceValue = object> {
+  key: ResourceKey
   cells: Array<Cell>
   actions: Array<Action>
-  inlineActions: Array<Action>
-  resource: R
+  resource: ResourceValue | null
   highlightAs: string | null
 }
 
@@ -88,7 +97,7 @@ export interface Filter {
   }>
 }
 
-export interface DataTableValue<R = any> {
+export interface DataTableValue<ResourceValue = object, ResourceKey = string | number> {
   headings: Array<{
     id: string
     name: string
@@ -99,7 +108,7 @@ export interface DataTableValue<R = any> {
     noWrap: boolean
     sortableAs: string | null
   }>
-  rows: Array<Row<R>>
+  rows: Array<Row<ResourceKey, ResourceValue>>
   footerCells: Array<Cell | null>
   perPageOptions: Array<number>
   perPage: number
@@ -115,44 +124,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   const rows = computed(() => table.value.rows)
   const headings = computed(() => table.value.headings)
 
-  const execAction = ref<ExecutableAction>()
-  const execActionSelection = ref<Array<number | string>>()
-  const execActionDialog = useToggle()
-  const execActionForm = useForm({})
-
-  const runExecAction = (action: ExecutableAction, selection: Array<number | string>) => {
-    execActionForm.transform(() => ({
-      selection: toRaw(selection),
-      action: action.action,
-      args: action.args,
-    })).post(route('ui.data-table-action'), {
-      preserveScroll: true,
-      onFinish: () => {
-        execActionDialog.deactivate()
-      }
-    })
-  }
-
-  const onExecAction = (action: ExecutableAction, selection: Array<number | string>) => {
-    if (action.confirmable) {
-      execAction.value = action
-      execActionSelection.value = selection
-
-      execActionDialog.activate()
-    } else {
-      runExecAction(action, selection)
-    }
-  }
-
-  onDeactivated(execActionDialog, () => {
-    setTimeout(() => {
-      execAction.value = undefined
-      execActionSelection.value = undefined
-    }, 300)
-  })
-
-  // Selection
-  const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun) || row.inlineActions.some(it => it.isBulk && it.canRun)
+  const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun)
   const selectableRows = useSelectableRows(
     computed(() => rows.value.map(it => it.key)),
     computed(() => rows.value.filter(row => !shouldShowCheckboxForRow(row)).map(it => it.key))
@@ -162,21 +134,10 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
 
   // Bulk actions
   // Determine whether some row with actions is in the table.
-  const hasRowActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun).length > 0 || it.inlineActions.filter(it => it.canRun).length > 0))
+  const hasRowActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun).length > 0))
   // Determine whether some row has bulk actions.
-  const hasBulkActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun && it.isBulk).length > 0 || it.inlineActions.filter(it => it.canRun && it.isBulk).length > 0))
+  const hasBulkActions = computed(() => table.value.rows.some(it => it.actions.filter(it => it.canRun && it.isBulk).length > 0))
   const showBulkActions = computed(() => somethingSelected.value)
-  const inlineBulkActions = computed<Array<Action>>(() => {
-    const actions: Record<string, Action> = {}
-
-    selectedRows.value.flatMap(it => it.inlineActions.filter(action => action.canRun && action.isBulk)).forEach(action => {
-      if (!actions.hasOwnProperty(action.name)) {
-        actions[action.name] = action
-      }
-    })
-
-    return Object.keys(actions).map(it => actions[it])
-  })
   const bulkActions = computed<Array<Action>>(() => {
     const actions: Record<string, Action> = {}
 
@@ -210,7 +171,10 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   }
   const hasPerPageSettings = computed(() => (table.value.pagination || table.value.cursorPagination) && table.value.perPageOptions.length > 0)
 
+  const isSearchable = computed(() => table.value.isSearchable)
+
   return {
+    table,
     rows,
     headings,
 
@@ -222,6 +186,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     paginationFilter,
     setPerPage,
     hasPerPageSettings,
+    isSearchable,
 
     // Bulk selection
     hasRowActions,
@@ -233,16 +198,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     selectedRows,
     shouldShowCheckboxForRow,
     somethingSelected,
-    inlineBulkActions,
     bulkActions,
-
-    // Exec Action
-    execActionDialog,
-    execAction,
-    execActionSelection,
-    execActionFormProcessing: computed(() => execActionForm.processing),
-    onExecAction,
-    runExecAction,
   }
 }
 
@@ -253,3 +209,46 @@ export const provideContext = (context: Context) => {
 }
 
 export const injectContext = () => inject<Context>('DataTableContext')!
+
+interface ActionRunnerOptions {
+  onSuccess: () => void
+  onError: () => void
+  onFinish: () => void
+}
+
+export function useActionRunner<ResourceKey = string | number>() {
+  const form = useForm({})
+
+  const run = (action: ExecutableAction, selection: Array<ResourceKey>, options?: Partial<ActionRunnerOptions>) => {
+    form.transform(() => ({
+      selection: toRaw(selection),
+      action: action.action,
+      args: action.args,
+    })).post(route('ui.data-table-action'), {
+      preserveScroll: true,
+      onSuccess: () => {
+        const callback = options?.onSuccess
+        if (callback) {
+          callback()
+        }
+      },
+      onError: () => {
+        const callback = options?.onError
+        if (callback) {
+          callback()
+        }
+      },
+      onFinish: () => {
+        const callback = options?.onFinish
+        if (callback) {
+          callback()
+        }
+      }
+    })
+  }
+
+  return {
+    isRunning: computed(() => form.processing),
+    run,
+  }
+}

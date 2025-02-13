@@ -1,7 +1,7 @@
 <template>
   <Popover>
     <PopoverTrigger as-child>
-      <Button variant="outline" class="h-8 border-input border-dashed">
+      <Button plain variant="outline" class="h-8 border-input border-dashed">
         <PlusCircleIcon class="mr-2 h-4 w-4" />
         {{ title }}
         <template v-if="selectedValues.length > 0">

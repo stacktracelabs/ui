@@ -1,6 +1,6 @@
 <template>
   <div class="inline-flex">
-    <Button @click="toggle" class="h-8 px-1 text-sm" variant="ghost" size="sm">
+    <Button plain @click="toggle" class="h-8 px-1 text-sm" variant="ghost" size="sm">
       <slot />
 
       <template v-if="isApplied">
