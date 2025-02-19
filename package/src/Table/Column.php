@@ -6,6 +6,7 @@ namespace StackTrace\Ui\Table;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Support\Traits\ForwardsCalls;
 use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -14,19 +15,22 @@ use Illuminate\Support\Str;
 use StackTrace\Ui\Link;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
 
+/**
+ * @mixin \StackTrace\Ui\Table\Style
+ */
 abstract class Column
 {
-    use RenderComponents;
+    use RenderComponents, ForwardsCalls;
 
     /**
-     * Horizonal alignment of the cell value.
+     * A column text style.
      */
-    protected Align $align = Align::Left;
+    protected Style $cellStyle;
 
     /**
-     * Vertical alignment of the cell value.
+     * A colum heading style.
      */
-    protected VerticalAlign $verticalAlign = VerticalAlign::Middle;
+    protected ?Style $headingStyle = null;
 
     /**
      * Width of the column.
@@ -42,11 +46,6 @@ abstract class Column
      * Max width of the column
      */
     protected ?string $maxWidth = null;
-
-    /**
-     * Determine whether component should be displayed as child.
-     */
-    protected bool $asChild = false;
 
     /**
      * Sortable callback for the column.
@@ -74,29 +73,55 @@ abstract class Column
     protected Link|Closure|null $link = null;
 
     /**
-     * Text font weight.
-     */
-    protected ?string $fontWeight = 'normal';
-
-    /**
-     * Set whitespace to no-wrap.
-     */
-    protected bool $noWrap = false;
-
-    /**
-     * Whether numbers should be displayed in fixed size.
-     */
-    protected bool $tabularNums = false;
-
-    /**
      * The summary of the column in the footer.
      */
     protected ?Closure $sumarizer = null;
 
+    /**
+     * Custom closure for configuring heading style.
+     */
+    protected ?Closure $configureHeadingStyleUsing = null;
+
+    /**
+     * Custom closure for configuring cell style.
+     */
+    protected ?Closure $configureCellStyleUsing = null;
+
     public function __construct(
         protected string              $title,
         protected string|null|Closure $attribute = null,
-    ) { }
+    )
+    {
+        $this->cellStyle = new Style;
+    }
+
+    /**
+     * Configure style of the cell.
+     */
+    public function style(Style|Closure $style): static
+    {
+        if ($style instanceof Closure) {
+            $this->configureCellStyleUsing = $style;
+        } else {
+            $this->cellStyle = $style;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Configure style of the heading.
+     */
+    public function headingStyle(Style|Closure $style): static
+    {
+        if ($style instanceof Closure) {
+            $this->configureHeadingStyleUsing = $style;
+        } else {
+            $this->headingStyle = $style;
+        }
+
+        return $this;
+    }
 
     /**
      * Set the column summary displayed in the footer.
@@ -110,50 +135,68 @@ abstract class Column
 
     /**
      * Set whitespace to no-wrap.
+     *
+     * @deprecated Use text style property. This will be removed in the future release.
      */
     public function noWrap(bool $noWrap = true): static
     {
-        $this->noWrap = $noWrap;
+        if ($noWrap) {
+            $this->cellStyle->whitespaceNowrap();
+        } else {
+            $this->cellStyle->whitespace(null);
+        }
 
         return $this;
     }
 
     /**
      * Set font weight to normal.
+     *
+     * @deprecated Use text style property. This will be removed in the future release.
      */
     public function normal(): static
     {
-        $this->fontWeight = 'normal';
+        $this->cellStyle->fontNormal();
 
         return $this;
     }
 
     /**
      * Set font weight to bold.
+     *
+     * @deprecated Use text style property. This will be removed in the future release.
      */
     public function bold(): static
     {
-        $this->fontWeight = 'bold';
+        $this->cellStyle->fontBold();
 
         return $this;
     }
 
     /**
      * Set font weight to medium.
-     */
+     *
+     * @deprecated Use text style property. This will be removed in the future release.
+    */
     public function medium(): static
     {
-        $this->fontWeight = 'medium';
+        $this->cellStyle->fontMedium();
 
         return $this;
     }
 
     /**
      * Display numbers with fixed size.
+     *
+     * @deprecated Use text style property. This will be removed in the future release.
      */
     public function tabularNums(bool $tabularNums = true): static
     {
-        $this->tabularNums = $tabularNums;
+        if ($tabularNums) {
+            $this->cellStyle->numsTabular();
+        } else {
+            $this->cellStyle->fontVariantNumeric(null);
+        }
 
         return $this;
     }
@@ -258,17 +301,13 @@ abstract class Column
      */
     public function algin(Align $align): static
     {
-        $this->align = $align;
+        match ($align) {
+            Align::Right => $this->alignRight(),
+            Align::Left => $this->alignLeft(),
+            Align::Center => $this->alignCenter(),
+        };
 
         return $this;
-    }
-
-    /**
-     * Retrieve horizontal alignment of the cell.
-     */
-    public function getAlignment(): Align
-    {
-        return $this->align;
     }
 
     /**
@@ -276,17 +315,13 @@ abstract class Column
      */
     public function verticalAlign(VerticalAlign $align): static
     {
-        $this->verticalAlign = $align;
+        match ($align) {
+            VerticalAlign::Top => $this->cellStyle->verticalAlignTop(),
+            VerticalAlign::Middle => $this->cellStyle->verticalAlignMiddle(),
+            VerticalAlign::Bottom => $this->cellStyle->verticalAlignBottom(),
+        };
 
         return $this;
-    }
-
-    /**
-     * Retrieve vertical alginment of the cell.
-     */
-    public function getVerticalAlignment(): VerticalAlign
-    {
-        return $this->verticalAlign;
     }
 
     /**
@@ -368,14 +403,6 @@ abstract class Column
     }
 
     /**
-     * Determine whether component should be displayed as child.
-     */
-    public function shouldDisplayAsChild(): bool
-    {
-        return $this->asChild;
-    }
-
-    /**
      * Render column as header.
      */
     public function renderHeader($id): array
@@ -383,13 +410,31 @@ abstract class Column
         return [
             'id' => $id,
             'name' => $this->getTitle(),
-            'align' => $this->getAlignment()->value,
             'width' => $this->getWidth(),
             'minWidth' => $this->getMinWidth(),
             'maxWidth' => $this->getMaxWidth(),
-            'noWrap' => $this->noWrap,
             'sortableAs' => $this->getSortableAs(),
+            'style' => $this->resolveHeadingStyle($id)->toArray(),
         ];
+    }
+
+    /**
+     * Resolve heading style.
+     */
+    protected function resolveHeadingStyle($id): Style
+    {
+        if ($this->headingStyle) {
+            $style = $this->headingStyle;
+        } else {
+            $style = new Style();
+            $style->align($this->cellStyle->getAlign());
+        }
+
+        if ($this->configureHeadingStyleUsing instanceof Closure) {
+            call_user_func($this->configureHeadingStyleUsing, $style, $id);
+        }
+
+        return $style;
     }
 
     /**
@@ -431,20 +476,27 @@ abstract class Column
             'column' => $id,
             'component' => $this->resolveComponentName($this->component()),
             'props' => $this->resolveComponentProps($this->toView($value, $resource)),
-            'align' => $this->getAlignment()->value,
-            'verticalAlign' => $this->getVerticalAlignment()->value,
-            'asChild' => $this->shouldDisplayAsChild(),
             'width' => $this->getWidth(),
             'minWidth' => $this->getMinWidth(),
             'maxWidth' => $this->getMaxWidth(),
-            'fontWeight' => $this->fontWeight,
-            'noWrap' => $this->noWrap,
-            'tabularNums' => $this->tabularNums,
+            'style' => $this->resolveCellStyle($resource, $value)->toArray(),
             'link' => $link ? [
                 'url' => $link->url,
                 'isExternal' => $link->isExternal,
             ] : null,
         ];
+    }
+
+    /**
+     * Resolve style for a cell.
+     */
+    protected function resolveCellStyle($resource, $value): Style
+    {
+        if ($this->configureCellStyleUsing instanceof Closure) {
+            call_user_func($this->configureCellStyleUsing, $this->cellStyle, $resource, $value);
+        }
+
+        return $this->cellStyle;
     }
 
     /**
@@ -511,6 +563,11 @@ abstract class Column
         }
 
         return $this->sortableUsing;
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        return $this->forwardDecoratedCallTo($this->cellStyle, $name, $arguments);
     }
 
     /**

@@ -302,11 +302,21 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Exclude given action from action list.
      */
-    public function withoutAction(string|array $name): static
+    public function exceptActions(string|array $name): static
     {
         $this->excludedActions = array_merge($this->excludedActions, Arr::wrap($name));
 
         return $this;
+    }
+
+    /**
+     * Exclude given action from action list.
+     *
+     * @deprecated Use exceptActions instead. This will be removed in future release.
+     */
+    public function withoutAction(string|array $name): static
+    {
+        return $this->exceptActions($name);
     }
 
     /**

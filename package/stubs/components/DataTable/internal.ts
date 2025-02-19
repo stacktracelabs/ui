@@ -47,19 +47,19 @@ export interface DataTableResourceActionsValue<ResourceKey = string | number, Re
   resource: Resource<ResourceKey, ResourceValue>
 }
 
+export type TextStyleProperty = 'fontWeight' | 'fontFamily' | 'whitespace'
+  | 'fontVariantNumeric' | 'textDecorationLine' | 'textAlign' | 'fontStyle' | 'color'
+
+export type TextStyle = Record<TextStyleProperty | string, string | null>
+
 export interface Cell {
   column: string
   component: string
   props: Record<string, any>
-  align: 'left' | 'center' | 'right'
-  verticalAlign: 'top' | 'middle' | 'bottom'
-  asChild: boolean
   width: string | null
   minWidth: string | null
   maxWidth: string | null
-  fontWeight: string | number
-  noWrap: boolean
-  tabularNums: boolean
+  style: TextStyle
   link: {
     url: string
     isExternal: boolean
@@ -101,11 +101,10 @@ export interface DataTableValue<ResourceValue = object, ResourceKey = string | n
   headings: Array<{
     id: string
     name: string
-    align: 'left' | 'center' | 'right'
     width: string | null
     minWidth: string | null
     maxWidth: string | null
-    noWrap: boolean
+    style: TextStyle
     sortableAs: string | null
   }>
   rows: Array<Row<ResourceKey, ResourceValue>>
@@ -251,4 +250,22 @@ export function useActionRunner<ResourceKey = string | number>() {
     isRunning: computed(() => form.processing),
     run,
   }
+}
+
+export function configureStyle<T extends Record<string, string | null>>(
+  style: T,
+  mapping: Record<keyof T, Record<string, string>>,
+): string {
+  const tokens: Array<string> = []
+
+  Object.keys(style).forEach(key => {
+    const styleValue = style[key]
+    const styleConfig = mapping[key]
+
+    if (styleValue && styleConfig[styleValue]) {
+      tokens.push(styleConfig[styleValue])
+    }
+  })
+
+  return tokens.join(' ')
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row gap-1" v-if="inlineActions.length > 0 || menuActions.length > 0">
+  <div class="flex flex-row justify-end gap-1" v-if="inlineActions.length > 0 || menuActions.length > 0">
     <DataTableActionButton
       v-for="action in inlineActions"
       :action="action"

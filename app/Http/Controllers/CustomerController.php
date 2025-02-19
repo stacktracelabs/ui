@@ -26,7 +26,7 @@ class CustomerController
     public function show(Customer $customer)
     {
         $actions = (new CustomerTable)
-            ->withoutAction('Sync')
+            ->exceptActions('Sync')
             ->getActionsForResource($customer);
 
         return Inertia::render('Customers/ShowCustomer', [

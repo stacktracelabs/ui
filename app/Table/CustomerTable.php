@@ -39,15 +39,14 @@ class CustomerTable extends Table
     {
         return ColumnCollection::of([
             Columns\Text::make('Name')
-                ->link(fn (Customer $customer) => Link::to(route('customers.show', $customer)))
-                ->verticalAlign(Table\VerticalAlign::Middle),
+                ->link(fn (Customer $customer) => Link::to(route('customers.show', $customer))),
 
             Columns\Text::make('Company'),
 
             Columns\Text::make('E-Mail', 'email'),
 
             Columns\Text::make('Employees', 'employee_count')
-                ->tabularNums()
+                ->numsTabular()
                 ->sortable()
                 ->sumarize(fn (Collection $customers) => $customers->sum('employee_count')),
 

@@ -6,6 +6,9 @@ namespace StackTrace\Ui\Table\Columns;
 
 use Closure;
 
+/**
+ * @deprecated Use text column with link property.
+ */
 class Link extends Text
 {
     protected bool $internal = true;

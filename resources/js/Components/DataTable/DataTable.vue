@@ -47,12 +47,8 @@
               <template v-for="(heading, idx) in headings">
                 <TableHead
                   :class="cn({
-                      'text-left': heading.align == 'left',
-                      'text-center': heading.align == 'center',
-                      'text-right': heading.align == 'right',
-                      'whitespace-nowrap': heading.noWrap,
                       'px-0': !!heading.sortableAs,
-                    }, !hasRowActions && idx + 1 == headings.length ? (insetRight || '') : '')"
+                    }, createHeadingStyle(heading.style), !hasRowActions && idx + 1 == headings.length ? (insetRight || '') : '')"
                   :style="{
                       width: heading.width || undefined,
                       minWidth: heading.minWidth || undefined,
@@ -112,13 +108,14 @@
 <script setup lang="ts">
 import { type DataTableValue, tableRowHighlightVariants } from "./";
 import { createContext } from './internal'
-import { DataTableCell } from '.'
+import { createHeadingStyle } from '.'
 import { computed } from "vue";
 import { cn } from "@/Utils";
 import { SearchIcon, XIcon, TableIcon } from 'lucide-vue-next'
 import { Button } from '@/Components/Button'
 import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/Components/Table'
 import messages from './messages'
+import DataTableCell from './DataTableCell.vue'
 import DataTableProvider from './DataTableProvider.vue'
 import DataTableRowActions from './DataTableRowActions.vue'
 import DataTableBulkActions from './DataTableBulkActions.vue'
