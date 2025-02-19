@@ -38,6 +38,8 @@ class CustomerTable extends Table
     public function columns(): ColumnCollection
     {
         return ColumnCollection::of([
+            Columns\Icon::make('', fn () => 'refresh-cw'),
+
             Columns\Text::make('Name')
                 ->link(fn (Customer $customer) => Link::to(route('customers.show', $customer))),
 
