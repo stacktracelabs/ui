@@ -492,11 +492,13 @@ abstract class Column
      */
     protected function resolveCellStyle($resource, $value): Style
     {
+        $style = clone $this->cellStyle;
+
         if ($this->configureCellStyleUsing instanceof Closure) {
-            call_user_func($this->configureCellStyleUsing, $this->cellStyle, $resource, $value);
+            call_user_func($this->configureCellStyleUsing, $style, $resource, $value);
         }
 
-        return $this->cellStyle;
+        return $style;
     }
 
     /**
