@@ -3,13 +3,14 @@ import type { ParsedQuery } from 'query-string'
 
 export function parseQuery() {
   return queryString.parse(location.search, {
-    arrayFormat: 'index'
+    arrayFormat: 'index',
+    parseNumbers: true,
   })
 }
 
 export function formatQuery(query: Record<string, any>) {
   return queryString.stringify(query, {
-    arrayFormat: 'index'
+    arrayFormat: 'index',
   })
 }
 
