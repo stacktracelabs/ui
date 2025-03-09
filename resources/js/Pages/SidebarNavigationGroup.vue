@@ -1,0 +1,34 @@
+<template>
+  <SidebarMenuItem>
+    <CollapsibleTrigger as-child>
+      <SidebarMenuButton v-if="title" :is-active="group.isActive">
+        {{ title }}
+
+        <ChevronRightIcon class="size-4 ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+      </SidebarMenuButton>
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <SidebarMenuSub v-if="items.length > 0">
+        <template v-for="subItemOrGroup in items">
+          <SidebarNavigationItem v-if="subItemOrGroup.type === 'item'" :item="subItemOrGroup.item" sub />
+        </template>
+      </SidebarMenuSub>
+    </CollapsibleContent>
+  </SidebarMenuItem>
+</template>
+
+<script setup lang="ts">
+import { SidebarMenuItem, SidebarMenuButton, SidebarMenuSub } from '@/Components/Sidebar'
+import { computed } from 'vue'
+import SidebarNavigationItem from './SidebarNavigationItem.vue'
+import { type NavigationGroup } from '.'
+import { CollapsibleTrigger, CollapsibleContent } from '@/Components/Collapsible'
+import { ChevronRightIcon } from 'lucide-vue-next'
+
+const props = defineProps<{
+  group: NavigationGroup
+}>()
+
+const title = computed(() => props.group.menuGroup.title)
+const items = computed(() => props.group.items)
+</script>
