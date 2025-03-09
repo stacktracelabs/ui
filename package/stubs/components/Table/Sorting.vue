@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
 import { computed } from "vue";
-import type { SortDirection } from "@stacktrace/ui";
 import { Button } from '@/Components/Button'
 
 const props = defineProps<{
@@ -23,7 +22,7 @@ const props = defineProps<{
 }>()
 
 const column = defineModel<string | null>('column')
-const direction = defineModel<SortDirection | null>('direction')
+const direction = defineModel<'asc' | 'desc' | null>('direction')
 
 const isApplied = computed(() => column.value === props.value)
 const isAsc = computed(() => direction.value === 'asc')

@@ -63,7 +63,7 @@
             </TableRow>
           </TableHeader>
           <TableBody>
-            <SelectableTableRow v-for="row in rows" :class="cn(tableRowHighlightVariants({ highlight: row.highlightAs || 'default' }))" :value="row.key" v-model="selectableRows.selection.value" :disabled="! shouldShowCheckboxForRow(row)">
+            <SelectableTableRow v-for="row in rows" :class="cn(createRowStyle({ highlight: row.highlightAs || 'default' }))" :value="row.key" v-model="selectableRows.selection.value" :disabled="! shouldShowCheckboxForRow(row)">
               <TableCell class="text-center" :class="cn(insetLeft || '')">
                 <RowSelect />
               </TableCell>
@@ -106,9 +106,9 @@
 </template>
 
 <script setup lang="ts">
-import { type DataTableValue, tableRowHighlightVariants } from "./";
+import { type DataTableValue } from "./";
 import { createContext } from './internal'
-import { createHeadingStyle } from '.'
+import { createHeadingStyle, createRowStyle } from '.'
 import { computed } from "vue";
 import { cn } from "@/Utils";
 import { SearchIcon, XIcon, TableIcon } from 'lucide-vue-next'

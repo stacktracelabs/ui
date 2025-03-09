@@ -1,6 +1,5 @@
 import { registerNamespacedComponents } from "@stacktrace/ui";
 import type { DefineComponent, Plugin } from "vue";
-import { type VariantProps, cva } from 'class-variance-authority'
 import { type TextStyle, configureStyle } from './internal'
 
 export { default as DataTable } from './DataTable.vue'
@@ -18,20 +17,16 @@ export const DataTablePlugin: Plugin = {
   }
 }
 
-export const tableRowHighlightVariants = cva('', {
-  variants: {
-    highlight: {
-      default: 'hover:bg-muted/50 data-[state=selected]:bg-muted',
-      muted: 'bg-muted/20 text-muted-foreground hover:bg-muted/50 data-[state=selected]:bg-muted',
-      destructive: 'bg-destructive/10 text-destructive hover:bg-destructive/20 data-[state=selected]:bg-destructive/30',
-    },
-  },
-  defaultVariants: {
-    highlight: 'default',
+export type TableRowStyleProperty = 'highlight'
+export type TableRowStyle = Record<TableRowStyleProperty | string, String | null>
+
+export const createRowStyle = (style: TableRowStyle) => configureStyle(style, {
+  highlight: {
+    default: 'hover:bg-muted/50 data-[state=selected]:bg-muted',
+    muted: 'bg-muted/20 text-muted-foreground hover:bg-muted/50 data-[state=selected]:bg-muted',
+    destructive: 'bg-destructive/10 text-destructive hover:bg-destructive/20 data-[state=selected]:bg-destructive/30',
   }
 })
-
-export type TableRowHighlightVariants = VariantProps<typeof tableRowHighlightVariants>
 
 export const createCellStyle = (style: TextStyle) => configureStyle(style, {
   fontWeight: {
