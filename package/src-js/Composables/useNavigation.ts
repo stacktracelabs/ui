@@ -24,12 +24,12 @@ export function useNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navig
   const url = computed(() => page.url)
 
   const isItemActive: (item: MenuItem) => boolean = item => {
-    if (item.activePaths) {
-      return item.activePaths.includes(url.value)
+    if (item.activePaths && item.activePaths.includes(url.value)) {
+      return true
     }
 
-    if (item.activeRoutes) {
-      return item.activeRoutes.some(it => route().current(it))
+    if (item.activeRoutes && item.activeRoutes.some(it => route().current(it))) {
+      return true
     }
 
     return false
