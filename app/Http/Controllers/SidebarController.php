@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use StackTrace\Ui\Breadcrumbs\BreadcrumbItem;
+use StackTrace\Ui\Breadcrumbs\BreadcrumbList;
 use StackTrace\Ui\Icon;
 use StackTrace\Ui\Link;
 use StackTrace\Ui\Menu\Menu;
@@ -18,6 +20,9 @@ class SidebarController
     public function __invoke(Request $request)
     {
         // TODO: Can callback, či sa ma zobraziť
+
+        $breadcrumbs = BreadcrumbList::make();
+        $breadcrumbs->append(BreadcrumbItem::make('Sidebar', Link::to(route('sidebar'))));
 
         $createItem = fn (string $title, ?string $icon = null) => MenuItem::make(
             title: $title,
@@ -48,9 +53,16 @@ class SidebarController
             )
         ;
 
+        $action = $request->route('action');
+
+        if ($action) {
+            $breadcrumbs->append(BreadcrumbItem::make(Str::title($action)));
+        }
+
         return Inertia::render('SidebarPage', [
             'menu' => $menu,
-            'action' => $request->route('action'),
+            'breadcrumbs' => $breadcrumbs,
+            'action' => $action ? Str::headline($action) : null,
         ]);
     }
 }
