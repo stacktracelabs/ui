@@ -42,9 +42,9 @@ export interface Menu {
   navigations: Array<MenuGroup>
 }
 
-export interface BreadcrumbItem {
+export interface BreadcrumbNavigationItem {
   title: string
   action: Action | null
 }
 
-export type BreadcrumbList = Array<BreadcrumbItem>
+export type BreadcrumbNavigationList = Array<BreadcrumbNavigationItem>

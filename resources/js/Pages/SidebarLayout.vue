@@ -31,7 +31,7 @@ import {
 } from '@/Components/Sidebar'
 import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import type { Menu, BreadcrumbList } from '@stacktrace/ui'
+import type { Menu, BreadcrumbNavigationList } from '@stacktrace/ui'
 import { useNavigation } from '@stacktrace/ui'
 import { type PageProps } from '@/Types'
 import { BreadcrumbNavigation } from '@/Components/Breadcrumb'
@@ -39,7 +39,7 @@ import { Separator } from '@/Components/Separator'
 
 const page = usePage<PageProps & {
   menu: Menu
-  breadcrumbs: BreadcrumbList
+  breadcrumbs: BreadcrumbNavigationList
 }>()
 
 const navigation = useNavigation(computed(() => page.props.menu))

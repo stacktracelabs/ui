@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { type BreadcrumbList as Breadcrumbs } from '@stacktrace/ui'
+import { type BreadcrumbNavigationList } from '@stacktrace/ui'
 import BreadcrumbList from './BreadcrumbList.vue'
 import BreadcrumbItem from './BreadcrumbItem.vue'
 import BreadcrumbLink from './BreadcrumbLink.vue'
@@ -26,6 +26,6 @@ import BreadcrumbPage from './BreadcrumbPage.vue'
 import BreadcrumbSeparator from './BreadcrumbSeparator.vue'
 
 defineProps<{
-  list: Breadcrumbs
+  list: BreadcrumbNavigationList
 }>()
 </script>
