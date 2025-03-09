@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import { type NavigationItem } from '.'
+import { type NavigationItem } from '@stacktrace/ui'
 import { Icon } from '@/Components/Icon'
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
 

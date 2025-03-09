@@ -27,20 +27,20 @@
 
 <script setup lang="ts">
 import {
-  SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail,
-  createNavigation, SidebarNavigation
+  SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail, SidebarNavigation
 } from '@/Components/Sidebar'
 import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import { type Menu } from '@/Components/Menu'
+import type { Menu, BreadcrumbList } from '@stacktrace/ui'
+import { useNavigation } from '@stacktrace/ui'
 import { type PageProps } from '@/Types'
-import { type BreadcrumbNavigationList, BreadcrumbNavigation } from '@/Components/Breadcrumb'
+import { BreadcrumbNavigation } from '@/Components/Breadcrumb'
 import { Separator } from '@/Components/Separator'
 
 const page = usePage<PageProps & {
   menu: Menu
-  breadcrumbs: BreadcrumbNavigationList
+  breadcrumbs: BreadcrumbList
 }>()
 
-const navigation = createNavigation(computed(() => page.props.menu))
+const navigation = useNavigation(computed(() => page.props.menu))
 </script>

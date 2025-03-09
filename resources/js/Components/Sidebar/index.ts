@@ -2,12 +2,6 @@ import type { VariantProps } from 'class-variance-authority'
 import type { HTMLAttributes } from 'vue'
 import { cva } from 'class-variance-authority'
 
-export * from './navigation'
-export { default as SidebarNavigation } from './SidebarNavigation.vue'
-export { default as SidebarNavigationGroup } from './SidebarNavigationGroup.vue'
-export { default as SidebarNavigationItem } from './SidebarNavigationItem.vue'
-export { default as SidebarNavigationItemContent } from './SidebarNavigationItemContent.vue'
-
 export interface SidebarProps {
   side?: 'left' | 'right'
   variant?: 'sidebar' | 'floating' | 'inset'
@@ -38,6 +32,11 @@ export { default as SidebarProvider } from './SidebarProvider.vue'
 export { default as SidebarRail } from './SidebarRail.vue'
 export { default as SidebarSeparator } from './SidebarSeparator.vue'
 export { default as SidebarTrigger } from './SidebarTrigger.vue'
+
+export { default as SidebarNavigation } from './SidebarNavigation.vue'
+export { default as SidebarNavigationGroup } from './SidebarNavigationGroup.vue'
+export { default as SidebarNavigationItem } from './SidebarNavigationItem.vue'
+export { default as SidebarNavigationItemContent } from './SidebarNavigationItemContent.vue'
 
 export { useSidebar } from './utils'
 

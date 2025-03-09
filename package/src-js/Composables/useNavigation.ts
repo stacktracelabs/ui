@@ -1,4 +1,4 @@
-import type { Menu, MenuGroup, MenuItem, MenuNode } from '@/Components/Menu'
+import type { Menu, MenuGroup, MenuItem, MenuNode } from '@/Types'
 import { usePage } from '@inertiajs/vue3'
 import { computed, type ComputedRef, type MaybeRefOrGetter, unref } from 'vue'
 
@@ -18,7 +18,7 @@ export interface NavigationGroup {
 
 export type Navigation = Array<NavigationGroup>
 
-export function createNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navigation> {
+export function useNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navigation> {
   const menu = computed(() => unref(source) as Menu)
   const page = usePage()
   const url = computed(() => page.url)

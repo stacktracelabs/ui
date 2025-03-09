@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { type NavigationItem } from '.'
+import { type NavigationItem } from '@stacktrace/ui'
 import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarMenuButton from './SidebarMenuButton.vue'
 import SidebarMenuSubButton from './SidebarMenuSubButton.vue'

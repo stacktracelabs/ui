@@ -26,7 +26,7 @@ import SidebarGroupLabel from './SidebarGroupLabel.vue'
 import SidebarMenu from './SidebarMenu.vue'
 import SidebarNavigationItem from './SidebarNavigationItem.vue'
 import SidebarNavigationGroup from './SidebarNavigationGroup.vue'
-import { type Navigation } from '.'
+import { type Navigation } from '@stacktrace/ui'
 
 defineProps<{
   navigation: Navigation
