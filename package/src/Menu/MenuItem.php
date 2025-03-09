@@ -32,6 +32,7 @@ class MenuItem extends ViewModel
             'badge' => $this->badge,
             'activePaths' => $this->getActivePaths(),
             'activeRoutes' => $this->getActiveRoutes(),
+            'icon' => $this->icon,
         ];
     }
 

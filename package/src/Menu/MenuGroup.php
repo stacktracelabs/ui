@@ -24,6 +24,7 @@ class MenuGroup extends ViewModel
                 'item' => $item,
                 'type' => $item instanceof MenuGroup ? 'group' : 'item',
             ]),
+            'icon' => $this->icon,
         ];
     }
 }

@@ -1,7 +1,9 @@
 <template>
   <SidebarMenuItem>
     <CollapsibleTrigger as-child>
-      <SidebarMenuButton v-if="title" :is-active="group.isActive">
+      <SidebarMenuButton v-if="title" :is-active="group.isActive" :tooltip="title">
+        <Icon v-if="icon" v-bind="icon" class="size-4" />
+
         {{ title }}
 
         <ChevronRightIcon class="size-4 ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
@@ -24,6 +26,7 @@ import SidebarNavigationItem from './SidebarNavigationItem.vue'
 import { type NavigationGroup } from '.'
 import { CollapsibleTrigger, CollapsibleContent } from '@/Components/Collapsible'
 import { ChevronRightIcon } from 'lucide-vue-next'
+import { Icon } from '@/Components/Icon'
 
 const props = defineProps<{
   group: NavigationGroup
@@ -31,4 +34,5 @@ const props = defineProps<{
 
 const title = computed(() => props.group.menuGroup.title)
 const items = computed(() => props.group.items)
+const icon = computed(() => props.group.menuGroup.icon)
 </script>

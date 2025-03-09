@@ -11,6 +11,7 @@ export interface MenuItem {
   action: { type: 'link', link: MenuItemLink } | null
   badge: string | null
   activePaths?: Array<string>
+  icon?: { src: string }
 }
 
 type MenuItemNode = { type: 'group', item: MenuGroup }
@@ -19,6 +20,7 @@ type MenuGroupNode = { type: 'item', item: MenuItem }
 export interface MenuGroup {
   title: string | null
   items: Array<MenuItemNode | MenuGroupNode>
+  icon?: { src: string }
 }
 
 export interface Menu {
@@ -44,7 +46,7 @@ export interface NavigationGroup {
 export type Navigation = Array<NavigationGroup>
 
 export function createNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navigation> {
-  const menu = computed<Menu>(() => unref(source))
+  const menu = computed(() => unref(source) as Menu)
   const page = usePage()
   const url = computed(() => page.url)
 
