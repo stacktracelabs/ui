@@ -18,7 +18,7 @@ export const DataTablePlugin: Plugin = {
 }
 
 export type TableRowStyleProperty = 'highlight'
-export type TableRowStyle = Record<TableRowStyleProperty | string, String | null>
+export type TableRowStyle = Record<TableRowStyleProperty | string, string | null>
 
 export const createRowStyle = (style: TableRowStyle) => configureStyle(style, {
   highlight: {

@@ -28,6 +28,10 @@ export function useNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navig
       return item.activePaths.includes(url.value)
     }
 
+    if (item.activeRoutes) {
+      return item.activeRoutes.some(it => route().current(it))
+    }
+
     return false
   }
 

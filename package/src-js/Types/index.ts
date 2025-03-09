@@ -22,8 +22,9 @@ export type Action = LinkAction
 export interface MenuItem {
   title: string
   action: Action | null
-  badge: string | null
+  badge?: string | null
   activePaths?: Array<string>
+  activeRoutes?: Array<string>
   icon?: Icon | null
 }
 

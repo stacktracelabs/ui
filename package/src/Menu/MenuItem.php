@@ -4,6 +4,7 @@
 namespace StackTrace\Ui\Menu;
 
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
 use StackTrace\Ui\Icon;
 use StackTrace\Ui\Link;
@@ -88,6 +89,22 @@ class MenuItem extends ViewModel
             'activeRoutes' => $this->getActiveRoutes(),
             'icon' => $this->icon,
         ];
+    }
+
+    /**
+     * Add paths when the menu item is considered to be active.
+     */
+    public function active(string|array|null $path = null, string|array|null $route = null): static
+    {
+        if ($path) {
+            $this->activePaths = [...$this->activePaths, ...Arr::wrap($path)];
+        }
+
+        if ($route) {
+            $this->activeRoutes = [...$this->activeRoutes, ...Arr::wrap($route)];
+        }
+
+        return $this;
     }
 
     /**
