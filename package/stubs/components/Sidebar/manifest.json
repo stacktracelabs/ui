@@ -1,0 +1,12 @@
+{
+    "dependencies": [
+        "Button",
+        "Collapsible",
+        "Icon",
+        "Input",
+        "Separator",
+        "Sheet",
+        "Skeleton",
+        "Tooltip"
+    ]
+}
