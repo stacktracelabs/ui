@@ -7,6 +7,7 @@
     </Link>
   </template>
   <template v-else>
+    <Icon v-if="icon" :src="icon.src" class="size-4" />
     <span>{{ title }}</span>
     <SidebarMenuBadge v-if="badge">{{ badge }}</SidebarMenuBadge>
   </template>
