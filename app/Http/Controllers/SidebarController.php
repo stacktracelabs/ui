@@ -17,43 +17,34 @@ class SidebarController
 {
     public function __invoke(Request $request)
     {
-        // TODO: Iknonky
         // TODO: Can callback, či sa ma zobraziť
 
-        $createItem = fn (string $title, ?string $icon = null) => new MenuItem(
+        $createItem = fn (string $title, ?string $icon = null) => MenuItem::make(
             title: $title,
             action: Link::to(route('sidebar', Str::slug($title))),
             icon: $icon ? new Icon($icon) : null,
         );
 
-        $menu = (new Menu)
-            ->add(new MenuGroup(items: [new MenuItem(
+        $menu = Menu::make()
+            ->add(MenuGroup::make()->add(MenuItem::make(
                 title: 'Home',
                 action: Link::to(route('sidebar')),
                 icon: new Icon('House'),
-            )]))
+            )))
             ->add(
-                new MenuGroup(
-                    title: 'Projects',
-                    items: [
-                        $createItem('Design & Engineering', 'lamp'),
-                        $createItem('Sales & Marketing', 'router'),
-                        $createItem('Travel', 'sofa'),
-                        $createItem('Support', 'school'),
-                        $createItem('Feedback', 'book-check'),
-
-                        new MenuGroup(
-                            title: 'Application',
-                            icon: new Icon('washing-machine'),
-                            items: [
-                                $createItem('Deployments'),
-                                $createItem('Repository'),
-                                $createItem('Actions'),
-                                $createItem('Tickets'),
-                            ],
-                        )
-                    ]
-                )
+                MenuGroup::make(title: 'Projects')
+                    ->add($createItem('Design & Engineering', 'lamp')->badge('10'))
+                    ->add($createItem('Sales & Marketing', 'router'))
+                    ->add($createItem('Travel', 'sofa'))
+                    ->add($createItem('Support', 'school'))
+                    ->add($createItem('Feedback', 'book-check'))
+                    ->add(
+                        MenuGroup::make(title: 'Application', icon: new Icon('washing-machine'))
+                            ->add($createItem('Deployments')->badge('20'))
+                            ->add($createItem('Repository'))
+                            ->add($createItem('Actions'))
+                            ->add($createItem('Tickets'))
+                    )
             )
         ;
 
