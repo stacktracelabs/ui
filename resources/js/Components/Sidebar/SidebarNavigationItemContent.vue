@@ -17,7 +17,7 @@ import { Link } from '@inertiajs/vue3'
 import { computed } from 'vue'
 import { type NavigationItem } from '.'
 import { Icon } from '@/Components/Icon'
-import { SidebarMenuBadge } from '@/Components/Sidebar'
+import SidebarMenuBadge from './SidebarMenuBadge.vue'
 
 const props = defineProps<{
   item: NavigationItem

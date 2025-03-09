@@ -9,7 +9,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { type NavigationItem } from '.'
-import { SidebarMenuItem, SidebarMenuButton, SidebarMenuSubButton } from '@/Components/Sidebar'
+import SidebarMenuItem from './SidebarMenuItem.vue'
+import SidebarMenuButton from './SidebarMenuButton.vue'
+import SidebarMenuSubButton from './SidebarMenuSubButton.vue'
 import SidebarNavigationItemContent from './SidebarNavigationItemContent.vue'
 
 const props = withDefaults(defineProps<{

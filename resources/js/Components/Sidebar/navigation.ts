@@ -1,33 +1,6 @@
+import type { Menu, MenuGroup, MenuItem, MenuNode } from '@/Components/Menu'
 import { usePage } from '@inertiajs/vue3'
-import { computed, ComputedRef, MaybeRefOrGetter, unref } from 'vue'
-
-export interface MenuItemLink {
-  url: string
-  external: boolean
-}
-
-export interface MenuItem {
-  title: string
-  action: { type: 'link', link: MenuItemLink } | null
-  badge: string | null
-  activePaths?: Array<string>
-  icon?: { src: string }
-}
-
-type MenuItemNode = { type: 'group', item: MenuGroup }
-type MenuGroupNode = { type: 'item', item: MenuItem }
-
-export interface MenuGroup {
-  title: string | null
-  items: Array<MenuItemNode | MenuGroupNode>
-  icon?: { src: string }
-}
-
-export interface Menu {
-  navigations: Array<MenuGroup>
-}
-
-// Tu začina interny state pre sidebar
+import { computed, type ComputedRef, type MaybeRefOrGetter, unref } from 'vue'
 
 export interface NavigationItem {
   isActive: boolean
@@ -58,7 +31,7 @@ export function createNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Na
     return false
   }
 
-  const createGroupOrItem: (groupOrItem: MenuItemNode | MenuGroupNode) => NavigationItemNode | NavigationGroupNode = groupOrItem => {
+  const createGroupOrItem: (groupOrItem: MenuNode) => NavigationItemNode | NavigationGroupNode = groupOrItem => {
     if (groupOrItem.type === 'item') {
       return {
         type: 'item',

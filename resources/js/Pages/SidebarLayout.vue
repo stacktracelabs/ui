@@ -21,12 +21,12 @@
 
 <script setup lang="ts">
 import {
-  SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail
+  SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail,
+  createNavigation, SidebarNavigation
 } from '@/Components/Sidebar'
 import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
-import SidebarNavigation from './SidebarNavigation.vue'
-import { createNavigation, type Menu } from '.'
+import { type Menu } from '@/Components/Menu'
 import { type PageProps } from '@/Types'
 
 const page = usePage<PageProps & {

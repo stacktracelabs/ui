@@ -19,13 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-} from '@/Components/Sidebar'
 import { Collapsible } from '@/Components/Collapsible'
+import SidebarGroup from './SidebarGroup.vue'
+import SidebarGroupContent from './SidebarGroupContent.vue'
+import SidebarGroupLabel from './SidebarGroupLabel.vue'
+import SidebarMenu from './SidebarMenu.vue'
 import SidebarNavigationItem from './SidebarNavigationItem.vue'
 import SidebarNavigationGroup from './SidebarNavigationGroup.vue'
 import { type Navigation } from '.'

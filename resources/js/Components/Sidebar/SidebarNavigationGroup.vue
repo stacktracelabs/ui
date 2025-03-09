@@ -20,9 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { SidebarMenuItem, SidebarMenuButton, SidebarMenuSub } from '@/Components/Sidebar'
-import { computed } from 'vue'
+import SidebarMenuItem from './SidebarMenuItem.vue'
+import SidebarMenuButton from './SidebarMenuButton.vue'
+import SidebarMenuSub from './SidebarMenuSub.vue'
 import SidebarNavigationItem from './SidebarNavigationItem.vue'
+import { computed } from 'vue'
 import { type NavigationGroup } from '.'
 import { CollapsibleTrigger, CollapsibleContent } from '@/Components/Collapsible'
 import { ChevronRightIcon } from 'lucide-vue-next'
