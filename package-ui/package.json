@@ -1,6 +1,6 @@
 {
     "name": "@stacktrace/ui",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "type": "module",
     "scripts": {
         "dev": "vite build --watch",
@@ -14,10 +14,10 @@
         "src-js"
     ],
     "exports": {
-      ".": {
-        "import": "./dist/ui.js",
-        "types": "./dist/ui.d.ts"
-      }
+        ".": {
+            "import": "./dist/ui.js",
+            "types": "./dist/ui.d.ts"
+        }
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.15",
