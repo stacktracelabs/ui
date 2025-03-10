@@ -64,10 +64,16 @@ class SidebarController
             $breadcrumbs->append(BreadcrumbItem::make(Str::title($action)));
         }
 
+        $tabs = Menu::make()
+            ->add($createItem('Repository'))
+            ->add($createItem('Actions'))
+            ->add($createItem('Tickets'));
+
         return Inertia::render('SidebarPage', [
             'menu' => $menu,
             'breadcrumbs' => $breadcrumbs,
             'action' => $action ? Str::headline($action) : null,
+            'tabs' => $tabs,
         ]);
     }
 }
