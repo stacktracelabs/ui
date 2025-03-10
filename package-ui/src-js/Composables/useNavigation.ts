@@ -1,94 +1,63 @@
-import type { Menu, MenuGroup, MenuItem, MenuNode } from '@/Types'
+import type { Menu, MenuItem } from '@/Types'
 import { usePage } from '@inertiajs/vue3'
 import { computed, type ComputedRef, type MaybeRefOrGetter, unref } from 'vue'
 
 export interface NavigationItem {
   isActive: boolean
-  menuItem: MenuItem
+  isChildActive: boolean
+  hasChildren: boolean
+  item: Omit<MenuItem, 'children'>
+  children: Array<NavigationItem>
 }
 
-type NavigationGroupNode = { type: 'group', group: NavigationGroup }
-type NavigationItemNode = { type: 'item', item: NavigationItem }
-
-export interface NavigationGroup {
-  items: Array<NavigationItemNode | NavigationGroupNode>
-  isActive: boolean
-  menuGroup: Omit<MenuGroup, 'items'>
-}
-
-export type Navigation = Array<NavigationGroup>
+export type Navigation = Array<NavigationItem>
 
 export function useNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navigation> {
   const menu = computed(() => unref(source) as Menu)
   const page = usePage()
   const url = computed(() => page.url)
 
-  const isItemActive: (item: MenuItem) => boolean = item => {
-    if (item.activePaths && item.activePaths.includes(url.value)) {
+  function isItemChildActive(item: MenuItem, deep: boolean = false): boolean {
+    if (item.children && item.children.some(child => isItemActive(child))) {
       return true
     }
 
-    if (item.activeRoutes && item.activeRoutes.some(it => route().current(it))) {
+    if (deep && item.children) {
+      return item.children.some(child => isItemChildActive(child, true))
+    }
+
+    return false
+  }
+
+  function isItemActive(item: MenuItem, deep: boolean = false): boolean {
+    if (
+      item.active && item.active.some(activation => {
+        if (activation.type === 'path') {
+          return activation.path === url.value
+        } else {
+          if (activation.route.params) {
+            return route().current(activation.route.name, activation.route.params)
+          } else {
+            return route().current(activation.route.name)
+          }
+        }
+      })
+    ) {
       return true
     }
 
     return false
   }
 
-  const createGroupOrItem: (groupOrItem: MenuNode) => NavigationItemNode | NavigationGroupNode = groupOrItem => {
-    if (groupOrItem.type === 'item') {
-      return {
-        type: 'item',
-        item: {
-          isActive: isItemActive(groupOrItem.item),
-          menuItem: groupOrItem.item,
-        }
-      }
-    } else {
-      return {
-        type: 'group',
-        group: {
-          isActive: false,
-          items: groupOrItem.item.items.map(it => createGroupOrItem(it)),
-          menuGroup: { ...groupOrItem.item, items: undefined },
-        }
-      }
+  const createItem: (item: MenuItem) => NavigationItem = item => {
+    return {
+      isActive: isItemActive(item),
+      isChildActive: isItemChildActive(item, true),
+      item: { ...item, children: undefined },
+      children: item.children ? item.children.map(child => createItem(child)) : [],
+      hasChildren: item.children ? item.children.length > 0 : false,
     }
   }
 
-  const isGroupActive: (group: NavigationGroup) => boolean = group => {
-    return group.items.some(groupOrItem => {
-      if (groupOrItem.type === 'item') {
-        return groupOrItem.item.isActive
-      } else {
-        return isGroupActive(groupOrItem.group)
-      }
-    })
-  }
-
-  const resolveGroupActivation = (group: NavigationGroup) => {
-    if (isGroupActive(group)) {
-      group.isActive = true
-    }
-
-    group.items.forEach(it => {
-      if (it.type === 'group') {
-        resolveGroupActivation(it.group)
-      }
-    })
-  }
-
-  return computed<Navigation>(() => {
-    const groups = menu.value.navigations.map((group: MenuGroup) => {
-      return {
-        items: group.items.map(it => createGroupOrItem(it)),
-        menuGroup: { ...group, items: undefined },
-        isActive: false,
-      }
-    })
-
-    groups.forEach(group => resolveGroupActivation(group))
-
-    return groups
-  })
+  return computed<Navigation>(() => menu.value.items.map(it => createItem(it)))
 }

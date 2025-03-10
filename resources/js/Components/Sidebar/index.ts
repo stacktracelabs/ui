@@ -28,15 +28,11 @@ export { default as SidebarMenuSkeleton } from './SidebarMenuSkeleton.vue'
 export { default as SidebarMenuSub } from './SidebarMenuSub.vue'
 export { default as SidebarMenuSubButton } from './SidebarMenuSubButton.vue'
 export { default as SidebarMenuSubItem } from './SidebarMenuSubItem.vue'
+export { default as SidebarNavigation } from './SidebarNavigation.vue'
 export { default as SidebarProvider } from './SidebarProvider.vue'
 export { default as SidebarRail } from './SidebarRail.vue'
 export { default as SidebarSeparator } from './SidebarSeparator.vue'
 export { default as SidebarTrigger } from './SidebarTrigger.vue'
-
-export { default as SidebarNavigation } from './SidebarNavigation.vue'
-export { default as SidebarNavigationGroup } from './SidebarNavigationGroup.vue'
-export { default as SidebarNavigationItem } from './SidebarNavigationItem.vue'
-export { default as SidebarNavigationItemContent } from './SidebarNavigationItemContent.vue'
 
 export { useSidebar } from './utils'
 

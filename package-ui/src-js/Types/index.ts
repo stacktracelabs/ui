@@ -8,7 +8,7 @@ export interface Link {
   external: boolean
 }
 
-export interface Icon {
+export interface IconSource {
   src: string
 }
 
@@ -19,29 +19,20 @@ export interface LinkAction {
 
 export type Action = LinkAction
 
+export type ActivePath = string
+export type ActiveRoute = { name: string, params: any | null }
+
 export interface MenuItem {
-  title: string
-  action: Action | null
+  title?: string | null
+  action?: Action | null
   badge?: string | null
-  activePaths?: Array<string>
-  activeRoutes?: Array<string>
-  icon?: Icon | null
-}
-
-export type MenuItemNode = { type: 'group', item: MenuGroup }
-export type MenuGroupNode = { type: 'item', item: MenuItem }
-
-export type MenuNode = MenuItemNode | MenuGroupNode
-
-export interface MenuGroup {
-  title: string | null
-  items: Array<MenuNode>
-  icon?: Icon | null
-  action: Action | null
+  active?: Array<{ type: 'route', route: ActiveRoute } | { type: 'path', path: ActivePath }>
+  icon?: IconSource | null
+  children?: Array<MenuItem>
 }
 
 export interface Menu {
-  navigations: Array<MenuGroup>
+  items: Array<MenuItem>
 }
 
 export interface BreadcrumbNavigationItem {

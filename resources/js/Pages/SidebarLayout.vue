@@ -20,6 +20,8 @@
         </div>
       </header>
 
+      <pre>{{ navigation }}</pre>
+
       <slot />
     </main>
   </SidebarProvider>

@@ -12,7 +12,6 @@ use StackTrace\Ui\Breadcrumbs\BreadcrumbList;
 use StackTrace\Ui\Icon;
 use StackTrace\Ui\Link;
 use StackTrace\Ui\Menu\Menu;
-use StackTrace\Ui\Menu\MenuGroup;
 use StackTrace\Ui\Menu\MenuItem;
 
 class SidebarController
@@ -31,27 +30,29 @@ class SidebarController
         );
 
         $menu = Menu::make()
-            ->add(MenuGroup::make()->add(MenuItem::make(
-                title: 'Home',
-                action: Link::to(route('sidebar')),
-                icon: new Icon('House'),
-            )))
             ->add(
-                MenuGroup::make(title: 'Projects')
-                    ->add($createItem('Design & Engineering', 'lamp')->badge('10'))
-                    ->add($createItem('Sales & Marketing', 'router'))
-                    ->add($createItem('Travel', 'sofa'))
-                    ->add($createItem('Support', 'school'))
-                    ->add($createItem('Feedback', 'book-check'))
-                    ->add(
-                        MenuGroup::make(title: 'Application', icon: new Icon('washing-machine'))
-                            ->add($createItem('Deployments')->badge('20'))
-                            ->add($createItem('Repository'))
-                            ->add($createItem('Actions'))
-                            ->add($createItem('Tickets'))
-                            ->add(
-                                MenuGroup::make(title: 'Test', action: Link::to(route('sidebar', 'Test')))
-                                    ->add($createItem('Tickets'))
+                MenuItem::make(
+                    title: 'Home',
+                    action: Link::to(route('sidebar')),
+                    icon: new Icon('House'),
+                )
+            )
+            ->add(
+                MenuItem::make(title: 'Projects')
+                    ->addChild($createItem('Design & Engineering', 'lamp')->badge('10'))
+                    ->addChild($createItem('Sales & Marketing', 'router'))
+                    ->addChild($createItem('Travel', 'sofa'))
+                    ->addChild($createItem('Support', 'school'))
+                    ->addChild($createItem('Feedback', 'book-check'))
+                    ->addChild(
+                        MenuItem::make(title: 'Application', icon: new Icon('washing-machine'))
+                            ->addChild($createItem('Deployments')->badge('20'))
+                            ->addChild($createItem('Repository'))
+                            ->addChild($createItem('Actions'))
+                            ->addChild($createItem('Tickets'))
+                            ->addChild(
+                                MenuItem::make(title: 'Test', action: Link::to(route('sidebar', 'Test')))
+                                    ->addChild($createItem('Tickets'))
                             )
                     )
             )

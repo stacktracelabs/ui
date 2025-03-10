@@ -4,6 +4,7 @@
 namespace StackTrace\Ui\Menu;
 
 
+use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use StackTrace\Ui\ViewModel;
@@ -13,54 +14,42 @@ class Menu extends ViewModel
     use Conditionable;
 
     /**
-     * List of navigations within menu.
+     * List of items within the menu.
      *
-     * @var array<\StackTrace\Ui\Menu\MenuGroup>
+     * @var array<\StackTrace\Ui\Menu\MenuItem>
      */
-    protected array $navigations = [];
+    protected array $items = [];
 
     /**
-     * Add navigation to the menu.
+     * Add item to the menu.
      */
-    public function add(MenuGroup $navigation): static
+    public function add(MenuItem $item): static
     {
-        $this->navigations[] = $navigation;
+        $this->items[] = $item;
 
         return $this;
     }
 
     /**
-     * Add navigation to the menu if the given "value" is (or resolves to) truthy.
+     * Find item by its id or custom callback.
      */
-    public function addWhen($value, MenuGroup $navigation): static
+    public function find(string|Closure $id): ?MenuItem
     {
-        return $this->when($value, fn (Menu $menu) => $menu->add($navigation));
+        if ($id instanceof Closure) {
+            return $this->getItems()->first($id);
+        }
+
+        return $this->getItems()->firstWhere('id', $id);
     }
 
     /**
-     * Add navigation to the menu if the given "value" is (or resolves to) falsy.
-     */
-    public function addUnless($value, MenuGroup $navigation): static
-    {
-        return $this->unless($value, fn (Menu $menu) => $menu->add($navigation));
-    }
-
-    /**
-     * Find navigation by its identifier.
-     */
-    public function find(string $id): ?MenuGroup
-    {
-        return $this->all()->firstWhere('id', $id);
-    }
-
-    /**
-     * Retrieve all navigations within menu.
+     * Retrieve all items within menu.
      *
-     * @return Collection<int, \StackTrace\Ui\Menu\MenuGroup>
+     * @return Collection<int, \StackTrace\Ui\Menu\MenuItem>
      */
-    public function all(): Collection
+    public function getItems(): Collection
     {
-        return collect($this->navigations);
+        return collect($this->items);
     }
 
     /**
@@ -68,7 +57,7 @@ class Menu extends ViewModel
      */
     public function merge(Menu $menu): static
     {
-        $this->navigations = array_merge($this->navigations, $menu->navigations);
+        $this->items = array_merge($this->items, $menu->items);
 
         return $this;
     }
@@ -76,7 +65,7 @@ class Menu extends ViewModel
     public function toView(): array
     {
         return [
-            'navigations' => $this->navigations,
+            'items' => $this->items,
         ];
     }
 
