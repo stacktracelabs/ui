@@ -49,6 +49,10 @@ class SidebarController
                             ->add($createItem('Repository'))
                             ->add($createItem('Actions'))
                             ->add($createItem('Tickets'))
+                            ->add(
+                                MenuGroup::make(title: 'Test', action: Link::to(route('sidebar', 'Test')))
+                                    ->add($createItem('Tickets'))
+                            )
                     )
             )
         ;

@@ -29,7 +29,7 @@ class UpdateComponents extends Command
 
         $availableComponents = $components->map(fn (SplFileInfo $file) => $file->getFilename())->values()->all();
 
-        $dest = base_path('package/stubs/components');
+        $dest = base_path('package-ui/stubs/components');
 
         if (File::exists($dest)) {
             File::deleteDirectory($dest);

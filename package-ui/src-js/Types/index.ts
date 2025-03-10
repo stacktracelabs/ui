@@ -37,6 +37,7 @@ export interface MenuGroup {
   title: string | null
   items: Array<MenuNode>
   icon?: Icon | null
+  action: Action | null
 }
 
 export interface Menu {

@@ -13,6 +13,12 @@
         "dist",
         "src-js"
     ],
+    "exports": {
+      ".": {
+        "import": "./dist/ui.js",
+        "types": "./dist/ui.d.ts"
+      }
+    },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.15",
         "@vueuse/core": "^10.9.0",

@@ -23,7 +23,7 @@ class CopyIcons extends Command
             return 1;
         }
 
-        $destination = base_path("package/src/Icons/{$this->argument('destination')}");
+        $destination = base_path("package-ui/src/Icons/{$this->argument('destination')}");
 
         File::ensureDirectoryExists($destination);;
 

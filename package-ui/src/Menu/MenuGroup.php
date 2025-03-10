@@ -7,6 +7,7 @@ namespace StackTrace\Ui\Menu;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use StackTrace\Ui\Icon;
+use StackTrace\Ui\Link;
 use StackTrace\Ui\ViewModel;
 
 class MenuGroup extends ViewModel
@@ -17,8 +18,27 @@ class MenuGroup extends ViewModel
         protected ?string $id = null,
         protected ?string $title = null,
         protected ?Icon   $icon = null,
+        protected ?Link   $action = null,
         protected array   $items = [],
     ) { }
+
+    /**
+     * Set the action on the group.
+     */
+    public function action(?Link $action): static
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve action of the group.
+     */
+    public function getAction(): ?Link
+    {
+        return $this->action;
+    }
 
     /**
      * Add item to the menu group.
@@ -89,14 +109,21 @@ class MenuGroup extends ViewModel
                 'type' => $item instanceof MenuGroup ? 'group' : 'item',
             ]),
             'icon' => $this->icon,
+            'action' => $this->action ? [
+                'type' => 'link',
+                'link' => [
+                    'url' => $this->action->url,
+                    'external' => $this->action->isExternal,
+                ],
+            ] : null,
         ];
     }
 
     /**
      * Create new instance of the menu group.
      */
-    public static function make(?string $id = null, ?string $title = null, ?Icon $icon = null): static
+    public static function make(?string $id = null, ?string $title = null, ?Icon $icon = null, ?Link $action = null): static
     {
-        return new static($id, $title, $icon);
+        return new static($id, $title, $icon, $action);
     }
 }

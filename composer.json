@@ -74,7 +74,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./package"
+            "url": "./package-ui"
         }
     ]
 }

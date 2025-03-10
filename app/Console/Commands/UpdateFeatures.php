@@ -44,7 +44,7 @@ class UpdateFeatures extends Command
     {
         $name = Str::kebab($name);
 
-        $featureDir = base_path("package/stubs/features/$name");
+        $featureDir = base_path("package-ui/stubs/features/$name");
 
         if (File::exists($featureDir)) {
             File::deleteDirectory($featureDir);

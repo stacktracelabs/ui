@@ -19,7 +19,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
-          package_directory: 'package'
+          package_directory: 'package-ui'
           repository_organization: 'stacktracelabs'
           repository_name: 'laravel-ui'
           user_name: 'Peter Stovka'
@@ -38,7 +38,7 @@ jobs:
         with:
           tag: ${{ steps.previous-tag.outputs.tag }}
           branch: main
-          package_directory: 'package'
+          package_directory: 'package-ui'
           repository_organization: 'stacktracelabs'
           repository_name: 'laravel-ui'
           user_name: 'Peter Stovka'

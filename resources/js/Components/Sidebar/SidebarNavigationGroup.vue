@@ -13,6 +13,9 @@
       <SidebarMenuSub v-if="items.length > 0">
         <template v-for="subItemOrGroup in items">
           <SidebarNavigationItem v-if="subItemOrGroup.type === 'item'" :item="subItemOrGroup.item" sub />
+          <template v-else-if="subItemOrGroup.type === 'group'">
+            <p>grup</p>
+          </template>
         </template>
       </SidebarMenuSub>
     </CollapsibleContent>
