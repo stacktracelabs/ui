@@ -1,7 +1,7 @@
 <template>
   <SidebarMenuItem>
     <CollapsibleTrigger as-child>
-      <SidebarMenuButton v-if="title" :is-active="group.isActive" :tooltip="title">
+      <SidebarMenuButton v-if="title" :tooltip="title">
         <Icon v-if="icon" v-bind="icon" class="size-4" />
 
         {{ title }}

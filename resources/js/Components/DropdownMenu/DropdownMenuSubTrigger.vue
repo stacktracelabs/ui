@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
+import type { DropdownMenuSubTriggerProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/Utils'
+import { ChevronRightIcon } from '@radix-icons/vue'
 import {
   DropdownMenuSubTrigger,
-  type DropdownMenuSubTriggerProps,
+
   useForwardProps,
 } from 'radix-vue'
-import { ChevronRightIcon } from '@radix-icons/vue'
-import { cn } from '@/Utils'
+import { computed } from 'vue'
 
 const props = defineProps<DropdownMenuSubTriggerProps & { class?: HTMLAttributes['class'] }>()
 
@@ -23,7 +25,7 @@ const forwardedProps = useForwardProps(delegatedProps)
   <DropdownMenuSubTrigger
     v-bind="forwardedProps"
     :class="cn(
-      'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent',
+      'flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent [&>svg]:size-4 [&>svg]:shrink-0 gap-2',
       props.class,
     )"
   >

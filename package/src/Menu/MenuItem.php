@@ -44,6 +44,14 @@ class MenuItem extends ViewModel
     }
 
     /**
+     * Retrieve title of the item.
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
      * Set action on the menu item.
      */
     public function action(?Link $action): static
@@ -51,6 +59,14 @@ class MenuItem extends ViewModel
         $this->action = $action;
 
         return $this;
+    }
+
+    /**
+     * Retrieve action of the item.
+     */
+    public function getAction(): ?Link
+    {
+        return $this->action;
     }
 
     /**
@@ -64,6 +80,14 @@ class MenuItem extends ViewModel
     }
 
     /**
+     * Retrieve icon of the item.
+     */
+    public function getIcon(): ?Icon
+    {
+        return $this->icon;
+    }
+
+    /**
      * Set badge on the menu item.
      */
     public function badge(?string $badge): static
@@ -71,6 +95,14 @@ class MenuItem extends ViewModel
         $this->badge = $badge;
 
         return $this;
+    }
+
+    /**
+     * Retrieve badge of the item.
+     */
+    public function getBadge(): ?string
+    {
+        return $this->badge;
     }
 
     public function toView(): array

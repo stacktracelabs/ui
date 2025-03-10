@@ -4,6 +4,7 @@
 namespace StackTrace\Ui\Menu;
 
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use StackTrace\Ui\Icon;
 use StackTrace\Ui\ViewModel;
@@ -43,6 +44,40 @@ class MenuGroup extends ViewModel
     public function addUnless($value, MenuItem|MenuGroup $menu): static
     {
         return $this->unless($value, fn (MenuGroup $group) => $group->add($menu));
+    }
+
+    /**
+     * Retrieve all items within the menu.
+     *
+     * @return \Illuminate\Support\Collection<int, \StackTrace\Ui\Menu\MenuItem|\StackTrace\Ui\Menu\MenuGroup>
+     */
+    public function getItems(): Collection
+    {
+        return collect($this->items);
+    }
+
+    /**
+     * Retrieve id of the group.
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * Retrieve title of the group.
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Retrieve icon of the group.
+     */
+    public function getIcon(): ?Icon
+    {
+        return $this->icon;
     }
 
     public function toView(): array
