@@ -24,4 +24,9 @@ class Customer extends Model
         'is_premium' => 'boolean',
         'business_area' => BusinessArea::class,
     ];
+
+    public function getAvatarUrl(): string
+    {
+        return "https://ui-avatars.com/api/?name=".urlencode($this->name);
+    }
 }

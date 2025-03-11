@@ -38,6 +38,8 @@ class CustomerTable extends Table
     public function columns(): ColumnCollection
     {
         return ColumnCollection::of([
+            Columns\Image::make('', fn (Customer $customer) => $customer->getAvatarUrl()),
+
             Columns\Icon::make('', fn () => 'refresh-cw'),
 
             Columns\Text::make('Name')

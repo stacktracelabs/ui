@@ -1,31 +1,65 @@
 <template>
-  <SidebarGroup v-for="group in navigation">
-    <SidebarGroupLabel v-if="group.menuGroup.title">{{ group.menuGroup.title }}</SidebarGroupLabel>
-    <SidebarGroupContent>
-      <SidebarMenu>
-        <template v-for="groupOrItem in group.items">
-            <template v-if="groupOrItem.type === 'group'">
-              <Collapsible :default-open="groupOrItem.group.isActive" class="group/collapsible">
-                <SidebarNavigationGroup :group="groupOrItem.group" />
+  <SidebarGroup v-for="item in navigation">
+    <template v-if="item.hasChildren">
+      <SidebarGroupLabel v-if="item.item.title">{{ item.item.title }}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          <template v-for="child in item.children">
+            <template v-if="child.hasChildren">
+              <Collapsible :default-open="child.isChildActive" class="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger as-child>
+                    <SidebarNavigationButton :item="child" :as="SidebarMenuButton">
+                      <ChevronRightIcon class="size-4 ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarNavigationButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <template v-for="subChld in child.children">
+                        <SidebarNavigationButton
+                          :item="subChld"
+                          :as="SidebarMenuSubButton"
+                          :is-active="subChld.isActive || subChld.isChildActive"
+                        />
+                      </template>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
               </Collapsible>
             </template>
-            <template v-else-if="groupOrItem.type === 'item'">
-              <SidebarNavigationItem :item="groupOrItem.item" />
+            <template v-else>
+              <SidebarMenuItem>
+                <SidebarNavigationButton :item="child" :as="SidebarMenuButton" :is-active="child.isActive" />
+              </SidebarMenuItem>
             </template>
-        </template>
-      </SidebarMenu>
-    </SidebarGroupContent>
+          </template>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </template>
+    <template v-else>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarNavigationButton :item="item" :as="SidebarMenuButton" :is-active="item.isActive" />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </template>
   </SidebarGroup>
 </template>
 
 <script setup lang="ts">
-import { Collapsible } from '@/Components/Collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/Components/Collapsible'
+import SidebarMenuItem from './SidebarMenuItem.vue'
 import SidebarGroup from './SidebarGroup.vue'
 import SidebarGroupContent from './SidebarGroupContent.vue'
 import SidebarGroupLabel from './SidebarGroupLabel.vue'
 import SidebarMenu from './SidebarMenu.vue'
-import SidebarNavigationItem from './SidebarNavigationItem.vue'
-import SidebarNavigationGroup from './SidebarNavigationGroup.vue'
+import SidebarMenuSub from './SidebarMenuSub.vue'
+import SidebarNavigationButton from './SidebarNavigationButton.vue'
+import SidebarMenuButton from './SidebarMenuButton.vue'
+import SidebarMenuSubButton from './SidebarMenuSubButton.vue'
+import { ChevronRightIcon } from 'lucide-vue-next'
 import { type Navigation } from '@stacktrace/ui'
 
 defineProps<{

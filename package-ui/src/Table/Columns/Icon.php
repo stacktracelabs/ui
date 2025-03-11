@@ -25,8 +25,14 @@ class Icon extends Column
 
     public function toView($value, $resource): array
     {
+        if ($value instanceof \StackTrace\Ui\Icon) {
+            $src = $value->getContent();
+        } else {
+            $src = (new \StackTrace\Ui\Icon($value))->getContent();
+        }
+
         return [
-            'icon' => new \StackTrace\Ui\Icon($value),
+            'src' => $src,
             'size' => $this->size,
         ];
     }
