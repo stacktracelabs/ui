@@ -6,12 +6,12 @@
     v-bind="$attrs"
   >
     <template v-if="action && action.type === 'link'">
-      <Link :href="action.link.url" :as="action.link.external ? 'a' : undefined">
+      <component :is="action.link.external ? 'a' : Link" :href="action.link.url">
         <Icon v-if="icon" :src="icon.src" class="size-4" />
         <span>{{ title }}</span>
         <SidebarMenuBadge v-if="badge">{{ badge }}</SidebarMenuBadge>
         <slot />
-      </Link>
+      </component>
     </template>
     <template v-else>
       <Icon v-if="icon" :src="icon.src" class="size-4" />

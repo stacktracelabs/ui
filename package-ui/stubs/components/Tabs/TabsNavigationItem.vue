@@ -18,11 +18,12 @@
 <script setup lang="ts">
 import { cn } from '@/Utils'
 import { type NavigationItem } from '@stacktrace/ui'
-import { computed } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { Link } from '@inertiajs/vue3'
 
 const props = defineProps<{
   item: NavigationItem
+  class?: HTMLAttributes['class']
 }>()
 
 const action = computed(() => props.item.item.action)
