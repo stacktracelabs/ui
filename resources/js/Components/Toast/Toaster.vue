@@ -2,8 +2,11 @@
 import { isVNode } from 'vue'
 import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from '.'
 import { useToast } from './use-toast'
+import { useBackendToast } from './use-backend-toast'
 
 const { toasts } = useToast()
+
+useBackendToast()
 </script>
 
 <template>
