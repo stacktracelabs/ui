@@ -123,6 +123,16 @@ class Table implements Arrayable, JsonSerializable
     protected ?Closure $highlightUsing = null;
 
     /**
+     * Disable sorting on all columns.
+     */
+    protected bool $withoutSorting = false;
+
+    /**
+     * Hide all available filters.
+     */
+    protected bool $withoutFilter = false;
+
+    /**
      * Set how the row should be highlighted.
      */
     public function highlight(?Closure $closure): static
@@ -243,9 +253,9 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Disable filtering on the table.
      */
-    public function withoutFilters(): static
+    public function withoutFilter(bool $without = true): static
     {
-        $this->filter->clearWidgets();
+        $this->withoutFilter = $without;
 
         return $this;
     }
@@ -585,7 +595,13 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function renderHeaderColumns(): Collection
     {
-        return $this->getColumns()->map(fn (Column $column, string $id) => $column->renderHeader($id))->values();
+        return $this->getColumns()->map(function (Column $column, string $id) {
+            if ($this->withoutSorting) {
+                $column->withoutSorting();
+            }
+
+            return $column->renderHeader($id);
+        })->values();
     }
 
     /**
@@ -740,7 +756,7 @@ class Table implements Arrayable, JsonSerializable
             'pagination' => $this->getPagination(),
             'cursorPagination' => $this->getCursorPagination(),
             'isSearchable' => $this->searchUsing != null,
-            'filter' => $this->filter?->toView(),
+            'filter' => !$this->withoutFilter ? $this->filter?->toView() : null,
             'isEmpty' => $this->baseTotalCount === 0,
         ];
     }
