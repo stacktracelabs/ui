@@ -36,6 +36,16 @@ class Filter
     }
 
     /**
+     * Remove the filter widgets.
+     */
+    public function clearWidgets(): static
+    {
+        $this->widgets = [];
+
+        return $this;
+    }
+
+    /**
      * Check whether given filter is applied.
      */
     public function isApplied(string $name): bool

@@ -548,6 +548,17 @@ abstract class Column
     }
 
     /**
+     * Disable sorting on the column.
+     */
+    public function withoutSorting(): static
+    {
+        $this->sortingName = null;
+        $this->sortableUsing = null;
+
+        return $this;
+    }
+
+    /**
      * Retrieve name of the sorting for the column.
      */
     public function getSortableAs(): ?string

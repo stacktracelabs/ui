@@ -158,6 +158,18 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Disable sorting on the table.
+     */
+    public function withoutSorting(): static
+    {
+        if ($this->columns instanceof ColumnCollection) {
+            $this->columns->all()->each(fn (Column $column) => $column->withoutSorting());
+        }
+
+        return $this;
+    }
+
+    /**
      * Do not send resource to the frontend.
      */
     public function withoutResource(bool $without = true): static
@@ -224,11 +236,31 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Disable filtering on the table.
+     */
+    public function withoutFilters(): static
+    {
+        $this->filter->clearWidgets();
+
+        return $this;
+    }
+
+    /**
      * Configure search callback on the source.
      */
     public function searchable(?Closure $using): static
     {
         $this->searchUsing = $using;
+
+        return $this;
+    }
+
+    /**
+     * Disable search on the table.
+     */
+    public function withoutSearch(): static
+    {
+        $this->searchUsing = null;
 
         return $this;
     }
