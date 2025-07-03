@@ -175,11 +175,9 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Disable sorting on the table.
      */
-    public function withoutSorting(): static
+    public function withoutSorting(bool $without = true): static
     {
-        if ($this->columns instanceof ColumnCollection) {
-            $this->columns->all()->each(fn (Column $column) => $column->withoutSorting());
-        }
+        $this->withoutSorting = $without;
 
         return $this;
     }
