@@ -63,6 +63,11 @@ class Table implements Arrayable, JsonSerializable
     protected array $excludedActions = [];
 
     /**
+     * List of actions which should be allowed.
+     */
+    protected array $allowedActions = [];
+
+    /**
      * Default per page options.
      */
     protected array $perPageOptions = [25, 50, 100];
@@ -337,6 +342,16 @@ class Table implements Arrayable, JsonSerializable
     public function exceptActions(string|array $name): static
     {
         $this->excludedActions = array_merge($this->excludedActions, Arr::wrap($name));
+
+        return $this;
+    }
+
+    /**
+     * Allow only given actions to be performed on the resources.
+     */
+    public function onlyActions(string|array $name): static
+    {
+        $this->allowedActions = array_merge($this->allowedActions, Arr::wrap($name));
 
         return $this;
     }
@@ -750,6 +765,10 @@ class Table implements Arrayable, JsonSerializable
 
         return $actions->filter(function (BaseAction $action, string $name) {
             if (in_array($name, $this->excludedActions)) {
+                return false;
+            }
+
+            if (!empty($this->allowedActions) && !in_array($name, $this->allowedActions)) {
                 return false;
             }
 
