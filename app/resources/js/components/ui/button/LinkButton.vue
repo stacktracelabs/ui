@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { type InertiaLinkProps, Link } from '@inertiajs/vue3'
 import { type ButtonProps, Button } from '.'
-import { useForwardProps } from 'radix-vue'
+import { useForwardProps } from 'reka-ui'
 import { computed } from 'vue'
 
 const props = defineProps<ButtonProps & InertiaLinkProps & {

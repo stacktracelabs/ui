@@ -1,0 +1,1 @@
+- tento package vyžaduje `"embla-carousel-vue": "^8.6.0",`
