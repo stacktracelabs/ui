@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { Toaster as Sonner, type ToasterProps } from 'vue-sonner'
+import { useBackendSonner } from './useBackendSonner'
 
 const props = defineProps<ToasterProps>()
+
+useBackendSonner()
 </script>
 
 <template>
