@@ -1,5 +1,5 @@
 <template>
-  <Checkbox v-model:checked="selectable" :value="value" :disabled="disabled" />
+  <Checkbox v-model="selectable" :value="value" :disabled="disabled" />
 </template>
 
 <script setup lang="ts">
