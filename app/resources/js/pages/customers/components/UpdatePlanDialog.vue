@@ -8,7 +8,7 @@
 
       <FormControl label="New Plan" required>
         <Select v-model="form.plan">
-          <SelectTrigger>
+          <SelectTrigger class="w-full">
             <SelectValue placeholder="Select a plan" />
           </SelectTrigger>
           <SelectContent>

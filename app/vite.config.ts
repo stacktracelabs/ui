@@ -10,6 +10,7 @@ export default defineConfig({
       input: 'resources/js/app.ts',
       refresh: true
     }),
+    // @ts-ignore
     vue({
       template: {
         transformAssetUrls: {
