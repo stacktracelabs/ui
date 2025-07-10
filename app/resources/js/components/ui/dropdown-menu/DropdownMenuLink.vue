@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { type DropdownMenuItemProps, useForwardProps } from 'radix-vue'
+import { type DropdownMenuItemProps, useForwardProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 import { Link, type InertiaLinkProps } from '@inertiajs/vue3'
 import { DropdownMenuItem } from './'

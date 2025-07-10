@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { Primitive } from 'reka-ui'
 import { type ButtonProps, buttonVariants } from './'
-import { cn } from '@/Utils'
+import { cn } from '@/lib/utils'
 import { computed } from 'vue'
 import { CheckIcon } from 'lucide-vue-next'
 import { Spinner } from '@/components/ui/spinner'

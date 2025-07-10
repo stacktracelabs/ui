@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
-import { fileURLToPath, URL } from "node:url";
+import tailwindcss from '@tailwindcss/vite'
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [
@@ -17,11 +18,12 @@ export default defineConfig({
         }
       }
     }),
+    tailwindcss()
   ],
   resolve: {
     alias: {
-      // @ts-ignore
-      '@stacktrace/ui': fileURLToPath(new URL('../', import.meta.url)),
+      '@': path.resolve(__dirname, './resources/js'),
+      '@stacktrace/ui': path.resolve(__dirname, '../'),
     }
   }
 })

@@ -16,7 +16,7 @@ import {
   type SwitchRootEmits,
   type SwitchRootProps,
   useForwardPropsEmits,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const id = useId()

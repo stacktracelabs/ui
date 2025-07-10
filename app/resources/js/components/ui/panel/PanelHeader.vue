@@ -4,5 +4,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import { cn } from '@/Utils'
+import { cn } from '@/lib/utils'
 </script>

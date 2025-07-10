@@ -1,0 +1,94 @@
+<template>
+  <Head title="Customers" />
+
+  <AuthenticatedLayout>
+    <template #header>
+      <h2 class="font-semibold text-xl leading-tight">Form Components</h2>
+    </template>
+
+    <div class="py-4 sm:py-6 lg:py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Card class="p-0">
+          <Panel as="form" @submit.prevent="save">
+            <PanelHeader class="px-4 sm:px-6">
+              <PanelTitle>Inputs</PanelTitle>
+            </PanelHeader>
+            <PanelContent>
+              <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Text Input" variant="horizontal" :error="form.errors.text">
+                  <Input v-model="form.text" class="sm:max-w-md" />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Date Input" variant="horizontal" :error="form.errors.date">
+                  <DateInput v-model="form.date" class="sm:max-w-md" />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Date Picker" variant="horizontal" :error="form.errors.date">
+                  <DatePicker v-model="form.date" class="sm:max-w-md" />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Combobox" variant="horizontal" :error="form.errors.select">
+                  <Combobox v-model="form.select" :options="options" class="sm:max-w-md" nullable />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
+                <FormControl label="Combobox Numbers" variant="horizontal" :error="form.errors.comboNumber">
+                  <Combobox v-model="form.comboNumber" :options="numberOptions" class="sm:max-w-md" nullable />
+                </FormControl>
+              </PanelItem>
+              <PanelItem class="px-4 sm:px-6">
+                <pre class="text-xs">{{ input }}</pre>
+              </PanelItem>
+            </PanelContent>
+          </Panel>
+        </Card>
+      </div>
+    </div>
+  </AuthenticatedLayout>
+</template>
+
+<script setup lang="ts">
+import { Card } from '@/components/ui/card'
+import { FormControl } from '@/components/ui/form'
+import { DateInput } from '@/components/ui/date-input'
+import { DatePicker } from '@/components/ui/date-picker'
+import { FormCombobox as Combobox } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Panel, PanelContent, PanelHeader, PanelItem, PanelTitle } from '@/components/ui/panel'
+import { AuthenticatedLayout } from '@/layouts'
+import { Head, useForm } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
+import { type SelectOption } from '@stacktrace/ui'
+
+const form = useForm(() => ({
+  text: '',
+  date: undefined,
+  select: '',
+  comboNumber: null as number | null,
+}))
+
+const options = ref<Array<SelectOption>>([
+  { value: 'next.js', label: 'Next.js' },
+  { value: 'sveltekit', label: 'SvelteKit' },
+  { value: 'nuxt', label: 'Nuxt' },
+  { value: 'remix', label: 'Remix' },
+  { value: 'astro', label: 'Astro' },
+])
+
+const numberOptions = ref<Array<SelectOption<{}, number>>>([
+  { value: 1, label: 'Next.js' },
+  { value: 2, label: 'SvelteKit' },
+  { value: 3, label: 'Nuxt' },
+  { value: 4, label: 'Remix' },
+  { value: 5, label: 'Astro' },
+])
+
+const input = computed(() => JSON.stringify(form.data(), undefined, 2))
+
+const save = () => {
+  //
+}
+</script>
