@@ -6,5 +6,5 @@
 </template>
 
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/Avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 </script>

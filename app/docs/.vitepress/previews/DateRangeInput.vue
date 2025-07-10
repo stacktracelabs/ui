@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { DateRangeInput } from '@/Components/DateRangeInput'
+import { DateRangeInput } from '@/components/ui/date-range-input'
 import { ref } from "vue";
 
 const from = ref<string>()

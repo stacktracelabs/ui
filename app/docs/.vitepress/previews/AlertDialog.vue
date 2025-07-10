@@ -32,6 +32,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/Components/AlertDialog'
-import { Button } from '@/Components/Button'
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 </script>

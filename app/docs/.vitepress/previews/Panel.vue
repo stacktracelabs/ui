@@ -17,5 +17,5 @@ import {
   PanelTitle,
   PanelItem,
   PanelContent,
-} from '@/Components/Panel'
+} from '@/components/ui/panel'
 </script>

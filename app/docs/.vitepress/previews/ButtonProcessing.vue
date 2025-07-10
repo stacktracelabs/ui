@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import { ref } from 'vue'
 
 const processing = ref(false)

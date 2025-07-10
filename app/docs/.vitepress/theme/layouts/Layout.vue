@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
-import { ConfirmationDialog } from '@/Components/ConfirmationDialog'
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog'
 
 const { Layout } = DefaultTheme
 </script>

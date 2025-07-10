@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import { Badge } from '@/Components/Badge'
+import { Badge } from '@/components/ui/badge'
 </script>

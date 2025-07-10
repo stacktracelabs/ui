@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang='ts'>
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -54,14 +54,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/Components/Card'
-import { Input } from '@/Components/Input'
-import { Label } from '@/Components/Label'
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/Components/Select'
+} from '@/components/ui/select'
 </script>

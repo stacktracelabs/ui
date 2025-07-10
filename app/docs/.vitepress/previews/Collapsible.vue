@@ -29,12 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/Components/Collapsible'
+} from '@/components/ui/collapsible'
 
 import { ChevronsUpDownIcon } from 'lucide-vue-next'
 import { ref } from 'vue'

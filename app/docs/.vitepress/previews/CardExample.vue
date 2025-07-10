@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -51,9 +51,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/Components/Card'
-import { Switch } from '@/Components/Switch'
-import { cn } from '@/Utils'
+} from '@/components/ui/card'
+import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/utils'
 import { BellIcon, CheckIcon } from 'lucide-vue-next'
 
 const notifications = [

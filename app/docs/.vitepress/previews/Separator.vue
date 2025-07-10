@@ -20,5 +20,5 @@
 </template>
 
 <script setup lang="ts">
-import { Separator } from '@/Components/Separator'
+import { Separator } from '@/components/ui/separator'
 </script>

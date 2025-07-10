@@ -9,5 +9,5 @@
 </template>
 
 <script setup lang="ts">
-import { AspectRatio } from '@/Components/AspectRatio'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
 </script>

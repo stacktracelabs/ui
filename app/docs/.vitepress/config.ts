@@ -1,9 +1,7 @@
 import { defineConfig } from 'vitepress'
-import tailwind from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
-// @ts-ignore
 import path from 'node:path'
 import { postcssIsolateStyles } from 'vitepress'
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -70,11 +68,10 @@ export default defineConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
     css: {
       postcss: {
         plugins: [
-          tailwind() as any,
-          autoprefixer(),
           postcssIsolateStyles({
             includeFiles: [/vp-doc\.css/, /base\.css/],
           }),

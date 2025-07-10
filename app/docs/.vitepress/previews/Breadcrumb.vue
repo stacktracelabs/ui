@@ -43,11 +43,11 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/Components/Breadcrumb'
+} from '@/components/ui/breadcrumb'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/Components/DropdownMenu'
+} from '@/components/ui/dropdown-menu'
 </script>

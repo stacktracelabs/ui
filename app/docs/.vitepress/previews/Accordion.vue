@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/Components/Accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const defaultValue = 'item-1'
 

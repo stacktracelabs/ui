@@ -49,14 +49,14 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@/Components/Command'
+} from '@/components/ui/command'
 
 import {
   CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
+  SendIcon as EnvelopeClosedIcon,
+  ScanFaceIcon as FaceIcon,
+  SettingsIcon as GearIcon,
+  FileUserIcon as PersonIcon,
   RocketIcon,
-} from '@radix-icons/vue'
+} from 'lucide-vue-next'
 </script>

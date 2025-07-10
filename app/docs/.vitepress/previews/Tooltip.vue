@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/Components/Tooltip'
+} from '@/components/ui/tooltip'
 </script>

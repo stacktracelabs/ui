@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import { Textarea } from '@/Components/Textarea'
+import { Textarea } from '@/components/ui/textarea'
 </script>

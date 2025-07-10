@@ -69,5 +69,5 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from '@/Components/ContextMenu'
+} from '@/components/ui/context-menu'
 </script>

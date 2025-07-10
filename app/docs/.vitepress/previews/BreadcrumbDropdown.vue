@@ -40,12 +40,12 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/Components/Breadcrumb'
+} from '@/components/ui/breadcrumb'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/Components/DropdownMenu'
+} from '@/components/ui/dropdown-menu'
 import { ChevronDownIcon, SlashIcon } from 'lucide-vue-next'
 </script>

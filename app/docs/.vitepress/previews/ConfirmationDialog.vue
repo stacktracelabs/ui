@@ -3,8 +3,8 @@
 </template>
 
 <script setup lang="ts">
-import { useConfirmable } from '@/Components/ConfirmationDialog'
-import { Button } from '@/Components/Button'
+import { useConfirmable } from '@/components/ui/confirmation-dialog'
+import { Button } from '@/components/ui/button'
 
 const { confirmDestructive } = useConfirmable()
 

@@ -1,9 +1,9 @@
 <template>
-  <OptionSelect :options="options" class="w-[180px]" placeholder="Select a color" />
+  <FormSelect :options="options" class="w-[180px]" placeholder="Select a color" />
 </template>
 
 <script setup lang="ts">
-import { OptionSelect } from '@/Components/Select'
+import { FormSelect } from '@/components/ui/form'
 import { type SelectOption } from '@stacktrace/ui'
 import { ref } from 'vue'
 

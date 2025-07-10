@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { Label } from '@/Components/Label'
-import { Checkbox } from '@/Components/Checkbox'
+import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 </script>

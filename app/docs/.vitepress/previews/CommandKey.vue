@@ -49,7 +49,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/Components/Command'
+} from '@/components/ui/command'
 
 import { useMagicKeys } from '@vueuse/core'
 import { ref, watch } from 'vue'

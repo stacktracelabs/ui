@@ -9,5 +9,5 @@
 </template>
 
 <script setup lang="ts">
-import { Combobox } from '@/Components/Combobox'
+import { FormCombobox as Combobox } from '@/components/ui/form'
 </script>

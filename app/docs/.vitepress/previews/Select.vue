@@ -35,5 +35,5 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/Components/Select'
+} from '@/components/ui/select'
 </script>

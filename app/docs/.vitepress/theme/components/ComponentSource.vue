@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
+import { Button } from '@/components/ui/button'
 import { CodeIcon } from 'lucide-vue-next'
 import RadixIcon from './RadixIcon.vue'
 import ShadcnIcon from './ShadcnIcon.vue'
