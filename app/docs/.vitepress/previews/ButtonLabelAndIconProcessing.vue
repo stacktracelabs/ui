@@ -1,9 +1,9 @@
 <template>
-  <ActionButton @click="save" :recently-successful="recentlySuccessful" :processing="processing" label="Save" variant="outline" :icon="SaveIcon" />
+  <Button @click="save" :recently-successful="recentlySuccessful" :processing="processing" label="Save" variant="outline" :icon="SaveIcon" />
 </template>
 
 <script setup lang="ts">
-import { ActionButton } from '@/Components/Button'
+import { Button } from '@/Components/Button'
 import { SaveIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 

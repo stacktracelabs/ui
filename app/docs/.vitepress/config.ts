@@ -83,8 +83,8 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        // @ts-ignore
         '@': path.resolve(__dirname, '../../resources/js'),
+        '@stacktrace/ui': path.resolve(__dirname, '../../../'),
       },
     },
   }
