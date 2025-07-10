@@ -10,7 +10,7 @@
         <DropdownMenuCheckboxItem
           v-for="option in table.perPageOptions"
           @select="setPerPage(option)"
-          :checked="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
+          :model-value="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
         >{{ messages.perPageOption(option) }}</DropdownMenuCheckboxItem>
       </template>
     </DropdownMenuContent>
