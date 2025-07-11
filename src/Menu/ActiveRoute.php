@@ -4,10 +4,10 @@
 namespace StackTrace\Ui\Menu;
 
 
-final readonly class ActiveRoute
+final class ActiveRoute
 {
     public function __construct(
-        public string $name,
-        public array $params = [],
+        public readonly string $name,
+        public readonly array $params = [],
     ) { }
 }

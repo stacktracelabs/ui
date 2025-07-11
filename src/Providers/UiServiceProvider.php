@@ -17,7 +17,6 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->commands([
             Commands\AddCommand::class,
-            Commands\InstallCommand::class,
         ]);
 
         $this->app->scoped(Toaster::class);
@@ -26,7 +25,7 @@ class UiServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Route::group(['middleware' => 'web'], function () {
-            Route::post('/vendor/stacktrace/ui/data-table/actions', ActionController::class)->name('ui.data-table-action');
+            Route::post('/__ui/data-table/actions', ActionController::class)->name('ui.data-table-action');
         });
 
         Inertia::share('toasts', function () {

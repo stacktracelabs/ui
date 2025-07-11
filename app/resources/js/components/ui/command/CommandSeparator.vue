@@ -1,3 +1,13 @@
+<template>
+  <Separator
+    data-slot="command-separator"
+    v-bind="delegatedProps"
+    :class="cn('bg-border -mx-1 h-px', props.class)"
+  >
+    <slot />
+  </Separator>
+</template>
+
 <script setup lang="ts">
 import type { SeparatorProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
@@ -9,13 +19,3 @@ const props = defineProps<SeparatorProps & { class?: HTMLAttributes['class'] }>(
 
 const delegatedProps = reactiveOmit(props, 'class')
 </script>
-
-<template>
-  <Separator
-    data-slot="command-separator"
-    v-bind="delegatedProps"
-    :class="cn('bg-border -mx-1 h-px', props.class)"
-  >
-    <slot />
-  </Separator>
-</template>

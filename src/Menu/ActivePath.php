@@ -4,9 +4,9 @@
 namespace StackTrace\Ui\Menu;
 
 
-final readonly class ActivePath
+final class ActivePath
 {
     public function __construct(
-        public string $path
+        public readonly string $path
     ) { }
 }

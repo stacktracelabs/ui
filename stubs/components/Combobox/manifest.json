@@ -1,7 +1,0 @@
-{
-    "dependencies": [
-        "Button",
-        "Command",
-        "Popover"
-    ]
-}

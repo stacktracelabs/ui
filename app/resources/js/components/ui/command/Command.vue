@@ -1,3 +1,13 @@
+<template>
+  <ListboxRoot
+    data-slot="command"
+    v-bind="forwarded"
+    :class="cn('bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md', props.class)"
+  >
+    <slot />
+  </ListboxRoot>
+</template>
+
 <script setup lang="ts">
 import type { ListboxRootEmits, ListboxRootProps } from 'reka-ui'
 import { reactiveOmit } from '@vueuse/core'
@@ -64,10 +74,6 @@ function filterItems() {
   filterState.filtered.count = itemCount
 }
 
-function handleSelect() {
-  filterState.search = ''
-}
-
 watch(() => filterState.search, () => {
   filterItems()
 })
@@ -78,13 +84,3 @@ provideCommandContext({
   filterState,
 })
 </script>
-
-<template>
-  <ListboxRoot
-    data-slot="command"
-    v-bind="forwarded"
-    :class="cn('bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md', props.class)"
-  >
-    <slot />
-  </ListboxRoot>
-</template>

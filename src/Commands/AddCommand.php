@@ -12,7 +12,7 @@ class AddCommand extends Command
 {
     protected $signature = 'ui:add {name} {--force} {--force-deps}';
 
-    protected $description = 'Install UI component to application';
+    protected $description = 'Install UI component to the application';
 
     public function handle(): int
     {

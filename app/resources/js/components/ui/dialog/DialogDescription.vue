@@ -1,3 +1,13 @@
+<template>
+  <DialogDescription
+    data-slot="dialog-description"
+    v-bind="forwardedProps"
+    :class="cn('text-muted-foreground text-sm', props.class)"
+  >
+    <slot />
+  </DialogDescription>
+</template>
+
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
@@ -10,13 +20,3 @@ const delegatedProps = reactiveOmit(props, 'class')
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>
-
-<template>
-  <DialogDescription
-    data-slot="dialog-description"
-    v-bind="forwardedProps"
-    :class="cn('text-muted-foreground text-sm', props.class)"
-  >
-    <slot />
-  </DialogDescription>
-</template>

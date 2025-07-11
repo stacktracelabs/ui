@@ -1,3 +1,17 @@
+<template>
+  <Dialog v-bind="forwarded">
+    <DialogContent class="overflow-hidden p-0 ">
+      <DialogHeader class="sr-only">
+        <DialogTitle>{{ title }}</DialogTitle>
+        <DialogDescription>{{ description }}</DialogDescription>
+      </DialogHeader>
+      <Command>
+        <slot />
+      </Command>
+    </DialogContent>
+  </Dialog>
+</template>
+
 <script setup lang="ts">
 import type { DialogRootEmits, DialogRootProps } from 'reka-ui'
 import { useForwardPropsEmits } from 'reka-ui'
@@ -15,17 +29,3 @@ const emits = defineEmits<DialogRootEmits>()
 
 const forwarded = useForwardPropsEmits(props, emits)
 </script>
-
-<template>
-  <Dialog v-bind="forwarded">
-    <DialogContent class="overflow-hidden p-0 ">
-      <DialogHeader class="sr-only">
-        <DialogTitle>{{ title }}</DialogTitle>
-        <DialogDescription>{{ description }}</DialogDescription>
-      </DialogHeader>
-      <Command>
-        <slot />
-      </Command>
-    </DialogContent>
-  </Dialog>
-</template>
