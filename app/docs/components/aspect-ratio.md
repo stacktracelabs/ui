@@ -4,7 +4,7 @@ Displays content within a desired ratio.
 
 <ComponentSource
   source="components/AspectRatio"
-  primitive="https://www.radix-vue.com/components/aspect-ratio"
+  primitive="https://www.reka-ui.com/docs/components/aspect-ratio"
   ui="https://www.shadcn-vue.com/docs/components/aspect-ratio.html"
 />
 

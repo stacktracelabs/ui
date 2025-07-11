@@ -4,7 +4,7 @@ An image element with a fallback for representing the user.
 
 <ComponentSource
   source="components/Avatar"
-  primitive="https://www.radix-vue.com/components/avatar"
+  primitive="https://www.reka-ui.com/docs/components/avatar"
   ui="https://www.shadcn-vue.com/docs/components/avatar.html"
 />
 

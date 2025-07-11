@@ -4,7 +4,7 @@ Displays a menu to the user — such as a set of actions or functions — trigge
 
 <ComponentSource
   source="components/ContextMenu"
-  primitive="https://www.radix-vue.com/components/context-menu"
+  primitive="https://www.reka-ui.com/docs/components/context-menu"
   ui="https://www.shadcn-vue.com/docs/components/context-menu.html"
 />
 

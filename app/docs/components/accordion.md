@@ -4,7 +4,7 @@ A vertically stacked set of interactive headings that each reveal a section of c
 
 <ComponentSource
   source="components/Accordion"
-  primitive="https://www.radix-vue.com/components/accordion"
+  primitive="https://www.reka-ui.com/docs/components/accordion"
   ui="https://www.shadcn-vue.com/docs/components/accordion.html"
 />
 

@@ -4,7 +4,7 @@ Fast, composable, unstyled command menu.
 
 <ComponentSource
   source="components/Command"
-  primitive="https://www.radix-vue.com/components/combobox"
+  primitive="https://www.reka-ui.com/docs/components/combobox"
   ui="https://www.shadcn-vue.com/docs/components/command.html"
 />
 

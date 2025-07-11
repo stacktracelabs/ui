@@ -4,7 +4,7 @@ A control that allows the user to toggle between checked and not checked.
 
 <ComponentSource
   source="components/Checkbox"
-  primitive="https://www.radix-vue.com/components/checkbox"
+  primitive="https://www.reka-ui.com/docs/components/checkbox"
   ui="https://www.shadcn-vue.com/docs/components/checkbox.html"
 />
 

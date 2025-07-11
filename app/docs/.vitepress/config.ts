@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import path from 'node:path'
 import { postcssIsolateStyles } from 'vitepress'
+// @ts-ignore
 import tailwindcss from "@tailwindcss/vite";
 
 // https://vitepress.dev/reference/site-config

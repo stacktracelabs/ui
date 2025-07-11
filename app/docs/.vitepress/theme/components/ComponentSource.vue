@@ -5,7 +5,7 @@
     </Button>
 
     <Button v-if="primitive" variant="secondary" class="text-xs h-6 px-2" as="a" target="_blank" :href="primitive">
-      <RadixIcon class="w-4 h-4 mr-2" />
+      <RekaIcon class="w-4 h-4 mr-2" />
       Primitive API Reference
     </Button>
 
@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { CodeIcon } from 'lucide-vue-next'
 import RadixIcon from './RadixIcon.vue'
 import ShadcnIcon from './ShadcnIcon.vue'
+import RekaIcon from './RekaIcon.vue'
 
 defineProps<{
   source?: string

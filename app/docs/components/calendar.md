@@ -4,7 +4,7 @@ A date field component that allows users to enter and edit date.
 
 <ComponentSource
   source="components/Calendar"
-  primitive="https://www.radix-vue.com/components/calendar"
+  primitive="https://www.reka-ui.com/docs/components/calendar"
   ui="https://www.shadcn-vue.com/docs/components/calendar.html"
 />
 
@@ -12,7 +12,7 @@ A date field component that allows users to enter and edit date.
 
 ## About
 
-The `<Calendar />` component is built on top of the [RadixVue Calendar](https://www.radix-vue.com/components/calendar.html) component, which uses the [@internationalized/date](https://react-spectrum.adobe.com/internationalized/date/index.html) package to handle dates.
+The `<Calendar />` component is built on top of the [RadixVue Calendar](https://www.reka-ui.com/docs/components/calendar.html) component, which uses the [@internationalized/date](https://react-spectrum.adobe.com/internationalized/date/index.html) package to handle dates.
 
 If you're looking for a range calendar, check out the [Range Calendar](/components/range-calendar) component.
 
