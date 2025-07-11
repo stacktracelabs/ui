@@ -1,6 +1,6 @@
 <template>
   <AlertDialog :control="control">
-    <AlertDialogContent v-if="dialog">
+    <AlertDialogContent v-if="dialog" :to="to">
       <AlertDialogHeader>
         <AlertDialogTitle>{{ dialog.title || 'Confirm' }}</AlertDialogTitle>
         <AlertDialogDescription>{{ dialog.message || 'Are you sure you want to run this action?' }}</AlertDialogDescription>
@@ -20,6 +20,10 @@ import { ref } from "vue"
 import { onDeactivated } from "@stacktrace/ui"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+
+defineProps<{
+  to?: string | HTMLElement
+}>()
 
 const { control, dialog, close: closeDialog } = useConfirmationDialogRoot()
 

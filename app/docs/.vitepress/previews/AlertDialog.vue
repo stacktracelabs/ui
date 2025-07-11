@@ -5,7 +5,7 @@
         Show Dialog
       </Button>
     </AlertDialogTrigger>
-    <AlertDialogContent>
+    <AlertDialogContent to=".portal">
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>

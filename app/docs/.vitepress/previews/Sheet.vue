@@ -5,7 +5,7 @@
         Open
       </Button>
     </SheetTrigger>
-    <SheetContent>
+    <SheetContent to=".portal">
       <SheetHeader>
         <SheetTitle>Edit profile</SheetTitle>
         <SheetDescription>

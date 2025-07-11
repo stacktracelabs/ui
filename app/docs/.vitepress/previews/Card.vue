@@ -14,7 +14,7 @@
           <div class="flex flex-col space-y-1.5">
             <Label for="framework">Framework</Label>
             <Select>
-              <SelectTrigger id="framework">
+              <SelectTrigger id="framework" class="w-full">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent position="popper">

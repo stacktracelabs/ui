@@ -5,7 +5,7 @@
         Open popover
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-80">
+    <PopoverContent class="w-80" to=".portal">
       <div class="grid gap-4">
         <div class="space-y-2">
           <h4 class="font-medium leading-none">

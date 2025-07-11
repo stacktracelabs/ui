@@ -1,10 +1,10 @@
 <template>
   <Tabs default-value="preview" class="pt-4">
-    <TabsList>
+    <TabsList class="vp-raw">
       <TabsTrigger value="preview">Preview</TabsTrigger>
       <TabsTrigger value="code">Code</TabsTrigger>
     </TabsList>
-    <TabsContent value="preview" class="pt-2 vp-raw">
+    <TabsContent value="preview" class="vp-raw pt-2">
       <div class="bg-background py-16 px-8 border rounded flex items-center justify-center">
         <component v-if="component" :is="component" v-bind="delegatedProps" :class="$attrs.class || undefined" />
       </div>

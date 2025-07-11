@@ -1,15 +1,15 @@
 <template>
   <div class="vp-raw inline-flex gap-2 items-center" v-if="source || primitive">
-    <Button v-if="source" size="xs" variant="secondary" class="text-xs h-6" as="a" target="_blank" :href="`https://github.com/stacktracelabs/ui/tree/main/package/stubs/${source}`">
+    <Button v-if="source" variant="secondary" class="text-xs h-6 px-2" as="a" target="_blank" :href="`https://github.com/stacktracelabs/ui/tree/main/package/stubs/${source}`">
       <CodeIcon class="w-4 h-4 mr-2" /> Component Source
     </Button>
 
-    <Button v-if="primitive" size="xs" variant="secondary" class="text-xs h-6" as="a" target="_blank" :href="primitive">
+    <Button v-if="primitive" variant="secondary" class="text-xs h-6 px-2" as="a" target="_blank" :href="primitive">
       <RadixIcon class="w-4 h-4 mr-2" />
       Primitive API Reference
     </Button>
 
-    <Button v-if="ui" size="xs" variant="secondary" class="text-xs h-6" as="a" target="_blank" :href="ui">
+    <Button v-if="ui" variant="secondary" class="text-xs h-6 px-2" as="a" target="_blank" :href="ui">
       <ShadcnIcon class="w-4 h-4 mr-2" />
       UI Reference
     </Button>

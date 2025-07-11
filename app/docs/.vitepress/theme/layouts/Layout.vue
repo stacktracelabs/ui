@@ -1,7 +1,9 @@
 <template>
   <Layout />
 
-  <ConfirmationDialog />
+  <ConfirmationDialog to=".portal" />
+
+  <div class="vp-raw portal"></div>
 </template>
 
 <script setup lang="ts">
