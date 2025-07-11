@@ -10,6 +10,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use RuntimeException;
+use StackTrace\Ui\Exceptions\ComponentAlreadyInstalledException;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class ComponentLibrary
 {
@@ -35,9 +38,9 @@ class ComponentLibrary
     /**
      * Install component to application.
      */
-    public function add(string|array $name, bool $force = false, bool $forceDeps = false): void
+    public function add(string|array $name, bool $force = false, bool $forceDeps = false): InstallationResult
     {
-        $components = collect(Arr::wrap($name))->map(fn (string $name) => Str::studly($name));
+        $components = collect(Arr::wrap($name))->map(fn (string $name) => Str::kebab($name));
 
         // Check whether components are not installed.
         if (! $force) {
@@ -56,7 +59,13 @@ class ComponentLibrary
         }
 
         // Install all necessary components.
-        $components->merge($deps)->unique()->values()->each(fn (string $component) => $this->installComponent($component));
+        $toInstall = $components->merge($deps)->unique()->values();
+
+        $toInstall->each(fn (string $component) => $this->installComponent($component));
+
+        return new InstallationResult(
+            installed: $toInstall->all(),
+        );
     }
 
     /**
@@ -64,15 +73,11 @@ class ComponentLibrary
      */
     protected function installComponent(string $component): void
     {
-        $src = realpath(__DIR__."/../../stubs/components/{$component}");
-
-        if (! $src) {
-            throw new RuntimeException("The [$component] component does not exist.");
-        }
+        $src = realpath($this->getSourceComponentPath($component));
 
         $dest = $this->resolveComponentPath($component);
 
-        Utils::copyDirectory($src, $dest, except: ['manifest.json']);
+        Utils::copyDirectory($src, $dest, except: ['*.md']);
     }
 
     /**
@@ -82,7 +87,7 @@ class ComponentLibrary
     {
         foreach ($components as $component) {
             if ($this->isInstalled($component)) {
-                throw new RuntimeException("Component [$component] is already installed.");
+                throw new ComponentAlreadyInstalledException($component);
             }
         }
     }
@@ -92,15 +97,20 @@ class ComponentLibrary
      */
     protected function resolveDependencies(string $component): array
     {
-        $manifest = __DIR__."/../../stubs/components/{$component}/manifest.json";
-
-        if (file_exists($manifest)) {
-            $meta = json_decode(file_get_contents($manifest), true);
-
-            return Arr::get($meta, 'dependencies', []);
-        }
-
-        return [];
+        return collect(Finder::create()->files()->in($this->getSourceComponentPath($component))->name(["*.vue", "*.ts"]))
+            ->map(
+                fn (SplFileInfo $file) => Str::matchAll("/['\"]@\/components\/ui\/([^'\"]+)['\"]/", $file->getContents())
+                    ->map(fn (string $match) => explode('/', $match)[0])
+            )
+            ->values()
+            ->flatten(1)
+            ->unique()
+            ->filter(function (string $dependency) use ($component) {
+                return $dependency != $component
+                    && file_exists($this->getSourceComponentPath($dependency));
+            })
+            ->values()
+            ->all();
     }
 
     /**
@@ -114,11 +124,19 @@ class ComponentLibrary
     }
 
     /**
+     * Get path to the component source.
+     */
+    protected function getSourceComponentPath(string $name): string
+    {
+        return __DIR__.'/../../app/resources/js/components/ui/'.$name;
+    }
+
+    /**
      * Resolve path of the component.
      */
     protected function resolveComponentPath(?string $path = null): string
     {
-        return $path ? resource_path("js/Components/{$path}") : resource_path("js/Components");
+        return $path ? resource_path("js/components/ui/{$path}") : resource_path("js/components/ui");
     }
 
     /**
