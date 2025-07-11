@@ -32,5 +32,32 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "archive": {
+        "exclude": [
+            ".github",
+            "app/app",
+            "app/bootstrap",
+            "app/config",
+            "app/database",
+            "app/docs",
+            "app/public",
+            "app/routes",
+            "app/storage",
+            "app/tests",
+            "app/.*",
+            "app/artisan",
+            "app/*.json",
+            "app/*.lock",
+            "app/*.xml",
+            "app/*.md",
+            "app/*.mjs",
+            "app/*.ts",
+            "bin",
+            "package-lock.json",
+            "tsconfig.json",
+            "tsconfig.node.json",
+            "vite.config.ts"
+        ]
+    }
 }
