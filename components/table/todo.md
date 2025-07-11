@@ -1,0 +1,1 @@
+- refaktorovat bulk selection aby bolo to v stacktrace/ui
