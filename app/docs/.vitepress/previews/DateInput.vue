@@ -1,5 +1,5 @@
 <template>
-  <DateInput v-model="value" class="w-[280px]" />
+  <DateInput v-model="value" class="w-[280px]" to=".portal" />
 </template>
 
 <script setup lang="ts">

@@ -1,13 +1,12 @@
-# Date Input
+# Date Range Picker
 
-Enables user to either type a date or to select one.
+Enables user to select range of dates.
 
 <ComponentSource
-  source="components/date-input"
-  primitive="https://reka-ui.com/docs/components/date-picker"
+  source="components/date-range-picker"
 />
 
-<ComponentPreview name="DateInput" />
+<ComponentPreview name="DateRangePicker" />
 
 ## Installation
 
@@ -26,17 +25,17 @@ npm add @internationalized/date
 Install the component from your command line.
 
 ```shell
-php artisan ui:add date-input
+php artisan ui:add date-range-picker
 ```
 
 ## Usage
 
 ```vue
 <template>
-  <DateInput />
+  <DateRangePicker />
 </template>
 
 <script setup lang="ts">
-import { DateInput } from '@/components/ui/date-input'
+import { DateRangePicker } from '@/components/ui/date-range-picker'
 </script>
 ```

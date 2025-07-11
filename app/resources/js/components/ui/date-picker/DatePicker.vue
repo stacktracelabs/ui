@@ -10,12 +10,12 @@
           $attrs.class || ''
         )"
       >
-        <CalendarIcon class="mr-2 h-4 w-4" />
+        <CalendarIcon class="text-foreground h-4 w-4" />
         {{ date ? df.format(date.toDate(getLocalTimeZone())) : (placeholder || "Pick a date") }}
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-auto p-0">
-      <Calendar locale="sk" v-model="date" initial-focus />
+    <PopoverContent class="w-auto p-0" :to="to">
+      <Calendar v-model="date" initial-focus />
     </PopoverContent>
   </Popover>
 </template>
@@ -39,9 +39,10 @@ const emit = defineEmits(['update:modelValue'])
 const props = defineProps<{
   modelValue?: string | null | undefined
   placeholder?: string | null | undefined
+  to?: string | HTMLElement
 }>()
 
-const df = new DateFormatter('sk-SK', {
+const df = new DateFormatter('en-US', {
   dateStyle: 'long',
 })
 
