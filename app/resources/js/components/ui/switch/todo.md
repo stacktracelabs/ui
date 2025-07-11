@@ -1,0 +1,1 @@
+- skontrolovat ci switch control ma rovnake api ako switch

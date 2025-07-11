@@ -1,0 +1,1 @@
+- tak aby control mal rovnake API ako checkbox
