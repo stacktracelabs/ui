@@ -3,7 +3,7 @@
 A control that allows the user to toggle between checked and not checked.
 
 <ComponentSource
-  source="components/Checkbox"
+  source="components/checkbox"
   primitive="https://www.reka-ui.com/docs/components/checkbox"
   ui="https://www.shadcn-vue.com/docs/components/checkbox.html"
 />

@@ -3,7 +3,7 @@
 A select with input for option search.
 
 <ComponentSource
-  source="components/Combobox"
+  source="components/combobox"
 />
 
 <ComponentPreview name="Combobox" />

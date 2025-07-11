@@ -3,7 +3,7 @@
 Displays a card with header, content, and footer.
 
 <ComponentSource
-  source="components/Card"
+  source="components/card"
   ui="https://www.shadcn-vue.com/docs/components/card.html"
 />
 

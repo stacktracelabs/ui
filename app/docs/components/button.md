@@ -3,7 +3,7 @@
 Displays a button or a component that looks like a button.
 
 <ComponentSource
-  source="components/Button"
+  source="components/button"
   ui="https://www.shadcn-vue.com/docs/components/button.html"
 />
 

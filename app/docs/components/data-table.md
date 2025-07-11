@@ -3,7 +3,7 @@
 A backend driven table component.
 
 <ComponentSource
-  source="components/DataTable"
+  source="components/data-table"
 />
 
 ## Installation

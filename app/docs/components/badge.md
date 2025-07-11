@@ -3,7 +3,7 @@
 Displays a badge or a component that looks like a badge.
 
 <ComponentSource
-  source="components/Badge"
+  source="components/badge"
   ui="https://www.shadcn-vue.com/docs/components/badge.html"
 />
 

@@ -3,7 +3,7 @@
 A date field component that allows users to enter and edit date.
 
 <ComponentSource
-  source="components/Calendar"
+  source="components/calendar"
   primitive="https://www.reka-ui.com/docs/components/calendar"
   ui="https://www.shadcn-vue.com/docs/components/calendar.html"
 />

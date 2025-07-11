@@ -3,7 +3,7 @@
 A dialog to prompt user to confirm an action.
 
 <ComponentSource
-  source="components/ConfirmationDialog"
+  source="components/confirmation-dialog"
 />
 
 <ComponentPreview name="ConfirmationDialog" />

@@ -3,7 +3,7 @@
 Displays a callout for user attention.
 
 <ComponentSource
-  source="components/Alert"
+  source="components/alert"
   ui="https://www.shadcn-vue.com/docs/components/alert.html"
 />
 

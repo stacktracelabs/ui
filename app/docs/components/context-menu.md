@@ -3,7 +3,7 @@
 Displays a menu to the user — such as a set of actions or functions — triggered by a button.
 
 <ComponentSource
-  source="components/ContextMenu"
+  source="components/context-menu"
   primitive="https://www.reka-ui.com/docs/components/context-menu"
   ui="https://www.shadcn-vue.com/docs/components/context-menu.html"
 />

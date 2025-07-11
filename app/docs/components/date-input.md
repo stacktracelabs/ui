@@ -2,7 +2,7 @@
 
 A date picker component.
 
-<ComponentPreview name="DateInput" />
+<ComponentPreview name="date-input" />
 
 ## Installation
 

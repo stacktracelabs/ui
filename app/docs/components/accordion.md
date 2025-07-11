@@ -3,7 +3,7 @@
 A vertically stacked set of interactive headings that each reveal a section of content.
 
 <ComponentSource
-  source="components/Accordion"
+  source="components/accordion"
   primitive="https://www.reka-ui.com/docs/components/accordion"
   ui="https://www.shadcn-vue.com/docs/components/accordion.html"
 />

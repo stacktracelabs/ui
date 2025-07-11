@@ -3,7 +3,7 @@
 Fast, composable, unstyled command menu.
 
 <ComponentSource
-  source="components/Command"
+  source="components/command"
   primitive="https://www.reka-ui.com/docs/components/combobox"
   ui="https://www.shadcn-vue.com/docs/components/command.html"
 />

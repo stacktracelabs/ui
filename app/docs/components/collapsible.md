@@ -3,7 +3,7 @@
 An interactive component which expands/collapses a panel.
 
 <ComponentSource
-  source="components/Collapsible"
+  source="components/collapsible"
   primitive="https://www.reka-ui.com/docs/components/collapsible"
   ui="https://www.shadcn-vue.com/docs/components/collapsible.html"
 />

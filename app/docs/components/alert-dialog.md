@@ -3,7 +3,7 @@
 A modal dialog that interrupts the user with important content and expects a response.
 
 <ComponentSource
-  source="components/AlertDialog"
+  source="components/alert-dialog"
   primitive="https://www.reka-ui.com/docs/components/alert-dialog"
   ui="https://www.shadcn-vue.com/docs/components/alert-dialog.html"
 />

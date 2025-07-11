@@ -1,3 +1,5 @@
 *.tar.gz
 node_modules/
 demo/
+vendor
+composer.lock
