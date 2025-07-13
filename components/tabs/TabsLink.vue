@@ -1,33 +1,3 @@
-<script setup lang="ts">
-import { Link, type InertiaLinkProps } from '@inertiajs/vue3'
-import { cn } from '@/lib/utils'
-import { useBrowserLocation } from '@vueuse/core'
-import { computed } from 'vue'
-
-interface Props extends InertiaLinkProps {
-  class?: string
-  active?: boolean | undefined
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  active: undefined
-})
-
-const location = useBrowserLocation()
-
-const isActive = computed(() => {
-  if (props.active !== undefined) {
-    return props.active
-  }
-
-  if (props.href) {
-    return location.value.pathname === new URL(props.href).pathname
-  }
-
-  return false
-})
-</script>
-
 <template>
   <Link
     v-bind="props"
@@ -42,3 +12,32 @@ const isActive = computed(() => {
     <slot />
   </Link>
 </template>
+
+<script setup lang="ts">
+import { Link, type InertiaLinkProps } from '@inertiajs/vue3'
+import { cn } from '@/lib/utils'
+import { computed } from 'vue'
+import { isCurrentlyActivated } from '@stacktrace/ui'
+
+interface Props extends InertiaLinkProps {
+  class?: string
+  active?: boolean | undefined
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  active: undefined
+})
+
+const isActive = computed(() => {
+  if (props.active !== undefined) {
+    return props.active
+  }
+
+  const href = props.href
+  if (typeof href === 'string') {
+    return isCurrentlyActivated({ url: href })
+  }
+
+  return false
+})
+</script>

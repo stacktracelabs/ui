@@ -1,7 +1,7 @@
 <template>
   <component
-    :is="action && action.type === 'link' ? ( action.link.external ? 'a' : Link ) : 'span'"
-    :href="action && action.type === 'link' ? action.link.url : undefined"
+    :is="action && isLinkAction(action) ? ( action.external ? 'a' : Link ) : 'span'"
+    :href="action && isLinkAction(action) ? action.url : undefined"
     :data-state="item.isActive || item.isChildActive ? 'active' : 'inactive'"
     :class="
       cn(
@@ -11,13 +11,13 @@
       )
     "
   >
-    {{ item.item.title }}
+    {{ item.title }}
   </component>
 </template>
 
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
-import { type NavigationItem } from '@stacktrace/ui'
+import { type NavigationItem, isLinkAction } from '@stacktrace/ui'
 import { computed, type HTMLAttributes } from 'vue'
 import { Link } from '@inertiajs/vue3'
 
@@ -26,5 +26,5 @@ const props = defineProps<{
   class?: HTMLAttributes['class']
 }>()
 
-const action = computed(() => props.item.item.action)
+const action = computed(() => props.item.action)
 </script>

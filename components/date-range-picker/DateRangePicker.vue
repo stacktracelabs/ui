@@ -10,12 +10,12 @@
           $attrs.class || ''
         )"
       >
-        <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ label || "Pick a date" }}
+        <CalendarIcon class="text-foreground size-4" />
+        {{ label || "Pick a date range" }}
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="w-auto p-0">
-      <RangeCalendar locale="sk" v-model="date" initial-focus :number-of-months="2" />
+    <PopoverContent class="w-auto p-0" :to="to">
+      <RangeCalendar v-model="date" initial-focus :number-of-months="2" />
     </PopoverContent>
   </Popover>
 </template>
@@ -39,9 +39,10 @@ const emit = defineEmits(['update:from', 'update:until'])
 const props = defineProps<{
   from?: string
   until?: string
+  to?: string | HTMLElement
 }>()
 
-const df = new DateFormatter('sk-SK', {
+const df = new DateFormatter('en-US', {
   dateStyle: 'medium',
 })
 
