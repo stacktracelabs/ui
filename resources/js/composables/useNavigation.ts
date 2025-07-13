@@ -1,6 +1,6 @@
-import type { SVGSource } from '@/Types'
+import type { SVGSource } from '@/types'
 import { usePage } from '@inertiajs/vue3'
-import type { MaybeRefOrGetter, Component, ComputedRef } from 'vue'
+import { type MaybeRefOrGetter, type Component, type ComputedRef, toValue } from 'vue'
 import { computed, unref } from 'vue'
 import { useBrowserLocation } from '@vueuse/core'
 
@@ -144,6 +144,6 @@ export function useNavigation(menu: MaybeRefOrGetter<Menu>): ComputedRef<Navigat
     }
   }
 
-  const source = computed(() => unref(menu) as Array<MenuItem>)
+  const source = computed(() => toValue(menu))
   return computed(() => source.value.map(it => createNavigationItem(it)))
 }

@@ -2,14 +2,14 @@
   <div class="px-4">
     <h1 class="text-xl font-semibold">{{ action || 'Home' }}</h1>
 
-    <TabsNavigation class="mt-4" :menu="tabs" orientation="vertical" />
+    <TabsNavigation class="mt-4" :menu="tabs" />
 
     <div class="grid grid-cols-2 mt-4 gap-4">
-      <Skeleton class="h-[400px] animate-none" />
-      <Skeleton class="h-[400px] animate-none" />
+      <Skeleton class="h-[400px] animate-none opacity-50" />
+      <Skeleton class="h-[400px] animate-none opacity-50" />
     </div>
 
-    <Skeleton class="h-[400px] mt-4 animate-none" />
+    <Skeleton class="h-[400px] mt-4 animate-none opacity-50" />
   </div>
 </template>
 

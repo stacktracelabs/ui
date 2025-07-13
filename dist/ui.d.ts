@@ -8,6 +8,7 @@ import { ExtractPropTypes } from 'vue';
 import { GlobalEventParameters } from '@inertiajs/core';
 import { MaybeRefOrGetter } from 'vue';
 import { ParsedQuery } from 'query-string';
+import { PrimitiveProps } from 'reka-ui';
 import { PublicProps } from 'vue';
 import { Ref } from 'vue';
 import { RendererElement } from 'vue';
@@ -15,6 +16,29 @@ import { RendererNode } from 'vue';
 import { RequestPayload } from '@inertiajs/core';
 import { VisitOptions } from '@inertiajs/core';
 import { VNode } from 'vue';
+
+declare const __VLS_component: DefineComponent<Props, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
+click: (...args: any[]) => void;
+}, string, PublicProps, Readonly<Props> & Readonly<{
+onClick?: ((...args: any[]) => any) | undefined;
+}>, {}, {}, {}, {}, string, ComponentProvideOptions, false, {}, any>;
+
+declare function __VLS_template(): {
+    attrs: Partial<{}>;
+    slots: {
+        default?(_: {}): any;
+    };
+    refs: {};
+    rootEl: any;
+};
+
+declare type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
+
+declare type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};
 
 export declare interface AsyncRouter {
     visit: (href: string | URL, options?: Exclude<VisitOptions, 'onSuccess' | 'onError' | 'onCancel'>) => Promise<GlobalEventParameters<'success'>>;
@@ -99,6 +123,10 @@ export declare type MenuItemIcon = Component | SVGSource;
 
 export declare type Navigation = Array<NavigationItem>;
 
+export declare const NavigationButton: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
+
+export declare const NavigationButtonIcon: DefineComponent<    {}, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {}, string, PublicProps, Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, string, ComponentProvideOptions, true, {}, any>;
+
 export declare interface NavigationItem extends Omit<MenuItem, 'children'> {
     isActive: boolean;
     isChildActive: boolean;
@@ -111,6 +139,10 @@ export declare function onActivated(toggle: Toggle, callback: () => void): void;
 export declare function onDeactivated(toggle: Toggle, callback: () => void): void;
 
 export declare function parseQuery(): ParsedQuery<string | number>;
+
+declare interface Props extends PrimitiveProps {
+    item: NavigationItem;
+}
 
 export declare function registerNamespacedComponents(app: App, components: Record<string, DefineComponent>, namespace: string): void;
 

@@ -9,7 +9,7 @@ export default defineConfig({
     dts({ rollupTypes: true }),
   ],
   optimizeDeps: {
-    exclude: ['vue', '@inertiajs/vue3', '@inertiajs/core'],
+    exclude: ['vue', '@inertiajs/vue3', '@inertiajs/core', 'reka-ui'],
   },
   build: {
     manifest: true,
@@ -22,7 +22,7 @@ export default defineConfig({
       fileName: () => `ui.js`,
     },
     rollupOptions: {
-      external: ['vue', '@inertiajs/vue3', '@inertiajs/core'],
+      external: ['vue', '@inertiajs/vue3', '@inertiajs/core', 'reka-ui'],
     },
     // minify: false,
   },
