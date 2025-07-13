@@ -2,7 +2,7 @@
   <SidebarProvider>
     <Sidebar collapsible="icon">
       <SidebarContent>
-        <SidebarNavigation :navigation="navigation" />
+        <SidebarNavigation :menu="page.props.menu" />
       </SidebarContent>
 
       <SidebarFooter>
@@ -30,17 +30,13 @@ import {
   SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail, SidebarNavigation
 } from '@/components/ui/sidebar'
 import { usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
-import type { Menu, BreadcrumbNavigationList } from '@stacktrace/ui'
-import { useNavigation } from '@stacktrace/ui'
+import type { Menu } from '@stacktrace/ui'
 import { type PageProps } from '@/types/index.d'
 import { BreadcrumbNavigation } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 
 const page = usePage<PageProps & {
   menu: Menu
-  breadcrumbs: BreadcrumbNavigationList
+  breadcrumbs: Menu
 }>()
-
-const navigation = useNavigation(computed(() => page.props.menu))
 </script>

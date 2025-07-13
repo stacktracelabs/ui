@@ -1,4 +1,5 @@
 import { App } from 'vue';
+import { Component } from 'vue';
 import { ComponentOptionsMixin } from 'vue';
 import { ComponentProvideOptions } from 'vue';
 import { ComputedRef } from 'vue';
@@ -15,15 +16,6 @@ import { RequestPayload } from '@inertiajs/core';
 import { VisitOptions } from '@inertiajs/core';
 import { VNode } from 'vue';
 
-export declare type Action = LinkAction;
-
-export declare type ActivePath = string;
-
-export declare type ActiveRoute = {
-    name: string;
-    params: any | null;
-};
-
 export declare interface AsyncRouter {
     visit: (href: string | URL, options?: Exclude<VisitOptions, 'onSuccess' | 'onError' | 'onCancel'>) => Promise<GlobalEventParameters<'success'>>;
     post: (url: URL | string, data?: RequestPayload, options?: Exclude<VisitOptions, 'onSuccess' | 'onError' | 'onCancel' | 'method' | 'data'>) => Promise<GlobalEventParameters<'success'>>;
@@ -33,12 +25,7 @@ export declare interface AsyncRouter {
 
 export declare const asyncRouter: AsyncRouter;
 
-export declare interface BreadcrumbNavigationItem {
-    title: string;
-    action: Action | null;
-}
-
-export declare type BreadcrumbNavigationList = Array<BreadcrumbNavigationItem>;
+export declare type EventAction<Event = any> = (event?: Event) => void;
 
 export declare type Filter<TFilter extends FilterData> = TFilter & FilterProps<TFilter>;
 
@@ -72,47 +59,51 @@ required: true;
 };
 }>> & Readonly<{}>, {}, {}, {}, {}, string, ComponentProvideOptions, true, {}, any>;
 
-export declare interface IconSource {
-    src: string;
-}
+export declare function isActivated(activation: Array<MenuItemActivation> | MenuItemActivation, currentPath: string, currentUrl: URL | null): boolean;
 
-export declare interface Link {
+export declare function isCurrentlyActivated(activation: Array<MenuItemActivation> | MenuItemActivation): boolean;
+
+export declare function isEventAction(action: MenuItemAction): action is EventAction;
+
+export declare function isLinkAction(action: MenuItemAction): action is LinkAction;
+
+export declare function isLinkPathAction(action: MenuItemAction): action is LinkPathAction;
+
+export declare function isRouteAction(action: MenuItemAction): action is RouteAction;
+
+export declare type LinkAction = {
     url: string;
-    external: boolean;
-}
+    external?: boolean;
+};
 
-export declare interface LinkAction {
-    type: 'link';
-    link: Link;
-}
+export declare type LinkPathAction = {
+    path: string;
+};
 
-export declare interface Menu {
-    items: Array<MenuItem>;
-}
+export declare type Menu = Array<MenuItem>;
 
-export declare interface MenuItem {
-    title?: string | null;
-    action?: Action | null;
+export declare interface MenuItem<Event = any> {
+    title: string;
+    action?: MenuItemAction<Event> | null;
     badge?: string | null;
-    active?: Array<{
-        type: 'route';
-        route: ActiveRoute;
-    } | {
-        type: 'path';
-        path: ActivePath;
-    }>;
-    icon?: IconSource | null;
+    active?: Array<MenuItemActivation> | MenuItemActivation;
+    icon?: MenuItemIcon | null;
     children?: Array<MenuItem>;
 }
 
+export declare type MenuItemAction<Event = any> = string | RouteAction | LinkAction | LinkPathAction | EventAction<Event>;
+
+export declare type MenuItemActivation = LinkAction | RouteAction | LinkPathAction | (() => boolean);
+
+export declare type MenuItemIcon = Component | SVGSource;
+
 export declare type Navigation = Array<NavigationItem>;
 
-export declare interface NavigationItem {
+export declare interface NavigationItem extends Omit<MenuItem, 'children'> {
     isActive: boolean;
     isChildActive: boolean;
     hasChildren: boolean;
-    item: Omit<MenuItem, 'children'>;
-    children: Array<NavigationItem>;
+    children?: Array<NavigationItem>;
 }
 
 export declare function onActivated(toggle: Toggle, callback: () => void): void;
@@ -123,10 +114,19 @@ export declare function parseQuery(): ParsedQuery<string | number>;
 
 export declare function registerNamespacedComponents(app: App, components: Record<string, DefineComponent>, namespace: string): void;
 
-export declare type SelectOption<T = {}, V = string> = {
+export declare type RouteAction = {
+    route: string;
+    params?: any;
+};
+
+export declare type SelectOption<V = string> = {
     label: string;
     value: V;
-} & T;
+};
+
+export declare interface SVGSource {
+    src: string;
+}
 
 export declare interface Toggle {
     active: Ref<boolean>;
@@ -138,7 +138,7 @@ export declare function urlWithQuery(query: ParsedQuery<string | number>): strin
 
 export declare function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter>;
 
-export declare function useNavigation(source: MaybeRefOrGetter<Menu>): ComputedRef<Navigation>;
+export declare function useNavigation(menu: MaybeRefOrGetter<Menu>): ComputedRef<Navigation>;
 
 export declare function useToggle(initiallyActive?: boolean): Toggle;
 

@@ -222,26 +222,19 @@ class MenuItem extends ViewModel
         return [
             'title' => $this->title,
             'action' => $this->action ? [
-                'type' => 'link',
-                'link' => [
-                    'url' => $this->action->url,
-                    'external' => $this->action->isExternal,
-                ],
+                'url' => $this->action->url,
+                'external' => $this->action->isExternal,
             ] : null,
             'badge' => $this->badge,
             'active' => $this->getActiveDestinations()
                 ->map(function (ActiveRoute|ActivePath $active) {
                     if ($active instanceof ActiveRoute) {
                         return [
-                            'type' => 'route',
-                            'route' => [
-                                'name' => $active->name,
-                                'params' => $active->params,
-                            ]
+                            'route' => $active->name,
+                            'params' => $active->params,
                         ];
                     } else {
                         return [
-                            'type' => 'path',
                             'path' => $active->path,
                         ];
                     }

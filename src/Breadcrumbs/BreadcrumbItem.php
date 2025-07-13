@@ -39,11 +39,8 @@ class BreadcrumbItem extends ViewModel
         return [
             'title' => $this->title,
             'action' => $this->action instanceof Link ? [
-                'type' => 'link',
-                'link' => [
-                    'url' => $this->action->url,
-                    'external' => $this->action->isExternal,
-                ]
+                'url' => $this->action->url,
+                'external' => $this->action->isExternal,
             ] : null,
         ];
     }

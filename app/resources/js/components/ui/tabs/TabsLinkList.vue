@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-
-const props = defineProps<{
-  class?: string
-  orientation?: 'horizontal' | 'vertical'
-}>()
-</script>
-
 <template>
   <div
     v-bind="props"
@@ -21,3 +12,12 @@ const props = defineProps<{
     <slot />
   </div>
 </template>
+
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+
+const props = defineProps<{
+  class?: string
+  orientation?: 'horizontal' | 'vertical'
+}>()
+</script>

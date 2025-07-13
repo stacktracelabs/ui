@@ -23,7 +23,8 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue', '@inertiajs/vue3', '@inertiajs/core'],
-    }
+    },
+    // minify: false,
   },
   resolve: {
     alias: {

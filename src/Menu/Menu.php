@@ -64,9 +64,7 @@ class Menu extends ViewModel
 
     public function toView(): array
     {
-        return [
-            'items' => $this->items,
-        ];
+        return $this->items;
     }
 
     /**

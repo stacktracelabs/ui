@@ -1,20 +1,27 @@
 <template>
   <component
     :is="as"
-    :as-child="action ? action.type === 'link' : false"
+    :as-child="action ? isLinkAction(action) : false"
     :tooltip="title || undefined"
     v-bind="$attrs"
   >
-    <template v-if="action && action.type === 'link'">
-      <component :is="action.link.external ? 'a' : Link" :href="action.link.url">
-        <Icon v-if="icon" :src="icon.src" class="size-4" />
+    <template v-if="action && isLinkAction(action)">
+      <component :is="action.external ? 'a' : Link" :href="action.url">
+        <template v-if="icon">
+          <Icon v-if="'src' in icon" :src="icon.src" class="size-4" />
+          <component v-else :is="icon" class="size-4" />
+        </template>
+
         <span>{{ title }}</span>
         <SidebarMenuBadge v-if="badge">{{ badge }}</SidebarMenuBadge>
         <slot />
       </component>
     </template>
     <template v-else>
-      <Icon v-if="icon" :src="icon.src" class="size-4" />
+      <template v-if="icon">
+        <Icon v-if="'src' in icon" :src="icon.src" class="size-4" />
+        <component v-else :is="icon" class="size-4" />
+      </template>
       <span>{{ title }}</span>
       <SidebarMenuBadge v-if="badge">{{ badge }}</SidebarMenuBadge>
       <slot />
@@ -26,15 +33,15 @@
 import SidebarMenuBadge from './SidebarMenuBadge.vue'
 import { Link } from '@inertiajs/vue3'
 import { computed, type Component } from 'vue'
-import { type NavigationItem, Icon } from '@stacktrace/ui'
+import { type NavigationItem, Icon, isLinkAction } from '@stacktrace/ui'
 
 const props = defineProps<{
   item: NavigationItem
   as: Component
 }>()
 
-const action = computed(() => props.item.item.action)
-const title = computed(() => props.item.item.title)
-const icon = computed(() => props.item.item.icon)
-const badge = computed(() => props.item.item.badge)
+const action = computed(() => props.item.action)
+const title = computed(() => props.item.title)
+const icon = computed(() => props.item.icon)
+const badge = computed(() => props.item.badge)
 </script>
