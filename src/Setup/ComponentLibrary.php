@@ -128,7 +128,7 @@ class ComponentLibrary
      */
     protected function getSourceComponentPath(string $name): string
     {
-        return __DIR__.'/../../components'.$name;
+        return __DIR__.'/../../components/'.$name;
     }
 
     /**
