@@ -57,10 +57,18 @@ const renderProps = computed(() => {
   if (action) {
     if (isLinkAction(action)) {
       anotherProps.href = action.url
+      if (action.external !== true) {
+        anotherProps.preserveScroll = action.preserveScroll
+        anotherProps.preserveState = action.preserveState
+      }
     } else if (isLinkPathAction(action)) {
       anotherProps.href = action.path
+      anotherProps.preserveScroll = action.preserveScroll
+      anotherProps.preserveState = action.preserveState
     } else if (isRouteAction(action)) {
       anotherProps.href = route(action.route, action.params)
+      anotherProps.preserveScroll = action.preserveScroll
+      anotherProps.preserveState = action.preserveState
     }
   }
   return { ...delegatedProps, ...anotherProps }

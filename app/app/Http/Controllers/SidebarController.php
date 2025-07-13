@@ -23,9 +23,9 @@ class SidebarController
         $breadcrumbs = BreadcrumbList::make();
         $breadcrumbs->append(BreadcrumbItem::make('Sidebar', Link::to(route('sidebar'))));
 
-        $createItem = fn (string $title, ?string $icon = null) => MenuItem::make(
+        $createItem = fn (string $title, ?string $icon = null, bool $preserveScroll = false) => MenuItem::make(
             title: $title,
-            action: Link::to(route('sidebar', Str::slug($title))),
+            action: Link::to(route('sidebar', Str::slug($title)), preserveScroll: $preserveScroll),
             icon: $icon ? new Icon($icon) : null,
         );
 
@@ -65,9 +65,9 @@ class SidebarController
         }
 
         $tabs = Menu::make()
-            ->add($createItem('Repository'))
-            ->add($createItem('Actions'))
-            ->add($createItem('Tickets'));
+            ->add($createItem('Repository', preserveScroll: true))
+            ->add($createItem('Actions', preserveScroll: true))
+            ->add($createItem('Tickets', preserveScroll: true));
 
         return Inertia::render('SidebarPage', [
             'menu' => $menu,

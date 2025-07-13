@@ -224,6 +224,8 @@ class MenuItem extends ViewModel
             'action' => $this->action ? [
                 'url' => $this->action->url,
                 'external' => $this->action->isExternal,
+                'preserveState' => $this->action->preserveState,
+                'preserveScroll' => $this->action->preserveScroll,
             ] : null,
             'badge' => $this->badge,
             'active' => $this->getActiveDestinations()

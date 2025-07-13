@@ -1,12 +1,12 @@
 import type { SVGSource } from '@/types'
 import { usePage } from '@inertiajs/vue3'
 import { type MaybeRefOrGetter, type Component, type ComputedRef, toValue } from 'vue'
-import { computed, unref } from 'vue'
+import { computed } from 'vue'
 import { useBrowserLocation } from '@vueuse/core'
 
-export type LinkAction = { url: string, external?: boolean }
-export type RouteAction = { route: string, params?: any }
-export type LinkPathAction = { path: string }
+export type LinkAction = { url: string, external?: boolean, preserveScroll?: boolean, preserveState?: boolean, progress?: boolean }
+export type RouteAction = { route: string, params?: any, preserveScroll?: boolean, preserveState?: boolean, progress?: boolean }
+export type LinkPathAction = { path: string, preserveScroll?: boolean, preserveState?: boolean, progress?: boolean }
 export type EventAction<Event = any> = (event?: Event) => void
 
 export type MenuItemAction<Event = any> = string
@@ -57,12 +57,16 @@ export function isEventAction(action: MenuItemAction): action is EventAction {
   return typeof action === 'function'
 }
 
-export function isCurrentlyActivated(activation: Array<MenuItemActivation> | MenuItemActivation): boolean {
+export function useActiveLink(link: MaybeRefOrGetter<MenuItemActivation>): ComputedRef<boolean> {
   const page = usePage()
   const location = useBrowserLocation()
-  const href = location.value.href
 
-  return isActivated(activation, page.url, href ? new URL(href) : null)
+  return computed(() => {
+    const value = toValue(link)
+    const href = location.value.href
+
+    return isActivated(value, page.url, href ? new URL(href) : null)
+  })
 }
 
 export function isActivated(
@@ -78,6 +82,10 @@ export function isActivated(
     return activation.path === currentPath
   } else if (isLinkAction(activation)) {
     if (currentUrl) {
+      if (activation.url.startsWith('/')) {
+        return activation.url === currentUrl.pathname
+      }
+
       const url = new URL(activation.url)
       return `${url.host}${url.pathname}` === `${currentUrl.host}${currentUrl.pathname}`
     }

@@ -15,7 +15,9 @@ class Link
 
     public function __construct(
         public readonly string $url,
-        public readonly bool $isExternal = false
+        public readonly bool $isExternal = false,
+        public readonly bool $preserveScroll = false,
+        public readonly bool $preserveState = false,
     ) { }
 
     /**
@@ -43,8 +45,13 @@ class Link
     /**
      * Create new link to given destination.
      */
-    public static function to(string $url, bool $isExternal = false): static
+    public static function to(
+        string $url,
+        bool $isExternal = false,
+        bool $preserveScroll = false,
+        bool $preserveState = false,
+    ): static
     {
-        return new static($url, $isExternal);
+        return new static($url, $isExternal, $preserveScroll, $preserveState);
     }
 }

@@ -85,8 +85,6 @@ required: true;
 
 export declare function isActivated(activation: Array<MenuItemActivation> | MenuItemActivation, currentPath: string, currentUrl: URL | null): boolean;
 
-export declare function isCurrentlyActivated(activation: Array<MenuItemActivation> | MenuItemActivation): boolean;
-
 export declare function isEventAction(action: MenuItemAction): action is EventAction;
 
 export declare function isLinkAction(action: MenuItemAction): action is LinkAction;
@@ -98,10 +96,16 @@ export declare function isRouteAction(action: MenuItemAction): action is RouteAc
 export declare type LinkAction = {
     url: string;
     external?: boolean;
+    preserveScroll?: boolean;
+    preserveState?: boolean;
+    progress?: boolean;
 };
 
 export declare type LinkPathAction = {
     path: string;
+    preserveScroll?: boolean;
+    preserveState?: boolean;
+    progress?: boolean;
 };
 
 export declare type Menu = Array<MenuItem>;
@@ -149,6 +153,9 @@ export declare function registerNamespacedComponents(app: App, components: Recor
 export declare type RouteAction = {
     route: string;
     params?: any;
+    preserveScroll?: boolean;
+    preserveState?: boolean;
+    progress?: boolean;
 };
 
 export declare type SelectOption<V = string> = {
@@ -167,6 +174,8 @@ export declare interface Toggle {
 }
 
 export declare function urlWithQuery(query: ParsedQuery<string | number>): string;
+
+export declare function useActiveLink(link: MaybeRefOrGetter<MenuItemActivation>): ComputedRef<boolean>;
 
 export declare function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter>;
 
