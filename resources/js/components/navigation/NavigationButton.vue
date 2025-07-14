@@ -3,7 +3,7 @@
       :as="renderAs"
       v-bind="renderProps"
       @click="onClick"
-      :data-active="item.isActive || item.isChildActive ? 'active' : 'inactive'"
+      :data-active="item.isActive || item.isChildActive ? 'active' : undefined"
       :data-state="item.isActive ? 'active' : 'inactive'"
       :data-child-state="item.isChildActive ? 'active' : 'inactive'"
   >

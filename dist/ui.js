@@ -2241,7 +2241,7 @@ const ac = /* @__PURE__ */ Gt({
     };
     return (o, c) => (Dt(), Lt(ce(Us), Ds({ as: i.value }, s.value, {
       onClick: u,
-      "data-active": o.item.isActive || o.item.isChildActive ? "active" : "inactive",
+      "data-active": o.item.isActive || o.item.isChildActive ? "active" : void 0,
       "data-state": o.item.isActive ? "active" : "inactive",
       "data-child-state": o.item.isChildActive ? "active" : "inactive"
     }), {
