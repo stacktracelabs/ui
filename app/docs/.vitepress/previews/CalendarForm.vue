@@ -33,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { FormControl } from '@/components/ui/form'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
+import { Button } from '@/Components/Button'
+import { Calendar } from '@/Components/Calendar'
+import { FormControl } from '@/Components/Form'
+import { Popover, PopoverContent, PopoverTrigger } from '@/Components/Popover'
+import { cn } from '@/Utils'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'
 import { toDate } from 'reka-ui/date'

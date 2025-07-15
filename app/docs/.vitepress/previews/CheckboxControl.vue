@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckboxControl } from '@/components/ui/checkbox'
+import { CheckboxControl } from '@/Components/Checkbox'
 import { ref } from 'vue'
 
 const checked = ref(false)

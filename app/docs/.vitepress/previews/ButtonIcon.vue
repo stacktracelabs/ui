@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import { ChevronRightIcon } from 'lucide-vue-next'
 </script>

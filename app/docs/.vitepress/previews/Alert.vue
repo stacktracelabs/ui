@@ -9,6 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { Alert, AlertTitle, AlertDescription } from '@/Components/Alert'
 import { RocketIcon } from 'lucide-vue-next'
 </script>

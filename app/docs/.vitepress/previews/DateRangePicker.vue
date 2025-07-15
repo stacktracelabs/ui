@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { DateRangePicker } from '@/components/ui/date-range-picker'
+import { DateRangePicker } from '@/Components/DateRangePicker'
 import { ref } from "vue";
 
 const from = ref<string>()

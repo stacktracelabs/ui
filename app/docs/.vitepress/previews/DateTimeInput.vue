@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { DateTimeInput } from '@/components/ui/date-time-input'
+import { DateTimeInput } from '@/Components/DateTimeInput'
 import { ref } from "vue";
 
 const value = ref<string>()

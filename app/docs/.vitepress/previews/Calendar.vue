@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Calendar } from '@/components/ui/calendar'
+import { Calendar } from '@/Components/Calendar'
 import { type DateValue, getLocalTimeZone, today } from '@internationalized/date'
 import { type Ref, ref } from 'vue'
 

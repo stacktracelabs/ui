@@ -6,6 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
+import { Label } from '@/Components/Label'
+import { Switch } from '@/Components/Switch'
 </script>

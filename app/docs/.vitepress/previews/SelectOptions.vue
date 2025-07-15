@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { FormSelect } from '@/components/ui/form'
+import { FormSelect } from '@/Components/Form'
 import { type SelectOption } from '@stacktrace/ui'
 import { ref } from 'vue'
 

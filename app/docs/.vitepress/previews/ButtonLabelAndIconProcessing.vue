@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import { SaveIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 

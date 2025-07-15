@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { onMounted, shallowRef, type Component, ref, computed } from "vue";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/Tabs'
 import { codeToHtml } from 'shiki'
 
 const props = defineProps<{

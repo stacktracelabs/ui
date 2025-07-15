@@ -32,9 +32,9 @@
   </Sheet>
 </template>
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FormControl } from '@/components/ui/form'
+import { Button } from '@/Components/Button'
+import { Input } from '@/Components/Input'
+import { FormControl } from '@/Components/Form'
 import {
   Sheet,
   SheetClose,
@@ -44,5 +44,5 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
+} from '@/Components/Sheet'
 </script>

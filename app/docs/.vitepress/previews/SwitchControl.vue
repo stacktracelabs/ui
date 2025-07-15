@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-import { SwitchControl } from '@/components/ui/switch'
+import { SwitchControl } from '@/Components/Switch'
 </script>

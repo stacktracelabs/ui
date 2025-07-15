@@ -59,12 +59,12 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Button } from '@/Components/Button'
+import { Input } from '@/Components/Input'
+import { Label } from '@/Components/Label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '@/Components/Popover'
 </script>

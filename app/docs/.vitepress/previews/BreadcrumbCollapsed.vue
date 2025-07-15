@@ -29,5 +29,5 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+} from '@/Components/Breadcrumb'
 </script>

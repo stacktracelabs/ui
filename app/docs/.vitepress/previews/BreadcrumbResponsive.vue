@@ -79,8 +79,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Button } from '@/components/ui/button'
+} from '@/Components/Breadcrumb'
+import { Button } from '@/Components/Button'
 import {
   Drawer,
   DrawerClose,
@@ -90,13 +90,13 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer'
+} from '@/Components/Drawer'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/Components/DropdownMenu'
 import { useMediaQuery } from '@vueuse/core'
 import { computed, ref } from 'vue'
 

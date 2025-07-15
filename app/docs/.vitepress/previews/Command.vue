@@ -49,7 +49,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@/components/ui/command'
+} from '@/Components/Command'
 
 import {
   CalendarIcon,
