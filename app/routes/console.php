@@ -22,4 +22,8 @@ Artisan::command('rename-components', function () {
             $destination,
         );
     });
+
+    \Illuminate\Support\Facades\File::deleteDirectory($source);
+
+    rename(resource_path('js/components'), resource_path('js/Components'));
 });
