@@ -27,3 +27,27 @@ Artisan::command('rename-components', function () {
 
     \Illuminate\Support\Facades\File::deleteDirectory($source);
 });
+
+Artisan::command('fix-import {folder}', function () {
+    $folder = $this->argument('folder');
+
+    collect(
+        \Symfony\Component\Finder\Finder::create()
+            ->in($folder)
+            ->files()
+    )->each(function (\Symfony\Component\Finder\SplFileInfo $file) {
+        $contents = $file->getContents();
+
+        $matches = \Illuminate\Support\Str::matchAll("/['\"]@\/components\/ui\/([^'\"]+)['\"]/", $contents);
+
+        $contents = \Illuminate\Support\Str::replace('@/lib/utils', '@/Utils', $contents);
+
+        if ($matches->isNotEmpty()) {
+            foreach ($matches as $match) {
+                $component = \Illuminate\Support\Str::studly($match);
+
+                $contents = \Illuminate\Support\Str::replace("@/components/ui/{$match}", "@/Components/$component", $contents);
+            }
+        }
+    });
+});
