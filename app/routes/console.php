@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('rename-components', function () {
     $source = resource_path('js/components/ui');
 
+    mkdir(resource_path('js/Components2'));
+
     collect(
         \Symfony\Component\Finder\Finder::create()
             ->directories()
@@ -15,7 +17,7 @@ Artisan::command('rename-components', function () {
 
         $componentName = \Illuminate\Support\Str::studly($name);
 
-        $destination = resource_path("js/components/$componentName");
+        $destination = resource_path("js/Components2/$componentName");
 
         \Illuminate\Support\Facades\File::copyDirectory(
             $dir->getPathname(),
@@ -25,5 +27,5 @@ Artisan::command('rename-components', function () {
 
     \Illuminate\Support\Facades\File::deleteDirectory($source);
 
-    rename(resource_path('js/components'), resource_path('js/Components'));
+    rename(resource_path('js/Components2'), resource_path('js/Components'));
 });
