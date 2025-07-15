@@ -39,7 +39,7 @@ class ComponentLibrary
      */
     public function add(string|array $name, bool $force = false, bool $forceDeps = false): InstallationResult
     {
-        $components = collect(Arr::wrap($name))->map(fn (string $name) => Str::kebab($name));
+        $components = collect(Arr::wrap($name))->map(fn (string $name) => Str::studly($name));
 
         // Check whether components are not installed.
         if (! $force) {
