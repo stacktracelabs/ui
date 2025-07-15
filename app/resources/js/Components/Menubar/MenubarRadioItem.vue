@@ -9,7 +9,7 @@ import {
   type MenubarRadioItemProps,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 
 const props = defineProps<MenubarRadioItemProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<MenubarRadioItemEmits>()

@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
-import { Button, type ButtonVariants } from '@/components/ui/button'
+import { Button, type ButtonVariants } from '@/Components/Button'
 import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { cn } from '@/lib/utils'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
+import { cn } from '@/Utils'
 import { useToggle } from '@stacktrace/ui'
 import { EllipsisIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'

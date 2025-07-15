@@ -18,8 +18,8 @@
 import { useConfirmationDialogRoot } from "."
 import { ref } from "vue"
 import { onDeactivated } from "@stacktrace/ui"
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/Components/AlertDialog'
+import { Button } from '@/Components/Button'
 
 defineProps<{
   to?: string | HTMLElement

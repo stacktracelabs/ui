@@ -49,12 +49,12 @@
 
 <script setup lang="ts">
 import { GuestLayout } from '@/Layouts'
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button, LinkButton } from "@/components/ui/button"
-import { FormControl } from "@/components/ui/form";
-import { Input } from '@/components/ui/input'
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Alert, AlertDescription } from "@/Components/Alert"
+import { Button, LinkButton } from "@/Components/Button"
+import { FormControl } from "@/Components/Form";
+import { Input } from '@/Components/Input'
+import { Label } from "@/Components/Label"
+import { Checkbox } from "@/Components/Checkbox"
 import { useForm, Head, Link } from '@inertiajs/vue3'
 
 defineProps<{

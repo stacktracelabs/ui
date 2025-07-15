@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
-import { Input } from '@/components/ui/input'
+import { Input } from '@/Components/Input'
 
 const emit = defineEmits(['update:modelValue'])
 

@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
 import { injectContext } from './internal'
-import { FilterResetButton } from '@/components/ui/filter'
-import { cn } from '@/lib/utils'
+import { FilterResetButton } from '@/Components/Filter'
+import { cn } from '@/Utils'
 
 const { table, filter } = injectContext()
 </script>

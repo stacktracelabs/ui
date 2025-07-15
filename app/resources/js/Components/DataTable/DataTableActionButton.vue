@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number">
-import { Button, LinkButton } from '@/components/ui/button'
+import { Button, LinkButton } from '@/Components/Button'
 import DataTableIcon from './DataTableIcon.vue'
 import { type Action, useActionRunner } from './internal'
 

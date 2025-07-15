@@ -32,8 +32,8 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Button } from '@/Components/Button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { useToggle } from '@stacktrace/ui'
 import { EllipsisIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'

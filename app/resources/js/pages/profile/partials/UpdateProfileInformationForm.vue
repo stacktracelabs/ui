@@ -41,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Button } from "@/components/ui/button"
-import { FormControl } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/Components/Alert'
+import { Button } from "@/Components/Button"
+import { FormControl } from "@/Components/Form"
+import { Input } from "@/Components/Input"
+import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/Components/Card'
 import { useForm, usePage, Link } from '@inertiajs/vue3'
 
 defineProps<{

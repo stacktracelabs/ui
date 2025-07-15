@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { type Component } from 'vue'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 
 defineProps<{
   title?: string

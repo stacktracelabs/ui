@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import type { Filter } from "@stacktrace/ui";
 import { XIcon } from "lucide-vue-next";
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 
 defineProps<{
   filter: Filter<any>

@@ -18,14 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import messages from './messages'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+} from '@/Components/DropdownMenu'
 import { SlidersHorizontalIcon } from 'lucide-vue-next'
 import { injectContext } from './internal'
 

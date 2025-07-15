@@ -9,9 +9,9 @@
 
 <script setup lang="ts">
 import { Switch } from '.'
-import { Label } from '@/components/ui/label'
+import { Label } from '@/Components/Label'
 import { useId } from "reka-ui";
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 import {
   type SwitchRootEmits,
   type SwitchRootProps,

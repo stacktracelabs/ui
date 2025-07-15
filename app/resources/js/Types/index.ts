@@ -1,4 +1,4 @@
-import { type BackendToast } from '@/components/ui/sonner'
+import { type BackendToast } from '@/Components/Sonner'
 
 export interface User {
   id: number;

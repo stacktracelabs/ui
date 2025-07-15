@@ -42,11 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/components/ui/card'
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel  } from '@/components/ui/alert-dialog'
-import { FormControl } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/Components/Button'
+import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/Components/Card'
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel  } from '@/Components/AlertDialog'
+import { FormControl } from "@/Components/Form"
+import { Input } from "@/Components/Input"
 import { useForm } from '@inertiajs/vue3'
 import { useToggle } from '@stacktrace/ui'
 

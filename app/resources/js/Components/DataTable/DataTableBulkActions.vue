@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import messages from './messages'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { useToggle } from '@stacktrace/ui'
 import { ChevronDownIcon } from 'lucide-vue-next'
 import { computed, ref } from 'vue'

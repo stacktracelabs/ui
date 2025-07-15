@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { type BadgeVariants, Badge } from '@/components/ui/badge'
+import { type BadgeVariants, Badge } from '@/Components/Badge'
 
 defineProps<{
   variant?: BadgeVariants['variant']

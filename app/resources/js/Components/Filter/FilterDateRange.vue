@@ -33,14 +33,14 @@
 </template>
 
 <script setup lang="ts">
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
-import { Separator } from '@/components/ui/separator'
-import { RangeCalendar } from "@/components/ui/range-calendar";
-import { Badge } from '@/components/ui/badge'
-import { Button } from "@/components/ui/button";
+import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
+import { Separator } from '@/Components/Separator'
+import { RangeCalendar } from "@/Components/RangeCalendar";
+import { Badge } from '@/Components/Badge'
+import { Button } from "@/Components/Button";
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
 import { computed, type Ref, ref, watch } from 'vue'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 import {
   DateFormatter,
   parseDate,

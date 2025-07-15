@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number">
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { DropdownMenuItem } from '@/Components/DropdownMenu'
 import { Link } from '@inertiajs/vue3'
 import { type Action } from './internal'
 

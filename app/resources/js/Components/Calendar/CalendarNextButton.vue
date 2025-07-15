@@ -3,8 +3,8 @@ import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
 import { ChevronRight } from 'lucide-vue-next'
 import { CalendarNext, type CalendarNextProps, useForwardProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/Utils'
+import { buttonVariants } from '@/Components/Button'
 
 const props = defineProps<CalendarNextProps & { class?: HTMLAttributes['class'] }>()
 

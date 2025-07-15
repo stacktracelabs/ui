@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import {
   Dialog,
   DialogContent,
@@ -35,9 +35,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog'
-import { FormControl } from '@/components/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+} from '@/Components/Dialog'
+import { FormControl } from '@/Components/Form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/Select'
 import { useForm } from '@inertiajs/vue3'
 import { type Toggle, onActivated } from '@stacktrace/ui'
 

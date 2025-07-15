@@ -39,9 +39,9 @@
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from "@/Layouts";
-import { LinkButton } from "@/components/ui/button";
-import { Input } from '@/components/ui/input';
-import { FormControl } from "@/components/ui/form";
+import { LinkButton } from "@/Components/Button";
+import { Input } from '@/Components/Input';
+import { FormControl } from "@/Components/Form";
 
 const form = useForm({
   name: '',

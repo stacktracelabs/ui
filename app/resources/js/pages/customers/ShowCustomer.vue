@@ -57,16 +57,16 @@
 import { toast } from 'vue-sonner'
 import { Head, useForm } from "@inertiajs/vue3"
 import { AuthenticatedLayout } from "@/Layouts"
-import { Panel, PanelContent, PanelHeader, PanelTitle, PanelItem, PanelFooter } from '@/components/ui/panel'
-import { Card } from "@/components/ui/card";
-import { FormControl } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/components/ui/data-table'
+import { Panel, PanelContent, PanelHeader, PanelTitle, PanelItem, PanelFooter } from '@/Components/Panel'
+import { Card } from "@/Components/Card";
+import { FormControl } from '@/Components/Form'
+import { Input } from '@/Components/Input'
+import { Button } from '@/Components/Button'
+import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/DataTable'
 import { useToggle } from '@stacktrace/ui'
 import { ref } from 'vue'
 import UpdatePlanDialog from './components/UpdatePlanDialog.vue'
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { DropdownMenuItem } from '@/Components/DropdownMenu'
 import { useClipboard } from '@vueuse/core'
 
 const props = defineProps<{

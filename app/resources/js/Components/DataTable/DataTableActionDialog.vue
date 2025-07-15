@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts" generic="ResourceKey = string | number">
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 import { type ExecutableAction, useActionRunner } from './internal'
 import {
   Dialog,
@@ -27,7 +27,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog'
+} from '@/Components/Dialog'
 import { type Toggle } from '@stacktrace/ui'
 
 const props = defineProps<{

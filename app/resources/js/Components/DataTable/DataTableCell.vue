@@ -16,10 +16,10 @@
 
 <script setup lang="ts">
 import { type Cell } from './internal'
-import { cn } from "@/lib/utils";
+import { cn } from "@/Utils";
 import { Link } from "@inertiajs/vue3";
 import { Primitive } from "reka-ui";
-import { TableCell } from "@/components/ui/table";
+import { TableCell } from "@/Components/Table";
 import { createCellStyle } from '.'
 
 defineProps<{

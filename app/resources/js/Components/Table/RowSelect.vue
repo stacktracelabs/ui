@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { type ComputedRef, inject, type Ref } from "vue";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/Components/Checkbox";
 
 const selectable = inject<Ref<Array<string | number>>>('selectedValues', () => {
   throw new Error("The RowSelect must be inside SelectableTableRow")

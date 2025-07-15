@@ -6,7 +6,7 @@ import {
   ProgressRoot,
   type ProgressRootProps,
 } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 
 const props = withDefaults(
   defineProps<ProgressRootProps & { class?: HTMLAttributes['class'] }>(),

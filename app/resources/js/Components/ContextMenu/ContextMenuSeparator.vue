@@ -5,7 +5,7 @@ import {
   ContextMenuSeparator,
   type ContextMenuSeparatorProps,
 } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 
 const props = defineProps<ContextMenuSeparatorProps & { class?: HTMLAttributes['class'] }>()
 

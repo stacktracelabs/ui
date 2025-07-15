@@ -1,4 +1,4 @@
-import { useSelectableRows } from '@/components/ui/table'
+import { useSelectableRows } from '@/Components/Table'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { useFilter } from '@stacktrace/ui'
 import { computed, type ComputedRef, inject, provide, toRaw } from 'vue'

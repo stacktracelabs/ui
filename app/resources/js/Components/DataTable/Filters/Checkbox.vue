@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { type Filter } from '@stacktrace/ui'
-import { FilterCheckbox } from "@/components/ui/filter";
+import { FilterCheckbox } from "@/Components/Filter";
 
 defineProps<{
   title: string

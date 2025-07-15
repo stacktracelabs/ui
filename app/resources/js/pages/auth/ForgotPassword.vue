@@ -37,10 +37,10 @@
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from '@/Layouts'
-import { LinkButton, Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FormControl } from "@/components/ui/form";
-import { Input } from '@/components/ui/input';
+import { LinkButton, Button } from "@/Components/Button";
+import { Alert, AlertDescription } from "@/Components/Alert";
+import { FormControl } from "@/Components/Form";
+import { Input } from '@/Components/Input';
 
 defineProps<{
   status?: string

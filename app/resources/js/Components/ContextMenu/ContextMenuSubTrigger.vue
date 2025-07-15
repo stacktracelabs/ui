@@ -7,7 +7,7 @@ import {
   type ContextMenuSubTriggerProps,
   useForwardProps,
 } from 'reka-ui'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 
 const props = defineProps<ContextMenuSubTriggerProps & { class?: HTMLAttributes['class'], inset?: boolean }>()
 

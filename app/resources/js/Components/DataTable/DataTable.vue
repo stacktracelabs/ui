@@ -110,10 +110,10 @@ import { type DataTableValue } from "./";
 import { createContext } from './internal'
 import { createHeadingStyle, createRowStyle } from '.'
 import { computed } from "vue";
-import { cn } from "@/lib/utils";
+import { cn } from "@/Utils";
 import { SearchIcon, XIcon, TableIcon } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/components/ui/table'
+import { Button } from '@/Components/Button'
+import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/Components/Table'
 import messages from './messages'
 import DataTableCell from './DataTableCell.vue'
 import DataTableProvider from './DataTableProvider.vue'

@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
 import { computed } from "vue";
-import { Button } from '@/components/ui/button'
+import { Button } from '@/Components/Button'
 
 const props = defineProps<{
   value: string

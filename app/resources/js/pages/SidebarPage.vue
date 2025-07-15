@@ -15,8 +15,8 @@
 
 <script setup lang="ts">
 import SidebarLayout from './SidebarLayout.vue'
-import { Skeleton } from '@/components/ui/skeleton'
-import { TabsNavigation } from '@/components/ui/tabs'
+import { Skeleton } from '@/Components/Skeleton'
+import { TabsNavigation } from '@/Components/Tabs'
 import type { Menu } from '@stacktrace/ui'
 
 defineOptions({

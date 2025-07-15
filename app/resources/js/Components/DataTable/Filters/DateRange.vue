@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { type Filter } from '@stacktrace/ui'
-import { FilterDateRange } from "@/components/ui/filter";
+import { FilterDateRange } from "@/Components/Filter";
 
 defineProps<{
   title: string

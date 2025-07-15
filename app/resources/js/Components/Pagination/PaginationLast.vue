@@ -4,8 +4,8 @@ import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
 import { ChevronRightIcon } from 'lucide-vue-next'
 import { PaginationLast, useForwardProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
-import { buttonVariants, type ButtonVariants } from '@/components/ui/button'
+import { cn } from '@/Utils'
+import { buttonVariants, type ButtonVariants } from '@/Components/Button'
 
 const props = withDefaults(defineProps<PaginationLastProps & {
   size?: ButtonVariants['size']

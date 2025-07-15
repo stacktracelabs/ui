@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
+import { Button } from '@/Components/Button'
+import { Calendar } from '@/Components/Calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/Components/Popover'
+import { cn } from '@/Utils'
 import {
   DateFormatter,
   type DateValue,

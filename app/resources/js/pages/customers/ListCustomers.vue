@@ -22,11 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import { type DataTableValue, DataTable } from "@/components/ui/data-table";
+import { type DataTableValue, DataTable } from "@/Components/DataTable";
 import { useToggle } from "@stacktrace/ui";
 import { Head } from "@inertiajs/vue3";
 import { AuthenticatedLayout } from "@/Layouts";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/Components/Card";
 import { ref } from 'vue'
 import UpdatePlanDialog from './components/UpdatePlanDialog.vue'
 

@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/components/ui/card'
-import { Button } from "@/components/ui/button"
-import { FormControl } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardTitle, CardHeader, CardDescription } from '@/Components/Card'
+import { Button } from "@/Components/Button"
+import { FormControl } from "@/Components/Form"
+import { Input } from "@/Components/Input"
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({

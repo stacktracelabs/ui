@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import type { Filter, SelectOption } from '@stacktrace/ui'
-import { FilterMultiSelect } from "@/components/ui/filter";
+import { FilterMultiSelect } from "@/Components/Filter";
 
 defineProps<{
   title: string

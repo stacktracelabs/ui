@@ -51,13 +51,13 @@
 </template>
 
 <script setup lang="ts">
-import { Card } from '@/components/ui/card'
-import { FormControl } from '@/components/ui/form'
-import { DateInput } from '@/components/ui/date-input'
-import { DatePicker } from '@/components/ui/date-picker'
-import { FormCombobox as Combobox } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Panel, PanelContent, PanelHeader, PanelItem, PanelTitle } from '@/components/ui/panel'
+import { Card } from '@/Components/Card'
+import { FormControl } from '@/Components/Form'
+import { DateInput } from '@/Components/DateInput'
+import { DatePicker } from '@/Components/DatePicker'
+import { FormCombobox as Combobox } from '@/Components/Form'
+import { Input } from '@/Components/Input'
+import { Panel, PanelContent, PanelHeader, PanelItem, PanelTitle } from '@/Components/Panel'
 import { AuthenticatedLayout } from '@/Layouts'
 import { Head, useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'

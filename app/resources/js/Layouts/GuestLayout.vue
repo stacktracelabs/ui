@@ -30,6 +30,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/Components/Logo'
 import { Link } from '@inertiajs/vue3'
 </script>

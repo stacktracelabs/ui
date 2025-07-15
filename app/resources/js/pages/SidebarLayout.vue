@@ -28,12 +28,12 @@
 <script setup lang="ts">
 import {
   SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarFooter, SidebarRail, SidebarNavigation
-} from '@/components/ui/sidebar'
+} from '@/Components/Sidebar'
 import { usePage } from '@inertiajs/vue3'
 import type { Menu } from '@stacktrace/ui'
 import { type PageProps } from '@/Types'
-import { BreadcrumbNavigation } from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
+import { BreadcrumbNavigation } from '@/Components/Breadcrumb'
+import { Separator } from '@/Components/Separator'
 
 const page = usePage<PageProps & {
   menu: Menu

@@ -134,15 +134,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
+import { navigationMenuTriggerStyle } from '@/Components/NavigationMenu'
 import { ChevronDownIcon, MenuIcon, XIcon } from 'lucide-vue-next'
 import { cn } from '@/Utils'
 import { Link } from '@inertiajs/vue3'
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu'
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLink, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { Logo } from '@/components/ui/logo'
-import { Toaster } from '@/components/ui/sonner'
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/Components/NavigationMenu'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLink, DropdownMenuSeparator } from '@/Components/DropdownMenu'
+import { Button } from '@/Components/Button'
+import { Logo } from '@/Components/Logo'
+import { Toaster } from '@/Components/Sonner'
 
 const showingNavigationDropdown = ref(false)
 </script>

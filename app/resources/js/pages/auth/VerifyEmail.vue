@@ -31,8 +31,8 @@
 import { computed } from 'vue'
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from "@/Layouts";
-import { LinkButton, Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { LinkButton, Button } from "@/Components/Button";
+import { Alert, AlertDescription } from "@/Components/Alert";
 
 const props = defineProps<{
   status?: string;

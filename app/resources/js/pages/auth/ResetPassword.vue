@@ -31,9 +31,9 @@
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
 import { GuestLayout } from "@/Layouts";
-import { FormControl } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { FormControl } from "@/Components/Form";
+import { Input } from "@/Components/Input";
+import { Button } from "@/Components/Button";
 
 const props = defineProps<{
   email: string;

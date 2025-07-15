@@ -43,12 +43,12 @@
 import { PlusCircleIcon } from "lucide-vue-next";
 import { computed } from "vue";
 import type { SelectOption } from "@stacktrace/ui";
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Command, CommandInput, CommandList, CommandGroup, CommandItem, CommandSeparator } from '@/components/ui/command'
-import { Checkbox } from "@/components/ui/checkbox"
+import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
+import { Separator } from '@/Components/Separator'
+import { Button } from '@/Components/Button'
+import { Badge } from '@/Components/Badge'
+import { Command, CommandInput, CommandList, CommandGroup, CommandItem, CommandSeparator } from '@/Components/Command'
+import { Checkbox } from "@/Components/Checkbox"
 
 const emit = defineEmits(['update:modelValue'])
 

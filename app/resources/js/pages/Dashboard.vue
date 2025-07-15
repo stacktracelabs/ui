@@ -18,6 +18,6 @@
 
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
-import { Card } from '@/components/ui/card'
+import { Card } from '@/Components/Card'
 import { AuthenticatedLayout } from '@/Layouts'
 </script>

@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { injectContext } from './internal'
 import messages from './messages'
-import { DebouncedInput } from '@/components/ui/input'
+import { DebouncedInput } from '@/Components/Input'
 import { CircleXIcon, SearchIcon } from 'lucide-vue-next'
 
 const { searchFilter, isSearchable } = injectContext()
