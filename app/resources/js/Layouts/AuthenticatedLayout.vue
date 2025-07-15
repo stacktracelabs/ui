@@ -136,7 +136,7 @@
 import { ref } from 'vue'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import { ChevronDownIcon, MenuIcon, XIcon } from 'lucide-vue-next'
-import { cn } from '@/lib/utils'
+import { cn } from '@/Utils'
 import { Link } from '@inertiajs/vue3'
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLink, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'

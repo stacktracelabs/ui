@@ -31,7 +31,7 @@ import {
 } from '@/components/ui/sidebar'
 import { usePage } from '@inertiajs/vue3'
 import type { Menu } from '@stacktrace/ui'
-import { type PageProps } from '@/types/index.d'
+import { type PageProps } from '@/Types'
 import { BreadcrumbNavigation } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 

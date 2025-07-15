@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 import { Head, useForm } from "@inertiajs/vue3"
-import { AuthenticatedLayout } from "@/layouts"
+import { AuthenticatedLayout } from "@/Layouts"
 import { Panel, PanelContent, PanelHeader, PanelTitle, PanelItem, PanelFooter } from '@/components/ui/panel'
 import { Card } from "@/components/ui/card";
 import { FormControl } from '@/components/ui/form'

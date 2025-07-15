@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { useForm, Head } from '@inertiajs/vue3'
-import { GuestLayout } from '@/layouts'
+import { GuestLayout } from '@/Layouts'
 import { LinkButton, Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FormControl } from "@/components/ui/form";

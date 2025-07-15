@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { GuestLayout } from '@/layouts'
+import { GuestLayout } from '@/Layouts'
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button, LinkButton } from "@/components/ui/button"
 import { FormControl } from "@/components/ui/form";

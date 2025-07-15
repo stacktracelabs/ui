@@ -25,7 +25,7 @@
 import { type DataTableValue, DataTable } from "@/components/ui/data-table";
 import { useToggle } from "@stacktrace/ui";
 import { Head } from "@inertiajs/vue3";
-import { AuthenticatedLayout } from "@/layouts";
+import { AuthenticatedLayout } from "@/Layouts";
 import { Card } from "@/components/ui/card";
 import { ref } from 'vue'
 import UpdatePlanDialog from './components/UpdatePlanDialog.vue'
