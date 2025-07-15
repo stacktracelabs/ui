@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use RuntimeException;
 use StackTrace\Ui\Exceptions\ComponentAlreadyInstalledException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -99,7 +98,7 @@ class ComponentLibrary
     {
         return collect(Finder::create()->files()->in($this->getSourceComponentPath($component))->name(["*.vue", "*.ts"]))
             ->map(
-                fn (SplFileInfo $file) => Str::matchAll("/['\"]@\/components\/ui\/([^'\"]+)['\"]/", $file->getContents())
+                fn (SplFileInfo $file) => Str::matchAll("/['\"]@\/Components\/([^'\"]+)['\"]/", $file->getContents())
                     ->map(fn (string $match) => explode('/', $match)[0])
             )
             ->values()
@@ -136,7 +135,7 @@ class ComponentLibrary
      */
     protected function resolveComponentPath(?string $path = null): string
     {
-        return $path ? resource_path("js/components/ui/{$path}") : resource_path("js/components/ui");
+        return $path ? resource_path("js/Components/{$path}") : resource_path("js/Components");
     }
 
     /**
