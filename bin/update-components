@@ -3,6 +3,6 @@
 set -e
 
 rm -rf components
-cp -R app/resources/js/components/ui components
+cp -R app/resources/js/Components components
 
 echo "✔ Components updated"
