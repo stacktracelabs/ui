@@ -36,7 +36,8 @@ Artisan::command('fix-import {folder}', function () {
             ->in($folder)
             ->files()
     )->each(function (\Symfony\Component\Finder\SplFileInfo $file) {
-        $contents = $file->getContents();
+        $originalContent = $file->getContents();
+        $contents = $originalContent;
 
         $matches = \Illuminate\Support\Str::matchAll("/['\"]@\/components\/ui\/([^'\"]+)['\"]/", $contents);
 
@@ -48,6 +49,12 @@ Artisan::command('fix-import {folder}', function () {
 
                 $contents = \Illuminate\Support\Str::replace("@/components/ui/{$match}", "@/Components/$component", $contents);
             }
+        }
+
+        if ($contents != $originalContent) {
+            $path = $file->getPathname();
+            unlink($path);
+            file_put_contents($path, $contents);
         }
     });
 });
