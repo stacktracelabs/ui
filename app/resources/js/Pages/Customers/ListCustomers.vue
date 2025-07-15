@@ -28,7 +28,7 @@ import { Head } from "@inertiajs/vue3";
 import { AuthenticatedLayout } from "@/Layouts";
 import { Card } from "@/Components/Card";
 import { ref } from 'vue'
-import UpdatePlanDialog from './components/UpdatePlanDialog.vue'
+import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
 
 defineProps<{
   customers: DataTableValue

@@ -17,7 +17,7 @@ class CustomerController
     {
         $table = new CustomerTable;
 
-        return Inertia::render('customers/ListCustomers', [
+        return Inertia::render('Customers/ListCustomers', [
             'customers' => $table,
             'businessAreas' => SelectOption::collectFromEnum(BusinessArea::class),
         ]);
@@ -29,7 +29,7 @@ class CustomerController
             ->exceptActions('Sync')
             ->getActionsForResource($customer);
 
-        return Inertia::render('customers/ShowCustomer', [
+        return Inertia::render('Customers/ShowCustomer', [
             'id' => $customer->id,
             'name' => $customer->name,
             'company' => $customer->company,

@@ -65,7 +65,7 @@ import { Button } from '@/Components/Button'
 import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/DataTable'
 import { useToggle } from '@stacktrace/ui'
 import { ref } from 'vue'
-import UpdatePlanDialog from './components/UpdatePlanDialog.vue'
+import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
 import { DropdownMenuItem } from '@/Components/DropdownMenu'
 import { useClipboard } from '@vueuse/core'
 
