@@ -17,6 +17,7 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->commands([
             Commands\AddCommand::class,
+            Commands\FixImportCommand::class,
         ]);
 
         $this->app->scoped(Toaster::class);
