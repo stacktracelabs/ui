@@ -11,7 +11,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FixImportCommand extends Command
 {
-    protected $signature = 'ui:fix-import {dir}';
+    protected $signature = 'ui:fix-import {folder}';
 
     protected $description = 'Replace import path from shadcn-vue to stacktrace/ui';
 
