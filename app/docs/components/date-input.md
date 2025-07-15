@@ -37,6 +37,6 @@ php artisan ui:add date-input
 </template>
 
 <script setup lang="ts">
-import { DateInput } from '@/components/ui/date-input'
+import { DateInput } from '@/Components/DateInput'
 </script>
 ```

@@ -36,6 +36,6 @@ php artisan ui:add date-range-picker
 </template>
 
 <script setup lang="ts">
-import { DateRangePicker } from '@/components/ui/date-range-picker'
+import { DateRangePicker } from '@/Components/DateRangePicker'
 </script>
 ```
