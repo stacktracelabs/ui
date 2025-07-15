@@ -4,7 +4,7 @@ import cloneDeep from "lodash/cloneDeep"
 import type { ParsedQuery } from 'query-string'
 import { router } from "@inertiajs/vue3"
 import { useDebounceFn } from "@vueuse/core"
-import { parseQuery, urlWithQuery } from "@/utils"
+import { parseQuery, urlWithQuery } from "@/Utils"
 
 const isEmptyArray = (value: any) => Array.isArray(value) && value.length === 0
 

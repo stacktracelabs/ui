@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { injectNavigationItemContext } from './navigation.ts'
-import { Icon } from '@/components/icon'
+import { Icon } from '@/Components/Icon'
 
 const item = injectNavigationItemContext()
 

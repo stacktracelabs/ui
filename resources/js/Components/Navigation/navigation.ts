@@ -1,4 +1,4 @@
-import type { NavigationItem } from '@/composables'
+import type { NavigationItem } from '@/Composables'
 import { computed, type ComputedRef, inject, type MaybeRefOrGetter, provide, toValue } from 'vue'
 
 const NavigationItemSymbol = Symbol()

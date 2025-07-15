@@ -1,4 +1,4 @@
-import type { SVGSource } from '@/types'
+import type { SVGSource } from '@/Types'
 import { usePage } from '@inertiajs/vue3'
 import { type MaybeRefOrGetter, type Component, type ComputedRef, toValue } from 'vue'
 import { computed } from 'vue'

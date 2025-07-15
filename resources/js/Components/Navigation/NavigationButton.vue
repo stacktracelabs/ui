@@ -13,8 +13,8 @@
 
 <script setup lang="ts">
 import { provideNavigationItemContext } from './navigation.ts'
-import type { NavigationItem } from '@/composables'
-import { isLinkAction, isLinkPathAction, isRouteAction, isEventAction } from '@/composables'
+import type { NavigationItem } from '@/Composables'
+import { isLinkAction, isLinkPathAction, isRouteAction, isEventAction } from '@/Composables'
 import { Primitive, type PrimitiveProps } from 'reka-ui'
 import { Link } from '@inertiajs/vue3'
 import { reactiveOmit } from '@vueuse/core'
