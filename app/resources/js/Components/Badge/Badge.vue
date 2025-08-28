@@ -1,3 +1,13 @@
+<template>
+  <Primitive
+    data-slot="badge"
+    :class="cn(badgeVariants({ variant }), props.class)"
+    v-bind="delegatedProps"
+  >
+    <slot />
+  </Primitive>
+</template>
+
 <script setup lang="ts">
 import type { PrimitiveProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
@@ -13,13 +23,3 @@ const props = defineProps<PrimitiveProps & {
 
 const delegatedProps = reactiveOmit(props, 'class')
 </script>
-
-<template>
-  <Primitive
-    data-slot="badge"
-    :class="cn(badgeVariants({ variant }), props.class)"
-    v-bind="delegatedProps"
-  >
-    <slot />
-  </Primitive>
-</template>

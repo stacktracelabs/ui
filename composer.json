@@ -32,16 +32,5 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "archive": {
-        "exclude": [
-            ".*",
-            "app",
-            "bin",
-            "package-lock.json",
-            "tsconfig.json",
-            "tsconfig.node.json",
-            "vite.config.ts"
-        ]
-    }
+    "prefer-stable": true
 }
