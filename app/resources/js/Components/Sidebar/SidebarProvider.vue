@@ -37,8 +37,18 @@ const emits = defineEmits<{
 const isMobile = useMediaQuery('(max-width: 768px)')
 const openMobile = ref(false)
 
+function getRememberedOpenValue(defaultValue: boolean = false) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${SIDEBAR_COOKIE_NAME}=`)
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() === 'true'
+  }
+
+  return defaultValue
+}
+
 const open = useVModel(props, 'open', emits, {
-  defaultValue: props.defaultOpen ?? false,
+  defaultValue: getRememberedOpenValue(props.defaultOpen ?? false),
   passive: (props.open === undefined) as false,
 }) as Ref<boolean>
 
