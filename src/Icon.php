@@ -11,7 +11,7 @@ class Icon extends ViewModel
     /**
      * The default icon pack.
      */
-    protected static string $defaultPack = "Lucide";
+    protected static string $defaultPack = "lucide";
 
     /**
      * List of loaded icons.
@@ -58,7 +58,7 @@ class Icon extends ViewModel
             return static::$icons[$iconName];
         }
 
-        return static::$icons[$iconName] = file_get_contents(__DIR__."/Icons/{$pack}/{$name}.svg");
+        return static::$icons[$iconName] = file_get_contents(__DIR__."/../icons/{$pack}/{$name}.svg");
     }
 
     /**
