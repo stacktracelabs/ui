@@ -1,1 +1,0 @@
-- urobit positive variantu

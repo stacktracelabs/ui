@@ -1,1 +1,0 @@
-- potrebuje vaul vue `"vaul-vue": "^0.4.1",`
