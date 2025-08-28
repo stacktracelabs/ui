@@ -1,0 +1,1 @@
+- potrebuje `vue-sonner` a špeci inštalaciu

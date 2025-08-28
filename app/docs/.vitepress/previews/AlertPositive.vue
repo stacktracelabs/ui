@@ -1,0 +1,14 @@
+<template>
+  <Alert variant="positive">
+    <ShieldCheckIcon class="w-4 h-4" />
+    <AlertTitle>Protection Active</AlertTitle>
+    <AlertDescription>
+      Your connection is now secured with encrypted tunnel.
+    </AlertDescription>
+  </Alert>
+</template>
+
+<script setup lang="ts">
+import { Alert, AlertTitle, AlertDescription } from '@/Components/Alert'
+import { ShieldCheckIcon } from 'lucide-vue-next'
+</script>

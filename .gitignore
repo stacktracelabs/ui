@@ -1,6 +1,4 @@
 *.tar.gz
-node_modules/
-demo/
+node_modules
 vendor
 composer.lock
-app
