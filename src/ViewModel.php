@@ -30,7 +30,9 @@ abstract class ViewModel implements Arrayable, JsonSerializable
      */
     private function resolveValue(mixed $value): mixed
     {
-        if (is_array($value)) {
+        if ($value instanceof UnformattedViewModelData) {
+            return $value->data;
+        } else if (is_array($value)) {
             // Convert associative array
             if (Arr::isAssoc($value)) {
                 return collect($value)
@@ -59,5 +61,13 @@ abstract class ViewModel implements Arrayable, JsonSerializable
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
+    }
+
+    /**
+     * Crate unformatted view model data.
+     */
+    public static function unformatted(array $data): UnformattedViewModelData
+    {
+        return new UnformattedViewModelData($data);
     }
 }
