@@ -11,12 +11,12 @@ class Icon extends Column
     /**
      * The size of the icon.
      */
-    protected int $size = 1;
+    protected float $size = 1.0;
 
     /**
      * Set the size of the icon in REM units.
      */
-    public function size(int $size): static
+    public function size(float $size): static
     {
         $this->size = $size;
 
