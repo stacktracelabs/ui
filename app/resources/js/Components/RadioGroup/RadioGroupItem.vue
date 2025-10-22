@@ -1,23 +1,3 @@
-<script setup lang="ts">
-import type { RadioGroupItemProps } from 'reka-ui'
-import type { HTMLAttributes } from 'vue'
-import { reactiveOmit } from '@vueuse/core'
-import { CircleIcon } from 'lucide-vue-next'
-import {
-  RadioGroupIndicator,
-  RadioGroupItem,
-
-  useForwardProps,
-} from 'reka-ui'
-import { cn } from '@/Utils'
-
-const props = defineProps<RadioGroupItemProps & { class?: HTMLAttributes['class'] }>()
-
-const delegatedProps = reactiveOmit(props, 'class')
-
-const forwardedProps = useForwardProps(delegatedProps)
-</script>
-
 <template>
   <RadioGroupItem
     data-slot="radio-group-item"
@@ -37,3 +17,23 @@ const forwardedProps = useForwardProps(delegatedProps)
     </RadioGroupIndicator>
   </RadioGroupItem>
 </template>
+
+<script setup lang="ts">
+import type { RadioGroupItemProps } from 'reka-ui'
+import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
+import { CircleIcon } from 'lucide-vue-next'
+import {
+  RadioGroupIndicator,
+  RadioGroupItem,
+
+  useForwardProps,
+} from 'reka-ui'
+import { cn } from '@/Utils'
+
+const props = defineProps<RadioGroupItemProps & { class?: HTMLAttributes['class'] }>()
+
+const delegatedProps = reactiveOmit(props, 'class')
+
+const forwardedProps = useForwardProps(delegatedProps)
+</script>

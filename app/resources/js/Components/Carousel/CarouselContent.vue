@@ -1,17 +1,3 @@
-<script setup lang="ts">
-import type { WithClassAsProps } from './interface'
-import { cn } from '@/Utils'
-import { useCarousel } from './useCarousel'
-
-defineOptions({
-  inheritAttrs: false,
-})
-
-const props = defineProps<WithClassAsProps>()
-
-const { carouselRef, orientation } = useCarousel()
-</script>
-
 <template>
   <div
     ref="carouselRef"
@@ -31,3 +17,17 @@ const { carouselRef, orientation } = useCarousel()
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { WithClassAsProps } from './interface'
+import { cn } from '@/Utils'
+import { useCarousel } from './useCarousel'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = defineProps<WithClassAsProps>()
+
+const { carouselRef, orientation } = useCarousel()
+</script>

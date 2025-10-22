@@ -1,3 +1,13 @@
+<template>
+  <RadioGroupRoot
+    data-slot="radio-group"
+    :class="cn('grid gap-3', props.class)"
+    v-bind="forwarded"
+  >
+    <slot />
+  </RadioGroupRoot>
+</template>
+
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
@@ -11,13 +21,3 @@ const delegatedProps = reactiveOmit(props, 'class')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
-
-<template>
-  <RadioGroupRoot
-    data-slot="radio-group"
-    :class="cn('grid gap-3', props.class)"
-    v-bind="forwarded"
-  >
-    <slot />
-  </RadioGroupRoot>
-</template>

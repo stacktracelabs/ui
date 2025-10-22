@@ -1,18 +1,3 @@
-<script lang="ts" setup>
-import type { HTMLAttributes } from 'vue'
-import { reactiveOmit } from '@vueuse/core'
-import { ChevronRight } from 'lucide-vue-next'
-import { RangeCalendarNext, type RangeCalendarNextProps, useForwardProps } from 'reka-ui'
-import { cn } from '@/Utils'
-import { buttonVariants } from '@/Components/Button'
-
-const props = defineProps<RangeCalendarNextProps & { class?: HTMLAttributes['class'] }>()
-
-const delegatedProps = reactiveOmit(props, 'class')
-
-const forwardedProps = useForwardProps(delegatedProps)
-</script>
-
 <template>
   <RangeCalendarNext
     data-slot="range-calendar-next-button"
@@ -29,3 +14,18 @@ const forwardedProps = useForwardProps(delegatedProps)
     </slot>
   </RangeCalendarNext>
 </template>
+
+<script lang="ts" setup>
+import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
+import { ChevronRight } from 'lucide-vue-next'
+import { RangeCalendarNext, type RangeCalendarNextProps, useForwardProps } from 'reka-ui'
+import { cn } from '@/Utils'
+import { buttonVariants } from '@/Components/Button'
+
+const props = defineProps<RangeCalendarNextProps & { class?: HTMLAttributes['class'] }>()
+
+const delegatedProps = reactiveOmit(props, 'class')
+
+const forwardedProps = useForwardProps(delegatedProps)
+</script>

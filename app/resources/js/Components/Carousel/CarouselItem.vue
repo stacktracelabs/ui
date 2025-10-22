@@ -1,13 +1,3 @@
-<script setup lang="ts">
-import type { WithClassAsProps } from './interface'
-import { cn } from '@/Utils'
-import { useCarousel } from './useCarousel'
-
-const props = defineProps<WithClassAsProps>()
-
-const { orientation } = useCarousel()
-</script>
-
 <template>
   <div
     data-slot="carousel-item"
@@ -22,3 +12,13 @@ const { orientation } = useCarousel()
     <slot />
   </div>
 </template>
+
+<script setup lang="ts">
+import type { WithClassAsProps } from './interface'
+import { cn } from '@/Utils'
+import { useCarousel } from './useCarousel'
+
+const props = defineProps<WithClassAsProps>()
+
+const { orientation } = useCarousel()
+</script>

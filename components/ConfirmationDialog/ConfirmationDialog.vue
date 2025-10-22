@@ -2,13 +2,19 @@
   <AlertDialog :control="control">
     <AlertDialogContent v-if="dialog" :to="to">
       <AlertDialogHeader>
-        <AlertDialogTitle>{{ dialog.title || 'Confirm' }}</AlertDialogTitle>
+        <AlertDialogTitle>{{ dialog.title || (dialog.type === 'confirmation' ? 'Confirm' : 'Alert') }}</AlertDialogTitle>
         <AlertDialogDescription>{{ dialog.message || 'Are you sure you want to run this action?' }}</AlertDialogDescription>
       </AlertDialogHeader>
 
       <AlertDialogFooter>
-        <Button @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</Button>
-        <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</Button>
+        <template v-if="dialog.type === 'confirmation'">
+          <Button @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</Button>
+          <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</Button>
+        </template>
+
+        <template v-else-if="dialog.type === 'alert'">
+          <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'OK' }}</Button>
+        </template>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

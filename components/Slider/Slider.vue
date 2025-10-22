@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import type { SliderRootEmits, SliderRootProps } from 'reka-ui'
-import type { HTMLAttributes } from 'vue'
-import { reactiveOmit } from '@vueuse/core'
-import { SliderRange, SliderRoot, SliderThumb, SliderTrack, useForwardPropsEmits } from 'reka-ui'
-import { cn } from '@/Utils'
-
-const props = defineProps<SliderRootProps & { class?: HTMLAttributes['class'] }>()
-const emits = defineEmits<SliderRootEmits>()
-
-const delegatedProps = reactiveOmit(props, 'class')
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <SliderRoot
     v-slot="{ modelValue }"
@@ -41,3 +26,18 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     />
   </SliderRoot>
 </template>
+
+<script setup lang="ts">
+import type { SliderRootEmits, SliderRootProps } from 'reka-ui'
+import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
+import { SliderRange, SliderRoot, SliderThumb, SliderTrack, useForwardPropsEmits } from 'reka-ui'
+import { cn } from '@/Utils'
+
+const props = defineProps<SliderRootProps & { class?: HTMLAttributes['class'] }>()
+const emits = defineEmits<SliderRootEmits>()
+
+const delegatedProps = reactiveOmit(props, 'class')
+
+const forwarded = useForwardPropsEmits(delegatedProps, emits)
+</script>

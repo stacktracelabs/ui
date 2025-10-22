@@ -1,13 +1,3 @@
-<script lang="ts" setup>
-import type { HTMLAttributes } from 'vue'
-import { MoreHorizontal } from 'lucide-vue-next'
-import { cn } from '@/Utils'
-
-const props = defineProps<{
-  class?: HTMLAttributes['class']
-}>()
-</script>
-
 <template>
   <span
     data-slot="breadcrumb-ellipsis"
@@ -21,3 +11,13 @@ const props = defineProps<{
     <span class="sr-only">More</span>
   </span>
 </template>
+
+<script lang="ts" setup>
+import type { HTMLAttributes } from 'vue'
+import { MoreHorizontal } from 'lucide-vue-next'
+import { cn } from '@/Utils'
+
+const props = defineProps<{
+  class?: HTMLAttributes['class']
+}>()
+</script>
