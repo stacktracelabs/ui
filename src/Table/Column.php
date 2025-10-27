@@ -530,6 +530,10 @@ abstract class Column
     {
         if (is_string($this->sortableUsing) && $source instanceof EloquentBuilder) {
             return $source->orderBy($this->sortableUsing, $direction->value);
+        } else if (is_string($this->sortableUsing) && $source instanceof Collection) {
+            return $direction == Direction::Asc
+                ? $source->sortBy($this->sortableUsing)
+                : $source->sortByDesc($this->sortableUsing);
         } else if ($this->sortableUsing instanceof Closure) {
             if ($result = call_user_func($this->sortableUsing, $source, $direction)) {
                 return $result;

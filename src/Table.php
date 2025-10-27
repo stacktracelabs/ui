@@ -431,6 +431,9 @@ class Table implements Arrayable, JsonSerializable
             return $this->items;
         }
 
+        $sortBy = $this->getSortColumn() ?: $this->getDefaultSortColumn();
+        $sortAs = $this->getSortDirection() ?: $sortBy?->getDefaultSortDirection();
+
         if ($this->source instanceof ScoutBuilder) {
             if ($this->searchUsing instanceof Closure && ($term = $this->getSearchTerm())) {
                 call_user_func($this->searchUsing, $this->source, $term);
@@ -439,9 +442,6 @@ class Table implements Arrayable, JsonSerializable
             if ($this->filter) {
                 $this->filter->apply($this->source);
             }
-
-            $sortBy = $this->getSortColumn() ?: $this->getDefaultSortColumn();
-            $sortAs = $this->getSortDirection() ?: $sortBy?->getDefaultSortDirection();
 
             if ($sortBy && $sortAs) {
                 $sortBy->applySorting($this->source, $sortAs);
@@ -468,9 +468,6 @@ class Table implements Arrayable, JsonSerializable
             if ($this->filter) {
                 $this->filter->apply($this->source);
             }
-
-            $sortBy = $this->getSortColumn() ?: $this->getDefaultSortColumn();
-            $sortAs = $this->getSortDirection() ?: $sortBy?->getDefaultSortDirection();
 
             if ($sortBy && $sortAs) {
                 $sortBy->applySorting($this->source, $sortAs);
@@ -501,6 +498,24 @@ class Table implements Arrayable, JsonSerializable
 
                 if (! ($result instanceof Collection)) {
                     throw new InvalidArgumentException("The result of the filter must be filtered collection.");
+                }
+
+                $this->items = $result->values();
+            }
+
+            if ($sortBy && $sortAs) {
+                $result = $sortBy->applySorting($this->items, $sortAs);
+
+                if (! ($result instanceof Collection)) {
+                    throw new InvalidArgumentException("The result of the srt must be filtered collection.");
+                }
+
+                $this->items = $result->values();
+            } else if ($this->defaultSorting instanceof Closure) {
+                $result = call_user_func($this->defaultSorting, $this->items);
+
+                if (! ($result instanceof Collection)) {
+                    throw new InvalidArgumentException("The result of the default sorting must be filtered collection.");
                 }
 
                 $this->items = $result->values();

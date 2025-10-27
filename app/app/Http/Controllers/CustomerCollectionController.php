@@ -39,6 +39,9 @@ class CustomerCollectionController
                             true => 'positive',
                             false => 'default',
                         ]),
+
+                    Columns\Date::make('Founded', 'created_at')
+                        ->sortable(),
                 ])
                 ->withFilters([
                     Filters\Boolean::make('Premium', 'premium')
