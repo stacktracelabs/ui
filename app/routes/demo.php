@@ -9,5 +9,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/customers/{customer}', [Controllers\CustomerController::class, 'update'])->name('customers.update');
     Route::post('/customers/plan', Controllers\UpdatePlanController::class)->name('customers.update-plan');
 
+    Route::get('/customers-collection', Controllers\CustomerCollectionController::class)->name('customers-collection');
+
     Route::get('/forms', Controllers\FormController::class)->name('forms');
 });

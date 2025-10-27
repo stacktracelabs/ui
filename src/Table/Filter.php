@@ -4,7 +4,7 @@
 namespace StackTrace\Ui\Table;
 
 
-use Closure;
+use Illuminate\Support\Collection;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
 
 class Filter
@@ -62,6 +62,10 @@ class Filter
 
         foreach ($this->widgets as $widget) {
             if ($widget->shouldDisplay($this)) {
+                if ($source instanceof Collection) {
+                    $source = $source->values();
+                }
+
                 [$source, $applied] = $widget->filter($source);
 
                 if ($applied) {

@@ -29,6 +29,11 @@ abstract class FilterWidget
     protected ?Closure $displayWhen = null;
 
     /**
+     * A custom callback for applying filter when filter has no value.
+     */
+    protected ?Closure $fallbackUsing = null;
+
+    /**
      * Set the filter name.
      */
     public function name(?string $name): static
@@ -75,6 +80,16 @@ abstract class FilterWidget
     }
 
     /**
+     * Set a fallback filter callback when filter does not have a value.
+     */
+    public function fallback(Closure $closure): static
+    {
+        $this->fallbackUsing = $closure;
+
+        return $this;
+    }
+
+    /**
      * Run given filter widget.
      */
     public function filter(mixed $source): array
@@ -82,6 +97,14 @@ abstract class FilterWidget
         $value = $this->value();
 
         if (! $value) {
+            if ($this->fallbackUsing instanceof Closure) {
+                if ($result = call_user_func($this->fallbackUsing, $source)) {
+                    return [$result, false];
+                }
+
+                return [$source, false];
+            }
+
             return [$source, false];
         }
 

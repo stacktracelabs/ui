@@ -485,6 +485,27 @@ class Table implements Arrayable, JsonSerializable
             }
         } else if ($this->source instanceof Collection) {
             $this->items = $this->source->toBase();
+
+            if ($this->searchUsing instanceof Closure && ($term = $this->getSearchTerm())) {
+                $result = call_user_func($this->searchUsing, $this->items, $term);
+
+                if (! ($result instanceof Collection)) {
+                    throw new InvalidArgumentException("The result of the search must be filtered collection.");
+                }
+
+                $this->items = $result->values();
+            }
+
+            if ($this->filter) {
+                $result = $this->filter->apply($this->items);
+
+                if (! ($result instanceof Collection)) {
+                    throw new InvalidArgumentException("The result of the filter must be filtered collection.");
+                }
+
+                $this->items = $result->values();
+            }
+
             $this->baseTotalCount = $this->source->count();
         } else {
             throw new InvalidArgumentException("The source type is not supported.");
