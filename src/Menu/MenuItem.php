@@ -122,6 +122,22 @@ class MenuItem extends ViewModel
     }
 
     /**
+     * Add child item to the menu when given value is truthy.
+     */
+    public function addChildWhen($value, Closure|MenuItem $item): static
+    {
+        return $this->when($value, fn (MenuItem $menu) => $menu->add(value($item)));
+    }
+
+    /**
+     * Add child item to the menu when given value is falsy.
+     */
+    public function addChildUnless($value, Closure|MenuItem $item): static
+    {
+        return $this->unless($value, fn (MenuItem $menu) => $menu->add(value($item)));
+    }
+
+    /**
      * Add child item to the end of child list.
      */
     public function appendChild(MenuItem $item): static

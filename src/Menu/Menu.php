@@ -31,6 +31,22 @@ class Menu extends ViewModel
     }
 
     /**
+     * Add item to the menu when given value is truthy.
+     */
+    public function addWhen($value, Closure|MenuItem $item): static
+    {
+        return $this->when($value, fn (Menu $menu) => $menu->add(value($item)));
+    }
+
+    /**
+     * Add item to the menu when given value is falsy.
+     */
+    public function addUnless($value, Closure|MenuItem $item): static
+    {
+        return $this->unless($value, fn (Menu $menu) => $menu->add(value($item)));
+    }
+
+    /**
      * Find item by its id or custom callback.
      */
     public function find(string|Closure $id): ?MenuItem
