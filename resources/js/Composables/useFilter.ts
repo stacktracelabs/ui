@@ -22,6 +22,7 @@ export interface FilterProps<TFilter extends FilterData> {
   data(): TFilter
   reset(): void
   applied: boolean
+  appliedOnly(keys: Array<keyof TFilter>): boolean
 }
 export type Filter<TFilter extends FilterData> = TFilter & FilterProps<TFilter>
 
@@ -52,6 +53,10 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
   const filter = reactive({
     ...initialValue,
     applied: isApplied(initialValue),
+    appliedOnly(keys: Array<keyof TFilter>): boolean {
+      const value = this.data()
+      return keys.some(key => !isSame(value[key], defaults[key]))
+    },
     data() {
       return (Object.keys(defaults) as Array<keyof TFilter>).reduce((carry, key) => {
         carry[key] = (this as TFilter)[key]

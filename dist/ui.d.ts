@@ -63,6 +63,7 @@ export declare interface FilterProps<TFilter extends FilterData> {
     data(): TFilter;
     reset(): void;
     applied: boolean;
+    appliedOnly(keys: Array<keyof TFilter>): boolean;
 }
 
 export declare function formatQuery(query: ParsedQuery<string | number>): string;
