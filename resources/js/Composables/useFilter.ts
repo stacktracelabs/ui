@@ -27,14 +27,42 @@ export interface FilterProps<TFilter extends FilterData> {
 export type Filter<TFilter extends FilterData> = TFilter & FilterProps<TFilter>
 
 export interface FilterOptions {
+  tableId?: string
   onSuccess: VoidFunction
+}
+
+const prefixParameter = (name: string, tableId?: string) => {
+  if (!tableId) {
+    return name
+  }
+  return `table_${tableId}_${name}`
+}
+
+const filterQueryByTableId = (query: ParsedQuery, tableId?: string) => {
+  if (!tableId) {
+    return query
+  }
+
+  const prefix = `table_${tableId}_`
+  const filtered: ParsedQuery = {}
+
+  Object.keys(query).forEach(key => {
+    if (key.startsWith(prefix)) {
+      const unprefixedKey = key.substring(prefix.length)
+      filtered[unprefixedKey] = query[key]
+    }
+  })
+
+  return filtered
 }
 
 export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter> {
   const defaults = typeof state === 'object' ? cloneDeep(state) : cloneDeep(state())
+  const tableId = options?.tableId
 
   const getInitialValue = () => {
-    const query = parseQuery() as TFilter
+    const fullQuery = parseQuery() as ParsedQuery
+    const query = filterQueryByTableId(fullQuery, tableId) as TFilter
 
     return (Object.keys(defaults) as Array<keyof TFilter>).reduce((carry, key) => {
       if (isSame(query[key], defaults[key]) || query[key] === undefined) {
@@ -72,21 +100,25 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
   })
 
   const toUrl = (data: TFilter) => {
-    const query = parseQuery() as ParsedQuery & TFilter;
+    const fullQuery = parseQuery() as ParsedQuery
+    const query = tableId 
+      ? fullQuery 
+      : fullQuery as ParsedQuery & TFilter
 
     (Object.keys(data) as Array<keyof TFilter>).forEach(key => {
       const currentValue = data[key]
       const defaultValue = defaults[key]
+      const prefixedKey = prefixParameter(key as string, tableId)
 
       if (isSame(currentValue, defaultValue) || !currentValue) {
-        delete query[key]
+        delete query[prefixedKey]
       } else {
-        query[key] = currentValue as any
+        query[prefixedKey] = currentValue as any
       }
     });
 
-    delete query['page']
-    delete query['cursor']
+    delete query[prefixParameter('page', tableId)]
+    delete query[prefixParameter('cursor', tableId)]
 
     return urlWithQuery(query)
   }

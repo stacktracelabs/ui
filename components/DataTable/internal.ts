@@ -98,6 +98,7 @@ export interface Filter {
 }
 
 export interface DataTableValue<ResourceValue = object, ResourceKey = string | number> {
+  tableId?: string
   headings: Array<{
     id: string
     name: string
@@ -122,6 +123,7 @@ export interface DataTableValue<ResourceValue = object, ResourceKey = string | n
 export const createContext = (table: ComputedRef<DataTableValue>) => {
   const rows = computed(() => table.value.rows)
   const headings = computed(() => table.value.headings)
+  const tableId = computed(() => table.value.tableId)
 
   const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun)
   const selectableRows = useSelectableRows(
@@ -153,18 +155,45 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   const page = usePage()
   const searchFilter = useFilter(() => ({
     search: '',
-  }))
+  }), { tableId: tableId.value })
   const clearSearch = () => {
-    router.visit(page.url.split('?')[0])
+    const url = new URL(window.location.href)
+    const searchParams = new URLSearchParams(url.search)
+    
+    if (tableId.value) {
+      const prefix = `table_${tableId.value}_`
+      
+      const keysToRemove: string[] = []
+      searchParams.forEach((value, key) => {
+        if (key.startsWith(prefix)) {
+          keysToRemove.push(key)
+        }
+      })
+      
+      keysToRemove.forEach(key => searchParams.delete(key))
+    } else {
+      searchParams.delete('search')
+      searchParams.delete('sort_by')
+      searchParams.delete('sort_direction')
+      searchParams.delete('page')
+      searchParams.delete('cursor')
+      searchParams.delete('limit')
+    }
+    
+    const newUrl = searchParams.toString()
+      ? `${url.pathname}?${searchParams.toString()}`
+      : url.pathname
+    
+    router.visit(newUrl)
   }
-  const filter = useFilter(() => table.value.filter?.defaultValue || {})
+  const filter = useFilter(() => table.value.filter?.defaultValue || {}, { tableId: tableId.value })
   const sortFilter = useFilter(() => ({
     sort_by: null,
     sort_direction: null,
-  }))
+  }), { tableId: tableId.value })
   const paginationFilter = useFilter(() => ({
     limit: table.value.defaultPerPage,
-  }))
+  }), { tableId: tableId.value })
   const setPerPage = (limit: number) => {
     paginationFilter.limit = limit
   }
