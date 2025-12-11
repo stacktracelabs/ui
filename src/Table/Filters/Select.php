@@ -19,7 +19,7 @@ class Select extends FilterWidget
 
     public function value(): mixed
     {
-        $values = Request::input($this->field);
+        $values = Request::input($this->prefixKey($this->field));
 
         if (is_null($values)) {
             return null;

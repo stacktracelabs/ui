@@ -46,6 +46,18 @@ class Filter
     }
 
     /**
+     * Ensure, that tableId is set for widgets.
+     */
+    private function ensureTableIdIsSet(?string $tableId): void
+    {
+        if ($tableId) {
+            foreach ($this->widgets as $widget) {
+                $widget->setTableId($tableId);
+            }
+        }
+    }
+
+    /**
      * Check whether given filter is applied.
      */
     public function isApplied(string $name): bool
@@ -56,9 +68,11 @@ class Filter
     /**
      * Apply this filter on the source.
      */
-    public function apply(mixed $source): mixed
+    public function apply(mixed $source, ?string $tableId = null): mixed
     {
         $this->applied = [];
+
+        $this->ensureTableIdIsSet($tableId);
 
         foreach ($this->widgets as $widget) {
             if ($widget->shouldDisplay($this)) {
@@ -85,18 +99,18 @@ class Filter
         $value = [];
 
         foreach ($this->widgets as $widget) {
-            $value = array_merge($value, $widget->defaultValue());
+            $value = array_merge($value, $widget->getDefaultValueWithPrefix());
         }
-
         if (empty($value)) {
             return (object) [];
         }
-
         return $value;
     }
 
-    public function toView(): array
+    public function toView(?string $tableId = null): array
     {
+        $this->ensureTableIdIsSet($tableId);
+
         return [
             'defaultValue' => $this->getDefaultValue(),
             'widgets' => collect($this->widgets)
@@ -104,7 +118,7 @@ class Filter
                 ->values()
                 ->map(fn (FilterWidget $widget) => [
                     'component' => $this->resolveComponentName($widget->component()),
-                    'props' => $this->resolveComponentProps($widget->toView()),
+                    'props' => $this->resolveComponentProps($widget->getViewWithPrefix()),
                 ]),
         ];
     }

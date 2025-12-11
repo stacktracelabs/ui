@@ -19,13 +19,13 @@ class DateRange extends FilterWidget
     public function value(): mixed
     {
         try {
-            $from = Request::date("{$this->field}_from", 'Y-m-d')->startOfDay();
+            $from = Request::date($this->prefixKey("{$this->field}_from"), 'Y-m-d')->startOfDay();
         } catch (Throwable) {
             $from = null;
         }
 
         try {
-            $until = Request::date("{$this->field}_until", "Y-m-d")->endOfDay();
+            $until = Request::date($this->prefixKey("{$this->field}_until"), "Y-m-d")->endOfDay();
         } catch (Throwable) {
             $until = null;
         }

@@ -18,7 +18,7 @@ class Number extends FilterWidget
 
     public function value(): mixed
     {
-        $input = Request::input($this->field);
+        $input = Request::input($this->prefixKey($this->field));
 
         if (! is_string($input)) {
             return null;

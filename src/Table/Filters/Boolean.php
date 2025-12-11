@@ -16,7 +16,7 @@ class Boolean extends FilterWidget
 
     public function value(): mixed
     {
-        return Request::boolean($this->field);
+        return Request::boolean($this->prefixKey($this->field));
     }
 
     public function defaultValue(): array

@@ -10,7 +10,7 @@
         <DropdownMenuCheckboxItem
           v-for="option in table.perPageOptions"
           @select="setPerPage(option)"
-          :model-value="`${paginationFilter.limit}` == `${option}` || (option == table.defaultPerPage && !paginationFilter.limit)"
+          :model-value="`${paginationFilter[params.limit]}` == `${option}` || (option == table.defaultPerPage && !paginationFilter[params.limit])"
         >{{ messages.perPageOption(option) }}</DropdownMenuCheckboxItem>
       </template>
     </DropdownMenuContent>
@@ -29,5 +29,5 @@ import {
 import { SlidersHorizontalIcon } from 'lucide-vue-next'
 import { injectContext } from './internal'
 
-const { hasPerPageSettings, setPerPage, table, paginationFilter } = injectContext()
+const { hasPerPageSettings, setPerPage, table, paginationFilter, params } = injectContext()
 </script>

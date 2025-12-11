@@ -34,6 +34,11 @@ abstract class FilterWidget
     protected ?Closure $fallbackUsing = null;
 
     /**
+     * The table ID for parameter prefixing.
+     */
+    protected ?string $tableId = null;
+
+    /**
      * Set the filter name.
      */
     public function name(?string $name): static
@@ -49,6 +54,43 @@ abstract class FilterWidget
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * Set the table ID for parameter prefixing.
+     */
+    public function setTableId(?string $tableId): static
+    {
+        $this->tableId = $tableId;
+
+        return $this;
+    }
+
+    /**
+     * Get the table ID.
+     */
+    public function getTableId(): ?string
+    {
+        return $this->tableId;
+    }
+
+    /**
+     * Prefix a single key with the table ID.
+     */
+    protected function prefixKey(string $key): string
+    {
+        if (!$this->tableId) {
+            return $key;
+        }
+        return "table_{$this->tableId}_{$key}";
+    }
+
+    /**
+     * Get the list of keys that should be prefixed in toView().
+     */
+    protected function getFieldKeysForPrefixing(): array
+    {
+        return ['field', 'fieldFrom', 'fieldUntil'];
     }
 
     /**
@@ -176,6 +218,48 @@ abstract class FilterWidget
     public function toView(): array
     {
         return [];
+    }
+
+    /**
+     * Get the default value with automatic prefixing based on tableId.
+     */
+    public function getDefaultValueWithPrefix(): array
+    {
+        $value = $this->defaultValue();
+        
+        if (!$this->tableId) {
+            return $value;
+        }
+        
+        $prefixed = [];
+        foreach ($value as $key => $val) {
+            $prefixed[$this->prefixKey($key)] = $val;
+        }
+        return $prefixed;
+    }
+
+    /**
+     * Get the view data with automatic prefixing based on tableId.
+     */
+    public function getViewWithPrefix(): array
+    {
+        $view = $this->toView();
+        
+        if (!$this->tableId) {
+            return $view;
+        }
+        
+        $fieldKeys = $this->getFieldKeysForPrefixing();
+        
+        $prefixed = [];
+        foreach ($view as $key => $value) {
+            if (in_array($key, $fieldKeys) && is_string($value)) {
+                $prefixed[$key] = $this->prefixKey($value);
+            } else {
+                $prefixed[$key] = $value;
+            }
+        }
+        return $prefixed;
     }
 
     /**

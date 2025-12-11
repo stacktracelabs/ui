@@ -55,7 +55,7 @@
                       maxWidth: heading.maxWidth || undefined,
                     }"
                 >
-                  <Sorting v-if="heading.sortableAs" :value="heading.sortableAs" v-model:column="sortFilter.sort_by" v-model:direction="sortFilter.sort_direction">{{ heading.name }}</Sorting>
+                  <Sorting v-if="heading.sortableAs" :value="heading.sortableAs" v-model:column="sortFilter[params.sort_by]" v-model:direction="sortFilter[params.sort_direction]">{{ heading.name }}</Sorting>
                   <template v-else>{{ heading.name }}</template>
                 </TableHead>
               </template>
@@ -144,6 +144,7 @@ const context = createContext(computed(() => props.table))
 const {
   rows,
   headings,
+  params,
 
   clearSearch,
   sortFilter,

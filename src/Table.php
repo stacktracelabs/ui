@@ -228,10 +228,9 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Set unique identifier for the table (used for parameter prefixing).
      */
-    public function withTableId(string $id): static
+    public function id(?string $id = null): static
     {
         $this->tableId = $id;
-
         return $this;
     }
 
@@ -426,12 +425,11 @@ class Table implements Arrayable, JsonSerializable
     /**
      * Prefix a parameter name with the table ID if set.
      */
-    protected function prefixParameter(string $name): string
+    protected function getQueryParamName(string $name): string
     {
         if (!$this->tableId) {
             return $name;
         }
-
         return "table_{$this->tableId}_{$name}";
     }
 
@@ -447,22 +445,6 @@ class Table implements Arrayable, JsonSerializable
         }
 
         return $items;
-    }
-
-    /**
-     * Get current page number with tableId prefix support.
-     */
-    protected function getPage(): int
-    {
-        return request()->integer($this->prefixParameter('page'), 1);
-    }
-
-    /**
-     * Get cursor parameter with tableId prefix support.
-     */
-    protected function getCursor(): ?string
-    {
-        return request()->input($this->prefixParameter('cursor'));
     }
 
     /**
@@ -483,7 +465,7 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->filter) {
-                $this->filter->apply($this->source);
+                $this->filter->apply($this->source, $this->tableId);
             }
 
             if ($sortBy && $sortAs) {
@@ -493,9 +475,8 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->cursorPagination) {
-                $this->items = $this->source->cursorPaginate($this->getPerPage(), ['*'], 'cursor', $this->getCursor())->withQueryString();
-            } else {
-                $this->items = $this->source->paginate($this->getPerPage(), ['*'], 'page', $this->getPage())->withQueryString();
+                $this->items = $this->source->cursorPaginate($this->getPerPage(), ['*'], $this->getQueryParamName('cursor'))->withQueryString();
+                $this->items = $this->source->paginate($this->getPerPage(), ['*'], $this->getQueryParamName('page'))->withQueryString();
             }
         } else if ($this->source instanceof EloquentBuilder) {
             $this->baseTotalCount = $this->source->clone()->count();
@@ -509,7 +490,7 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->filter) {
-                $this->filter->apply($this->source);
+                $this->filter->apply($this->source, $this->tableId);
             }
 
             if ($sortBy && $sortAs) {
@@ -519,9 +500,9 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->cursorPagination) {
-                $this->items = $this->source->cursorPaginate($this->getPerPage(), ['*'], 'cursor', $this->getCursor())->withQueryString();
+                $this->items = $this->source->cursorPaginate($this->getPerPage(), ['*'], $this->getQueryParamName('cursor'))->withQueryString();
             } else {
-                $this->items = $this->source->paginate($this->getPerPage(), ['*'], 'page', $this->getPage())->withQueryString();
+                $this->items = $this->source->paginate($this->getPerPage(), ['*'], $this->getQueryParamName('page'))->withQueryString();
             }
         } else if ($this->source instanceof Collection) {
             $this->items = $this->source->toBase();
@@ -537,7 +518,7 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->filter) {
-                $result = $this->filter->apply($this->items);
+                $result = $this->filter->apply($this->items, $this->tableId);
 
                 if (! ($result instanceof Collection)) {
                     throw new InvalidArgumentException("The result of the filter must be filtered collection.");
@@ -582,7 +563,7 @@ class Table implements Arrayable, JsonSerializable
 
     protected function getSortColumn(): ?Column
     {
-        if ($sortBy = Request::input($this->prefixParameter('sort_by'))) {
+       if ($sortBy = Request::input($this->getQueryParamName('sort_by'))) {
             return $this->getColumns()->first(fn (Column $column) => $column->getSortableAs() == $sortBy);
         }
 
@@ -596,7 +577,7 @@ class Table implements Arrayable, JsonSerializable
 
     protected function getSortDirection(): ?Direction
     {
-        return match (Request::input($this->prefixParameter('sort_direction'))) {
+        return match (Request::input($this->getQueryParamName('sort_direction'))) {
             'asc' => Direction::Asc,
             'desc' => Direction::Desc,
             default => null,
@@ -714,7 +695,7 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function getPerPage(): int
     {
-        $limit = request()->integer($this->prefixParameter('limit'));
+        $limit = request()->integer($this->getQueryParamName('limit'));
 
         if (in_array($limit, $this->perPageOptions)) {
             return $limit;
@@ -728,34 +709,13 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function getSearchTerm(): ?string
     {
-        $term = request()->input($this->prefixParameter('search'));
+        $term = request()->input($this->getQueryParamName('search'));
 
         if (is_string($term) && Str::length($term) > 0) {
             return $term;
         }
 
         return null;
-    }
-
-    /**
-     * Prefix a specific parameter in a URL if tableId is set.
-     */
-    protected function prefixUrlParameter(?string $url, string $parameterName): ?string
-    {
-        if (!$url || !$this->tableId) {
-            return $url;
-        }
-
-        $parsed = parse_url($url);
-        parse_str($parsed['query'] ?? '', $query);
-
-        if (isset($query[$parameterName])) {
-            $query[$this->prefixParameter($parameterName)] = $query[$parameterName];
-            unset($query[$parameterName]);
-        }
-
-        $newQuery = http_build_query($query );
-        return $parsed['path'] . ($newQuery ? '?' . $newQuery : '');
     }
 
     /**
@@ -770,13 +730,12 @@ class Table implements Arrayable, JsonSerializable
                 'currentPage' => $paginator->currentPage(),
                 'lastPage' => $paginator->lastPage(),
                 'total' => $paginator->total(),
-                'prevPageUrl' => $this->prefixUrlParameter($paginator->previousPageUrl(), 'page'),
-                'nextPageUrl' => $this->prefixUrlParameter($paginator->nextPageUrl(), 'page'),
-                'firstPageUrl' => $this->prefixUrlParameter($paginator->url(1), 'page'),
-                'lastPageUrl' => $this->prefixUrlParameter($paginator->url($paginator->lastPage()), 'page'),
+                'prevPageUrl' => $paginator->previousPageUrl(),
+                'nextPageUrl' => $paginator->nextPageUrl(),
+                'firstPageUrl' => $paginator->url(1),
+                'lastPageUrl' => $paginator->url($paginator->lastPage()),
             ];
         }
-
         return null;
     }
 
@@ -789,12 +748,24 @@ class Table implements Arrayable, JsonSerializable
 
         if ($paginator instanceof CursorPaginator) {
             return [
-                'prevPageUrl' => $this->prefixUrlParameter($paginator->previousPageUrl(), 'cursor'),
-                'nextPageUrl' => $this->prefixUrlParameter($paginator->nextPageUrl(), 'cursor'),
+                'prevPageUrl' => $paginator->previousPageUrl(),
+                'nextPageUrl' => $paginator->nextPageUrl(),
             ];
         }
-
         return null;
+    }
+
+    /**
+     * Retrieve query params for the table.
+     */
+    protected function getQueryParams(): array
+    {
+        return [
+            'search' => $this->getQueryParamName('search'),
+            'sort_by' => $this->getQueryParamName('sort_by'),
+            'sort_direction' => $this->getQueryParamName('sort_direction'),
+            'limit' => $this->getQueryParamName('limit'),
+        ];
     }
 
     /**
@@ -845,7 +816,6 @@ class Table implements Arrayable, JsonSerializable
         $this->boot();
 
         return [
-            'tableId' => $this->tableId,
             'headings' => $this->renderHeaderColumns(),
             'rows' => $this->renderRows(),
             'footerCells' => $this->renderFooterCells(),
@@ -855,8 +825,10 @@ class Table implements Arrayable, JsonSerializable
             'pagination' => $this->getPagination(),
             'cursorPagination' => $this->getCursorPagination(),
             'isSearchable' => $this->searchUsing != null,
-            'filter' => !$this->withoutFilter ? $this->filter?->toView() : null,
+            'filter' => !$this->withoutFilter ? $this->filter?->toView($this->tableId) : null,
             'isEmpty' => $this->baseTotalCount === 0,
+            'params' => $this->getQueryParams(),
+            'tableId' => $this->tableId,
         ];
     }
 

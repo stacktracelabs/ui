@@ -1,7 +1,8 @@
 import { useSelectableRows } from '@/Components/Table'
-import { router, useForm, usePage } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import { useFilter } from '@stacktrace/ui'
 import { computed, type ComputedRef, inject, provide, toRaw } from 'vue'
+import { parseQuery, urlWithQuery } from '@stacktrace/ui'
 
 export interface BaseAction {
   name: string
@@ -98,7 +99,6 @@ export interface Filter {
 }
 
 export interface DataTableValue<ResourceValue = object, ResourceKey = string | number> {
-  tableId?: string
   headings: Array<{
     id: string
     name: string
@@ -118,12 +118,20 @@ export interface DataTableValue<ResourceValue = object, ResourceKey = string | n
   isSearchable: boolean
   filter: Filter | null
   isEmpty: boolean
+  params: {
+    search: string
+    sort_by: string
+    sort_direction: string
+    limit: string
+  }
+  tableId: string | null
 }
 
 export const createContext = (table: ComputedRef<DataTableValue>) => {
+  const params = table.value.params
+  const tableId = table.value.tableId
   const rows = computed(() => table.value.rows)
   const headings = computed(() => table.value.headings)
-  const tableId = computed(() => table.value.tableId)
 
   const shouldShowCheckboxForRow = (row: Row) => row.actions.some(it => it.isBulk && it.canRun)
   const selectableRows = useSelectableRows(
@@ -152,50 +160,43 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
   })
 
   // Filter
-  const page = usePage()
   const searchFilter = useFilter(() => ({
-    search: '',
-  }), { tableId: tableId.value })
+    [params.search]: '',
+  }))
   const clearSearch = () => {
-    const url = new URL(window.location.href)
-    const searchParams = new URLSearchParams(url.search)
+    const query = parseQuery()
     
-    if (tableId.value) {
-      const prefix = `table_${tableId.value}_`
-      
-      const keysToRemove: string[] = []
-      searchParams.forEach((value, key) => {
-        if (key.startsWith(prefix)) {
-          keysToRemove.push(key)
+    if (tableId) {
+      Object.keys(query).forEach(key => {
+        if (key.startsWith(`table_${tableId}_`)) {
+          delete query[key]
         }
       })
-      
-      keysToRemove.forEach(key => searchParams.delete(key))
     } else {
-      searchParams.delete('search')
-      searchParams.delete('sort_by')
-      searchParams.delete('sort_direction')
-      searchParams.delete('page')
-      searchParams.delete('cursor')
-      searchParams.delete('limit')
+      Object.keys(query).forEach(key => delete query[key])
     }
     
-    const newUrl = searchParams.toString()
-      ? `${url.pathname}?${searchParams.toString()}`
-      : url.pathname
-    
-    router.visit(newUrl)
+    router.visit(urlWithQuery(query), {
+      preserveState: true,
+      preserveScroll: true,
+      onSuccess: () => {
+        searchFilter.reset()
+        sortFilter.reset()
+        paginationFilter.reset()
+        filter.reset()
+      }
+    })
   }
-  const filter = useFilter(() => table.value.filter?.defaultValue || {}, { tableId: tableId.value })
+  const filter = useFilter(() => table.value.filter?.defaultValue || {})
   const sortFilter = useFilter(() => ({
-    sort_by: null,
-    sort_direction: null,
-  }), { tableId: tableId.value })
+    [params.sort_by]: null,
+    [params.sort_direction]: null,
+  }))
   const paginationFilter = useFilter(() => ({
-    limit: table.value.defaultPerPage,
-  }), { tableId: tableId.value })
+    [params.limit]: table.value.defaultPerPage,
+  }))
   const setPerPage = (limit: number) => {
-    paginationFilter.limit = limit
+    paginationFilter[params.limit] = limit
   }
   const hasPerPageSettings = computed(() => (table.value.pagination || table.value.cursorPagination) && table.value.perPageOptions.length > 0)
 
@@ -205,6 +206,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     table,
     rows,
     headings,
+    params,
 
     // Filter
     clearSearch,
