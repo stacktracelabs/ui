@@ -4,21 +4,31 @@
 namespace StackTrace\Ui;
 
 
-use Illuminate\Session\SessionManager;
-use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class Toaster
 {
-    public function __construct(
-        protected SessionManager $session
-    ) { }
+    /**
+     * The flash notification key.
+     */
+    protected ?string $flashKey = null;
 
     /**
-     * Get list of sent messages.
+     * Get notification flash key.
      */
-    public function getMessages(): array
+    public function flashKey(): string
     {
-        return $this->session->get('toasts', []);
+        return $this->flashKey ?: 'toast';
+    }
+
+    /**
+     * Set a custom flash key.
+     */
+    public function useFlashKey(string $key): static
+    {
+        $this->flashKey = $key;
+
+        return $this;
     }
 
     /**
@@ -26,16 +36,11 @@ class Toaster
      */
     public function make(string $title, ?string $content = null, string $variant = 'default'): static
     {
-        $messages = $this->session->get('toasts', []);
-
-        $messages[] = [
-            'id' => Str::uuid()->toString(),
+        Inertia::flash($this->flashKey(), [
             'title' => $title,
             'content' => $content,
             'variant' => $variant,
-        ];
-
-        $this->session->flash('toasts', $messages);
+        ]);
 
         return $this;
     }

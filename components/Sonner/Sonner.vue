@@ -1,12 +1,3 @@
-<script lang="ts" setup>
-import { Toaster as Sonner, type ToasterProps } from 'vue-sonner'
-import { useBackendSonner } from './useBackendSonner'
-
-const props = defineProps<ToasterProps>()
-
-useBackendSonner()
-</script>
-
 <template>
   <Sonner
     class="toaster group"
@@ -19,3 +10,16 @@ useBackendSonner()
     }"
   />
 </template>
+
+<script lang="ts" setup>
+import { toast, Toaster as Sonner, type ToasterProps } from 'vue-sonner'
+import { useFlash } from '@stacktrace/ui'
+
+const props = defineProps<ToasterProps>()
+
+useFlash('toast', event => {
+  toast(event.title, {
+    description: event.content || undefined,
+  })
+})
+</script>

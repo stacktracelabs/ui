@@ -5,6 +5,7 @@ import { ComponentProvideOptions } from 'vue';
 import { ComputedRef } from 'vue';
 import { DefineComponent } from 'vue';
 import { ExtractPropTypes } from 'vue';
+import { FlashData } from '@inertiajs/core';
 import { GlobalEventParameters } from '@inertiajs/core';
 import { MaybeRefOrGetter } from 'vue';
 import { ParsedQuery } from 'query-string';
@@ -179,6 +180,8 @@ export declare function urlWithQuery(query: ParsedQuery<string | number>): strin
 export declare function useActiveLink(link: MaybeRefOrGetter<MenuItemActivation>): ComputedRef<boolean>;
 
 export declare function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter>;
+
+export declare function useFlash<T extends keyof FlashData>(key: T, callback: (value: NonNullable<FlashData[T]>) => void): void;
 
 export declare function useNavigation(menu: MaybeRefOrGetter<Menu>): ComputedRef<Navigation>;
 
