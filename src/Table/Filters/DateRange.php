@@ -19,13 +19,13 @@ class DateRange extends FilterWidget
     public function value(): mixed
     {
         try {
-            $from = Request::date("{$this->field}_from", 'Y-m-d')->startOfDay();
+            $from = Request::date($this->qualifyField("{$this->field}_from"), 'Y-m-d')->startOfDay();
         } catch (Throwable) {
             $from = null;
         }
 
         try {
-            $until = Request::date("{$this->field}_until", "Y-m-d")->endOfDay();
+            $until = Request::date($this->qualifyField("{$this->field}_until"), "Y-m-d")->endOfDay();
         } catch (Throwable) {
             $until = null;
         }
@@ -48,8 +48,8 @@ class DateRange extends FilterWidget
     public function defaultValue(): array
     {
         return [
-            "{$this->field}_from" => null,
-            "{$this->field}_until" => null,
+            $this->qualifyField("{$this->field}_from") => null,
+            $this->qualifyField("{$this->field}_until") => null,
         ];
     }
 
@@ -62,8 +62,8 @@ class DateRange extends FilterWidget
     {
         return [
             'title' => $this->title,
-            'fieldFrom' => "{$this->field}_from",
-            'fieldUntil' => "{$this->field}_until",
+            'fieldFrom' => $this->qualifyField("{$this->field}_from"),
+            'fieldUntil' => $this->qualifyField("{$this->field}_until"),
         ];
     }
 }

@@ -41,6 +41,11 @@ class Filter
     protected array $allowedWidgets = [];
 
     /**
+     * Set a prefix for query params used by the widgets.
+     */
+    protected ?string $queryPrefix = null;
+
+    /**
      * Exclude given set of widgets from the filter.
      */
     public function exceptWidgets(string|array $name): static
@@ -56,6 +61,16 @@ class Filter
     public function onlyWidgets(string|array $name): static
     {
         $this->allowedWidgets = array_merge($this->allowedWidgets, Arr::wrap($name));
+
+        return $this;
+    }
+
+    /**
+     * Set a query param field prefix for widgets.
+     */
+    public function withQueryPrefix(?string $prefix): static
+    {
+        $this->queryPrefix = $prefix;
 
         return $this;
     }
@@ -107,6 +122,8 @@ class Filter
 
                 return true;
             })
+            ->map(fn (FilterWidget $widget) => $widget->withPrefix($this->queryPrefix))
+            ->values()
             ->all();
     }
 

@@ -19,7 +19,7 @@ class Select extends FilterWidget
 
     public function value(): mixed
     {
-        $values = Request::input($this->field);
+        $values = Request::input($this->qualifyField($this->field));
 
         if (is_null($values)) {
             return null;
@@ -41,7 +41,7 @@ class Select extends FilterWidget
     public function defaultValue(): array
     {
         return [
-            $this->field => null,
+            $this->qualifyField($this->field) => null,
         ];
     }
 
@@ -63,7 +63,7 @@ class Select extends FilterWidget
     {
         return [
             'title' => $this->title,
-            'field' => $this->field,
+            'field' => $this->qualifyField($this->field),
             'options' => $this->getOptions(),
         ];
     }

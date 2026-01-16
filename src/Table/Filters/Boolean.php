@@ -16,13 +16,13 @@ class Boolean extends FilterWidget
 
     public function value(): mixed
     {
-        return Request::boolean($this->field);
+        return Request::boolean($this->qualifyField($this->field));
     }
 
     public function defaultValue(): array
     {
         return [
-            $this->field => false,
+            $this->qualifyField($this->field) => false,
         ];
     }
 
@@ -35,7 +35,7 @@ class Boolean extends FilterWidget
     {
         return [
             'title' => $this->title,
-            'field' => $this->field,
+            'field' => $this->qualifyField($this->field),
         ];
     }
 }

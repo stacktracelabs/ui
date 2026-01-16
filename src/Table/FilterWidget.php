@@ -34,6 +34,11 @@ abstract class FilterWidget
     protected ?Closure $fallbackUsing = null;
 
     /**
+     * The query param prefix for accessing widget values.
+     */
+    protected ?string $prefix = null;
+
+    /**
      * Set the filter name.
      */
     public function name(?string $name): static
@@ -153,6 +158,24 @@ abstract class FilterWidget
         }
 
         return true;
+    }
+
+    /**
+     * Get a qualified field name for accessing widget values from request.
+     */
+    public function qualifyField(string $name): string
+    {
+        return $this->prefix ? $this->prefix.$name : $name;
+    }
+
+    /**
+     * Set a prefix for widget value fields.
+     */
+    public function withPrefix(?string $prefix): static
+    {
+        $this->prefix = $prefix;
+
+        return $this;
     }
 
     /**

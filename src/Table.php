@@ -122,6 +122,23 @@ class Table implements Arrayable, JsonSerializable
     protected bool $withoutSorting = false;
 
     /**
+     * The prefix for query params.
+     */
+    protected ?string $queryPrefix = null;
+
+    /**
+     * Set a prefix for query params used by the table.
+     */
+    public function withQueryPrefix(?string $prefix): static
+    {
+        $this->queryPrefix = $prefix;
+
+        $this->getFilter()->withQueryPrefix($prefix);
+
+        return $this;
+    }
+
+    /**
      * Set how the row should be highlighted.
      */
     public function highlight(?Closure $closure): static

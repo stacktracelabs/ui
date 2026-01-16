@@ -18,7 +18,7 @@ class Number extends FilterWidget
 
     public function value(): mixed
     {
-        $input = Request::input($this->field);
+        $input = Request::input($this->qualifyField($this->field));
 
         if (! is_string($input)) {
             return null;
@@ -49,7 +49,7 @@ class Number extends FilterWidget
     public function defaultValue(): array
     {
         return [
-            $this->field => null,
+            $this->qualifyField($this->field) => null,
         ];
     }
 
@@ -62,7 +62,7 @@ class Number extends FilterWidget
     {
         return [
             'title' => $this->title,
-            'field' => $this->field,
+            'field' => $this->qualifyField($this->field),
         ];
     }
 }

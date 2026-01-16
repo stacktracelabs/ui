@@ -16,6 +16,7 @@ class CustomerController
     public function index()
     {
         $table = (new CustomerTable)
+            // ->withQueryPrefix('customers_')
             // ->onlyFilters('Premium')
         ;
 

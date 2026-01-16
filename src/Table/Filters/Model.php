@@ -83,7 +83,7 @@ class Model extends FilterWidget
 
     protected function getModels(): ?Collection
     {
-        $input = Request::collect($this->field);
+        $input = Request::collect($this->qualifyField($this->field));
 
         $identifiers = $input
             ->map(fn ($it) => is_numeric($it) ? (int) $it : null)
@@ -125,7 +125,7 @@ class Model extends FilterWidget
 
     public function value(): mixed
     {
-        $input = Request::collect($this->field);
+        $input = Request::collect($this->qualifyField($this->field));
 
         $models = $this->getModels();
 
@@ -152,7 +152,7 @@ class Model extends FilterWidget
     public function defaultValue(): array
     {
         return [
-            $this->field => null,
+            $this->qualifyField($this->field) => null,
         ];
     }
 
@@ -199,7 +199,7 @@ class Model extends FilterWidget
     {
         return [
             'title' => $this->title,
-            'field' => $this->field,
+            'field' => $this->qualifyField($this->field),
             'options' => $this->toOptions($this->resolveModelsOrOptions()),
         ];
     }
