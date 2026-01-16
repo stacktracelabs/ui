@@ -15,7 +15,9 @@ class CustomerController
 {
     public function index()
     {
-        $table = new CustomerTable;
+        $table = (new CustomerTable)
+            // ->onlyFilters('Premium')
+        ;
 
         return Inertia::render('Customers/ListCustomers', [
             'customers' => $table,

@@ -22,15 +22,14 @@ use StackTrace\Ui\Table\ActionCollection;
 use StackTrace\Ui\Table\BaseAction;
 use StackTrace\Ui\Table\Column;
 use StackTrace\Ui\Table\ColumnCollection;
+use StackTrace\Ui\Table\Concerns\Filterable;
 use StackTrace\Ui\Table\Direction;
-use StackTrace\Ui\Table\Filter;
-use StackTrace\Ui\Table\FilterWidget;
 use StackTrace\Ui\Table\Resource;
 use StackTrace\Ui\Table\ResourceActions;
 
 class Table implements Arrayable, JsonSerializable
 {
-    use Conditionable;
+    use Conditionable, Filterable;
 
     /**
      * List of table columns.
@@ -83,11 +82,6 @@ class Table implements Arrayable, JsonSerializable
     protected ?Closure $searchUsing = null;
 
     /**
-     * Configured table filter.
-     */
-    protected ?Filter $filter = null;
-
-    /**
      * The source of the table.
      */
     protected EloquentBuilder|ScoutBuilder|Collection|Closure|null $source = null;
@@ -126,11 +120,6 @@ class Table implements Arrayable, JsonSerializable
      * Disable sorting on all columns.
      */
     protected bool $withoutSorting = false;
-
-    /**
-     * Hide all available filters.
-     */
-    protected bool $withoutFilter = false;
 
     /**
      * Set how the row should be highlighted.
@@ -216,44 +205,6 @@ class Table implements Arrayable, JsonSerializable
     public function setSource(EloquentBuilder|ScoutBuilder|Collection $source): static
     {
         $this->source = $source;
-
-        return $this;
-    }
-
-    /**
-     * Add filter to the table.
-     */
-    public function filter(FilterWidget $filter): static
-    {
-        if (! $this->filter) {
-            $this->filter = new Filter;
-        }
-
-        $this->filter->widget($filter);
-
-        return $this;
-    }
-
-    /**
-     * Add filters to the table.
-     */
-    public function withFilters(array $filters): static
-    {
-        foreach ($filters as $filter) {
-            if ($filter !== null) {
-                $this->filter($filter);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Disable filtering on the table.
-     */
-    public function withoutFilter(bool $without = true): static
-    {
-        $this->withoutFilter = $without;
 
         return $this;
     }
@@ -362,16 +313,6 @@ class Table implements Arrayable, JsonSerializable
         $this->allowedActions = array_merge($this->allowedActions, Arr::wrap($name));
 
         return $this;
-    }
-
-    /**
-     * Exclude given action from action list.
-     *
-     * @deprecated Use exceptActions instead. This will be removed in future release.
-     */
-    public function withoutAction(string|array $name): static
-    {
-        return $this->exceptActions($name);
     }
 
     /**
@@ -790,7 +731,7 @@ class Table implements Arrayable, JsonSerializable
             'pagination' => $this->getPagination(),
             'cursorPagination' => $this->getCursorPagination(),
             'isSearchable' => $this->searchUsing != null,
-            'filter' => !$this->withoutFilter ? $this->filter?->toView() : null,
+            'filter' => $this->renderFilter(),
             'isEmpty' => $this->baseTotalCount === 0,
         ];
     }

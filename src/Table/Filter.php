@@ -4,6 +4,7 @@
 namespace StackTrace\Ui\Table;
 
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
 
@@ -26,9 +27,43 @@ class Filter
     protected array $applied = [];
 
     /**
-     * Register new filter.
+     * List of filter widgets which should be ignored.
+     *
+     * @var array<string>
      */
-    public function widget(FilterWidget $filter): static
+    protected array $excludedWidgets = [];
+
+    /**
+     * List of filters widgets which only should be allowed.
+     *
+     * @var array<string>
+     */
+    protected array $allowedWidgets = [];
+
+    /**
+     * Exclude given set of widgets from the filter.
+     */
+    public function exceptWidgets(string|array $name): static
+    {
+        $this->excludedWidgets = array_merge($this->excludedWidgets, Arr::wrap($name));
+
+        return $this;
+    }
+
+    /**
+     * Allow only given set of widgets.
+     */
+    public function onlyWidgets(string|array $name): static
+    {
+        $this->allowedWidgets = array_merge($this->allowedWidgets, Arr::wrap($name));
+
+        return $this;
+    }
+
+    /**
+     * Register new filter widget.
+     */
+    public function addWidget(FilterWidget $filter): static
     {
         $this->widgets[] = $filter;
 
@@ -54,13 +89,35 @@ class Filter
     }
 
     /**
+     * Resolve widgets to use.
+     */
+    protected function resolveWidgets(): array
+    {
+        return collect($this->widgets)
+            ->filter(function (FilterWidget $widget) {
+                $name = $widget->getName();
+
+                if (in_array($name, $this->excludedWidgets)) {
+                    return false;
+                }
+
+                if (!empty($this->allowedWidgets) && !in_array($name, $this->allowedWidgets)) {
+                    return false;
+                }
+
+                return true;
+            })
+            ->all();
+    }
+
+    /**
      * Apply this filter on the source.
      */
     public function apply(mixed $source): mixed
     {
         $this->applied = [];
 
-        foreach ($this->widgets as $widget) {
+        foreach ($this->resolveWidgets() as $widget) {
             if ($widget->shouldDisplay($this)) {
                 if ($source instanceof Collection) {
                     $source = $source->values();
@@ -84,7 +141,7 @@ class Filter
     {
         $value = [];
 
-        foreach ($this->widgets as $widget) {
+        foreach ($this->resolveWidgets() as $widget) {
             $value = array_merge($value, $widget->defaultValue());
         }
 
@@ -99,7 +156,7 @@ class Filter
     {
         return [
             'defaultValue' => $this->getDefaultValue(),
-            'widgets' => collect($this->widgets)
+            'widgets' => collect($this->resolveWidgets())
                 ->filter(fn (FilterWidget $widget) => $widget->shouldDisplay($this))
                 ->values()
                 ->map(fn (FilterWidget $widget) => [
