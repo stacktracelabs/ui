@@ -5,6 +5,7 @@ namespace StackTrace\Ui;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class NumberValue
 {
@@ -13,6 +14,22 @@ class NumberValue
         public readonly int|float $value1,
         public readonly int|float|null $value2 = null,
     ) { }
+
+    /**
+     * Filter by this value on given data source.
+     */
+    public function filter(Builder|Collection $source, string $attribute): Builder|Collection
+    {
+        return match ($this->operator) {
+            Operator::LessThan => $source->where($attribute, '<', $this->value1),
+            Operator::LessThanOrEqual => $source->where($attribute, '<=', $this->value1),
+            Operator::Equal => $source->where($attribute, '=', $this->value1),
+            Operator::GreaterThenOrEqual => $source->where($attribute, '>=', $this->value1),
+            Operator::GreaterThen => $source->where($attribute, '>', $this->value1),
+            Operator::Between => $source->whereBetween($attribute, [$this->value1, $this->value2]),
+            Operator::NotBetween => $source->whereNotBetween($attribute, [$this->value1, $this->value2]),
+        };
+    }
 
     /**
      * Add where clause on given query.
