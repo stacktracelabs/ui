@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Crypt;
 use StackTrace\Ui\Selection;
 use StackTrace\Ui\Table\Actions\Action;
+use Symfony\Component\HttpFoundation\Response;
 
 class ActionController
 {
@@ -37,7 +38,11 @@ class ActionController
         }
 
         if (method_exists($action, "handle")) {
-            App::call([$action, "handle"], [Selection::class => $selection]);
+            $result = App::call([$action, "handle"], [Selection::class => $selection]);
+
+            if ($result instanceof Response) {
+                return $result;
+            }
         }
 
         return back();
