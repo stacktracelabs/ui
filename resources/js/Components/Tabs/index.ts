@@ -1,7 +1,0 @@
-export { default as Tabs } from './Tabs.vue'
-export { default as TabsContent } from './TabsContent.vue'
-export { default as TabsLink } from './TabsLink.vue'
-export { default as TabsLinkList } from './TabsLinkList.vue'
-export { default as TabsList } from './TabsList.vue'
-export { default as TabsNavigation } from './TabsNavigation.vue'
-export { default as TabsTrigger } from './TabsTrigger.vue'
