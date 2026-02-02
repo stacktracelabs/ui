@@ -35,6 +35,8 @@ export interface NavigationItem extends Omit<MenuItem, 'children'> {
   isActive: boolean
   isChildActive: boolean
   hasChildren: boolean
+  hasBadge: boolean
+  hasChildBadge: boolean
   children?: Array<NavigationItem>
 }
 
@@ -139,6 +141,22 @@ export function useNavigation(menu: MaybeRefOrGetter<Menu>): ComputedRef<Navigat
     return false
   }
 
+  const hasBadge = (item: MenuItem): boolean => {
+    return item.badge ? item.badge.length > 0 : false
+  }
+
+  const hasChildBadge = (item: MenuItem, deep: boolean = false): boolean => {
+    if (item.children && item.children.some(child => hasBadge(child))) {
+      return true
+    }
+
+    if (deep && item.children) {
+      return item.children.some(child => hasChildBadge(child, true))
+    }
+
+    return false
+  }
+
   const createNavigationItem: (item: MenuItem) => NavigationItem = item => {
     const definedChildren = item.children
     const children = definedChildren ? definedChildren.map(it => createNavigationItem(it)) : []
@@ -147,6 +165,8 @@ export function useNavigation(menu: MaybeRefOrGetter<Menu>): ComputedRef<Navigat
       ...item,
       isActive: isActive(item),
       isChildActive: isChildActive(item, true),
+      hasBadge: hasBadge(item),
+      hasChildBadge: hasChildBadge(item, true),
       children,
       hasChildren: definedChildren ? definedChildren.length > 0 : false,
     }

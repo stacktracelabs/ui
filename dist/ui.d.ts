@@ -137,6 +137,8 @@ export declare interface NavigationItem extends Omit<MenuItem, 'children'> {
     isActive: boolean;
     isChildActive: boolean;
     hasChildren: boolean;
+    hasBadge: boolean;
+    hasChildBadge: boolean;
     children?: Array<NavigationItem>;
 }
 
