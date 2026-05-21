@@ -13,21 +13,21 @@ a project with `stacktrace/ui` already installed. The starter kit is based on of
 laravel new my-app --using=stacktrace/laravel-starter-kit
 ```
 
-You get fresh Laravel 12 application with following features:
+You get fresh Laravel 13 application with following features:
 
 - `stacktrace/ui` component library
 - Typescript configuration from a Vue project template
 - [Laravel Debugbar](https://github.com/barryvdh/laravel-debugbar) to easy debug your application
 - latest Inertia, Tailwind and Vue libraries
 
-If you do not want to use our starter kit, use a [Laravel Vue starter kit](https://laravel.com/docs/12.x/starter-kits#vue) and continue with steps as described in Existing applications section.  
+If you do not want to use our starter kit, use a [Laravel Vue starter kit](https://laravel.com/docs/13.x/starter-kits#vue) and continue with steps as described in Existing applications section.
 
 ## Existing applications
 
 When installing to an existing application, following requirements needs to be met before adding a `stacktrace/ui`:
 
-- your application must be running on Laravel 10, 11 or 12
-- [Inertia 2.0](https://inertiajs.com/server-side-setup) or higher must be installed
+- your application must be running on Laravel 10, 11, 12 or 13
+- [Inertia 2.0.21+ or 3.x](https://inertiajs.com/server-side-setup) must be installed. Inertia 3 requires Laravel 11 or higher.
 - Vue 3.5 or higher must be installed
 - [Tailwind v4](https://tailwindcss.com/docs/installation/using-vite) must be installed
 

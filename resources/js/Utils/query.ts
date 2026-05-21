@@ -25,7 +25,7 @@ export function getValueFromQuery(param: string) {
 }
 
 export function urlWithQuery(query: ParsedQuery<string | number>): string {
-  const base = window.location.href.split('?')[0]
+  const [base = window.location.href] = window.location.href.split('?')
 
   return Object.keys(query).length > 0 ? `${base}?${formatQuery(query)}` : base
 }

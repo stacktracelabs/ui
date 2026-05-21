@@ -14,6 +14,10 @@ export default defineComponent({
 
       for (let i = 0; i < attributes.length; i++) {
         const attr = attributes[i];
+        if (!attr) {
+          continue
+        }
+
         attributesObj[attr.name] = attr.value;
       }
 

@@ -6,11 +6,14 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
   plugins: [
     vue(),
-    dts({ rollupTypes: true }),
+    dts({
+      rollupTypes: false,
+      include: ['resources/**/*.ts', 'resources/**/*.vue'],
+      outDir: 'dist/types',
+      cleanVueFileName: true,
+      bundledPackages: [],
+    }),
   ],
-  optimizeDeps: {
-    exclude: ['vue', '@inertiajs/vue3', '@inertiajs/core', 'reka-ui'],
-  },
   build: {
     manifest: true,
     sourcemap: true,
@@ -21,7 +24,7 @@ export default defineConfig({
       formats: ['es'],
       fileName: () => `ui.js`,
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ['vue', '@inertiajs/vue3', '@inertiajs/core', 'reka-ui'],
     },
     // minify: false,
