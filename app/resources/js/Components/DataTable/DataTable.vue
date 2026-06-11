@@ -111,7 +111,7 @@ import { createContext } from './internal'
 import { createHeadingStyle, createRowStyle } from '.'
 import { computed } from "vue";
 import { cn } from "@/Utils";
-import { SearchIcon, XIcon, TableIcon } from 'lucide-vue-next'
+import { SearchIcon, XIcon, TableIcon } from '@lucide/vue'
 import { Button } from '@/Components/Button'
 import { Table, TableBody, TableCell, TableRow, TableHead, SelectableTableRow, RowSelect, Sorting, TableHeader, TableFooter, BulkSelect } from '@/Components/Table'
 import messages from './messages'

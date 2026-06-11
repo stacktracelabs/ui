@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "lucide-vue-next";
+import { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from "@lucide/vue";
 import { computed } from "vue";
 import { Button } from '@/Components/Button'
 

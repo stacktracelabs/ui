@@ -26,7 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/Components/DropdownMenu'
-import { SlidersHorizontalIcon } from 'lucide-vue-next'
+import { SlidersHorizontalIcon } from '@lucide/vue'
 import { injectContext } from './internal'
 
 const { hasPerPageSettings, setPerPage, table, paginationFilter } = injectContext()

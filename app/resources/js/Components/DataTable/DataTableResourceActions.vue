@@ -30,7 +30,7 @@ import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.v
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { cn } from '@/Utils'
 import { useToggle } from '@stacktrace/ui'
-import { EllipsisIcon } from 'lucide-vue-next'
+import { EllipsisIcon } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { type DataTableResourceActionsValue } from '.'
 import DataTableActionDialog from './DataTableActionDialog.vue'

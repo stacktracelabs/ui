@@ -31,7 +31,7 @@ import { Primitive } from 'reka-ui'
 import { type ButtonProps, buttonVariants } from './'
 import { cn } from '@/Utils'
 import { computed } from 'vue'
-import { CheckIcon } from 'lucide-vue-next'
+import { CheckIcon } from '@lucide/vue'
 import { Spinner } from '@/Components/Spinner'
 
 const props = withDefaults(defineProps<ButtonProps>(), {

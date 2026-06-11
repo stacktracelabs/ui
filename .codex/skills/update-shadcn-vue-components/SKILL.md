@@ -1,6 +1,6 @@
 ---
 name: update-shadcn-vue-components
-description: Update this repository's internal Vue UI component package from the latest unovue/shadcn-vue release. Use when syncing app/resources/js/Components with shadcn-vue apps/v4/registry/new-york-v4/ui, adding newly released shadcn components, adapting upstream Reka/shadcn components to this repo's PascalCase folders, template-first Vue SFC style, @/Utils alias, and lucide-vue-next imports, while preserving local custom components and avoiding upstream vee-validate Form helpers and TanStack Table helpers.
+description: Update this repository's internal Vue UI component package from the latest unovue/shadcn-vue release. Use when syncing app/resources/js/Components with shadcn-vue apps/v4/registry/new-york-v4/ui, adding newly released shadcn components, adapting upstream Reka/shadcn components to this repo's PascalCase folders, template-first Vue SFC style, @/Utils alias, and @lucide/vue imports, while preserving local custom components and avoiding upstream vee-validate Form helpers and TanStack Table helpers.
 ---
 
 # Update shadcn-vue Components
@@ -32,7 +32,7 @@ Sync the workbench components in `app/resources/js/Components` from the latest `
 7. Run validation:
 
    ```bash
-   rg -n "@/lib/utils|@lucide/vue|@/registry|new-york-v4|ring-\[3px\]" app/resources/js/Components app/package.json
+   rg -n "@/lib/utils|@/registry|new-york-v4|ring-\[3px\]" app/resources/js/Components app/package.json
    cd app
    npm run types
    npm run build
@@ -45,7 +45,7 @@ Sync the workbench components in `app/resources/js/Components` from the latest `
 - Keep Vue SFCs template-first, then script.
 - Use PascalCase component folders and existing upstream component file names.
 - Use `@/Utils` instead of `@/lib/utils`.
-- Use `lucide-vue-next` instead of `@lucide/vue`.
+- Use `@lucide/vue` for Lucide icons.
 - Rewrite upstream registry imports such as `@/registry/new-york-v4/ui/sheet` to local imports such as `@/Components/Sheet`.
 - Prefer single-quoted TypeScript imports and string literals where the repo already does.
 - Use latest Tailwind class spellings from upstream, such as `ring-3` rather than `ring-[3px]`.

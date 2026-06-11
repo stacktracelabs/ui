@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { HashIcon } from "lucide-vue-next";
+import { HashIcon } from "@lucide/vue";
 import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
 import { Separator } from '@/Components/Separator'
 import { Button } from '@/Components/Button'

@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { ChevronRight } from 'lucide-vue-next'
+import { ChevronRight } from '@lucide/vue'
 import { CalendarNext, type CalendarNextProps, useForwardProps } from 'reka-ui'
 import { cn } from '@/Utils'
 import { buttonVariants } from '@/Components/Button'

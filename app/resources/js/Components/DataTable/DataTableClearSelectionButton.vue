@@ -9,7 +9,7 @@
 import { Button } from '@/Components/Button'
 import { injectContext } from './internal'
 import messages from './messages'
-import { XIcon } from 'lucide-vue-next'
+import { XIcon } from '@lucide/vue'
 
 const { somethingSelected, selectableRows } = injectContext()
 </script>

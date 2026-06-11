@@ -31,7 +31,7 @@ import {
   parseDate,
   getLocalTimeZone,
 } from '@internationalized/date'
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon } from '@lucide/vue'
 import { computed, ref, type Ref, watch } from 'vue'
 
 const emit = defineEmits(['update:modelValue'])

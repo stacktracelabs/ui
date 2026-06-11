@@ -231,7 +231,7 @@ PHP
 <script setup lang="ts">
 import { ref } from 'vue'
 import { navigationMenuTriggerStyle } from '@/Components/NavigationMenu'
-import { ChevronDownIcon, MenuIcon, XIcon } from 'lucide-vue-next'
+import { ChevronDownIcon, MenuIcon, XIcon } from '@lucide/vue'
 import { cn } from '@/Utils'
 import { Link } from '@inertiajs/vue3'
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/Components/NavigationMenu'

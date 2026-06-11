@@ -40,7 +40,7 @@ import { injectContext } from './internal'
 import messages from './messages'
 import { cn } from '@/Utils'
 import { Link } from '@inertiajs/vue3'
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-vue-next'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from '@lucide/vue'
 
 const { table } = injectContext()
 </script>

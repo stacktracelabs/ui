@@ -24,7 +24,7 @@
 import { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'
 import { RangeCalendar } from "@/Components/RangeCalendar";
 import { Button } from "@/Components/Button";
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon } from '@lucide/vue'
 import { computed, type Ref, ref, watch } from 'vue'
 import { cn } from '@/Utils'
 import {

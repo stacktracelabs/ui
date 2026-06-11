@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from 'lucide-vue-next'
+import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from '@lucide/vue'
 import { toast, Toaster as Sonner, type ToasterProps } from 'vue-sonner'
 import { useFlash } from '@stacktrace/ui'
 import { cn } from '@/Utils'

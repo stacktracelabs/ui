@@ -35,7 +35,7 @@
 import { Button } from '@/Components/Button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { useToggle } from '@stacktrace/ui'
-import { EllipsisIcon } from 'lucide-vue-next'
+import { EllipsisIcon } from '@lucide/vue'
 import { computed, ref } from 'vue'
 import { type ExecutableAction, type Row, useActionRunner } from './internal'
 import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'

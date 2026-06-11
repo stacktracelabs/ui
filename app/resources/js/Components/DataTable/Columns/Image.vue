@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { cn } from '@/Utils'
 import { computed } from 'vue'
-import { ImageIcon } from 'lucide-vue-next'
+import { ImageIcon } from '@lucide/vue'
 
 const props = defineProps<{
   src: string | null

@@ -60,7 +60,7 @@ import SidebarMenuSub from './SidebarMenuSub.vue'
 import SidebarNavigationButton from './SidebarNavigationButton.vue'
 import SidebarMenuButton from './SidebarMenuButton.vue'
 import SidebarMenuSubButton from './SidebarMenuSubButton.vue'
-import { ChevronRightIcon } from 'lucide-vue-next'
+import { ChevronRightIcon } from '@lucide/vue'
 import { type Menu, useNavigation } from '@stacktrace/ui'
 
 const props = defineProps<{

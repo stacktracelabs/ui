@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import type { Filter } from "@stacktrace/ui";
-import { XIcon } from "lucide-vue-next";
+import { XIcon } from "@lucide/vue";
 import { Button } from '@/Components/Button'
 
 defineProps<{

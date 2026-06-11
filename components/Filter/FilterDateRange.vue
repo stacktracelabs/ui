@@ -38,7 +38,7 @@ import { Separator } from '@/Components/Separator'
 import { RangeCalendar } from "@/Components/RangeCalendar";
 import { Badge } from '@/Components/Badge'
 import { Button } from "@/Components/Button";
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon } from '@lucide/vue'
 import { computed, type Ref, ref, watch } from 'vue'
 import { cn } from '@/Utils'
 import {

@@ -15,7 +15,7 @@
 import type { PaginationLastProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { ChevronRightIcon } from 'lucide-vue-next'
+import { ChevronRightIcon } from '@lucide/vue'
 import { PaginationLast, useForwardProps } from 'reka-ui'
 import { cn } from '@/Utils'
 import { buttonVariants, type ButtonVariants } from '@/Components/Button'
