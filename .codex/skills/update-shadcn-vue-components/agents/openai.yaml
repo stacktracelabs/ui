@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update shadcn-vue Components"
+  short_description: "Sync internal components from shadcn-vue"
+  default_prompt: "Use $update-shadcn-vue-components to update this repo's internal UI components from the latest shadcn-vue release."
