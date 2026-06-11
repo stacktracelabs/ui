@@ -6,6 +6,7 @@
 /.gitignore         export-ignore
 /app                export-ignore
 /bin                export-ignore
+/docs               export-ignore
 /resources          export-ignore
 /package-lock.json  export-ignore
 /tsconfig.json      export-ignore
