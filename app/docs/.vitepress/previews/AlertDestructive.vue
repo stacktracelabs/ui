@@ -10,5 +10,5 @@
 
 <script setup lang="ts">
 import { Alert, AlertTitle, AlertDescription } from '@/Components/Alert'
-import { TriangleAlertIcon } from 'lucide-vue-next'
+import { TriangleAlertIcon } from '@lucide/vue'
 </script>

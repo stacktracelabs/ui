@@ -54,7 +54,7 @@ import {
 } from '@/Components/Card'
 import { Switch } from '@/Components/Switch'
 import { cn } from '@/Utils'
-import { BellIcon, CheckIcon } from 'lucide-vue-next'
+import { BellIcon, CheckIcon } from '@lucide/vue'
 
 const notifications = [
   {

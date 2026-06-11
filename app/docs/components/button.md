@@ -95,7 +95,7 @@ You may use `processing`, `icon`, `label` and `recently-successful` to display a
 
 <script setup lang="ts">
 import { ActionButton } from '@/Components/Button'
-import { SaveIcon } from 'lucide-vue-next'
+import { SaveIcon } from '@lucide/vue'
 import { useForm } from '@inertiajs/vue3'
   
 const form = useForm({})

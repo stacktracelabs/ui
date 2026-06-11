@@ -47,5 +47,5 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/Components/DropdownMenu'
-import { ChevronDownIcon, SlashIcon } from 'lucide-vue-next'
+import { ChevronDownIcon, SlashIcon } from '@lucide/vue'
 </script>

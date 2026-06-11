@@ -33,5 +33,5 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/Components/Breadcrumb'
-import { SlashIcon } from 'lucide-vue-next'
+import { SlashIcon } from '@lucide/vue'
 </script>

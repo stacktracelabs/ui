@@ -36,7 +36,7 @@ import {
   CollapsibleTrigger,
 } from '@/Components/Collapsible'
 
-import { ChevronsUpDownIcon } from 'lucide-vue-next'
+import { ChevronsUpDownIcon } from '@lucide/vue'
 import { ref } from 'vue'
 
 const isOpen = ref(false)

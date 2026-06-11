@@ -39,7 +39,7 @@ import { FormControl } from '@/Components/Form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/Components/Popover'
 import { cn } from '@/Utils'
 import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internationalized/date'
-import { CalendarIcon } from 'lucide-vue-next'
+import { CalendarIcon } from '@lucide/vue'
 import { toDate } from 'reka-ui/date'
 import { ref } from 'vue'
 

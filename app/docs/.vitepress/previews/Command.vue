@@ -58,5 +58,5 @@ import {
   SettingsIcon as GearIcon,
   FileUserIcon as PersonIcon,
   RocketIcon,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 </script>

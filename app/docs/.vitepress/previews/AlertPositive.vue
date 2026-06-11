@@ -10,5 +10,5 @@
 
 <script setup lang="ts">
 import { Alert, AlertTitle, AlertDescription } from '@/Components/Alert'
-import { ShieldCheckIcon } from 'lucide-vue-next'
+import { ShieldCheckIcon } from '@lucide/vue'
 </script>

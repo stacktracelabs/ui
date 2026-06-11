@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { Button } from '@/Components/Button'
-import { CodeIcon } from 'lucide-vue-next'
+import { CodeIcon } from '@lucide/vue'
 import ShadcnIcon from './ShadcnIcon.vue'
 import RekaIcon from './RekaIcon.vue'
 
