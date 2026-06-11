@@ -23,7 +23,7 @@
               <DatePickerInput
                 v-else
                 :part="item.part"
-                class="rounded transition-[color,box-shadow] focus:outline-none focus:border-ring focus:ring-ring/50 focus:ring-[3px] border border-transparent focus:border-input data-[placeholder]:text-muted-foreground selection:bg-primary selection:text-primary-foreground"
+                class="rounded transition-[color,box-shadow] focus:outline-none focus:border-ring focus:ring-ring/50 focus:ring-3 border border-transparent focus:border-input data-[placeholder]:text-muted-foreground selection:bg-primary selection:text-primary-foreground"
               >
                 {{ item.value }}
               </DatePickerInput>

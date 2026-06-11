@@ -1,0 +1,17 @@
+<template>
+  <div
+    data-slot="item-content"
+    :class="cn('flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none', props.class)"
+  >
+    <slot />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/Utils'
+
+const props = defineProps<{
+  class?: HTMLAttributes['class']
+}>()
+</script>
