@@ -1,0 +1,36 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "Avatar components for StackTrace UI.",
+  "dependencies": [
+    "@vueuse/core",
+    "reka-ui"
+  ],
+  "registryDependencies": [
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/Avatar/Avatar.vue",
+      "content": "<template>\n  <AvatarRoot\n    data-slot=\"avatar\"\n    :class=\"cn('relative flex size-8 shrink-0 overflow-hidden rounded-full', props.class)\"\n  >\n    <slot />\n  </AvatarRoot>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { AvatarRoot } from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Avatar/AvatarFallback.vue",
+      "content": "<template>\n  <AvatarFallback\n    data-slot=\"avatar-fallback\"\n    v-bind=\"delegatedProps\"\n    :class=\"cn('bg-muted flex size-full items-center justify-center rounded-full', props.class)\"\n  >\n    <slot />\n  </AvatarFallback>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { AvatarFallback, type AvatarFallbackProps } from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<AvatarFallbackProps & { class?: HTMLAttributes['class'] }>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Avatar/AvatarImage.vue",
+      "content": "<template>\n  <AvatarImage\n    data-slot=\"avatar-image\"\n    v-bind=\"props\"\n    class=\"aspect-square size-full\"\n  >\n    <slot />\n  </AvatarImage>\n</template>\n\n<script setup lang=\"ts\">\nimport type { AvatarImageProps } from 'reka-ui'\nimport { AvatarImage } from 'reka-ui'\n\nconst props = defineProps<AvatarImageProps>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Avatar/index.ts",
+      "content": "export { default as Avatar } from './Avatar.vue'\nexport { default as AvatarFallback } from './AvatarFallback.vue'\nexport { default as AvatarImage } from './AvatarImage.vue'\n",
+      "type": "registry:ui"
+    }
+  ]
+}

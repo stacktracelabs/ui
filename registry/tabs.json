@@ -1,0 +1,63 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "Tabs",
+  "description": "Tabs components for StackTrace UI.",
+  "dependencies": [
+    "@inertiajs/vue3",
+    "@vueuse/core",
+    "class-variance-authority",
+    "reka-ui"
+  ],
+  "registryDependencies": [
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/Tabs/index.ts",
+      "content": "import type { MaybeRefOrGetter } from '@vueuse/core'\nimport { cva, type VariantProps } from 'class-variance-authority'\nimport { computed, type ComputedRef, inject, provide, toValue } from 'vue'\n\nexport { default as Tabs } from './Tabs.vue'\nexport { default as TabsContent } from './TabsContent.vue'\nexport { default as TabsLink } from './TabsLink.vue'\nexport { default as TabsLinkList } from './TabsLinkList.vue'\nexport { default as TabsList } from './TabsList.vue'\nexport { default as TabsNavigation } from './TabsNavigation.vue'\nexport { default as TabsTrigger } from './TabsTrigger.vue'\n\nexport const tabsListVariants = cva(\n  'rounded-lg p-1',\n  {\n    variants: {\n      variant: {\n        default: 'bg-muted text-muted-foreground',\n        ghost: 'bg-transparent gap-1 p-0',\n      },\n      orientation: {\n        vertical: 'flex flex-col gap-1',\n        horizontal: 'inline-flex items-center justify-center w-fit',\n      }\n    },\n    defaultVariants: {\n      variant: 'default',\n      orientation: 'horizontal',\n    }\n  }\n)\nexport type TabsListVariants = VariantProps<typeof tabsListVariants>\n\nexport const tabsListItemVariants = cva(\n  'inline-flex items-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring focus-visible:ring-3 focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\\'size-\\'])]:size-4',\n  {\n    variants: {\n      variant: {\n        default: 'data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground',\n        ghost: 'hover:bg-accent py-2 hover:text-accent-foreground dark:hover:bg-accent/50 data-[state=active]:bg-muted data-[state=active]:text-foreground',\n      },\n      orientation: {\n        vertical: 'px-4 py-2',\n        horizontal: '',\n      }\n    },\n    defaultVariants: {\n      variant: 'default',\n      orientation: 'horizontal',\n    }\n  }\n)\nexport type TabsListItemVariants = VariantProps<typeof tabsListItemVariants>\nexport type TabsVariants = TabsListVariants | TabsListItemVariants\n\nconst TabsContextKey = Symbol()\ninterface TabsContext {\n  variant: NonNullable<Parameters<typeof tabsListVariants>[0]>['variant']\n  orientation: NonNullable<Parameters<typeof tabsListVariants>[0]>['orientation']\n}\nexport function provideTabsContext(context: MaybeRefOrGetter<TabsContext>) {\n  provide(TabsContextKey, context)\n}\nexport function injectTabsContext(): ComputedRef<TabsContext | null> {\n  const value = inject<TabsContext>(TabsContextKey)\n\n  return computed(() => value ? toValue(value) : null)\n}\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/Tabs.vue",
+      "content": "<template>\n  <TabsRoot\n    data-slot=\"tabs\"\n    v-bind=\"forwarded\"\n    :class=\"cn('flex flex-col gap-2', props.class)\"\n  >\n    <slot />\n  </TabsRoot>\n</template>\n\n<script setup lang=\"ts\">\nimport { provideTabsContext, tabsListVariants } from '.'\nimport type { TabsRootEmits, TabsRootProps } from 'reka-ui'\nimport { computed, type HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { TabsRoot, useForwardPropsEmits } from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<TabsRootProps & {\n  class?: HTMLAttributes['class']\n  variant?: NonNullable<Parameters<typeof tabsListVariants>[0]>['variant']\n}>()\nconst emits = defineEmits<TabsRootEmits>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\nconst forwarded = useForwardPropsEmits(delegatedProps, emits)\n\nprovideTabsContext(computed(() => ({\n  variant: props.variant || 'default',\n  orientation: 'horizontal',\n})))\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsContent.vue",
+      "content": "<template>\n  <TabsContent\n    data-slot=\"tabs-content\"\n    :class=\"cn('flex-1 outline-none', props.class)\"\n    v-bind=\"delegatedProps\"\n  >\n    <slot />\n  </TabsContent>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { TabsContent, type TabsContentProps } from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<TabsContentProps & { class?: HTMLAttributes['class'] }>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsLink.vue",
+      "content": "<template>\n  <Link\n    v-bind=\"props\"\n    :data-state=\"isActive ? 'active' : 'inactive'\"\n    :class=\"\n      cn(\n        tabsListItemVariants({\n          variant: context?.variant || 'default',\n          orientation: context?.orientation || 'horizontal',\n        }),\n        $attrs.class || undefined,\n      )\n    \"\n  >\n    <slot />\n  </Link>\n</template>\n\n<script setup lang=\"ts\">\nimport { Link, type InertiaLinkProps } from '@inertiajs/vue3'\nimport { cn } from '@/Utils'\nimport { computed } from 'vue'\nimport { useActiveLink } from '@stacktrace/ui'\nimport { injectTabsContext, tabsListItemVariants } from '.'\n\nconst context = injectTabsContext()\n\ninterface Props extends InertiaLinkProps {\n  active?: boolean | undefined\n}\n\nconst props = withDefaults(defineProps<Props>(), {\n  active: undefined\n})\n\nconst isLinkActive = useActiveLink(computed(() => {\n  const href = props.href\n\n  return { url: typeof href === 'string' ? href : '' }\n}))\n\nconst isActive = computed(() => props.active !== undefined ? props.active : isLinkActive.value)\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsLinkList.vue",
+      "content": "<template>\n  <div :class=\"cn(tabsListVariants({ variant, orientation }), $attrs.class || undefined)\">\n    <slot />\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nimport { cn } from '@/Utils'\nimport { computed } from 'vue'\nimport { provideTabsContext, tabsListVariants } from '.'\n\nconst props = defineProps<{\n  variant?: NonNullable<Parameters<typeof tabsListVariants>[0]>['variant']\n  orientation?: NonNullable<Parameters<typeof tabsListVariants>[0]>['orientation']\n}>()\n\nprovideTabsContext(computed(() => ({\n  variant: props.variant || 'default',\n  orientation: props.orientation || 'horizontal',\n})))\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsList.vue",
+      "content": "<template>\n  <TabsList\n    data-slot=\"tabs-list\"\n    v-bind=\"delegatedProps\"\n    :class=\"cn(\n      tabsListVariants({\n        variant: context?.variant || 'default',\n        orientation: context?.orientation || 'horizontal',\n      }),\n      props.class,\n    )\"\n  >\n    <slot />\n  </TabsList>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { TabsList, type TabsListProps } from 'reka-ui'\nimport { cn } from '@/Utils'\nimport { injectTabsContext, tabsListVariants } from '.'\n\nconst props = defineProps<TabsListProps & { class?: HTMLAttributes['class'] }>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n\nconst context = injectTabsContext()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsNavigation.vue",
+      "content": "<template>\n  <TabsLinkList v-if=\"navigation.length > 0\" :orientation=\"orientation\" :variant=\"variant\">\n    <TabsNavigationItem v-for=\"item in navigation\" :item=\"item\" />\n  </TabsLinkList>\n</template>\n\n<script setup lang=\"ts\">\nimport { tabsListVariants } from '.'\nimport { computed } from 'vue'\nimport TabsLinkList from './TabsLinkList.vue'\nimport TabsNavigationItem from './TabsNavigationItem.vue'\nimport { type Menu, useNavigation } from '@stacktrace/ui'\n\nconst props = defineProps<{\n  menu: Menu\n  variant?: NonNullable<Parameters<typeof tabsListVariants>[0]>['variant']\n  orientation?: NonNullable<Parameters<typeof tabsListVariants>[0]>['orientation']\n}>()\n\nconst navigation = useNavigation(computed(() => props.menu))\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsNavigationItem.vue",
+      "content": "<template>\n  <NavigationButton\n    :item=\"item\"\n    :class=\"\n      cn(\n         tabsListItemVariants({\n          variant: context?.variant || 'default',\n          orientation: context?.orientation || 'horizontal',\n        }),\n        props.class,\n      )\"\n    >\n    {{ item.title }}\n  </NavigationButton>\n</template>\n\n<script setup lang=\"ts\">\nimport { cn } from '@/Utils'\nimport { type NavigationItem, NavigationButton } from '@stacktrace/ui'\nimport { type HTMLAttributes } from 'vue'\nimport { injectTabsContext, tabsListItemVariants } from '.'\n\nconst context = injectTabsContext()\n\nconst props = defineProps<{\n  item: NavigationItem\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Tabs/TabsTrigger.vue",
+      "content": "<template>\n  <TabsTrigger\n    data-slot=\"tabs-trigger\"\n    v-bind=\"forwardedProps\"\n    :class=\"cn(\n      tabsListItemVariants({\n        variant: context?.variant || 'default',\n        orientation: context?.orientation || 'horizontal',\n      }),\n      props.class,\n    )\"\n  >\n    <slot />\n  </TabsTrigger>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { TabsTrigger, type TabsTriggerProps, useForwardProps } from 'reka-ui'\nimport { cn } from '@/Utils'\nimport { injectTabsContext, tabsListItemVariants } from '.'\n\nconst context = injectTabsContext()\n\nconst props = defineProps<TabsTriggerProps & { class?: HTMLAttributes['class'] }>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n\nconst forwardedProps = useForwardProps(delegatedProps)\n</script>\n",
+      "type": "registry:ui"
+    }
+  ]
+}

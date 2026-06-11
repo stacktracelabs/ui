@@ -1,0 +1,50 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "panel",
+  "type": "registry:ui",
+  "title": "Panel",
+  "description": "Panel components for StackTrace UI.",
+  "dependencies": [
+    "reka-ui"
+  ],
+  "registryDependencies": [
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/Panel/index.ts",
+      "content": "export { default as Panel } from './Panel.vue'\nexport { default as PanelContent } from './PanelContent.vue'\nexport { default as PanelFooter } from './PanelFooter.vue'\nexport { default as PanelHeader } from './PanelHeader.vue'\nexport { default as PanelItem } from './PanelItem.vue'\nexport { default as PanelTitle } from './PanelTitle.vue'\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/Panel.vue",
+      "content": "<template>\n  <Primitive v-bind=\"props\">\n    <slot />\n  </Primitive>\n</template>\n<script setup lang=\"ts\">\nimport { Primitive, type PrimitiveProps } from 'reka-ui'\n\nconst props = defineProps<PrimitiveProps>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/PanelContent.vue",
+      "content": "<template>\n  <div class=\"flex flex-col divide-y divide-border/50\">\n    <slot />\n  </div>\n</template>\n\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/PanelFooter.vue",
+      "content": "<template>\n  <div class=\"border-t py-4\">\n    <slot />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/PanelHeader.vue",
+      "content": "<template>\n  <div :class=\"cn('border-b py-4', $attrs.class || '')\">\n    <slot />\n  </div>\n</template>\n<script setup lang=\"ts\">\nimport { cn } from '@/Utils'\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/PanelItem.vue",
+      "content": "<template>\n  <div class=\"py-4\">\n    <div v-if=\"label\" class=\"flex flex-col sm:flex-row\">\n      <div class=\"sm:w-2/5 text-muted-foreground font-medium text-sm\">\n        {{ label }}\n      </div>\n      <div class=\"mt-0.5 sm:mt-0 sm:w-3/5 text-foreground font-medium text-sm\">\n        <slot />\n      </div>\n    </div>\n\n    <slot v-else />\n  </div>\n</template>\n\n<script setup lang=\"ts\">\ndefineProps<{\n  label?: string | undefined\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Panel/PanelTitle.vue",
+      "content": "<template>\n  <h3 class=\"font-semibold text-sm\">\n    <slot />\n  </h3>\n</template>\n",
+      "type": "registry:ui"
+    }
+  ]
+}

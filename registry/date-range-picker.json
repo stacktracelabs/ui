@@ -1,0 +1,30 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "date-range-picker",
+  "type": "registry:ui",
+  "title": "Date Range Picker",
+  "description": "Date Range Picker components for StackTrace UI.",
+  "dependencies": [
+    "@internationalized/date",
+    "@lucide/vue",
+    "reka-ui"
+  ],
+  "registryDependencies": [
+    "@stacktrace/button",
+    "@stacktrace/popover",
+    "@stacktrace/range-calendar",
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/DateRangePicker/DateRangePicker.vue",
+      "content": "<template>\n  <Popover>\n    <PopoverTrigger as-child>\n      <Button\n        plain\n        variant=\"outline\"\n        :class=\"cn(\n          'w-full justify-start text-left font-normal',\n          !isSelected && 'text-muted-foreground',\n          $attrs.class || ''\n        )\"\n      >\n        <CalendarIcon class=\"text-foreground size-4\" />\n        {{ label || \"Pick a date range\" }}\n      </Button>\n    </PopoverTrigger>\n    <PopoverContent class=\"w-auto p-0\" :to=\"to\">\n      <RangeCalendar v-model=\"date\" initial-focus :number-of-months=\"2\" />\n    </PopoverContent>\n  </Popover>\n</template>\n\n<script setup lang=\"ts\">\nimport { Popover, PopoverTrigger, PopoverContent } from '@/Components/Popover'\nimport { RangeCalendar } from \"@/Components/RangeCalendar\";\nimport { Button } from \"@/Components/Button\";\nimport { Calendar as CalendarIcon } from '@lucide/vue'\nimport { computed, type Ref, ref, watch } from 'vue'\nimport { cn } from '@/Utils'\nimport {\n  DateFormatter,\n  parseDate,\n  getLocalTimeZone,\n} from '@internationalized/date'\nimport type { DateRange } from 'reka-ui'\n\nconst emit = defineEmits(['update:from', 'update:until'])\n\nconst props = defineProps<{\n  from?: string\n  until?: string\n  to?: string | HTMLElement\n}>()\n\nconst df = new DateFormatter('en-US', {\n  dateStyle: 'medium',\n})\n\nconst date = ref({\n  start: props.from ? parseDate(props.from) : undefined,\n  end: props.until ? parseDate(props.until) : undefined,\n}) as Ref<DateRange>\n\nconst clear = () => {\n  date.value = { start: undefined, end: undefined }\n}\n\nwatch(date, newDate => {\n  const start = newDate.start?.toString() || undefined\n  const end = newDate.end?.toString() || undefined\n\n  if (start !== props.from) {\n    emit('update:from', start)\n  }\n\n  if (end !== props.until) {\n    emit('update:until', end)\n  }\n})\n\nwatch(computed(() => props.from), newFrom => {\n  const currentFrom = date.value.start?.toString() || undefined\n  const updatedFrom = newFrom || undefined\n\n  if (updatedFrom !== currentFrom) {\n    date.value.start = updatedFrom ? parseDate(updatedFrom) : undefined\n  }\n})\n\nwatch(computed(() => props.until), newUntil => {\n  const currentUntil = date.value.end?.toString() || undefined\n  const updatedUntil = newUntil || undefined\n\n  if (updatedUntil !== currentUntil) {\n    date.value.end = updatedUntil ? parseDate(updatedUntil) : undefined\n  }\n})\n\nconst isSelected = computed(() => date.value.start || date.value.end)\n\nconst label = computed(() => {\n  const from = date.value.start?.toDate(getLocalTimeZone()) || null\n  const until = date.value.end?.toDate(getLocalTimeZone()) || null\n\n  if (from && until) {\n    const fromFormat = df.format(from)\n    const untilFormat = df.format(until)\n\n    if (fromFormat == untilFormat) {\n      return fromFormat\n    }\n\n    return `${fromFormat} - ${untilFormat}`\n  }\n\n  return null\n})\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/DateRangePicker/index.ts",
+      "content": "export { default as DateRangePicker } from './DateRangePicker.vue'\n",
+      "type": "registry:ui"
+    }
+  ]
+}

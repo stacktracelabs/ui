@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "logo",
+  "type": "registry:ui",
+  "title": "Logo",
+  "description": "Logo components for StackTrace UI.",
+  "files": [
+    {
+      "path": "components/Logo/index.ts",
+      "content": "export { default as Logo } from './Logo.vue'\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Logo/Logo.vue",
+      "content": "<template>\n  <svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    strokeWidth=\"2\"\n    strokeLinecap=\"round\"\n    strokeLinejoin=\"round\"\n  >\n    <path d=\"M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3\" />\n  </svg>\n</template>\n",
+      "type": "registry:ui"
+    }
+  ]
+}

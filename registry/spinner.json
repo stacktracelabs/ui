@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Spinner components for StackTrace UI.",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/Spinner/index.ts",
+      "content": "export { default as Spinner } from './Spinner.vue'\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Spinner/Spinner.vue",
+      "content": "<template>\n  <Loader2Icon\n    role=\"status\"\n    aria-label=\"Loading\"\n    :class=\"cn('size-4 animate-spin', props.class)\"\n  />\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { Loader2Icon } from '@lucide/vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    }
+  ]
+}

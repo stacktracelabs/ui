@@ -1,0 +1,88 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "Table components for StackTrace UI.",
+  "dependencies": [
+    "@lucide/vue",
+    "@vueuse/core"
+  ],
+  "registryDependencies": [
+    "@stacktrace/button",
+    "@stacktrace/checkbox",
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/Table/BulkSelect.vue",
+      "content": "<template>\n  <Checkbox\n      :indeterminate=\"isIndeterminate\"\n      :model-value=\"isChecked\"\n      @click=\"onChange\"\n  />\n</template>\n\n<script setup lang=\"ts\">\nimport { type SelectableRows } from \"./\";\nimport { computed, nextTick } from \"vue\";\nimport { Checkbox } from \"@/Components/Checkbox\";\n\nconst props = defineProps<{\n  selectable: SelectableRows\n}>()\n\nconst isIndeterminate = computed(() => props.selectable.somethingSelected.value && !props.selectable.everythingSelected.value)\nconst isChecked = computed(() => props.selectable.everythingSelected.value)\n\nconst onChange = () =>{\n  nextTick(() => {\n    if (props.selectable.everythingSelected.value) {\n      props.selectable.clearSelection()\n    } else {\n      props.selectable.selectEverything()\n    }\n  })\n}\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/index.ts",
+      "content": "import { computed, type ComputedRef, type Ref, ref, watch } from \"vue\";\n\nexport { default as Table } from './Table.vue'\nexport { default as TableBody } from './TableBody.vue'\nexport { default as TableCaption } from './TableCaption.vue'\nexport { default as TableCell } from './TableCell.vue'\nexport { default as TableEmpty } from './TableEmpty.vue'\nexport { default as TableFooter } from './TableFooter.vue'\nexport { default as TableHead } from './TableHead.vue'\nexport { default as TableHeader } from './TableHeader.vue'\nexport { default as TableRow } from './TableRow.vue'\n\nexport { default as BulkSelect } from './BulkSelect.vue'\nexport { default as RowSelect } from './RowSelect.vue'\nexport { default as SelectableTableRow } from './SelectableTableRow.vue'\nexport { default as Sorting } from './Sorting.vue'\n\nexport interface SelectableRows<T = string | number> {\n  selection: Ref<Array<T>>\n  somethingSelected: ComputedRef<boolean>\n  everythingSelected: ComputedRef<boolean>\n  selectedCount: ComputedRef<number>\n  totalCount: ComputedRef<number>\n  clearSelection: () => void\n  selectEverything: () => void\n  withSelection: (callback: (selection: Array<T>) => void) => void\n  availableRows: ComputedRef<Array<T>>\n  disabledRows: ComputedRef<Array<T>>\n}\n\nexport function useSelectableRows<T = string | number>(\n  available: ComputedRef<Array<T>>,\n  disabled?: ComputedRef<Array<T>>\n): SelectableRows<T> {\n  const selection = ref<Array<T>>([]) as Ref<Array<T>>\n\n  // Set to null, when rows are changed.\n  watch(available, () => {\n    selection.value = []\n  })\n\n  const disabledRows = disabled || computed(() => [])\n\n  const selectedCount = computed(() => selection.value.length)\n  const totalCount = computed(() => available.value.length - disabledRows.value.length)\n  const somethingSelected = computed(() => selectedCount.value > 0)\n  const everythingSelected = computed(() => somethingSelected.value && selectedCount.value == totalCount.value)\n\n  const clearSelection = () => {\n    selection.value = []\n  }\n\n  const isValueSelected = (value: T) => selection.value.includes(value)\n  const isValueDisabled = (value: T) => disabledRows.value.includes(value)\n\n  const selectEverything = () => {\n    available.value.forEach(it => {\n      if (!isValueSelected(it) && !isValueDisabled(it)) {\n        selection.value.push(it)\n      }\n    })\n  }\n\n  /**\n   * Run given callback when selection is not empty.\n   */\n  const withSelection = (callback: (selection: Array<T>) => void) => {\n    const selected = selection.value\n\n    if (selected.length > 0) {\n      callback(selected)\n    }\n  }\n\n  return {\n    selection,\n    somethingSelected,\n    everythingSelected,\n    selectEverything,\n    selectedCount,\n    totalCount,\n    clearSelection,\n    withSelection,\n    availableRows: available,\n    disabledRows,\n  }\n}\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/RowSelect.vue",
+      "content": "<template>\n  <Checkbox v-model=\"selectable\" :value=\"value\" :disabled=\"disabled\" />\n</template>\n\n<script setup lang=\"ts\">\nimport { type ComputedRef, inject, type Ref } from \"vue\";\nimport { Checkbox } from \"@/Components/Checkbox\";\n\nconst selectable = inject<Ref<Array<string | number>>>('selectedValues', () => {\n  throw new Error(\"The RowSelect must be inside SelectableTableRow\")\n}, true)\n\nconst value = inject<ComputedRef<string | number>>('value', () => {\n  throw new Error(\"The SelectableTableRow does not have a value set.\")\n}, true)\n\nconst disabled = inject<ComputedRef<boolean>>('disabled', () => {\n  throw new Error(\"The SelectableTableRow does not have a value set.\")\n}, true)\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/SelectableTableRow.vue",
+      "content": "<template>\n<TableRow v-bind=\"$attrs\" :data-state=\"isSelected && 'selected'\">\n  <slot />\n</TableRow>\n</template>\n\n<script setup lang=\"ts\">\nimport { useVModel } from \"@vueuse/core\";\nimport { computed, provide } from \"vue\";\nimport { TableRow } from './'\n\nconst emit = defineEmits(['update:modelValue'])\n\nconst props = withDefaults(defineProps<{\n  value: string | number\n  modelValue?: Array<string | number>\n  disabled?: boolean\n}>(), {\n  disabled: false,\n})\n\nconst val = useVModel(props, 'modelValue', emit)\n\nprovide('selectedValues', val)\nprovide('value', computed(() => props.value))\nprovide('disabled', computed(() => props.disabled))\n\nconst isSelected = computed(() => val.value?.includes(props.value))\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/Sorting.vue",
+      "content": "<template>\n  <div class=\"inline-flex\">\n    <Button plain @click=\"toggle\" class=\"h-8 px-1 text-sm\" variant=\"ghost\" size=\"sm\">\n      <slot />\n\n      <template v-if=\"isApplied\">\n        <ChevronsUpIcon v-if=\"isAsc\" class=\"ml-1.5 w-4 h-4\" />\n        <ChevronsDownIcon v-else class=\"ml-1.5 w-4 h-4\" />\n      </template>\n      <ChevronsUpDownIcon v-else class=\"ml-1.5 w-4 h-4\" />\n    </Button>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nimport { ChevronsUpDownIcon, ChevronsUpIcon, ChevronsDownIcon } from \"@lucide/vue\";\nimport { computed } from \"vue\";\nimport { Button } from '@/Components/Button'\n\nconst props = defineProps<{\n  value: string\n}>()\n\nconst column = defineModel<string | null>('column')\nconst direction = defineModel<'asc' | 'desc' | null>('direction')\n\nconst isApplied = computed(() => column.value === props.value)\nconst isAsc = computed(() => direction.value === 'asc')\n\nconst toggle = () => {\n  if (isApplied.value) {\n    if (direction.value == 'asc') {\n      direction.value = 'desc'\n    } else if (direction.value == 'desc') {\n      direction.value = null\n      column.value = null\n    } else {\n      direction.value = 'asc'\n    }\n  } else {\n    column.value = props.value\n    direction.value = 'asc'\n  }\n}\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/Table.vue",
+      "content": "<template>\n  <div data-slot=\"table-container\" class=\"relative w-full overflow-auto\">\n    <table data-slot=\"table\" :class=\"cn('w-full caption-bottom text-sm', props.class)\">\n      <slot />\n    </table>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableBody.vue",
+      "content": "<template>\n  <tbody\n    data-slot=\"table-body\"\n    :class=\"cn('[&_tr:last-child]:border-0', props.class)\"\n  >\n    <slot />\n  </tbody>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableCaption.vue",
+      "content": "<template>\n  <caption\n    data-slot=\"table-caption\"\n    :class=\"cn('text-muted-foreground mt-4 text-sm', props.class)\"\n  >\n    <slot />\n  </caption>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableCell.vue",
+      "content": "<template>\n  <td\n    data-slot=\"table-cell\"\n    :class=\"\n      cn(\n        'p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',\n        props.class,\n      )\n    \"\n  >\n    <slot />\n  </td>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableEmpty.vue",
+      "content": "<template>\n  <TableRow>\n    <TableCell\n      :class=\"\n        cn(\n          'p-4 whitespace-nowrap align-middle text-sm text-foreground',\n          props.class,\n        )\n      \"\n      v-bind=\"delegatedProps\"\n    >\n      <div class=\"flex items-center justify-center py-10\">\n        <slot />\n      </div>\n    </TableCell>\n  </TableRow>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { cn } from '@/Utils'\nimport TableCell from './TableCell.vue'\nimport TableRow from './TableRow.vue'\n\nconst props = withDefaults(defineProps<{\n  class?: HTMLAttributes['class']\n  colspan?: number\n}>(), {\n  colspan: 1,\n})\n\nconst delegatedProps = reactiveOmit(props, 'class')\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableFooter.vue",
+      "content": "<template>\n  <tfoot\n    data-slot=\"table-footer\"\n    :class=\"cn('bg-muted/50 border-t font-medium [&>tr]:last:border-b-0', props.class)\"\n  >\n    <slot />\n  </tfoot>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableHead.vue",
+      "content": "<template>\n  <th\n    data-slot=\"table-head\"\n    :class=\"cn('text-muted-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]', props.class)\"\n  >\n    <slot />\n  </th>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableHeader.vue",
+      "content": "<template>\n  <thead\n    data-slot=\"table-header\"\n    :class=\"cn('[&_tr]:border-b', props.class)\"\n  >\n    <slot />\n  </thead>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/Table/TableRow.vue",
+      "content": "<template>\n  <tr\n    data-slot=\"table-row\"\n    :class=\"cn('hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors', props.class)\"\n  >\n    <slot />\n  </tr>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<{\n  class?: HTMLAttributes['class']\n}>()\n</script>\n",
+      "type": "registry:ui"
+    }
+  ]
+}

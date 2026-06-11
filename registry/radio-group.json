@@ -1,0 +1,32 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "Radio Group",
+  "description": "Radio Group components for StackTrace UI.",
+  "dependencies": [
+    "@lucide/vue",
+    "@vueuse/core",
+    "reka-ui"
+  ],
+  "registryDependencies": [
+    "@stacktrace/utils"
+  ],
+  "files": [
+    {
+      "path": "components/RadioGroup/index.ts",
+      "content": "export { default as RadioGroup } from './RadioGroup.vue'\nexport { default as RadioGroupItem } from './RadioGroupItem.vue'\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/RadioGroup/RadioGroup.vue",
+      "content": "<template>\n  <RadioGroupRoot\n    data-slot=\"radio-group\"\n    :class=\"cn('grid gap-3', props.class)\"\n    v-bind=\"forwarded\"\n  >\n    <slot />\n  </RadioGroupRoot>\n</template>\n\n<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps, useForwardPropsEmits } from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<RadioGroupRootProps & { class?: HTMLAttributes['class'] }>()\nconst emits = defineEmits<RadioGroupRootEmits>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n\nconst forwarded = useForwardPropsEmits(delegatedProps, emits)\n</script>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/RadioGroup/RadioGroupItem.vue",
+      "content": "<template>\n  <RadioGroupItem\n    data-slot=\"radio-group-item\"\n    v-bind=\"forwardedProps\"\n    :class=\"\n      cn(\n        'border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',\n        props.class,\n      )\n    \"\n  >\n    <RadioGroupIndicator\n      data-slot=\"radio-group-indicator\"\n      class=\"relative flex items-center justify-center\"\n    >\n      <CircleIcon class=\"fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2\" />\n    </RadioGroupIndicator>\n  </RadioGroupItem>\n</template>\n\n<script setup lang=\"ts\">\nimport type { RadioGroupItemProps } from 'reka-ui'\nimport type { HTMLAttributes } from 'vue'\nimport { reactiveOmit } from '@vueuse/core'\nimport { CircleIcon } from '@lucide/vue'\nimport {\n  RadioGroupIndicator,\n  RadioGroupItem,\n\n  useForwardProps,\n} from 'reka-ui'\nimport { cn } from '@/Utils'\n\nconst props = defineProps<RadioGroupItemProps & { class?: HTMLAttributes['class'] }>()\n\nconst delegatedProps = reactiveOmit(props, 'class')\n\nconst forwardedProps = useForwardProps(delegatedProps)\n</script>\n",
+      "type": "registry:ui"
+    }
+  ]
+}
