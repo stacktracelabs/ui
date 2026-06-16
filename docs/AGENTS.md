@@ -1,5 +1,9 @@
 <laravel-boost-guidelines>
-=== .ai/shadcn rules ===
+=== .ai/GUIDELINES rules ===
+
+# About project
+
+This is a Laravel application containing documentation and example usage of the `@stacktrace/ui` package.
 
 ## Building UI
 
