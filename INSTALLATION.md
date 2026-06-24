@@ -1,19 +1,63 @@
 # StackTrace UI Installation
 
-This guide describes the expected setup for using the StackTrace UI shadcn-vue registry in a Laravel, Inertia, and Vue application.
+This guide describes the expected setup for using the StackTrace UI shadcn-vue registry in a Laravel application that already uses Inertia, Vue, TypeScript, Tailwind, and shadcn-vue.
 
-## 1. Create Or Prepare A Laravel App
+It does not assume that the project already has any shadcn-vue components installed. The registry can be added to an existing application and components can be installed one by one through `shadcn-vue add`.
 
-For a new Laravel 13 app, start with the Vue starter kit:
+## 1. Requirements
 
-```bash
-laravel new my-app --vue
-cd my-app
+Start with a Laravel project that already has:
+
+- Inertia and Vue
+- TypeScript
+- Tailwind CSS
+- shadcn-vue initialized with a `components.json` file
+- the `@` alias pointing to `resources/js`
+
+StackTrace UI installs components into PascalCase application paths:
+
+```text
+resources/js/Components
+resources/js/Composables
+resources/js/Types
+resources/js/Utils
 ```
 
-The starter kit already includes Inertia, Vue, Tailwind, and shadcn-vue. StackTrace UI adds its own PascalCase component tree and a composer-provided JavaScript entrypoint.
+If your project was created from the Laravel Vue starter kit, apply the starter-kit section before adding StackTrace components.
 
-## 2. Install Composer Packages
+## 2. Laravel Vue Starter Kit
+
+If you start from the Laravel Vue starter kit, rename its default lowercase frontend directories before continuing with the StackTrace setup:
+
+```bash
+mv resources/js/components resources/js/components-tmp
+mv resources/js/components-tmp resources/js/Components
+mv resources/js/composables resources/js/composables-tmp
+mv resources/js/composables-tmp resources/js/Composables
+mv resources/js/types resources/js/types-tmp
+mv resources/js/types-tmp resources/js/Types
+rg -l '@/components|@/composables|@/types' resources/js | xargs perl -pi -e "s#@/components#@/Components#g; s#@/composables#@/Composables#g; s#@/types#@/Types#g"
+```
+
+On case-sensitive filesystems, direct one-step renames are enough. The two-step rename above is safer on macOS.
+
+The starter kit also imports its bundled shadcn-vue components from `@/components/ui/...`. After the rename those imports become `@/Components/ui/...` and still point to the starter copies, not to the StackTrace PascalCase components installed by the registry.
+
+After installing the relevant StackTrace components, update the starter imports you use:
+
+```bash
+rg -l '@/Components/ui' resources/js | xargs perl -pi -e 's#@/Components/ui/button#@/Components/Button#g; s#@/Components/ui/dialog#@/Components/Dialog#g; s#@/Components/ui/card#@/Components/Card#g; s#@/Components/ui/label#@/Components/Label#g; s#@/Components/ui/input-otp#@/Components/InputOTP#g; s#@/Components/ui/input#@/Components/Input#g; s#@/Components/ui/spinner#@/Components/Spinner#g; s#@/Components/ui/checkbox#@/Components/Checkbox#g; s#@/Components/ui/separator#@/Components/Separator#g; s#@/Components/ui/sonner#@/Components/Sonner#g; s#@/Components/ui/dropdown-menu#@/Components/DropdownMenu#g; s#@/Components/ui/sidebar#@/Components/Sidebar#g; s#@/Components/ui/alert#@/Components/Alert#g; s#@/Components/ui/avatar#@/Components/Avatar#g; s#@/Components/ui/breadcrumb#@/Components/Breadcrumb#g; s#@/Components/ui/navigation-menu#@/Components/NavigationMenu#g; s#@/Components/ui/sheet#@/Components/Sheet#g; s#@/Components/ui/tooltip#@/Components/Tooltip#g; s#@/Components/ui/skeleton#@/Components/Skeleton#g; s#@/Components/ui/collapsible#@/Components/Collapsible#g'
+```
+
+Then check whether any starter imports remain:
+
+```bash
+rg -F '@/Components/ui' resources/js
+```
+
+If there is no output, the old starter `resources/js/Components/ui` directory is no longer referenced and can be removed if you want to keep only the PascalCase component tree.
+
+## 3. Install Composer Packages
 
 Install the StackTrace UI composer package and Ziggy:
 
@@ -25,9 +69,9 @@ composer require stacktrace/ui tightenco/ziggy
 
 Ziggy is required because some StackTrace UI utilities and components use the global `route()` helper.
 
-## 3. NPM Packages
+## 4. NPM Packages
 
-The Laravel Vue starter kit already includes the normal Inertia, Vue, Tailwind, and shadcn-vue runtime packages. Do not install `@stacktrace/ui` from npm.
+Do not install `@stacktrace/ui` from npm.
 
 The frontend Ziggy package is required:
 
@@ -37,9 +81,9 @@ npm install ziggy-js
 
 The StackTrace registry also declares it for components that import `@stacktrace/ui`, so `shadcn-vue add` can install it automatically. Other dependencies stay component-specific: for example, `Input/DebouncedInput` adds `lodash` and `@types/lodash`, carousel adds `embla-carousel-vue`, drawer adds `vaul-vue`, and chart adds `@unovis/vue`.
 
-## 4. Expose Ziggy Routes
+## 5. Expose Ziggy Routes
 
-Add `@routes` to your main Blade view before the Vite entry. In a Laravel starter kit this is usually `resources/views/app.blade.php`:
+Add `@routes` to your main Blade view before the Vite entry:
 
 ```blade
 @routes
@@ -64,7 +108,7 @@ declare module '@vue/runtime-core' {
 
 If your app already extends `ComponentCustomProperties`, keep those declarations under `@vue/runtime-core` as well.
 
-## 5. Configure App Type Declarations
+## 6. Configure App Type Declarations
 
 Create `resources/js/Types/globals.d.ts` for the common Vite, Inertia, and Vue type augmentations:
 
@@ -100,7 +144,7 @@ declare module '@vue/runtime-core' {
 }
 ```
 
-## 6. Configure Vite Aliases
+## 7. Configure Vite Aliases
 
 Alias `@stacktrace/ui` to the composer package source in `vite.config.ts`:
 
@@ -120,7 +164,7 @@ export default defineConfig({
 
 Keep your existing Laravel, Inertia, Tailwind, Vue, and Wayfinder plugins in the same config; only add or update the `resolve.alias` entries.
 
-## 7. Configure TypeScript Paths
+## 8. Configure TypeScript Paths
 
 Add matching aliases to `tsconfig.json`:
 
@@ -136,7 +180,7 @@ Add matching aliases to `tsconfig.json`:
 }
 ```
 
-## 8. Configure shadcn-vue
+## 9. Configure shadcn-vue
 
 Update `components.json` so StackTrace UI installs to PascalCase paths and can resolve the `@stacktrace` registry namespace:
 
@@ -164,31 +208,6 @@ Update `components.json` so StackTrace UI installs to PascalCase paths and can r
   "iconLibrary": "lucide"
 }
 ```
-
-## 9. Use PascalCase Application Paths
-
-StackTrace UI components are installed to:
-
-```text
-resources/js/Components
-resources/js/Composables
-resources/js/Types
-resources/js/Utils
-```
-
-If you want the Laravel starter kit itself to follow the same convention, rename the starter directories and update imports:
-
-```bash
-mv resources/js/components resources/js/components-tmp
-mv resources/js/components-tmp resources/js/Components
-mv resources/js/composables resources/js/composables-tmp
-mv resources/js/composables-tmp resources/js/Composables
-mv resources/js/types resources/js/types-tmp
-mv resources/js/types-tmp resources/js/Types
-rg -l '@/components|@/composables|@/types' resources/js | xargs perl -pi -e "s#@/components#@/Components#g; s#@/composables#@/Composables#g; s#@/types#@/Types#g"
-```
-
-On case-sensitive filesystems, direct one-step renames are enough. The two-step rename above is safer on macOS.
 
 ## 10. Add Components
 
