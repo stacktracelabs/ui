@@ -14,14 +14,13 @@ Start with a Laravel project that already has:
 - shadcn-vue initialized with a `components.json` file
 - the `@` alias pointing to `resources/js`
 
-StackTrace UI installs components into PascalCase application paths:
+StackTrace UI components use PascalCase folder names and are installed through the shadcn-vue `ui` alias. The examples below use this default target:
 
 ```text
 resources/js/Components
-resources/js/Composables
-resources/js/Types
-resources/js/Utils
 ```
+
+You can choose a different target, for example `resources/js/Components/Base`, by changing `aliases.ui` in `components.json`.
 
 If your project was created from the Laravel Vue starter kit, apply the starter-kit section before adding StackTrace components.
 
@@ -43,7 +42,7 @@ On case-sensitive filesystems, direct one-step renames are enough. The two-step 
 
 The starter kit also imports its bundled shadcn-vue components from `@/components/ui/...`. After the rename those imports become `@/Components/ui/...` and still point to the starter copies, not to the StackTrace PascalCase components installed by the registry.
 
-After installing the relevant StackTrace components, update the starter imports you use:
+After installing the relevant StackTrace components, update the starter imports you use. If your `aliases.ui` is `@/Components`, use:
 
 ```bash
 rg -l '@/Components/ui' resources/js | xargs perl -pi -e 's#@/Components/ui/button#@/Components/Button#g; s#@/Components/ui/dialog#@/Components/Dialog#g; s#@/Components/ui/card#@/Components/Card#g; s#@/Components/ui/label#@/Components/Label#g; s#@/Components/ui/input-otp#@/Components/InputOTP#g; s#@/Components/ui/input#@/Components/Input#g; s#@/Components/ui/spinner#@/Components/Spinner#g; s#@/Components/ui/checkbox#@/Components/Checkbox#g; s#@/Components/ui/separator#@/Components/Separator#g; s#@/Components/ui/sonner#@/Components/Sonner#g; s#@/Components/ui/dropdown-menu#@/Components/DropdownMenu#g; s#@/Components/ui/sidebar#@/Components/Sidebar#g; s#@/Components/ui/alert#@/Components/Alert#g; s#@/Components/ui/avatar#@/Components/Avatar#g; s#@/Components/ui/breadcrumb#@/Components/Breadcrumb#g; s#@/Components/ui/navigation-menu#@/Components/NavigationMenu#g; s#@/Components/ui/sheet#@/Components/Sheet#g; s#@/Components/ui/tooltip#@/Components/Tooltip#g; s#@/Components/ui/skeleton#@/Components/Skeleton#g; s#@/Components/ui/collapsible#@/Components/Collapsible#g'
@@ -56,6 +55,12 @@ rg -F '@/Components/ui' resources/js
 ```
 
 If there is no output, the old starter `resources/js/Components/ui` directory is no longer referenced and can be removed if you want to keep only the PascalCase component tree.
+
+If your `aliases.ui` points somewhere else, for example `@/Components/Base`, replace the right-hand side with that alias for every starter component you use:
+
+```bash
+rg -l '@/Components/ui' resources/js | xargs perl -pi -e 's#@/Components/ui/button#@/Components/Base/Button#g; s#@/Components/ui/dialog#@/Components/Base/Dialog#g; s#@/Components/ui/card#@/Components/Base/Card#g; s#@/Components/ui/label#@/Components/Base/Label#g; s#@/Components/ui/input-otp#@/Components/Base/InputOTP#g; s#@/Components/ui/input#@/Components/Base/Input#g; s#@/Components/ui/spinner#@/Components/Base/Spinner#g; s#@/Components/ui/checkbox#@/Components/Base/Checkbox#g; s#@/Components/ui/separator#@/Components/Base/Separator#g; s#@/Components/ui/sonner#@/Components/Base/Sonner#g; s#@/Components/ui/dropdown-menu#@/Components/Base/DropdownMenu#g; s#@/Components/ui/sidebar#@/Components/Base/Sidebar#g; s#@/Components/ui/alert#@/Components/Base/Alert#g; s#@/Components/ui/avatar#@/Components/Base/Avatar#g; s#@/Components/ui/breadcrumb#@/Components/Base/Breadcrumb#g; s#@/Components/ui/navigation-menu#@/Components/Base/NavigationMenu#g; s#@/Components/ui/sheet#@/Components/Base/Sheet#g; s#@/Components/ui/tooltip#@/Components/Base/Tooltip#g; s#@/Components/ui/skeleton#@/Components/Base/Skeleton#g; s#@/Components/ui/collapsible#@/Components/Base/Collapsible#g'
+```
 
 ## 3. Install Composer Packages
 
@@ -200,7 +205,7 @@ Update `components.json` so StackTrace UI installs to PascalCase paths and can r
     "composables": "@/Composables",
     "utils": "@/Utils",
     "ui": "@/Components",
-    "lib": "@/lib"
+    "lib": "@/Utils"
   },
   "registries": {
     "@stacktrace": "https://ui.stacktrace.sk/registry/{name}.json"
@@ -208,6 +213,22 @@ Update `components.json` so StackTrace UI installs to PascalCase paths and can r
   "iconLibrary": "lucide"
 }
 ```
+
+The `ui` alias controls where StackTrace components are installed. To install them under `resources/js/Components/Base`, use:
+
+```json
+{
+  "aliases": {
+    "components": "@/Components",
+    "composables": "@/Composables",
+    "utils": "@/Utils",
+    "ui": "@/Components/Base",
+    "lib": "@/Utils"
+  }
+}
+```
+
+Keep `utils` and `lib` pointed at the same directory unless you intentionally move the generated `cn` helper. shadcn-vue installs `registry:lib` files through `aliases.lib` and rewrites `cn` imports through `aliases.utils`.
 
 ## 10. Add Components
 

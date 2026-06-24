@@ -67,7 +67,7 @@ async function main() {
 
   const sourceDir = path.resolve(process.cwd(), options.source)
   const outputDir = path.resolve(process.cwd(), options.output)
-  const sourceBase = toPosix(path.basename(sourceDir))
+  const registryAlias = toRegistryAlias(options.namespace)
 
   const componentFolders = await getComponentFolders(sourceDir)
   const componentNames = new Map(
@@ -82,7 +82,7 @@ async function main() {
       await buildComponentItem({
         folder,
         sourceDir,
-        sourceBase,
+        registryAlias,
         namespace: options.namespace,
         componentNames,
         warnings,
@@ -209,7 +209,7 @@ async function getComponentFolders(sourceDir) {
 async function buildComponentItem({
   folder,
   sourceDir,
-  sourceBase,
+  registryAlias,
   namespace,
   componentNames,
   warnings,
@@ -226,13 +226,12 @@ async function buildComponentItem({
     const content = await fs.readFile(filePath, "utf8")
     const relativePath = toPosix(path.relative(folderPath, filePath))
 
-    const registryPath = toPosix(path.join(sourceBase, folder, relativePath))
+    const registryPath = toPosix(path.join(folder, relativePath))
 
     files.push({
       path: registryPath,
-      content,
+      content: rewriteRegistryImports(content, registryAlias),
       type: "registry:ui",
-      target: toPosix(path.join("resources/js/Components", folder, relativePath)),
     })
 
     for (const specifier of findImports(content, filePath)) {
@@ -364,6 +363,22 @@ function isStackTraceUiImport(specifier) {
   return specifier === "@stacktrace/ui" || specifier.startsWith("@stacktrace/ui/")
 }
 
+function rewriteRegistryImports(content, registryAlias) {
+  return content
+    .replace(
+      /(["'])@\/Components\/([^"']+)\1/g,
+      `$1@/registry/${registryAlias}/ui/$2$1`,
+    )
+    .replace(
+      /(["'])@\/Utils(?:\/index)?\1/g,
+      "$1@/lib/utils$1",
+    )
+    .replace(
+      /(["'])@\/Utils\/([^"']+)\1/g,
+      "$1@/lib/utils/$2$1",
+    )
+}
+
 function addPackageDependency(packageName, dependencies, devDependencies) {
   dependencies.add(packageName)
 
@@ -400,16 +415,15 @@ function buildUtilsItem() {
   return {
     "$schema": REGISTRY_ITEM_SCHEMA,
     name: UTILS_ITEM_NAME,
-    type: "registry:file",
+    type: "registry:lib",
     title: "Utils",
     description: "Utility helpers used by StackTrace UI components.",
     dependencies: ["clsx", "tailwind-merge"],
     files: [
       {
-        path: "resources/js/Utils/index.ts",
+        path: "index.ts",
         content: UTILS_CONTENT,
-        type: "registry:file",
-        target: "resources/js/Utils/index.ts",
+        type: "registry:lib",
       },
     ],
   }
@@ -463,6 +477,14 @@ function toTitle(value) {
   return value
     .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+}
+
+function toRegistryAlias(value) {
+  return (value || "stacktrace")
+    .replace(/^@/, "")
+    .replace(/[^a-zA-Z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    || "stacktrace"
 }
 
 function toPosix(value) {
