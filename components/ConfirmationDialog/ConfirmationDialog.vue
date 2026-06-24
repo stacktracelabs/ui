@@ -41,7 +41,14 @@ const ANIMATION_DELAY = 300
 const close = () => closeDialog(ANIMATION_DELAY)
 
 const cancel = async () => {
-  const cancelCallback = dialog.value?.cancel
+  const currentDialog = dialog.value
+
+  if (! currentDialog || currentDialog.type !== 'confirmation') {
+    close()
+    return
+  }
+
+  const cancelCallback = currentDialog.cancel
 
   if (! cancelCallback) {
     close()

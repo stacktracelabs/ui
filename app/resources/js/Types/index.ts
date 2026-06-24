@@ -1,5 +1,3 @@
-import { type BackendToast } from '@/Components/Sonner'
-
 export interface User {
   id: number;
   name: string;
@@ -7,9 +5,10 @@ export interface User {
   email_verified_at: string;
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
   auth: {
     user: User
   }
-  toasts: Array<BackendToast>
 }
+
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = AppPageProps<T>

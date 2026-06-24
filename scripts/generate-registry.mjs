@@ -17,8 +17,19 @@ const DEFAULT_OPTIONS = {
 }
 
 const SKIPPED_DEPENDENCIES = new Set([
+  "@inertiajs/core",
+  "@inertiajs/vue3",
   "@stacktrace/ui",
   "vue",
+])
+
+const STACKTRACE_UI_DEPENDENCIES = new Set([
+  "query-string",
+  "ziggy-js",
+])
+
+const DEV_DEPENDENCIES_BY_DEPENDENCY = new Map([
+  ["lodash", ["@types/lodash"]],
 ])
 
 const TEXT_FILE_EXTENSIONS = new Set([
@@ -208,19 +219,31 @@ async function buildComponentItem({
   const filePaths = await collectFiles(folderPath)
   const files = []
   const dependencies = new Set()
+  const devDependencies = new Set()
   const registryDependencies = new Set()
 
   for (const filePath of filePaths) {
     const content = await fs.readFile(filePath, "utf8")
     const relativePath = toPosix(path.relative(folderPath, filePath))
 
+    const registryPath = toPosix(path.join(sourceBase, folder, relativePath))
+
     files.push({
-      path: toPosix(path.join(sourceBase, folder, relativePath)),
+      path: registryPath,
       content,
       type: "registry:ui",
+      target: toPosix(path.join("resources/js/Components", folder, relativePath)),
     })
 
     for (const specifier of findImports(content, filePath)) {
+      if (isStackTraceUiImport(specifier)) {
+        for (const dependency of STACKTRACE_UI_DEPENDENCIES) {
+          addPackageDependency(dependency, dependencies, devDependencies)
+        }
+
+        continue
+      }
+
       const componentDependency = findComponentDependency(specifier, folder, componentNames)
 
       if (componentDependency) {
@@ -238,7 +261,7 @@ async function buildComponentItem({
 
       const packageName = findPackageDependency(specifier)
       if (packageName) {
-        dependencies.add(packageName)
+        addPackageDependency(packageName, dependencies, devDependencies)
       }
     }
   }
@@ -254,6 +277,7 @@ async function buildComponentItem({
     title: toTitle(folder),
     description: `${toTitle(folder)} components for StackTrace UI.`,
     dependencies: sortValues(dependencies),
+    devDependencies: sortValues(devDependencies),
     registryDependencies: sortValues(registryDependencies),
     files,
   })
@@ -334,6 +358,18 @@ function findComponentDependency(specifier, currentFolder, componentNames) {
 
 function isUtilsImport(specifier) {
   return specifier === "@/Utils" || specifier.startsWith("@/Utils/")
+}
+
+function isStackTraceUiImport(specifier) {
+  return specifier === "@stacktrace/ui" || specifier.startsWith("@stacktrace/ui/")
+}
+
+function addPackageDependency(packageName, dependencies, devDependencies) {
+  dependencies.add(packageName)
+
+  for (const devDependency of DEV_DEPENDENCIES_BY_DEPENDENCY.get(packageName) || []) {
+    devDependencies.add(devDependency)
+  }
 }
 
 function findPackageDependency(specifier) {
