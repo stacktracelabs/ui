@@ -230,6 +230,20 @@ The `ui` alias controls where StackTrace components are installed. To install th
 
 Keep `utils` and `lib` pointed at the same directory unless you intentionally move the generated `cn` helper. shadcn-vue installs `registry:lib` files through `aliases.lib` and rewrites `cn` imports through `aliases.utils`.
 
+Configure the `cn` helper once in the application before adding StackTrace components:
+
+```ts
+// resources/js/Utils/index.ts
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+StackTrace components import this helper through `aliases.utils`; individual component installs do not install or overwrite `resources/js/Utils/index.ts`.
+
 ## 10. Add Components
 
 Add individual components through shadcn-vue:

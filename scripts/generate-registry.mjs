@@ -86,22 +86,16 @@ async function main() {
         namespace: options.namespace,
         componentNames,
         warnings,
-        includeUtils: options.includeUtils,
       }),
     )
   }
 
-  const needsUtils = componentItems.some(item =>
-    item.registryDependencies?.includes(namespaced(UTILS_ITEM_NAME, options.namespace)),
-  )
-
   const items = [
-    ...(options.includeUtils && needsUtils ? [buildUtilsItem()] : []),
+    ...(options.includeUtils ? [buildUtilsItem()] : []),
     ...componentItems,
     buildAllItem({
       namespace: options.namespace,
       componentItems,
-      includeUtils: options.includeUtils && needsUtils,
     }),
   ]
 
@@ -213,7 +207,6 @@ async function buildComponentItem({
   namespace,
   componentNames,
   warnings,
-  includeUtils,
 }) {
   const folderPath = path.join(sourceDir, folder)
   const filePaths = await collectFiles(folderPath)
@@ -251,10 +244,6 @@ async function buildComponentItem({
       }
 
       if (isUtilsImport(specifier)) {
-        if (includeUtils) {
-          registryDependencies.add(namespaced(UTILS_ITEM_NAME, namespace))
-        }
-
         continue
       }
 
@@ -429,9 +418,8 @@ function buildUtilsItem() {
   }
 }
 
-function buildAllItem({ namespace, componentItems, includeUtils }) {
+function buildAllItem({ namespace, componentItems }) {
   const registryDependencies = [
-    ...(includeUtils ? [namespaced(UTILS_ITEM_NAME, namespace)] : []),
     ...componentItems.map(item => namespaced(item.name, namespace)),
   ]
 
