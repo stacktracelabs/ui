@@ -23,11 +23,6 @@ const SKIPPED_DEPENDENCIES = new Set([
   "vue",
 ])
 
-const STACKTRACE_UI_DEPENDENCIES = new Set([
-  "query-string",
-  "ziggy-js",
-])
-
 const DEV_DEPENDENCIES_BY_DEPENDENCY = new Map([
   ["lodash", ["@types/lodash"]],
 ])
@@ -228,14 +223,6 @@ async function buildComponentItem({
     })
 
     for (const specifier of findImports(content, filePath)) {
-      if (isStackTraceUiImport(specifier)) {
-        for (const dependency of STACKTRACE_UI_DEPENDENCIES) {
-          addPackageDependency(dependency, dependencies, devDependencies)
-        }
-
-        continue
-      }
-
       const componentDependency = findComponentDependency(specifier, folder, componentNames)
 
       if (componentDependency) {
@@ -346,10 +333,6 @@ function findComponentDependency(specifier, currentFolder, componentNames) {
 
 function isUtilsImport(specifier) {
   return specifier === "@/Utils" || specifier.startsWith("@/Utils/")
-}
-
-function isStackTraceUiImport(specifier) {
-  return specifier === "@stacktrace/ui" || specifier.startsWith("@stacktrace/ui/")
 }
 
 function rewriteRegistryImports(content, registryAlias) {
