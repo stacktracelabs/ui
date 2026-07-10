@@ -5,18 +5,27 @@ namespace StackTrace\Ui;
 
 
 use Illuminate\Support\Arr;
+use RuntimeException;
+use StackTrace\Ui\Contracts\IconRepository;
 
 class Icon extends ViewModel
 {
     /**
-     * The default icon pack.
+     * List of registered icon repositories.
+     *
+     * @var array<string, IconRepository>
      */
-    protected static string $defaultPack = "lucide";
+    protected static array $repositories = [];
+
+    /**
+     * The default icon repository.
+     */
+    protected static ?string $defaultRepository = null;
 
     /**
      * List of loaded icons.
      */
-    protected static array $icons = [];
+    protected static array $cache = [];
 
     /**
      * Custom SVG content of the icon.
@@ -24,41 +33,49 @@ class Icon extends ViewModel
     protected ?string $content = null;
 
     public function __construct(
-        public readonly string $name,
-        public readonly ?string $pack = null,
+        public readonly string  $name,
+        public readonly ?string $repository = null,
     ) { }
 
     /**
      * Retrieve the icon content.
      */
-    public function getContent(): string
+    public function content(): string
     {
         if ($this->content) {
             return $this->content;
         }
 
-        return static::load($this->name, $this->pack ?: static::$defaultPack);
+        if ($repository = $this->repository ?: static::$defaultRepository ?: Arr::first(array_keys(static::$repositories))) {
+            return static::load($this->name, $repository);
+        }
+
+        throw new RuntimeException("No icon repository has been specified");
     }
 
     public function toView(): array
     {
         return [
-            'src' => $this->getContent(),
+            'src' => $this->content(),
         ];
     }
 
     /**
-     * Load icon from file.
+     * Load icon from the repository.
      */
-    protected static function load(string $name, string $pack): string
+    protected static function load(string $name, string $repository): string
     {
-        $iconName = "{$pack}:{$name}";
+        $key = "{$repository}:{$name}";
 
-        if (Arr::has(static::$icons, $iconName)) {
-            return static::$icons[$iconName];
+        if (Arr::has(static::$cache, $key)) {
+            return static::$cache[$key];
         }
 
-        return static::$icons[$iconName] = file_get_contents(__DIR__."/../icons/{$pack}/{$name}.svg");
+        if ($repo = Arr::get(static::$repositories, $repository)) {
+            return static::$cache[$key] = $repo->load($name);
+        }
+
+        throw new RuntimeException("The repository [$repository] is not registered");
     }
 
     /**
@@ -66,8 +83,26 @@ class Icon extends ViewModel
      */
     public static function svg(string $content): static
     {
-        $icon = new static("");
+        $icon = new static("svg");
+
         $icon->content = $content;
+
         return $icon;
+    }
+
+    /**
+     * Register a new icon repository.
+     */
+    public static function repository(string $name, IconRepository $repository): void
+    {
+        static::$repositories[$name] = $repository;
+    }
+
+    /**
+     * Set the default icon repository.
+     */
+    public static function default(?string $repository): void
+    {
+        static::$defaultRepository = $repository;
     }
 }

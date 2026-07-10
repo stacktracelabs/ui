@@ -4,13 +4,13 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
-        "inertiajs/inertia-laravel": "^2.0.21|^3.0"
+        "php": "^8.2",
+        "laravel/framework": "^12.0|^13.0",
+        "inertiajs/inertia-laravel": "^2.0|^3.0"
     },
     "require-dev": {
-        "pestphp/pest": "^2.0|^3.0|^4.0",
-        "pestphp/pest-plugin-laravel": "^2.0|^3.0|^4.0"
+        "pestphp/pest": "^3.0|^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0|^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -32,5 +32,8 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "stacktrace/ui-icons-lucide": "Required to use the Icon component with Lucide icon pack."
+    }
 }
