@@ -1,0 +1,58 @@
+<?php
+
+return [
+    'github_url' => 'https://github.com/stacktracelabs/ui',
+    'registry_url' => env('STACKTRACE_UI_REGISTRY_URL', 'https://ui.stacktrace.sk/r'),
+
+    'navigation' => [
+        [
+            'title' => 'Getting Started',
+            'items' => [
+                ['title' => 'Introduction', 'href' => '/docs', 'component' => 'Docs/Introduction'],
+                ['title' => 'Installation', 'href' => '/docs/installation', 'component' => 'Docs/Installation'],
+            ],
+        ],
+        [
+            'title' => 'Components',
+            'items' => [
+                ['title' => 'Accordion', 'href' => '/docs/components/accordion', 'component' => 'Docs/Components/Accordion'],
+                ['title' => 'Alert', 'href' => '/docs/components/alert', 'component' => 'Docs/Components/Alert'],
+                ['title' => 'Alert Dialog', 'href' => '/docs/components/alert-dialog', 'component' => 'Docs/Components/AlertDialog'],
+                ['title' => 'Aspect Ratio', 'href' => '/docs/components/aspect-ratio', 'component' => 'Docs/Components/AspectRatio'],
+                ['title' => 'Avatar', 'href' => '/docs/components/avatar', 'component' => 'Docs/Components/Avatar'],
+                ['title' => 'Badge', 'href' => '/docs/components/badge', 'component' => 'Docs/Components/Badge'],
+                ['title' => 'Breadcrumb', 'href' => '/docs/components/breadcrumb', 'component' => 'Docs/Components/Breadcrumb'],
+                ['title' => 'Button', 'href' => '/docs/components/button', 'component' => 'Docs/Components/Button'],
+                ['title' => 'Calendar', 'href' => '/docs/components/calendar', 'component' => 'Docs/Components/Calendar'],
+                ['title' => 'Card', 'href' => '/docs/components/card', 'component' => 'Docs/Components/Card'],
+                ['title' => 'Checkbox', 'href' => '/docs/components/checkbox', 'component' => 'Docs/Components/Checkbox'],
+                ['title' => 'Collapsible', 'href' => '/docs/components/collapsible', 'component' => 'Docs/Components/Collapsible'],
+                ['title' => 'Combobox', 'href' => '/docs/components/combobox', 'component' => 'Docs/Components/Combobox'],
+                ['title' => 'Command', 'href' => '/docs/components/command', 'component' => 'Docs/Components/Command'],
+                ['title' => 'Confirmation Dialog', 'href' => '/docs/components/confirmation-dialog', 'component' => 'Docs/Components/ConfirmationDialog'],
+                ['title' => 'Context Menu', 'href' => '/docs/components/context-menu', 'component' => 'Docs/Components/ContextMenu'],
+                ['title' => 'Data Table', 'href' => '/docs/components/data-table', 'component' => 'Docs/Components/DataTable'],
+                ['title' => 'Date Input', 'href' => '/docs/components/date-input', 'component' => 'Docs/Components/DateInput'],
+                ['title' => 'Date Picker', 'href' => '/docs/components/date-picker', 'component' => 'Docs/Components/DatePicker'],
+                ['title' => 'Date Range Picker', 'href' => '/docs/components/date-range-picker', 'component' => 'Docs/Components/DateRangePicker'],
+                ['title' => 'Date Time Input', 'href' => '/docs/components/date-time-input', 'component' => 'Docs/Components/DateTimeInput'],
+                ['title' => 'Panel', 'href' => '/docs/components/panel', 'component' => 'Docs/Components/Panel'],
+                ['title' => 'Popover', 'href' => '/docs/components/popover', 'component' => 'Docs/Components/Popover'],
+                ['title' => 'Radio Group', 'href' => '/docs/components/radio-group', 'component' => 'Docs/Components/RadioGroup'],
+                ['title' => 'Range Calendar', 'href' => '/docs/components/range-calendar', 'component' => 'Docs/Components/RangeCalendar'],
+                ['title' => 'Select', 'href' => '/docs/components/select', 'component' => 'Docs/Components/Select'],
+                ['title' => 'Separator', 'href' => '/docs/components/separator', 'component' => 'Docs/Components/Separator'],
+                ['title' => 'Sheet', 'href' => '/docs/components/sheet', 'component' => 'Docs/Components/Sheet'],
+                ['title' => 'Switch', 'href' => '/docs/components/switch', 'component' => 'Docs/Components/Switch'],
+                ['title' => 'Textarea', 'href' => '/docs/components/textarea', 'component' => 'Docs/Components/Textarea'],
+                ['title' => 'Tooltip', 'href' => '/docs/components/tooltip', 'component' => 'Docs/Components/Tooltip'],
+            ],
+        ],
+        [
+            'title' => 'Composables',
+            'items' => [
+                ['title' => 'useToggle', 'href' => '/docs/composables/toggle', 'component' => 'Docs/Composables/Toggle'],
+            ],
+        ],
+    ],
+];

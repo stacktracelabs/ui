@@ -30,12 +30,50 @@ export default defineConfig({
         tailwindcss(),
     ],
     resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./resources/js', import.meta.url)),
-            '@stacktrace/ui': fileURLToPath(new URL('../resources/js/main.ts', import.meta.url)),
-        },
+        alias: [
+            {
+                find: '@/Components/Base',
+                replacement: fileURLToPath(new URL('../components', import.meta.url)),
+            },
+            {
+                find: '@/Components',
+                replacement: fileURLToPath(new URL('../components', import.meta.url)),
+            },
+            {
+                find: '@/Composables/Base',
+                replacement: fileURLToPath(new URL('../resources/js/Composables', import.meta.url)),
+            },
+            {
+                find: '@/Composables',
+                replacement: fileURLToPath(new URL('../resources/js/Composables', import.meta.url)),
+            },
+            {
+                find: '@',
+                replacement: fileURLToPath(new URL('./resources/js', import.meta.url)),
+            },
+        ],
+        dedupe: [
+            '@internationalized/date',
+            '@inertiajs/vue3',
+            '@lucide/vue',
+            '@unovis/vue',
+            '@vueuse/core',
+            'class-variance-authority',
+            'clsx',
+            'embla-carousel-vue',
+            'lodash',
+            'reka-ui',
+            'tailwind-merge',
+            'vaul-vue',
+            'vue',
+            'vue-input-otp',
+            'vue-sonner',
+        ],
     },
     server: {
+        fs: {
+            allow: [fileURLToPath(new URL('..', import.meta.url))],
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },

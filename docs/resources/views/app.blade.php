@@ -4,10 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <script>
+            (() => {
+                const preference = localStorage.getItem('stacktrace-ui-theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                document.documentElement.classList.toggle('dark', preference === 'dark' || (! preference && prefersDark));
+            })();
+        </script>
+
         <title inertia>{{ config('app.name', 'StackTrace UI') }}</title>
 
         @routes
-        @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
+        @vite('resources/js/app.ts')
         @inertiaHead
     </head>
     <body class="min-h-screen bg-background font-sans text-foreground antialiased">

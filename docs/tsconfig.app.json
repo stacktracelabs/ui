@@ -5,8 +5,27 @@
   "compilerOptions": {
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "@internationalized/date": ["./node_modules/@internationalized/date"],
+      "@inertiajs/vue3": ["./node_modules/@inertiajs/vue3"],
+      "@lucide/vue": ["./node_modules/@lucide/vue"],
+      "@unovis/vue": ["./node_modules/@unovis/vue"],
+      "@vueuse/core": ["./node_modules/@vueuse/core"],
+      "@/Components/Base/*": ["../components/*"],
+      "@/Components/*": ["../components/*"],
+      "@/Composables/Base/*": ["../resources/js/Composables/*"],
+      "@/Composables/*": ["../resources/js/Composables/*"],
       "@/*": ["./resources/js/*"],
-      "@stacktrace/ui": ["../resources/js/main.ts"]
+      "class-variance-authority": ["./node_modules/class-variance-authority"],
+      "clsx": ["./node_modules/clsx"],
+      "embla-carousel-vue": ["./node_modules/embla-carousel-vue"],
+      "lodash": ["./node_modules/@types/lodash"],
+      "reka-ui": ["./node_modules/reka-ui"],
+      "tailwind-merge": ["./node_modules/tailwind-merge"],
+      "vaul-vue": ["./node_modules/vaul-vue"],
+      "vue": ["./node_modules/vue"],
+      "vue-input-otp": ["./node_modules/vue-input-otp"],
+      "vue-sonner": ["./node_modules/vue-sonner"],
+      "ziggy-js": ["./vendor/tightenco/ziggy"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
   }

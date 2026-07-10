@@ -33,6 +33,11 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'appName' => config('app.name'),
+            'documentation' => [
+                'githubUrl' => config('documentation.github_url'),
+                'registryUrl' => config('documentation.registry_url'),
+                'navigation' => config('documentation.navigation'),
+            ],
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

@@ -3,6 +3,8 @@
 
 @source "../js/**/*.ts";
 @source "../js/**/*.vue";
+@source "../../../components/**/*.ts";
+@source "../../../components/**/*.vue";
 @source "../views/**/*.blade.php";
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
 @source "../../storage/framework/views/*.php";
@@ -148,5 +150,79 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    ::selection {
+        @apply bg-primary text-primary-foreground;
+    }
+}
+
+@layer components {
+    .docs-prose {
+        @apply text-[0.975rem] leading-7 text-foreground;
+    }
+
+    .docs-prose > * + * {
+        @apply mt-5;
+    }
+
+    .docs-prose h2 {
+        @apply mt-14 scroll-mt-24 border-b pb-3 text-2xl font-semibold tracking-tight first:mt-0;
+    }
+
+    .docs-prose h3 {
+        @apply mt-9 scroll-mt-24 text-xl font-semibold tracking-tight;
+    }
+
+    .docs-prose h4 {
+        @apply mt-7 scroll-mt-24 text-base font-semibold;
+    }
+
+    .docs-prose p,
+    .docs-prose li {
+        @apply text-muted-foreground;
+    }
+
+    .docs-prose strong {
+        @apply font-semibold text-foreground;
+    }
+
+    .docs-prose a:not([data-slot]) {
+        @apply font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground;
+    }
+
+    .docs-prose ul {
+        @apply my-5 ml-6 list-disc space-y-2;
+    }
+
+    .docs-prose ol {
+        @apply my-5 ml-6 list-decimal space-y-2;
+    }
+
+    .docs-prose :not(pre) > code {
+        @apply rounded-md border bg-muted px-1.5 py-0.5 font-mono text-[0.875em] text-foreground;
+    }
+
+    .docs-prose blockquote {
+        @apply border-l-2 pl-5 italic text-muted-foreground;
+    }
+
+    .docs-code .shiki {
+        @apply m-0 min-w-full bg-transparent! p-4 font-mono text-[13px] leading-6;
+    }
+
+    .docs-code .shiki,
+    .docs-code .shiki span {
+        color: var(--shiki-light);
+        background-color: transparent;
+    }
+
+    .dark .docs-code .shiki,
+    .dark .docs-code .shiki span {
+        color: var(--shiki-dark);
     }
 }
