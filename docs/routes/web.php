@@ -24,3 +24,7 @@ Route::get('/docs/components/{component}', fn (string $component): Response => $
 Route::get('/docs/composables/{composable}', fn (string $composable): Response => $renderDocumentationPage("/docs/composables/{$composable}"))
     ->where('composable', '[a-z0-9-]+')
     ->name('docs.composables.show');
+
+if (app()->environment(['local', 'testing'])) {
+    require __DIR__.'/workbench.php';
+}

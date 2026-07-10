@@ -19,10 +19,10 @@
 
                 <nav class="ml-5 hidden items-center gap-5 text-sm md:flex">
                     <Link href="/docs" class="font-medium text-foreground">Docs</Link>
-                    <span class="flex items-center gap-2 text-muted-foreground">
+                    <Link v-if="workbench.enabled" href="/workbench" class="flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground">
                         Workbench
-                        <Badge variant="outline" class="px-1.5 py-0 text-[10px]">Soon</Badge>
-                    </span>
+                        <Badge variant="outline" class="px-1.5 py-0 text-[10px]">Local</Badge>
+                    </Link>
                 </nav>
 
                 <div class="ml-auto flex items-center gap-1">
@@ -109,6 +109,7 @@ type PageHeading = {
 
 const page = usePage<AppPageProps>()
 const documentation = page.props.documentation
+const workbench = page.props.workbench
 const mobileNavigationOpen = ref(false)
 const isDark = ref(false)
 const content = ref<HTMLElement>()

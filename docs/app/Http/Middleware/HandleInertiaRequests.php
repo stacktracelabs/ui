@@ -30,6 +30,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $workbenchEnabled = app()->environment(['local', 'testing']);
+
         return [
             ...parent::share($request),
             'appName' => config('app.name'),
@@ -37,6 +39,10 @@ class HandleInertiaRequests extends Middleware
                 'githubUrl' => config('documentation.github_url'),
                 'registryUrl' => config('documentation.registry_url'),
                 'navigation' => config('documentation.navigation'),
+            ],
+            'workbench' => [
+                'enabled' => $workbenchEnabled,
+                'navigation' => $workbenchEnabled ? config('workbench.navigation') : [],
             ],
             'ziggy' => [
                 ...(new Ziggy)->toArray(),

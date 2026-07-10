@@ -1,5 +1,6 @@
 import '../css/app.css'
 
+import { DataTablePlugin } from '@/Components/Base/DataTable'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import type { DefineComponent } from 'vue'
@@ -14,6 +15,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(DataTablePlugin)
             .use(ZiggyVue)
             .mount(el)
     },

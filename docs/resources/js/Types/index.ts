@@ -9,12 +9,22 @@ export type DocumentationNavigationSection = {
     items: DocumentationNavigationItem[]
 }
 
+export type WorkbenchNavigationItem = {
+    title: string
+    description: string
+    href: string
+}
+
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     appName: string
     documentation: {
         githubUrl: string
         registryUrl: string
         navigation: DocumentationNavigationSection[]
+    }
+    workbench: {
+        enabled: boolean
+        navigation: WorkbenchNavigationItem[]
     }
     ziggy: Record<string, unknown> & {
         location: string
