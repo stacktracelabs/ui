@@ -5,6 +5,7 @@
   "compilerOptions": {
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "@stacktrace/ui": ["../dist/types/resources/js/main.d.ts"],
       "@internationalized/date": ["./node_modules/@internationalized/date"],
       "@inertiajs/vue3": ["./node_modules/@inertiajs/vue3"],
       "@lucide/vue": ["./node_modules/@lucide/vue"],
@@ -12,13 +13,12 @@
       "@vueuse/core": ["./node_modules/@vueuse/core"],
       "@/Components/Base/*": ["../components/*"],
       "@/Components/*": ["../components/*"],
-      "@/Composables/Base/*": ["../resources/js/Composables/*"],
-      "@/Composables/*": ["../resources/js/Composables/*"],
       "@/*": ["./resources/js/*"],
       "class-variance-authority": ["./node_modules/class-variance-authority"],
       "clsx": ["./node_modules/clsx"],
       "embla-carousel-vue": ["./node_modules/embla-carousel-vue"],
       "lodash": ["./node_modules/@types/lodash"],
+      "lodash/*": ["./node_modules/@types/lodash/*"],
       "reka-ui": ["./node_modules/reka-ui"],
       "tailwind-merge": ["./node_modules/tailwind-merge"],
       "vaul-vue": ["./node_modules/vaul-vue"],

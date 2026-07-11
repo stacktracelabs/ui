@@ -66,7 +66,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/Components/Base/Select'
-import { onActivated, type Toggle } from '@/Composables/Base/useToggle'
+import { onActivated, type Toggle } from '@stacktrace/ui'
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps<{

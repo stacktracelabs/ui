@@ -105,7 +105,7 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/C
 import { Input } from '@/Components/Base/Input'
 import { Panel, PanelContent, PanelFooter, PanelHeader, PanelItem, PanelTitle } from '@/Components/Base/Panel'
 import { Toaster } from '@/Components/Base/Sonner'
-import { useToggle } from '@/Composables/Base/useToggle'
+import { useToggle } from '@stacktrace/ui'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import { useClipboard } from '@vueuse/core'

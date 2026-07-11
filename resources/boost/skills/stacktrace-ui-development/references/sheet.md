@@ -202,7 +202,7 @@ Bind `v-model:open` for standard Vue-controlled state, or pass a StackTrace `use
 </template>
 
 <script setup lang="ts">
-import { useToggle } from '@/Composables/useToggle'
+import { useToggle } from '@stacktrace/ui'
 import { Button } from '@/Components/Button'
 import {
   Sheet,

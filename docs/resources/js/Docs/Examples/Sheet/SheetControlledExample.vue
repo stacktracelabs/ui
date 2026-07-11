@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { useToggle } from '@/Composables/Base/useToggle'
+import { useToggle } from '@stacktrace/ui'
 import { Button } from '@/Components/Base/Button'
 import {
   Sheet,

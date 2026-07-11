@@ -32,20 +32,16 @@ export default defineConfig({
     resolve: {
         alias: [
             {
+                find: '@stacktrace/ui',
+                replacement: fileURLToPath(new URL('../dist/ui.js', import.meta.url)),
+            },
+            {
                 find: '@/Components/Base',
                 replacement: fileURLToPath(new URL('../components', import.meta.url)),
             },
             {
                 find: '@/Components',
                 replacement: fileURLToPath(new URL('../components', import.meta.url)),
-            },
-            {
-                find: '@/Composables/Base',
-                replacement: fileURLToPath(new URL('../resources/js/Composables', import.meta.url)),
-            },
-            {
-                find: '@/Composables',
-                replacement: fileURLToPath(new URL('../resources/js/Composables', import.meta.url)),
             },
             {
                 find: '@',

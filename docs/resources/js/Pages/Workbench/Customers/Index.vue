@@ -31,7 +31,7 @@
 import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
 import { DataTable, type DataTableValue } from '@/Components/Base/DataTable'
-import { useToggle } from '@/Composables/Base/useToggle'
+import { useToggle } from '@stacktrace/ui'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import { shallowRef } from 'vue'
