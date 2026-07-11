@@ -1,1 +1,0 @@
-- skusit sa zbavit nejako toho vifka

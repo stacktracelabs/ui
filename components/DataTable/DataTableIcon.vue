@@ -8,13 +8,16 @@ const props = defineProps<{
   src: string
 }>()
 
-const resolveAttributes = (element: HTMLElement) => {
-  const attributes = element.attributes;
-  const attributesObj: Record<string, any> = {}
+const resolveAttributes = (element: HTMLElement): Record<string, string> => {
+  const attributes = element.attributes
+  const attributesObj: Record<string, string> = {}
 
   for (let i = 0; i < attributes.length; i++) {
-    const attr = attributes[i];
-    attributesObj[attr.name] = attr.value;
+    const attribute = attributes.item(i)
+
+    if (attribute) {
+      attributesObj[attribute.name] = attribute.value
+    }
   }
 
   return attributesObj;

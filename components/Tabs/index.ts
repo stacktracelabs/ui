@@ -1,6 +1,5 @@
-import type { MaybeRefOrGetter } from '@vueuse/core'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { computed, type ComputedRef, inject, provide, toValue } from 'vue'
+import { computed, type ComputedRef, inject, type MaybeRefOrGetter, provide, toValue } from 'vue'
 
 export { default as Tabs } from './Tabs.vue'
 export { default as TabsContent } from './TabsContent.vue'

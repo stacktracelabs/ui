@@ -41,8 +41,10 @@ import { cn } from '@/Utils'
 const props = defineProps<ToasterProps>()
 
 useFlash('toast', event => {
-  toast(event.title, {
-    description: event.content || undefined,
+  const message = event as { title: string, content?: string | null }
+
+  toast(message.title, {
+    description: message.content || undefined,
   })
 })
 </script>

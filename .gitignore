@@ -2,5 +2,6 @@
 node_modules
 vendor
 composer.lock
+!docs/composer.lock
 tsconfig.tsbuildinfo
 registry/

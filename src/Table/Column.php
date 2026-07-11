@@ -1,26 +1,24 @@
 <?php
 
-
 namespace StackTrace\Ui\Table;
-
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Support\Traits\ForwardsCalls;
-use Laravel\Scout\Builder as ScoutBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\ForwardsCalls;
+use Laravel\Scout\Builder as ScoutBuilder;
 use StackTrace\Ui\Link;
 use StackTrace\Ui\Table\Concerns\RenderComponents;
 
 /**
- * @mixin \StackTrace\Ui\Table\Style
+ * @mixin Style
  */
 abstract class Column
 {
-    use RenderComponents, ForwardsCalls;
+    use ForwardsCalls, RenderComponents;
 
     /**
      * A column text style.
@@ -88,10 +86,9 @@ abstract class Column
     protected ?Closure $configureCellStyleUsing = null;
 
     public function __construct(
-        protected string              $title,
+        protected string $title,
         protected string|null|Closure $attribute = null,
-    )
-    {
+    ) {
         $this->cellStyle = new Style;
     }
 
@@ -177,7 +174,7 @@ abstract class Column
      * Set font weight to medium.
      *
      * @deprecated Use text style property. This will be removed in the future release.
-    */
+     */
     public function medium(): static
     {
         $this->cellStyle->fontMedium();
@@ -214,11 +211,11 @@ abstract class Column
     /**
      * Set column as sortable.
      */
-    public function sortable(Closure|string $using = null, ?Direction $default = null, ?string $named = null): static
+    public function sortable(Closure|string|null $using = null, ?Direction $default = null, ?string $named = null): static
     {
-        if (is_null($using) && !is_string($this->attribute)) {
-            throw new \RuntimeException("Using must be specified when attribute is not set.");
-        } else if (is_null($using) && is_string($this->attribute)) {
+        if (is_null($using) && ! is_string($this->attribute)) {
+            throw new \RuntimeException('Using must be specified when attribute is not set.');
+        } elseif (is_null($using) && is_string($this->attribute)) {
             $this->sortableUsing = $this->attribute;
         } else {
             $this->sortableUsing = $using;
@@ -426,7 +423,7 @@ abstract class Column
         if ($this->headingStyle) {
             $style = $this->headingStyle;
         } else {
-            $style = new Style();
+            $style = new Style;
             $style->align($this->cellStyle->getAlign());
         }
 
@@ -504,12 +501,12 @@ abstract class Column
     /**
      * Retrieve component props.
      */
-    public abstract function toView($value, $resource): array;
+    abstract public function toView($value, $resource): array;
 
     /**
      * Retrieve name of the component to render.
      */
-    public abstract function component(): string;
+    abstract public function component(): string;
 
     /**
      * Determine whether column has default sorting.
@@ -530,11 +527,11 @@ abstract class Column
     {
         if (is_string($this->sortableUsing) && $source instanceof EloquentBuilder) {
             return $source->orderBy($this->sortableUsing, $direction->value);
-        } else if (is_string($this->sortableUsing) && $source instanceof Collection) {
+        } elseif (is_string($this->sortableUsing) && $source instanceof Collection) {
             return $direction == Direction::Asc
                 ? $source->sortBy($this->sortableUsing)
                 : $source->sortByDesc($this->sortableUsing);
-        } else if ($this->sortableUsing instanceof Closure) {
+        } elseif ($this->sortableUsing instanceof Closure) {
             if ($result = call_user_func($this->sortableUsing, $source, $direction)) {
                 return $result;
             }
@@ -572,7 +569,7 @@ abstract class Column
         }
 
         if ($this->sortableUsing instanceof Closure && is_null($this->sortingName)) {
-            throw new \RuntimeException("Unable to determine sorting name.");
+            throw new \RuntimeException('Unable to determine sorting name.');
         }
 
         if ($this->sortableUsing instanceof Closure) {

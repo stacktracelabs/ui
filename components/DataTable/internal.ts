@@ -146,7 +146,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
       }
     })
 
-    return Object.keys(actions).map(it => actions[it])
+    return Object.values(actions)
   })
 
   // Filter
@@ -155,7 +155,7 @@ export const createContext = (table: ComputedRef<DataTableValue>) => {
     search: '',
   }))
   const clearSearch = () => {
-    router.visit(page.url.split('?')[0])
+    router.visit(page.url.replace(/\?.*$/, ''))
   }
   const filter = useFilter(() => table.value.filter?.defaultValue || {})
   const sortFilter = useFilter(() => ({
@@ -262,7 +262,7 @@ export function configureStyle<T extends Record<string, string | null>>(
     const styleValue = style[key]
     const styleConfig = mapping[key]
 
-    if (styleValue && styleConfig[styleValue]) {
+    if (styleValue && styleConfig?.[styleValue]) {
       tokens.push(styleConfig[styleValue])
     }
   })

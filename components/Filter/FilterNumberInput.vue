@@ -120,17 +120,19 @@ const parseModelValue = (value: string | null | undefined) => {
   }
 
   const parts = value.split(':')
+  const [operatorPart, firstValuePart, secondValuePart] = parts
+
   if (parts.length == 2) {
-    const op = isValidOperator(parts[0]) ? parts[0] : null
-    const value = asNumber(parts[1])
+    const op = operatorPart && isValidOperator(operatorPart) ? operatorPart : null
+    const value = asNumber(firstValuePart)
 
     if (op && value !== null) {
       return { op, value, from: '', to: '' }
     }
   } else if (parts.length === 3) {
-    const op = parts[0] == 'be' || parts[0] == 'nbe' ? parts[0] : null
-    const from = asNumber(parts[1])
-    const to = asNumber(parts[2])
+    const op = operatorPart == 'be' || operatorPart == 'nbe' ? operatorPart : null
+    const from = asNumber(firstValuePart)
+    const to = asNumber(secondValuePart)
 
     if (op && from !== null && to !== null) {
       return { op, value, from, to }

@@ -1,1 +1,0 @@
-- pridat outline, warning, positive

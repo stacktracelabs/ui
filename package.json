@@ -7,9 +7,9 @@
     "build": "vite build",
     "type-check": "vue-tsc --build --force",
     "registry:generate": "node scripts/generate-registry.mjs",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "composer --working-dir=docs run dev",
+    "docs:build": "npm --prefix docs run build",
+    "docs:preview": "php docs/artisan serve"
   },
   "main": "./dist/ui.js",
   "types": "./dist/types/resources/js/main.d.ts",
@@ -24,12 +24,22 @@
     }
   },
   "dependencies": {
-    "@inertiajs/vue3": "^2.3.9 || ^3.0.0",
-    "@vueuse/core": "^13.5.0",
-    "lodash": "^4.17.21",
+    "@inertiajs/vue3": "^3.6.1",
+    "@internationalized/date": "^3.12.2",
+    "@lucide/vue": "^1.24.0",
+    "@unovis/vue": "^1.6.7",
+    "@vueuse/core": "^14.3.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "embla-carousel-vue": "^8.6.0",
+    "lodash": "^4.18.1",
     "query-string": "^9.2.2",
-    "reka-ui": "^2.3.2",
-    "vue": "^3.5.17"
+    "reka-ui": "^2.10.1",
+    "tailwind-merge": "^3.6.0",
+    "vaul-vue": "^0.4.1",
+    "vue": "^3.5.39",
+    "vue-input-otp": "^0.3.2",
+    "vue-sonner": "^2.0.9"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
