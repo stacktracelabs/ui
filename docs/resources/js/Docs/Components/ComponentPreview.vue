@@ -1,5 +1,5 @@
 <template>
-    <div class="not-prose my-7 overflow-hidden rounded-xl border bg-card text-card-foreground shadow-xs">
+    <div data-docs-example class="not-prose my-7 overflow-hidden rounded-xl border bg-card text-base leading-normal text-card-foreground shadow-xs">
         <div class="flex min-h-12 items-center justify-between gap-3 border-b px-3">
             <span class="truncate pl-1 text-sm font-medium">
                 {{ title || 'Example' }}

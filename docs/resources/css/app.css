@@ -170,44 +170,44 @@
         @apply mt-5;
     }
 
-    .docs-prose h2 {
+    .docs-prose h2:not(:where([data-docs-example] *)) {
         @apply mt-14 scroll-mt-24 border-b pb-3 text-2xl font-semibold tracking-tight first:mt-0;
     }
 
-    .docs-prose h3 {
+    .docs-prose h3:not(:where([data-docs-example] *)) {
         @apply mt-9 scroll-mt-24 text-xl font-semibold tracking-tight;
     }
 
-    .docs-prose h4 {
+    .docs-prose h4:not(:where([data-docs-example] *)) {
         @apply mt-7 scroll-mt-24 text-base font-semibold;
     }
 
-    .docs-prose p,
-    .docs-prose li {
+    .docs-prose p:not(:where([data-docs-example] *)),
+    .docs-prose li:not(:where([data-docs-example] *)) {
         @apply text-muted-foreground;
     }
 
-    .docs-prose strong {
+    .docs-prose strong:not(:where([data-docs-example] *)) {
         @apply font-semibold text-foreground;
     }
 
-    .docs-prose a:not([data-slot]) {
+    .docs-prose a:not([data-slot]):not(:where([data-docs-example] *)) {
         @apply font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground;
     }
 
-    .docs-prose ul {
+    .docs-prose ul:not(:where([data-docs-example] *)) {
         @apply my-5 ml-6 list-disc space-y-2;
     }
 
-    .docs-prose ol {
+    .docs-prose ol:not(:where([data-docs-example] *)) {
         @apply my-5 ml-6 list-decimal space-y-2;
     }
 
-    .docs-prose :not(pre) > code {
+    .docs-prose :not(pre) > code:not(:where([data-docs-example] *)) {
         @apply rounded-md border bg-muted px-1.5 py-0.5 font-mono text-[0.875em] text-foreground;
     }
 
-    .docs-prose blockquote {
+    .docs-prose blockquote:not(:where([data-docs-example] *)) {
         @apply border-l-2 pl-5 italic text-muted-foreground;
     }
 
