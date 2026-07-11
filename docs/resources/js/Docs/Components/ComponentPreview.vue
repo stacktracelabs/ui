@@ -5,10 +5,30 @@
                 {{ title || 'Example' }}
             </span>
             <div class="flex items-center rounded-lg bg-muted p-1">
-                <Button :variant="activeTab === 'preview' ? 'secondary' : 'ghost'" size="sm" class="h-7 px-2.5 text-xs" @click="activeTab = 'preview'">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    :class="[
+                        'h-7 px-2.5 text-xs',
+                        activeTab === 'preview'
+                            ? 'bg-background text-foreground shadow-xs hover:bg-background'
+                            : 'text-muted-foreground',
+                    ]"
+                    @click="activeTab = 'preview'"
+                >
                     Preview
                 </Button>
-                <Button :variant="activeTab === 'code' ? 'secondary' : 'ghost'" size="sm" class="h-7 px-2.5 text-xs" @click="activeTab = 'code'">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    :class="[
+                        'h-7 px-2.5 text-xs',
+                        activeTab === 'code'
+                            ? 'bg-background text-foreground shadow-xs hover:bg-background'
+                            : 'text-muted-foreground',
+                    ]"
+                    @click="activeTab = 'code'"
+                >
                     Code
                 </Button>
             </div>
