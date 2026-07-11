@@ -1,6 +1,6 @@
 <template>
   <Alert variant="destructive" class="max-w-xl">
-    <TriangleAlertIcon class="size-4" />
+    <TriangleAlertIcon aria-hidden="true" class="size-4" />
     <AlertTitle>Error</AlertTitle>
     <AlertDescription>
       Your session has expired. Please sign in again.

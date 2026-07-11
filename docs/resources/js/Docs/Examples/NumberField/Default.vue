@@ -1,6 +1,12 @@
 <template>
-  <NumberField v-model="value" :min="0" :max="100" class="w-40">
-    <Label>Quantity</Label>
+  <NumberField
+    id="quantity"
+    v-model="value"
+    :min="0"
+    :max="100"
+    class="w-40"
+  >
+    <Label for="quantity">Quantity</Label>
     <NumberFieldContent>
       <NumberFieldDecrement />
       <NumberFieldInput />

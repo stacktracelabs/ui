@@ -3,7 +3,6 @@
     <Button variant="outline">
       Save
     </Button>
-    <ButtonGroupSeparator />
     <Button variant="outline">
       Publish
     </Button>
@@ -16,5 +15,5 @@
 <script setup lang="ts">
 import { EllipsisIcon } from '@lucide/vue'
 import { Button } from '@/Components/Base/Button'
-import { ButtonGroup, ButtonGroupSeparator } from '@/Components/Base/ButtonGroup'
+import { ButtonGroup } from '@/Components/Base/ButtonGroup'
 </script>

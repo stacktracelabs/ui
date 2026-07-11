@@ -92,6 +92,23 @@
         only visible child.
       </p>
 
+      <h2 id="content-and-state">Content and state</h2>
+      <p>
+        Marker presents content supplied by its parent. Keep timestamps,
+        progress text, status changes, and link destinations in the owning
+        feature; choose <code>role="status"</code> only when a newly rendered
+        non-urgent update should be announced. A shimmer is visual feedback,
+        not a replacement for a concrete progress label.
+      </p>
+
+      <h2 id="when-to-use">When to use</h2>
+      <ul>
+        <li>Use Marker for short conversation notes, timeline boundaries, and inline system status.</li>
+        <li>Use Separator for an unlabeled structural boundary outside a conversation or timeline.</li>
+        <li>Use Alert when the message needs stronger visual priority or dedicated action content.</li>
+        <li>Avoid Marker for persistent record metadata that belongs in Item, Panel, or Table.</li>
+      </ul>
+
       <h2 id="api-reference">API Reference</h2>
 
       <h3 id="marker">Marker</h3>

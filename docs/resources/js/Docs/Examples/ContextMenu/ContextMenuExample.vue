@@ -34,13 +34,13 @@
         </ContextMenuSubContent>
       </ContextMenuSub>
       <ContextMenuSeparator />
-      <ContextMenuCheckboxItem :model-value="true">
+      <ContextMenuCheckboxItem v-model="showBookmarks">
         Show Bookmarks Bar
         <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
       </ContextMenuCheckboxItem>
-      <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem v-model="showFullUrls">Show Full URLs</ContextMenuCheckboxItem>
       <ContextMenuSeparator />
-      <ContextMenuRadioGroup model-value="pedro">
+      <ContextMenuRadioGroup v-model="person">
         <ContextMenuLabel inset>
           People
         </ContextMenuLabel>
@@ -72,4 +72,9 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/Components/Base/ContextMenu'
+import { ref } from 'vue'
+
+const showBookmarks = ref(true)
+const showFullUrls = ref(false)
+const person = ref('pedro')
 </script>

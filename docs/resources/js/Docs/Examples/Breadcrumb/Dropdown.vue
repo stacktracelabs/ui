@@ -16,9 +16,9 @@
             <ChevronDownIcon class="size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem>Accordion</DropdownMenuItem>
-            <DropdownMenuItem>Alert</DropdownMenuItem>
-            <DropdownMenuItem>Avatar</DropdownMenuItem>
+            <DropdownMenuLink href="/docs/components/accordion">Accordion</DropdownMenuLink>
+            <DropdownMenuLink href="/docs/components/alert">Alert</DropdownMenuLink>
+            <DropdownMenuLink href="/docs/components/avatar">Avatar</DropdownMenuLink>
           </DropdownMenuContent>
         </DropdownMenu>
       </BreadcrumbItem>
@@ -44,7 +44,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLink,
   DropdownMenuTrigger,
 } from '@/Components/Base/DropdownMenu'
 import { ChevronDownIcon, SlashIcon } from '@lucide/vue'

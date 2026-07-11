@@ -1,17 +1,25 @@
 <template>
-  <PinInput v-model="value" placeholder="○">
-    <PinInputGroup>
-      <PinInputSlot v-for="index in 3" :key="index" :index="index - 1" />
-    </PinInputGroup>
-    <PinInputSeparator />
-    <PinInputGroup>
-      <PinInputSlot v-for="index in 3" :key="index" :index="index + 2" />
-    </PinInputGroup>
-  </PinInput>
+  <div class="grid gap-2">
+    <Label for="access-pin">Access PIN</Label>
+    <PinInput
+      id="access-pin"
+      v-model="value"
+      placeholder="○"
+    >
+      <PinInputGroup>
+        <PinInputSlot v-for="index in 3" :key="index" :index="index - 1" />
+      </PinInputGroup>
+      <PinInputSeparator />
+      <PinInputGroup>
+        <PinInputSlot v-for="index in 3" :key="index" :index="index + 2" />
+      </PinInputGroup>
+    </PinInput>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Label } from '@/Components/Base/Label'
 import {
   PinInput,
   PinInputGroup,

@@ -15,7 +15,9 @@
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>Continue</AlertDialogAction>
+        <AlertDialogAction :class="buttonVariants({ variant: 'destructive' })">
+          Delete account
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -33,5 +35,5 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/Components/Base/AlertDialog'
-import { Button } from '@/Components/Base/Button'
+import { Button, buttonVariants } from '@/Components/Base/Button'
 </script>

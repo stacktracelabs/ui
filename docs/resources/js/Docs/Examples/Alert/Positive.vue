@@ -1,6 +1,6 @@
 <template>
   <Alert variant="positive" class="max-w-xl">
-    <ShieldCheckIcon class="size-4" />
+    <ShieldCheckIcon aria-hidden="true" class="size-4" />
     <AlertTitle>Protection active</AlertTitle>
     <AlertDescription>
       Your connection is secured with an encrypted tunnel.

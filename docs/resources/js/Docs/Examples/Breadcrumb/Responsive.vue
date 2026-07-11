@@ -21,13 +21,13 @@
               <BreadcrumbEllipsis class="size-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              <DropdownMenuItem
+              <DropdownMenuLink
                 v-for="item in collapsedItems"
                 :key="item.label"
-                as-child
+                :href="item.href"
               >
-                <a :href="item.href">{{ item.label }}</a>
-              </DropdownMenuItem>
+                {{ item.label }}
+              </DropdownMenuLink>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -46,14 +46,14 @@
                 </DrawerDescription>
               </DrawerHeader>
               <div class="grid gap-1 px-4">
-                <a
+                <Link
                   v-for="item in collapsedItems"
                   :key="item.label"
                   :href="item.href"
                   class="py-1 text-sm"
                 >
                   {{ item.label }}
-                </a>
+                </Link>
               </div>
               <DrawerFooter class="pt-4">
                 <DrawerClose as-child>
@@ -117,9 +117,10 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLink,
   DropdownMenuTrigger,
 } from '@/Components/Base/DropdownMenu'
+import { Link } from '@inertiajs/vue3'
 import { useMediaQuery } from '@vueuse/core'
 import { computed, ref } from 'vue'
 

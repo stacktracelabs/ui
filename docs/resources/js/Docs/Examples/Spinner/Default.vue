@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-wrap items-center gap-4">
-    <Spinner aria-label="Loading" />
+    <Spinner />
     <Button disabled>
-      <Spinner data-icon="inline-start" />
+      <Spinner aria-hidden="true" data-icon="inline-start" />
       Processing payment
     </Button>
     <Badge variant="secondary">
-      <Spinner data-icon="inline-start" />
+      <Spinner aria-hidden="true" data-icon="inline-start" />
       Syncing
     </Badge>
   </div>

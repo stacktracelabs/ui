@@ -5,7 +5,7 @@
         Open wide sheet
       </Button>
     </SheetTrigger>
-    <SheetContent class="w-[400px] sm:w-[540px]">
+    <SheetContent class="w-[400px] sm:max-w-lg">
       <SheetHeader>
         <SheetTitle>Custom width</SheetTitle>
         <SheetDescription>

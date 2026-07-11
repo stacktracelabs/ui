@@ -1,10 +1,10 @@
 <template>
   <div class="flex w-full max-w-md flex-col gap-3">
     <div class="flex items-center justify-between text-sm">
-      <span>Uploading package</span>
+      <span id="package-upload-label">Uploading package</span>
       <span class="text-muted-foreground">{{ value }}%</span>
     </div>
-    <Progress :model-value="value" />
+    <Progress :model-value="value" aria-labelledby="package-upload-label" />
   </div>
 </template>
 

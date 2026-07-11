@@ -6,9 +6,11 @@
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.label">
-              <SidebarMenuButton :is-active="item.active">
-                <component :is="item.icon" />
-                <span>{{ item.label }}</span>
+              <SidebarMenuButton as-child :is-active="item.active">
+                <Link :href="item.href">
+                  <component :is="item.icon" />
+                  <span>{{ item.label }}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -23,6 +25,7 @@
 
 <script setup lang="ts">
 import { FileTextIcon, LayoutDashboardIcon, SettingsIcon } from '@lucide/vue'
+import { Link } from '@inertiajs/vue3'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -34,8 +37,8 @@ import {
 } from '@/Components/Base/Sidebar'
 
 const items = [
-  { label: 'Overview', icon: LayoutDashboardIcon, active: true },
-  { label: 'Documents', icon: FileTextIcon, active: false },
-  { label: 'Settings', icon: SettingsIcon, active: false },
+  { label: 'Overview', href: '/docs', icon: LayoutDashboardIcon, active: true },
+  { label: 'Documents', href: '/docs/components/card', icon: FileTextIcon, active: false },
+  { label: 'Settings', href: '/docs/installation', icon: SettingsIcon, active: false },
 ]
 </script>

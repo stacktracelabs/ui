@@ -1,6 +1,6 @@
 <template>
   <Alert class="max-w-xl">
-    <RocketIcon class="size-4" />
+    <RocketIcon aria-hidden="true" class="size-4" />
     <AlertTitle>Heads up!</AlertTitle>
     <AlertDescription>
       Your project is ready for its first deployment.

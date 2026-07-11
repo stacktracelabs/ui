@@ -1,5 +1,5 @@
 <template>
-  <Toggle v-model="enabled" aria-label="Toggle bold" variant="outline">
+  <Toggle v-model="enabled" variant="outline">
     <BoldIcon />
     Bold
   </Toggle>

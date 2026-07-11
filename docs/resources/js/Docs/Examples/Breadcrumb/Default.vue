@@ -14,9 +14,9 @@
             <span class="sr-only">Toggle component menu</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem>Installation</DropdownMenuItem>
-            <DropdownMenuItem>Components</DropdownMenuItem>
-            <DropdownMenuItem>Examples</DropdownMenuItem>
+            <DropdownMenuLink href="/docs/installation">Installation</DropdownMenuLink>
+            <DropdownMenuLink href="/docs/components/button">Components</DropdownMenuLink>
+            <DropdownMenuLink href="/docs/components/breadcrumb">Breadcrumb</DropdownMenuLink>
           </DropdownMenuContent>
         </DropdownMenu>
       </BreadcrumbItem>
@@ -47,7 +47,7 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLink,
   DropdownMenuTrigger,
 } from '@/Components/Base/DropdownMenu'
 </script>

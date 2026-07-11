@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap items-center gap-2">
-    <FilterSearchInput v-model="search" />
+    <FilterSearchInput v-model="search" aria-label="Search projects" />
     <FilterCheckbox v-model="active" title="Active only" />
     <FilterNumberInput v-model="amount" title="Amount" />
   </div>
