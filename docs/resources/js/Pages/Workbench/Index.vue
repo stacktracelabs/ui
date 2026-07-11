@@ -17,10 +17,10 @@
                     <CardDescription>{{ item.description }}</CardDescription>
                 </CardHeader>
                 <CardFooter>
-                    <Button :as="Link" :href="item.href" variant="outline">
+                    <ButtonLink :href="item.href" variant="outline">
                         Open demo
                         <ArrowRightIcon data-icon="inline-end" />
-                    </Button>
+                    </ButtonLink>
                 </CardFooter>
             </Card>
         </section>
@@ -29,12 +29,14 @@
 
 <script setup lang="ts">
 import { Badge } from '@/Components/Base/Badge'
-import { Button } from '@/Components/Base/Button'
+import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/Components/Base/Card'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'
 import type { AppPageProps } from '@/Types'
-import { Head, Link, usePage } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
 import { ArrowRightIcon } from '@lucide/vue'
 
-const demos = usePage<AppPageProps>().props.workbench.navigation.filter(item => item.href !== '/workbench')
+const demos = usePage<AppPageProps>().props.workbench.navigation
+    .flatMap(section => section.items)
+    .filter(item => item.href !== '/workbench')
 </script>

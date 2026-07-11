@@ -36,7 +36,11 @@
                     <Button type="button" variant="outline" :disabled="form.processing" @click="control.deactivate">
                         Cancel
                     </Button>
-                    <Button type="submit" label="Save" :processing="form.processing" :disabled="form.processing" />
+                    <Button type="submit" :disabled="form.processing">
+                        <ButtonState :processing="form.processing">
+                            Save
+                        </ButtonState>
+                    </Button>
                 </DialogFooter>
             </form>
         </DialogContent>
@@ -44,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Base/Button'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import {
     Dialog,
     DialogContent,

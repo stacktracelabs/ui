@@ -1,22 +1,30 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { InertiaLinkProps } from '@inertiajs/vue3'
 import type { PrimitiveProps } from 'reka-ui'
-import type { Component, HTMLAttributes } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 export { default as Button } from './Button.vue'
-export { default as LinkButton } from './LinkButton.vue'
+export { default as ButtonLink } from './ButtonLink.vue'
+export { default as ButtonState } from './ButtonState.vue'
 
 export interface ButtonProps extends PrimitiveProps {
-  as?: string | Component
   variant?: NonNullable<Parameters<typeof buttonVariants>[0]>['variant']
   size?: NonNullable<Parameters<typeof buttonVariants>[0]>['size']
   class?: HTMLAttributes['class']
+}
+
+export type ButtonLinkProps = InertiaLinkProps & {
+  variant?: ButtonVariants['variant']
+  size?: ButtonVariants['size']
+  class?: HTMLAttributes['class']
+}
+
+export interface ButtonStateProps {
   processing?: boolean
   recentlySuccessful?: boolean
-  recentlySuccessfulLabel?: string | undefined
-  label?: string
-  icon?: Component
-  contentClass?: string
-  plain?: boolean
+  processingLabel?: string
+  recentlySuccessfulLabel?: string
+  class?: HTMLAttributes['class']
 }
 
 export const buttonVariants = cva(

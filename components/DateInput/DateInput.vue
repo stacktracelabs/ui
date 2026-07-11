@@ -3,7 +3,6 @@
     <DatePickerField v-slot="{ segments }" >
       <DatePickerTrigger as-child>
         <Button
-          plain
           variant="outline"
           :class="cn(
             'w-full justify-start text-left font-normal',

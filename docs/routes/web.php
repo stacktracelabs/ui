@@ -18,6 +18,9 @@ $renderDocumentationPage = static function (string $href): Response {
 
 Route::get('/docs', fn (): Response => $renderDocumentationPage('/docs'))->name('docs');
 Route::get('/docs/installation', fn (): Response => $renderDocumentationPage('/docs/installation'))->name('docs.installation');
+Route::get('/docs/fundamentals/{fundamental}', fn (string $fundamental): Response => $renderDocumentationPage("/docs/fundamentals/{$fundamental}"))
+    ->where('fundamental', '[a-z0-9-]+')
+    ->name('docs.fundamentals.show');
 Route::get('/docs/components/{component}', fn (string $component): Response => $renderDocumentationPage("/docs/components/{$component}"))
     ->where('component', '[a-z0-9-]+')
     ->name('docs.components.show');

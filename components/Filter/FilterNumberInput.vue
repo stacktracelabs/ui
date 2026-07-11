@@ -2,7 +2,6 @@
   <Popover v-model:open="open">
     <PopoverTrigger as-child>
       <Button
-        plain
         variant="outline"
         class="border-dashed border-input h-8"
       >

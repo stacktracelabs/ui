@@ -9,8 +9,8 @@
                     <span>stacktrace/ui</span>
                 </Link>
                 <nav class="ml-auto flex items-center gap-2">
-                    <Button :as="Link" href="/docs" variant="ghost" size="sm">Docs</Button>
-                    <Button v-if="workbench.enabled" :as="Link" href="/workbench" variant="ghost" size="sm">Workbench</Button>
+                    <ButtonLink href="/docs" variant="ghost" size="sm">Docs</ButtonLink>
+                    <ButtonLink v-if="workbench.enabled" href="/workbench" variant="ghost" size="sm">Workbench</ButtonLink>
                     <Button
                         as="a"
                         :href="documentation.githubUrl"
@@ -41,13 +41,13 @@
                             StackTrace UI extends the shadcn-vue approach with application-ready components, patterns, and backend integrations for teams building with Laravel and Inertia.
                         </p>
                         <div class="mt-9 flex flex-wrap gap-3">
-                            <Button :as="Link" href="/docs" size="lg">
+                            <ButtonLink href="/docs" size="lg">
                                 Get started
-                                <ArrowRightIcon />
-                            </Button>
-                            <Button :as="Link" href="/docs/components/button" variant="outline" size="lg">
+                                <ArrowRightIcon data-icon="inline-end" />
+                            </ButtonLink>
+                            <ButtonLink href="/docs/components/button" variant="outline" size="lg">
                                 Browse components
-                            </Button>
+                            </ButtonLink>
                         </div>
                     </div>
 
@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import { Badge } from '@/Components/Base/Badge'
-import { Button } from '@/Components/Base/Button'
+import { Button, ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/Components/Base/Card'
 import CodeBlock from '@/Docs/Components/CodeBlock.vue'
 import type { AppPageProps } from '@/Types'

@@ -1,16 +1,26 @@
 <template>
   <Button
     variant="outline"
-    :processing="processing"
-    @click="processing = !processing"
+    :disabled="processing"
+    @click="runTask"
   >
-    Toggle processing
+    <ButtonState :processing="processing">
+      Run task
+    </ButtonState>
   </Button>
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Base/Button'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import { ref } from 'vue'
 
 const processing = ref(false)
+
+function runTask() {
+  processing.value = true
+
+  window.setTimeout(() => {
+    processing.value = false
+  }, 1200)
+}
 </script>

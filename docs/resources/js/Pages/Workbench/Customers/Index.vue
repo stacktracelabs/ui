@@ -11,9 +11,9 @@
                     </p>
                 </div>
 
-                <LinkButton :href="route('workbench.customers.collection')" variant="outline" size="sm">
+                <ButtonLink :href="route('workbench.customers.collection')" variant="outline" size="sm">
                     View collection table
-                </LinkButton>
+                </ButtonLink>
             </header>
 
             <Card class="gap-0 py-0">
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { LinkButton } from '@/Components/Base/Button'
+import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
 import { DataTable, type DataTableValue } from '@/Components/Base/DataTable'
 import { useToggle } from '@/Composables/Base/useToggle'

@@ -78,4 +78,16 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    build: {
+        rolldownOptions: {
+            // TODO: Remove when updating vueuse beyond v14.3.0
+            onLog(level, log, defaultHandler) {
+                if (log.code === 'INVALID_ANNOTATION') {
+                    return
+                }
+
+                defaultHandler(level, log)
+            },
+        },
+    },
 })

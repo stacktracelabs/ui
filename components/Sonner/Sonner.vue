@@ -37,6 +37,7 @@ import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon
 import { toast, Toaster as Sonner, type ToasterProps } from 'vue-sonner'
 import { useFlash } from '@stacktrace/ui'
 import { cn } from '@/Utils'
+import 'vue-sonner/style.css'
 
 const props = defineProps<ToasterProps>()
 

@@ -2,7 +2,6 @@
   <Popover v-model:open="open">
     <PopoverTrigger as-child>
       <Button
-        plain
         variant="outline"
         role="combobox"
         :aria-expanded="open"

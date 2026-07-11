@@ -1,5 +1,5 @@
 <template>
-  <Button as-child plain>
+  <Button as-child>
     <a href="/docs">Read the documentation</a>
   </Button>
 </template>

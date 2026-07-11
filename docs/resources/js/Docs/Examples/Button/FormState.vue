@@ -1,17 +1,23 @@
 <template>
   <Button
     variant="outline"
-    label="Save"
-    recently-successful-label="Saved"
-    :icon="SaveIcon"
-    :processing="processing"
-    :recently-successful="recentlySuccessful"
+    :disabled="processing"
     @click="save"
-  />
+  >
+    <ButtonState
+      :processing="processing"
+      :recently-successful="recentlySuccessful"
+    >
+      <SaveIcon data-icon="inline-start" />
+      Save
+
+      <template #success>Saved</template>
+    </ButtonState>
+  </Button>
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Base/Button'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import { SaveIcon } from '@lucide/vue'
 import { ref } from 'vue'
 

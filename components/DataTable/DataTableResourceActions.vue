@@ -1,7 +1,10 @@
 <template>
   <DropdownMenu v-if="runnableActions.length > 0 || visible">
     <DropdownMenuTrigger>
-      <Button :variant="variant" :size="size" :class="cn('px-2 data-[state=open]:bg-muted', $attrs.class || '')" :icon="EllipsisIcon" :label="label" />
+      <Button :variant="variant" :size="size" :class="cn('px-2 data-[state=open]:bg-muted', $attrs.class || '')">
+        <EllipsisIcon data-icon="inline-start" />
+        <template v-if="label">{{ label }}</template>
+      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent :align="align">
       <slot :resource="actions.resource" :runnable-actions="runnableActions" />

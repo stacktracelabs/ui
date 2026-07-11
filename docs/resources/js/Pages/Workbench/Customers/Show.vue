@@ -9,9 +9,9 @@
                     <h1 class="text-2xl font-semibold tracking-tight">{{ name }}</h1>
                 </div>
 
-                <LinkButton :href="route('workbench.customers.index')" variant="outline" size="sm">
+                <ButtonLink :href="route('workbench.customers.index')" variant="outline" size="sm">
                     Back to customers
-                </LinkButton>
+                </ButtonLink>
             </header>
 
             <Card class="gap-0 py-0">
@@ -76,12 +76,15 @@
                             <Button
                                 type="submit"
                                 class="w-full sm:w-auto"
-                                label="Save"
-                                recently-successful-label="Saved"
-                                :processing="form.processing"
-                                :recently-successful="form.recentlySuccessful"
                                 :disabled="form.processing"
-                            />
+                            >
+                                <ButtonState
+                                    :processing="form.processing"
+                                    :recently-successful="form.recentlySuccessful"
+                                >
+                                    Save
+                                </ButtonState>
+                            </Button>
                         </PanelFooter>
                     </Panel>
                 </CardContent>
@@ -94,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { Button, LinkButton } from '@/Components/Base/Button'
+import { Button, ButtonLink, ButtonState } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
 import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/Base/DataTable'
 import { DropdownMenuGroup, DropdownMenuItem } from '@/Components/Base/DropdownMenu'

@@ -13,6 +13,12 @@ return [
             ],
         ],
         [
+            'title' => 'Fundamentals',
+            'items' => [
+                ['title' => 'Composition', 'href' => '/docs/fundamentals/composition', 'component' => 'Docs/Fundamentals/Composition'],
+            ],
+        ],
+        [
             'title' => 'Components',
             'items' => [
                 ['title' => 'Accordion', 'href' => '/docs/components/accordion', 'component' => 'Docs/Components/Accordion'],

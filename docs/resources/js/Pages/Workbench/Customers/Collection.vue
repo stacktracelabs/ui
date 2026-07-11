@@ -11,9 +11,9 @@
                     </p>
                 </div>
 
-                <LinkButton :href="route('workbench.customers.index')" variant="outline" size="sm">
+                <ButtonLink :href="route('workbench.customers.index')" variant="outline" size="sm">
                     View query table
-                </LinkButton>
+                </ButtonLink>
             </header>
 
             <Card class="gap-0 py-0">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { LinkButton } from '@/Components/Base/Button'
+import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
 import { DataTable, type DataTableValue } from '@/Components/Base/DataTable'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'

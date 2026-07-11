@@ -3,7 +3,6 @@
     <Popover>
       <PopoverTrigger as-child>
         <Button
-          plain
           id="date"
           :variant="'outline'"
           :class="cn(

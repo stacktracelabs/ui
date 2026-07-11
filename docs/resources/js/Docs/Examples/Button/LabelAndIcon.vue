@@ -1,9 +1,8 @@
 <template>
-  <Button
-    variant="outline"
-    label="Save"
-    :icon="SaveIcon"
-  />
+  <Button variant="outline">
+    <SaveIcon data-icon="inline-start" />
+    Save
+  </Button>
 </template>
 
 <script setup lang="ts">

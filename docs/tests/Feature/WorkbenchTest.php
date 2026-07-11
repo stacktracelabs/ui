@@ -13,7 +13,39 @@ test('the local workbench landing page is available', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('Workbench/Index')
             ->where('workbench.enabled', true)
-            ->has('workbench.navigation', 4));
+            ->has('workbench.navigation', 3)
+            ->where('workbench.navigation.1.items.0.href', '/workbench/buttons'));
+});
+
+test('the button workbench exercises inertia requests through real controllers', function () {
+    $this->get(route('workbench.buttons.index'))
+        ->assertSuccessful()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Workbench/Buttons')
+            ->where('lastAction', null));
+
+    $this->get(route('workbench.buttons.index', ['visit' => 'GET']))
+        ->assertSuccessful()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Workbench/Buttons')
+            ->where('lastAction.method', 'GET'));
+
+    $requests = [
+        ['method' => 'post', 'route' => 'workbench.buttons.store', 'expected' => 'POST'],
+        ['method' => 'put', 'route' => 'workbench.buttons.update', 'expected' => 'PUT'],
+        ['method' => 'delete', 'route' => 'workbench.buttons.destroy', 'expected' => 'DELETE'],
+    ];
+
+    foreach ($requests as $request) {
+        $this->{$request['method']}(route($request['route']))
+            ->assertRedirect(route('workbench.buttons.index'));
+
+        $this->get(route('workbench.buttons.index'))
+            ->assertSuccessful()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Workbench/Buttons')
+                ->where('lastAction.method', $request['expected']));
+    }
 });
 
 test('the customer workbench pages serialize backend tables and resource actions', function () {

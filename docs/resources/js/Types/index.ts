@@ -15,6 +15,11 @@ export type WorkbenchNavigationItem = {
     href: string
 }
 
+export type WorkbenchNavigationSection = {
+    title: string
+    items: WorkbenchNavigationItem[]
+}
+
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     appName: string
     documentation: {
@@ -24,7 +29,7 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     }
     workbench: {
         enabled: boolean
-        navigation: WorkbenchNavigationItem[]
+        navigation: WorkbenchNavigationSection[]
     }
     ziggy: Record<string, unknown> & {
         location: string

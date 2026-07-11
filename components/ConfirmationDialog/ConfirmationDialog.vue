@@ -8,12 +8,24 @@
 
       <AlertDialogFooter>
         <template v-if="dialog.type === 'confirmation'">
-          <Button @click="cancel" :processing="isCancelling" variant="outline">{{ dialog.cancelLabel || 'Cancel' }}</Button>
-          <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'Confirm' }}</Button>
+          <Button @click="cancel" variant="outline">
+            <ButtonState :processing="isCancelling">
+              {{ dialog.cancelLabel || 'Cancel' }}
+            </ButtonState>
+          </Button>
+          <Button @click="confirm" :variant="dialog.destructive ? 'destructive' : 'default'">
+            <ButtonState :processing="isConfirming">
+              {{ dialog.confirmLabel || 'Confirm' }}
+            </ButtonState>
+          </Button>
         </template>
 
         <template v-else-if="dialog.type === 'alert'">
-          <Button @click="confirm" :processing="isConfirming" :variant="dialog.destructive ? 'destructive' : 'default'">{{ dialog.confirmLabel || 'OK' }}</Button>
+          <Button @click="confirm" :variant="dialog.destructive ? 'destructive' : 'default'">
+            <ButtonState :processing="isConfirming">
+              {{ dialog.confirmLabel || 'OK' }}
+            </ButtonState>
+          </Button>
         </template>
       </AlertDialogFooter>
     </AlertDialogContent>
@@ -25,7 +37,7 @@ import { useConfirmationDialogRoot } from "."
 import { ref } from "vue"
 import { onDeactivated } from "@stacktrace/ui"
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/Components/AlertDialog'
-import { Button } from '@/Components/Button'
+import { Button, ButtonState } from '@/Components/Button'
 
 defineProps<{
   to?: string | HTMLElement

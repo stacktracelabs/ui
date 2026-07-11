@@ -3,7 +3,6 @@
     <ComboboxAnchor class="w-64">
       <ComboboxTrigger as-child>
         <Button
-          plain
           variant="outline"
           role="combobox"
           class="w-full justify-between"

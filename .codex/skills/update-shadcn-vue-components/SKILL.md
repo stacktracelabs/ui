@@ -61,7 +61,7 @@ Do not recreate the deleted `app/` tree, copy components into `docs/resources/js
 
 ## Local Divergences to Preserve
 
-- `Button` has `processing`, `recentlySuccessful`, `recentlySuccessfulLabel`, `label`, `icon`, `contentClass`, `plain`, and `LinkButton`. Merge upstream data attributes and variant changes without deleting those APIs.
+- Keep `Button` close to the upstream thin primitive: variants, size, primitive rendering props, class, and default slot only. Preserve the local `ButtonState` composition helper and the Inertia-aware `ButtonLink`; `ButtonLink` renders Inertia's `Link` directly, forwards its props with `reactiveOmit`, and applies `buttonVariants`. `ButtonState` responds directly to Inertia's native `data-loading` attribute when nested inside `ButtonLink`. Do not duplicate that request lifecycle in `ButtonLink` or fold either helper's behavior back into `Button`.
 - `Checkbox` is a native input with local styling and `CheckboxControl`. Do not replace it with upstream Reka `CheckboxRoot` unless the user explicitly requests that behavioral change.
 - `Form` is custom and layout-oriented. Do not copy upstream `FormControl`, `useFormField.ts`, `injectionKeys.ts`, or `vee-validate` exports. The upstream `Field` group is separate and does not replace this repo's `Form`.
 - `Table` has local selectable-row helpers used by `DataTable`. Do not copy upstream `table/utils.ts` or add `@tanstack/vue-table` solely for shadcn's `valueUpdater`; that pattern does not fit this package.
