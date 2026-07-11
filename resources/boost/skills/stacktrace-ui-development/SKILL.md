@@ -20,7 +20,7 @@ Use StackTrace UI as the application's shared language across Laravel controller
 ## Reference routing
 
 - Read [installation](references/installation.md) before adding a missing component or changing registry configuration.
-- Read the [component catalog](references/components.md) to choose among available components. It contains a brief description and documentation route for every registry item.
+- Read the generated [component catalog](references/components.md) to choose among available components, then load only that component's detailed reference.
 - Read [Button](references/button.md) whenever using `Button`, `ButtonLink`, `ButtonState`, button variants, icons, destructive actions, or processing feedback.
 - Read [composition](references/composition.md) when using `as`, `as-child`, Reka triggers, nested primitives, or when authoring/wrapping a component.
 - Read the [PHP UI API](references/php-api.md) when a controller, table class, action, filter, menu, breadcrumb, toast, or other backend code prepares UI data.

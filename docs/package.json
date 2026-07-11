@@ -3,12 +3,14 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "run-s registry:build build:app",
+        "build": "run-s skills:build registry:build build:app",
         "build:app": "run-p type-check \"build-only {@}\" --",
         "build-only": "vite build",
         "dev": "vite",
         "predev": "npm run registry:build",
         "registry:build": "node ../scripts/generate-registry.mjs --source ../components --output public/r",
+        "skills:build": "node ../scripts/generate-boost-skill-docs.mjs",
+        "skills:check": "node ../scripts/generate-boost-skill-docs.mjs --check",
         "type-check": "vue-tsc --build"
     },
     "devDependencies": {
