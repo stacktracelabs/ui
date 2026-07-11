@@ -1,35 +1,39 @@
 <template>
   <form class="grid w-full max-w-md gap-6">
-    <FormItem role="group" aria-labelledby="form-role-label">
-      <FormLabel id="form-role-label">Role</FormLabel>
+    <FormControl
+      for="form-role"
+      label="Role"
+      help="Choose the permission set for this account."
+    >
       <FormSelect
+        id="form-role"
         v-model="role"
         :options="roles"
         placeholder="Select a role"
         name="role"
       />
-      <FormDescription>Choose the permission set for this account.</FormDescription>
-    </FormItem>
+    </FormControl>
 
-    <FormItem role="group" aria-labelledby="form-country-label">
-      <FormLabel id="form-country-label">Country</FormLabel>
+    <FormControl
+      for="form-country"
+      label="Country"
+      help="Search when the option list is long."
+    >
       <FormCombobox
+        id="form-country"
         v-model="country"
         :options="countries"
         placeholder="Select a country"
         search-label="Search countries…"
       />
-      <FormDescription>Search when the option list is long.</FormDescription>
-    </FormItem>
+    </FormControl>
   </form>
 </template>
 
 <script setup lang="ts">
 import {
   FormCombobox,
-  FormDescription,
-  FormItem,
-  FormLabel,
+  FormControl,
   FormSelect,
 } from '@/Components/Base/Form'
 import { ref } from 'vue'

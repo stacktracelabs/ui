@@ -61,5 +61,4 @@ The registry also exposes the aggregate `all` item and shared `utils`; these are
 - Run the smallest relevant PHP and frontend checks already used by the application.
 - Confirm imports resolve through the application's aliases.
 - Confirm registry-installed dependencies are present.
-- Test keyboard and focus behavior for interactive composition.
 - Test an Inertia request end to end when PHP-generated props or `ButtonLink` request behavior changes.

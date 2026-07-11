@@ -1,28 +1,44 @@
 <template>
-  <div v-if="variant === 'horizontal'" class="form-control w-full flex flex-col sm:flex-row" :class="{ 'has-error': !!error }">
-    <div class="flex flex-col space-y-2 sm:w-2/5 pb-2 sm:pb-0 sm:pr-4" :class="{ 'sm:pt-2.5': !help }">
-      <FormLabel v-if="label" :for="props.for || undefined" :error="props.error || ''">{{ label }} <span v-if="required" class="text-destructive">*</span></FormLabel>
-      <FormDescription class="hidden sm:block" v-if="help">{{ help }}</FormDescription>
-    </div>
-    <div class="flex flex-col sm:w-3/5">
-      <slot />
-      <FormMessage v-if="error" :message="error" class="mt-2" />
-      <FormDescription class="sm:hidden mt-2" v-if="help">{{ help }}</FormDescription>
-    </div>
-  </div>
+  <FieldGroup
+    :class="[
+      'form-control gap-0',
+      { 'has-error': !!error },
+    ]"
+  >
+    <Field
+      :orientation="variant === 'horizontal' ? 'responsive' : 'vertical'"
+      :data-invalid="error ? true : undefined"
+    >
+      <FieldContent v-if="variant === 'horizontal' && (label || help)">
+        <FieldLabel v-if="label" :for="props.for || undefined">
+          {{ label }}
+          <span v-if="required" aria-hidden="true" class="text-destructive">*</span>
+        </FieldLabel>
+        <FieldDescription v-if="help">
+          {{ help }}
+        </FieldDescription>
+      </FieldContent>
 
-  <FormItem class="form-control" v-else :class="{ 'has-error': !!error }">
-    <FormLabel v-if="label" :for="props.for || undefined" :error="props.error || ''">{{ label }} <span v-if="required" class="text-destructive">*</span></FormLabel>
-    <div class="w-full">
-      <slot />
-    </div>
-    <FormDescription v-if="help">{{ help }}</FormDescription>
-    <FormMessage v-if="error" :message="error" />
-  </FormItem>
+      <FieldLabel v-else-if="label" :for="props.for || undefined">
+        {{ label }}
+        <span v-if="required" aria-hidden="true" class="text-destructive">*</span>
+      </FieldLabel>
+
+      <div class="flex w-full flex-1 flex-col gap-1.5">
+        <slot />
+        <FieldDescription v-if="variant === 'vertical' && help">
+          {{ help }}
+        </FieldDescription>
+        <FieldError v-if="error">
+          {{ error }}
+        </FieldError>
+      </div>
+    </Field>
+  </FieldGroup>
 </template>
 
 <script setup lang="ts">
-import { FormItem, FormLabel, FormMessage, FormDescription } from './'
+import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/Components/Field'
 
 const props = withDefaults(defineProps<{
   variant?: 'vertical' | 'horizontal'

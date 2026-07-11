@@ -1,6 +1,6 @@
 <template>
   <Select v-bind="forwarded" v-model="value">
-    <SelectTrigger :class="props.class">
+    <SelectTrigger :id="id" :class="props.class">
       <SelectValue :placeholder="placeholder" />
     </SelectTrigger>
     <SelectContent>
@@ -14,11 +14,12 @@ import { type SelectOption } from '@stacktrace/ui'
 import type { SelectRootEmits, SelectRootProps } from 'reka-ui'
 import { useForwardProps } from 'reka-ui'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/Components/Select'
-import { computed, type HTMLAttributes } from "vue";
-import { useVModel } from "@vueuse/core";
+import { useVModel } from '@vueuse/core'
+import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<SelectRootProps & {
   options: Array<SelectOption>
+  id?: string
   placeholder?: string | undefined
   class?: HTMLAttributes['class']
   modelValue?: string | number | undefined
@@ -26,7 +27,7 @@ const props = defineProps<SelectRootProps & {
 const emits = defineEmits<SelectRootEmits>()
 
 const delegatedProps = computed(() => {
-  const { options, placeholder, class: _, modelValue, ...delegated } = props
+  const { options, id, placeholder, class: _, modelValue, ...delegated } = props
 
   return delegated
 })

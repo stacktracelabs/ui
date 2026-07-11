@@ -36,7 +36,7 @@ Use this catalog to select an existing component before writing a custom one. Re
 | Empty | Explains an empty result or first-use state and offers a sensible next step. | [Read](empty.md) |
 | Field | Combines labels, controls, descriptions, and errors into consistent form fields. | [Read](field.md) |
 | Filter | Provides compact frontend controls for narrowing a collection or search result. | [Read](filter.md) |
-| Form | StackTrace helpers for labeled controls, validation messages, selects, and searchable choices. | [Read](form.md) |
+| Form | Baked controls for building consistent application forms with less repetitive composition. | [Read](form.md) |
 | Hover Card | Shows a supplementary preview for the content behind a link or trigger. | [Read](hover-card.md) |
 | Input | A styled native input for short text and browser-supported input types. | [Read](input.md) |
 | Input Group | Places icons, text, and compact actions inside an input or textarea boundary. | [Read](input-group.md) |

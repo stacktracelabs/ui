@@ -2,6 +2,7 @@
   <Popover v-model:open="open">
     <PopoverTrigger as-child>
       <Button
+        :id="id"
         variant="outline"
         role="combobox"
         :aria-expanded="open"
@@ -51,6 +52,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const props = withDefaults(defineProps<{
   options: Array<SelectOption<V>>
+  id?: string
   searchLabel?: string | undefined
   placeholder?: string | null
   notFoundLabel?: string | null

@@ -25,7 +25,7 @@ npx shadcn-vue@latest add @stacktrace/field
 
 ## Usage
 
-Use `Field` as the layout and state boundary for one form control. Use `FieldGroup` to space related fields and a semantic `FieldSet` with `FieldLegend` when several controls answer one question.
+Field is the lower-level composition API. Prefer the baked `Form*` controls for ordinary application forms, and use `Field` when their structure is not flexible enough. It acts as the layout and state boundary for one custom-composed control. Use `FieldGroup` to space related fields and a semantic `FieldSet` with `FieldLegend` when several controls answer one question.
 
 **Profile fields example**
 
@@ -116,6 +116,10 @@ Use `FieldSet` and `FieldLegend` for a checkbox or radio group so the question i
 Field provides structure and styling but does not infer every ARIA relationship. Keep ids unique, preserve visible labels, and connect help or error text with `aria-describedby` when the control primitive does not do that automatically. Do not communicate required, disabled, or invalid state by color alone.
 
 ## Recommendations
+
+> **Prefer Form for standard application fields: [Form](https://ui.stacktrace.sk/docs/components/form)**
+>
+> FormControl bakes the common label, help, error, and control structure into one concise API. Start there for most forms, then move to Field only when the control requires custom semantics or layout.
 
 > **Use Input Group for content inside the control boundary: [Input Group](https://ui.stacktrace.sk/docs/components/input-group)**
 >

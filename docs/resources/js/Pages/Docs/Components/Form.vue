@@ -3,7 +3,7 @@
     <Head title="Form" />
     <DocsPage
       title="Form"
-      description="StackTrace helpers for labeled controls, validation messages, selects, and searchable choices."
+      description="Baked controls for building consistent application forms with less repetitive composition."
     >
       <h2 id="installation">Installation</h2>
       <p>Add the Form helpers from the configured StackTrace registry.</p>
@@ -11,10 +11,11 @@
 
       <h2 id="usage">Usage</h2>
       <p>
-        This is StackTrace's layout-oriented Form API. It is not upstream
-        shadcn-vue's vee-validate abstraction and does not own submission or a
-        validation schema. Pass labels, help, and current errors from your
-        application, while the native <code>form</code> element owns submission.
+        Prefer the <code>Form*</code> controls for most application forms. They
+        provide the standard label, help, validation, and control composition
+        without repeating its markup for every field. Form does not own
+        submission or a validation schema; your application and the native
+        <code>form</code> element still own that behavior.
       </p>
       <ComponentPreview title="Form control" :source="exampleSource">
         <DefaultExample />
@@ -22,22 +23,23 @@
 
       <h2 id="form-control">Form control</h2>
       <p>
-        <code>FormControl</code> is the high-level wrapper. Its
+        <code>FormControl</code> is the standard wrapper for a labeled control.
+        It is built from the lower-level Field primitives while exposing a
+        concise API. Its
         <code>label</code>, <code>help</code>, <code>error</code>,
-        <code>required</code>, and <code>for</code> props compose
-        <code>FormLabel</code>, <code>FormDescription</code>, and
-        <code>FormMessage</code> around the default slot. Match
-        <code>for</code> to the control id; the required marker is visual, so
-        also put <code>required</code> on the actual control when native
-        constraint validation should apply.
+        <code>required</code>, and <code>for</code> props arrange the content
+        around its default slot. Match <code>for</code> to the control id. The
+        required marker is visual, so also put <code>required</code> on the
+        actual control when native constraint validation should apply.
       </p>
 
       <h3 id="layouts">Vertical and horizontal layouts</h3>
       <p>
         The default <code>vertical</code> variant stacks every part. Use
-        <code>variant="horizontal"</code> for wide forms where labels can occupy
-        two fifths of the row without becoming cramped. It falls back to a
-        vertical layout on smaller screens.
+        <code>variant="horizontal"</code> when a form has enough room for label
+        and help text beside the control. The Field composition responds to its
+        container, stacking in narrow spaces and aligning horizontally when
+        space is available.
       </p>
       <CodeBlock :code="horizontalCode" language="vue" />
 
@@ -47,13 +49,9 @@
         <code>options</code> array. <code>FormCombobox</code> adds local search
         for longer arrays and can clear a selected option when
         <code>nullable</code> is enabled. Both expose <code>v-model</code> for
-        controlled values; keep option values stable and unique.
-      </p>
-      <p>
-        These two helpers do not currently forward an id to their button
-        triggers. Give each one visible context with <code>FormItem</code> and
-        <code>FormLabel</code>, group them with <code>aria-labelledby</code>, and
-        keep a meaningful placeholder or selected label on the trigger.
+        controlled values. Place them inside <code>FormControl</code>, give the
+        trigger an <code>id</code> matching the wrapper's <code>for</code>, and
+        keep option values stable and unique.
       </p>
       <ComponentPreview title="Select and combobox helpers" :source="selectionsSource">
         <SelectionsExample />
@@ -61,32 +59,34 @@
 
       <h2 id="validation-and-accessibility">Validation and accessibility</h2>
       <p>
-        Passing <code>error</code> changes label styling and renders
-        <code>FormMessage</code>, but it does not automatically set
-        <code>aria-invalid</code> or describe the control. Apply those
-        attributes to the slotted input yourself. Keep error text specific and
+        Passing <code>error</code> marks the Field composition as invalid and
+        renders the error message, but it does not automatically set
+        <code>aria-invalid</code> or describe the slotted control. Apply those
+        attributes to the control yourself. Keep error text specific and
         actionable, and do not remove persistent help text when an error
         appears.
       </p>
 
-      <h2 id="lower-level-primitives">Lower-level primitives</h2>
+      <h2 id="custom-composition">Custom composition</h2>
       <p>
-        Use <code>FormItem</code>, <code>FormLabel</code>,
-        <code>FormDescription</code>, and <code>FormMessage</code> directly only
-        when <code>FormControl</code>'s layout is too restrictive. They provide
-        presentation, not model registration, generated ids, or validation
-        state.
+        Use the Field primitives when the baked Form API cannot express the
+        control: semantic fieldsets, grouped choices, arrays of validation
+        errors, choice cards, or a genuinely custom layout. Compose the Field
+        parts explicitly in those cases. Do not rebuild an ordinary labeled
+        input from primitives when <code>FormControl</code> already provides the
+        intended structure.
       </p>
 
       <h2 id="recommendations">Recommendations</h2>
       <DocsComponentRecommendation
-        title="Prefer Field for new compositions"
+        title="Compose exceptional layouts with Field"
         component-href="/docs/components/field"
         component-name="Field"
       >
-        Field is the framework-neutral composition for new work and has
-        stronger grouping, orientation, and error-array support. Keep Form for
-        existing layouts that benefit from its string-prop convenience API.
+        Field is the lower-level composition system behind FormControl. Reach
+        for it when you need direct control over grouping, orientation,
+        semantic fieldsets, or multiple validation messages; otherwise prefer
+        the baked Form controls.
       </DocsComponentRecommendation>
     </DocsPage>
   </DocsLayout>

@@ -11,10 +11,13 @@
 
       <h2 id="usage">Usage</h2>
       <p>
-        Use <code>Field</code> as the layout and state boundary for one form
-        control. Use <code>FieldGroup</code> to space related fields and a
-        semantic <code>FieldSet</code> with <code>FieldLegend</code> when several
-        controls answer one question.
+        Field is the lower-level composition API. Prefer the baked
+        <code>Form*</code> controls for ordinary application forms, and use
+        <code>Field</code> when their structure is not flexible enough. It acts
+        as the layout and state boundary for one custom-composed control. Use
+        <code>FieldGroup</code> to space related fields and a semantic
+        <code>FieldSet</code> with <code>FieldLegend</code> when several controls
+        answer one question.
       </p>
       <ComponentPreview title="Profile fields" :source="exampleSource">
         <DefaultExample />
@@ -76,6 +79,15 @@
       </p>
 
       <h2 id="recommendations">Recommendations</h2>
+      <DocsComponentRecommendation
+        title="Prefer Form for standard application fields"
+        component-href="/docs/components/form"
+        component-name="Form"
+      >
+        FormControl bakes the common label, help, error, and control structure
+        into one concise API. Start there for most forms, then move to Field
+        only when the control requires custom semantics or layout.
+      </DocsComponentRecommendation>
       <DocsComponentRecommendation
         title="Use Input Group for content inside the control boundary"
         component-href="/docs/components/input-group"

@@ -2,7 +2,7 @@
 
 # Form
 
-StackTrace helpers for labeled controls, validation messages, selects, and searchable choices.
+Baked controls for building consistent application forms with less repetitive composition.
 
 ## Contents
 
@@ -11,7 +11,7 @@ StackTrace helpers for labeled controls, validation messages, selects, and searc
 - [Form control](#form-control)
 - [Selection helpers](#selection-helpers)
 - [Validation and accessibility](#validation-and-accessibility)
-- [Lower-level primitives](#lower-level-primitives)
+- [Custom composition](#custom-composition)
 - [Recommendations](#recommendations)
 
 ## Installation
@@ -24,7 +24,7 @@ npx shadcn-vue@latest add @stacktrace/form
 
 ## Usage
 
-This is StackTrace's layout-oriented Form API. It is not upstream shadcn-vue's vee-validate abstraction and does not own submission or a validation schema. Pass labels, help, and current errors from your application, while the native `form` element owns submission.
+Prefer the `Form*` controls for most application forms. They provide the standard label, help, validation, and control composition without repeating its markup for every field. Form does not own submission or a validation schema; your application and the native `form` element still own that behavior.
 
 **Form control example**
 
@@ -50,11 +50,11 @@ import { Input } from '@/Components/Input'
 
 ## Form control
 
-`FormControl` is the high-level wrapper. Its `label`, `help`, `error`, `required`, and `for` props compose `FormLabel`, `FormDescription`, and `FormMessage` around the default slot. Match `for` to the control id; the required marker is visual, so also put `required` on the actual control when native constraint validation should apply.
+`FormControl` is the standard wrapper for a labeled control. It is built from the lower-level Field primitives while exposing a concise API. Its `label`, `help`, `error`, `required`, and `for` props arrange the content around its default slot. Match `for` to the control id. The required marker is visual, so also put `required` on the actual control when native constraint validation should apply.
 
 ### Vertical and horizontal layouts
 
-The default `vertical` variant stacks every part. Use `variant="horizontal"` for wide forms where labels can occupy two fifths of the row without becoming cramped. It falls back to a vertical layout on smaller screens.
+The default `vertical` variant stacks every part. Use `variant="horizontal"` when a form has enough room for label and help text beside the control. The Field composition responds to its container, stacking in narrow spaces and aligning horizontally when space is available.
 
 ```vue
 <FormControl
@@ -69,45 +69,47 @@ The default `vertical` variant stacks every part. Use `variant="horizontal"` for
 
 ## Selection helpers
 
-`FormSelect` renders StackTrace Select items from an `options` array. `FormCombobox` adds local search for longer arrays and can clear a selected option when `nullable` is enabled. Both expose `v-model` for controlled values; keep option values stable and unique.
-
-These two helpers do not currently forward an id to their button triggers. Give each one visible context with `FormItem` and `FormLabel`, group them with `aria-labelledby`, and keep a meaningful placeholder or selected label on the trigger.
+`FormSelect` renders StackTrace Select items from an `options` array. `FormCombobox` adds local search for longer arrays and can clear a selected option when `nullable` is enabled. Both expose `v-model` for controlled values. Place them inside `FormControl`, give the trigger an `id` matching the wrapper's `for`, and keep option values stable and unique.
 
 **Select and combobox helpers example**
 
 ```vue
 <template>
   <form class="grid w-full max-w-md gap-6">
-    <FormItem role="group" aria-labelledby="form-role-label">
-      <FormLabel id="form-role-label">Role</FormLabel>
+    <FormControl
+      for="form-role"
+      label="Role"
+      help="Choose the permission set for this account."
+    >
       <FormSelect
+        id="form-role"
         v-model="role"
         :options="roles"
         placeholder="Select a role"
         name="role"
       />
-      <FormDescription>Choose the permission set for this account.</FormDescription>
-    </FormItem>
+    </FormControl>
 
-    <FormItem role="group" aria-labelledby="form-country-label">
-      <FormLabel id="form-country-label">Country</FormLabel>
+    <FormControl
+      for="form-country"
+      label="Country"
+      help="Search when the option list is long."
+    >
       <FormCombobox
+        id="form-country"
         v-model="country"
         :options="countries"
         placeholder="Select a country"
         search-label="Search countries…"
       />
-      <FormDescription>Search when the option list is long.</FormDescription>
-    </FormItem>
+    </FormControl>
   </form>
 </template>
 
 <script setup lang="ts">
 import {
   FormCombobox,
-  FormDescription,
-  FormItem,
-  FormLabel,
+  FormControl,
   FormSelect,
 } from '@/Components/Form'
 import { ref } from 'vue'
@@ -131,16 +133,16 @@ const country = ref<string | null>(null)
 
 ## Validation and accessibility
 
-Passing `error` changes label styling and renders `FormMessage`, but it does not automatically set `aria-invalid` or describe the control. Apply those attributes to the slotted input yourself. Keep error text specific and actionable, and do not remove persistent help text when an error appears.
+Passing `error` marks the Field composition as invalid and renders the error message, but it does not automatically set `aria-invalid` or describe the slotted control. Apply those attributes to the control yourself. Keep error text specific and actionable, and do not remove persistent help text when an error appears.
 
-## Lower-level primitives
+## Custom composition
 
-Use `FormItem`, `FormLabel`, `FormDescription`, and `FormMessage` directly only when `FormControl`'s layout is too restrictive. They provide presentation, not model registration, generated ids, or validation state.
+Use the Field primitives when the baked Form API cannot express the control: semantic fieldsets, grouped choices, arrays of validation errors, choice cards, or a genuinely custom layout. Compose the Field parts explicitly in those cases. Do not rebuild an ordinary labeled input from primitives when `FormControl` already provides the intended structure.
 
 ## Recommendations
 
-> **Prefer Field for new compositions: [Field](https://ui.stacktrace.sk/docs/components/field)**
+> **Compose exceptional layouts with Field: [Field](https://ui.stacktrace.sk/docs/components/field)**
 >
-> Field is the framework-neutral composition for new work and has stronger grouping, orientation, and error-array support. Keep Form for existing layouts that benefit from its string-prop convenience API.
+> Field is the lower-level composition system behind FormControl. Reach for it when you need direct control over grouping, orientation, semantic fieldsets, or multiple validation messages; otherwise prefer the baked Form controls.
 
 Hosted documentation: [Form](https://ui.stacktrace.sk/docs/components/form)
