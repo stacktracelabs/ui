@@ -13,16 +13,20 @@ from pathlib import Path
 
 
 API_URL = "https://api.github.com/repos/unovue/shadcn-vue/releases/latest"
+GITHUB_HEADERS = {
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+}
 
 
 def fetch_json(url: str) -> dict:
-    request = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
+    request = urllib.request.Request(url, headers=GITHUB_HEADERS)
     with urllib.request.urlopen(request, timeout=30) as response:
         return json.loads(response.read().decode("utf-8"))
 
 
 def download(url: str, destination: Path) -> None:
-    request = urllib.request.Request(url, headers={"Accept": "application/octet-stream"})
+    request = urllib.request.Request(url, headers=GITHUB_HEADERS)
     with urllib.request.urlopen(request, timeout=120) as response:
         destination.write_bytes(response.read())
 
