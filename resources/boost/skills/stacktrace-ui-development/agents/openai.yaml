@@ -1,0 +1,4 @@
+interface:
+  display_name: "StackTrace UI Development"
+  short_description: "Build Laravel and Inertia interfaces with StackTrace UI"
+  default_prompt: "Use $stacktrace-ui-development to build this Laravel and Inertia interface with StackTrace UI."
