@@ -1,24 +1,24 @@
 <?php
 
-
 namespace StackTrace\Ui;
-
 
 use BackedEnum;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 use InvalidArgumentException;
 use StackTrace\Ui\Contracts\HasLabel;
 
-class SelectOption extends ViewModel
+class SelectOption implements ProvidesInertiaProperty
 {
     public function __construct(
         public readonly string $label,
         public readonly string|int $value,
         public array $extra = [],
-    ) { }
+    ) {}
 
     public function toView(): array
     {
@@ -26,6 +26,11 @@ class SelectOption extends ViewModel
             'label' => $this->label,
             'value' => $this->value,
         ], $this->extra);
+    }
+
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
     }
 
     /**
@@ -74,7 +79,7 @@ class SelectOption extends ViewModel
             throw new InvalidArgumentException("The enum [$class] does not exist.");
         }
 
-        return Collection::make($class::cases())->map(fn(BackedEnum $enum) => static::fromEnum(
+        return Collection::make($class::cases())->map(fn (BackedEnum $enum) => static::fromEnum(
             value: $enum,
             extra: $extra instanceof Closure ? call_user_func($extra, $enum) : []
         ))->sortBy('label')->values();

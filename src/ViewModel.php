@@ -1,21 +1,25 @@
 <?php
 
-
 namespace StackTrace\Ui;
-
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 use JsonSerializable;
 
-abstract class ViewModel implements Arrayable, JsonSerializable
+/**
+ * @deprecated Implement \Inertia\ProvidesInertiaProperty for a single prop value
+ *             or \Inertia\ProvidesInertiaProperties for a set of page props.
+ */
+abstract class ViewModel implements Arrayable, JsonSerializable, ProvidesInertiaProperty
 {
     /**
      * Define props of the view model.
      */
-    public abstract function toView(): array;
+    abstract public function toView(): array;
 
     /**
      * Format key to camel case.
@@ -32,7 +36,7 @@ abstract class ViewModel implements Arrayable, JsonSerializable
     {
         if ($value instanceof UnformattedViewModelData) {
             return $value->data;
-        } else if (is_array($value)) {
+        } elseif (is_array($value)) {
             // Convert associative array
             if (Arr::isAssoc($value)) {
                 return collect($value)
@@ -42,10 +46,10 @@ abstract class ViewModel implements Arrayable, JsonSerializable
                 // Convert regular array
                 return collect($value)->map(fn ($val) => $this->resolveValue($val))->all();
             }
-        } else if ($value instanceof Collection) {
+        } elseif ($value instanceof Collection) {
             // Convert collection
             return $value->map(fn ($val) => $this->resolveValue($val))->all();
-        } else if ($value instanceof ViewModel) {
+        } elseif ($value instanceof ViewModel) {
             // Convert another view model
             return $this->resolveValue($value->toView());
         }
@@ -63,8 +67,16 @@ abstract class ViewModel implements Arrayable, JsonSerializable
         return $this->toArray();
     }
 
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toArray();
+    }
+
     /**
-     * Crate unformatted view model data.
+     * Create unformatted view model data.
+     *
+     * @deprecated Implement \Inertia\ProvidesInertiaProperty directly and return
+     *             the keys exactly as they should be sent to the frontend.
      */
     public static function unformatted(array $data): UnformattedViewModelData
     {

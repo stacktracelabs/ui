@@ -1,43 +1,37 @@
 <?php
 
-
 namespace StackTrace\Ui\Menu;
-
 
 use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 use StackTrace\Ui\Icon;
 use StackTrace\Ui\Link;
-use StackTrace\Ui\ViewModel;
 
-class MenuItem extends ViewModel
+class MenuItem implements ProvidesInertiaProperty
 {
     use Conditionable;
 
     /**
      * List of paths and routes when the menu item is considered active.
      *
-     * @var array<\StackTrace\Ui\Menu\ActivePath|\StackTrace\Ui\Menu\ActiveRoute>
+     * @var array<ActivePath|ActiveRoute>
      */
     protected array $activeDestinations = [];
 
     /**
-     * @param string|null $id
-     * @param string|null $title
-     * @param \StackTrace\Ui\Link|null $action
-     * @param \StackTrace\Ui\Icon|null $icon
-     * @param string|null $badge
-     * @param array<\StackTrace\Ui\Menu\MenuItem> $children
+     * @param  array<MenuItem>  $children
      */
     public function __construct(
         protected ?string $id = null,
         protected ?string $title = null,
-        protected ?Link  $action = null,
-        protected ?Icon  $icon = null,
+        protected ?Link $action = null,
+        protected ?Icon $icon = null,
         protected ?string $badge = null,
         protected array $children = [],
-    ) { }
+    ) {}
 
     /**
      * Set title on the menu item.
@@ -164,7 +158,7 @@ class MenuItem extends ViewModel
             }
         }
 
-        if (!$appended) {
+        if (! $appended) {
             $final[] = $item;
         }
 
@@ -192,7 +186,7 @@ class MenuItem extends ViewModel
             }
         }
 
-        if (!$appended) {
+        if (! $appended) {
             $final = [$item, ...$final];
         }
 
@@ -214,7 +208,7 @@ class MenuItem extends ViewModel
     /**
      * Retrieve all children of the item.
      *
-     * @return \Illuminate\Support\Collection<int, \StackTrace\Ui\Menu\MenuItem>
+     * @return Collection<int, MenuItem>
      */
     public function getChildren(): Collection
     {
@@ -262,16 +256,20 @@ class MenuItem extends ViewModel
         ];
     }
 
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
+    }
+
     /**
      * Add paths when the menu item is considered to be active.
      */
     public function active(
-        string|ActivePath|null  $path = null,
-        array|null              $paths = null,
+        string|ActivePath|null $path = null,
+        ?array $paths = null,
         string|ActiveRoute|null $route = null,
-        array|null              $routes = null,
-    ): static
-    {
+        ?array $routes = null,
+    ): static {
         if ($path) {
             $this->activeDestinations[] = $path instanceof ActivePath
                 ? $path
@@ -302,7 +300,7 @@ class MenuItem extends ViewModel
     /**
      * Retrieve list of active paths or routes when the menu item is considered active.
      *
-     * @return Collection<int, \StackTrace\Ui\Menu\ActivePath|\StackTrace\Ui\Menu\ActiveRoute>
+     * @return Collection<int, ActivePath|ActiveRoute>
      */
     public function getActiveDestinations(): Collection
     {
@@ -323,12 +321,11 @@ class MenuItem extends ViewModel
     public static function make(
         ?string $id = null,
         ?string $title = null,
-        ?Link  $action = null,
-        ?Icon  $icon = null,
+        ?Link $action = null,
+        ?Icon $icon = null,
         ?string $badge = null,
         array $children = [],
-    ): static
-    {
+    ): static {
         return new static($id, $title, $action, $icon, $badge, $children);
     }
 }

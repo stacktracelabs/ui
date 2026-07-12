@@ -1,18 +1,17 @@
 <?php
 
-
 namespace StackTrace\Ui\Breadcrumbs;
 
-
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 use StackTrace\Ui\Link;
-use StackTrace\Ui\ViewModel;
 
-class BreadcrumbItem extends ViewModel
+class BreadcrumbItem implements ProvidesInertiaProperty
 {
     public function __construct(
         protected string $title,
         protected ?Link $action = null,
-    ) { }
+    ) {}
 
     /**
      * Set the item title.
@@ -43,6 +42,11 @@ class BreadcrumbItem extends ViewModel
                 'external' => $this->action->isExternal,
             ] : null,
         ];
+    }
+
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
     }
 
     /**

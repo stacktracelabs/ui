@@ -1,20 +1,19 @@
 <?php
 
-
 namespace StackTrace\Ui\Breadcrumbs;
 
-
 use Illuminate\Support\Traits\Conditionable;
-use StackTrace\Ui\ViewModel;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 
-class BreadcrumbList extends ViewModel
+class BreadcrumbList implements ProvidesInertiaProperty
 {
     use Conditionable;
 
     /**
      * List of items.
      *
-     * @var array<\StackTrace\Ui\Breadcrumbs\BreadcrumbItem>
+     * @var array<BreadcrumbItem>
      */
     protected array $items = [];
 
@@ -41,6 +40,11 @@ class BreadcrumbList extends ViewModel
     public function toView(): array
     {
         return $this->items;
+    }
+
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
     }
 
     /**

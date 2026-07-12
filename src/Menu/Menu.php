@@ -1,22 +1,21 @@
 <?php
 
-
 namespace StackTrace\Ui\Menu;
-
 
 use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
-use StackTrace\Ui\ViewModel;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 
-class Menu extends ViewModel
+class Menu implements ProvidesInertiaProperty
 {
     use Conditionable;
 
     /**
      * List of items within the menu.
      *
-     * @var array<\StackTrace\Ui\Menu\MenuItem>
+     * @var array<MenuItem>
      */
     protected array $items = [];
 
@@ -61,7 +60,7 @@ class Menu extends ViewModel
     /**
      * Retrieve all items within menu.
      *
-     * @return Collection<int, \StackTrace\Ui\Menu\MenuItem>
+     * @return Collection<int, MenuItem>
      */
     public function getItems(): Collection
     {
@@ -81,6 +80,11 @@ class Menu extends ViewModel
     public function toView(): array
     {
         return $this->items;
+    }
+
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
     }
 
     /**

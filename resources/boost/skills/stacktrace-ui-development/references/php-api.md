@@ -14,7 +14,7 @@ Inspect `vendor/stacktrace/ui/src` for the exact API available in the installed 
 | Tables | `StackTrace\Ui\Table` plus `Table\Columns`, `Table\Filters`, `Table\Actions`, `Table\Resource`, and `Table\ResourceActions` | The Data Table component's backend-driven columns, values, filters, row actions, sorting, search, and pagination. |
 | Selection and filtering values | `Selection`, `ModelSelection`, `DateRange`, `NumberValue`, `SelectOption`, `Operator` | Typed request/filter values used by table and form workflows. |
 | Toast feedback | `StackTrace\Ui\Facades\Toast`, `StackTrace\Ui\Toaster` | Flash messages rendered by Sonner. |
-| Serialization | `StackTrace\Ui\ViewModel`, `UnformattedViewModelData` | The base contract for custom PHP UI values. |
+| Serialization | `Inertia\ProvidesInertiaProperty`, `Inertia\ProvidesInertiaProperties` | First-party contracts for one prop value or a provider of multiple named page props. |
 | Styling values | `Style\Rounding`, table alignment/style enums | Shared serialized presentation choices where the API exposes them. |
 
 ## Controller example
@@ -48,7 +48,20 @@ final class ProjectController
 }
 ```
 
-Do not manually call `toArray()` merely to reshape a supported ViewModel; Inertia and Laravel can serialize it.
+Return package objects directly as prop values. They implement
+`ProvidesInertiaProperty`, so Inertia resolves nested menus, breadcrumbs,
+icons, and select options through its normal prop pipeline.
+
+For custom application objects, implement `ProvidesInertiaProperty` when the
+object is the value of one named prop. Implement `ProvidesInertiaProperties`
+when one object should contribute several named props to an Inertia response.
+The latter is passed directly to `Inertia::render()` or included at a numeric
+array key; it is not a replacement for an individual value object.
+
+`StackTrace\Ui\ViewModel` and `UnformattedViewModelData` are deprecated
+compatibility APIs. Do not use them for new code. First-party providers return
+keys exactly as authored; StackTrace no longer applies automatic camel-case
+conversion to its package objects.
 
 ## Data tables
 

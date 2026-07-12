@@ -1,14 +1,14 @@
 <?php
 
-
 namespace StackTrace\Ui;
 
-
 use Illuminate\Support\Arr;
+use Inertia\PropertyContext;
+use Inertia\ProvidesInertiaProperty;
 use RuntimeException;
 use StackTrace\Ui\Contracts\IconRepository;
 
-class Icon extends ViewModel
+class Icon implements ProvidesInertiaProperty
 {
     /**
      * List of registered icon repositories.
@@ -33,9 +33,9 @@ class Icon extends ViewModel
     protected ?string $content = null;
 
     public function __construct(
-        public readonly string  $name,
+        public readonly string $name,
         public readonly ?string $repository = null,
-    ) { }
+    ) {}
 
     /**
      * Retrieve the icon content.
@@ -50,7 +50,7 @@ class Icon extends ViewModel
             return static::load($this->name, $repository);
         }
 
-        throw new RuntimeException("No icon repository has been specified");
+        throw new RuntimeException('No icon repository has been specified');
     }
 
     public function toView(): array
@@ -58,6 +58,11 @@ class Icon extends ViewModel
         return [
             'src' => $this->content(),
         ];
+    }
+
+    public function toInertiaProperty(PropertyContext $prop): mixed
+    {
+        return $this->toView();
     }
 
     /**
@@ -83,7 +88,7 @@ class Icon extends ViewModel
      */
     public static function svg(string $content): static
     {
-        $icon = new static("svg");
+        $icon = new static('svg');
 
         $icon->content = $content;
 
