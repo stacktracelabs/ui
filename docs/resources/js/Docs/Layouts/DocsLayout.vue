@@ -37,16 +37,13 @@
                     >
                         <CodeXmlIcon />
                     </Button>
-                    <Button variant="ghost" size="icon-sm" :aria-label="isDark ? 'Use light theme' : 'Use dark theme'" @click="toggleTheme">
-                        <SunIcon v-if="isDark" />
-                        <MoonIcon v-else />
-                    </Button>
+                    <ThemeSelector />
                 </div>
             </div>
         </header>
 
         <aside class="fixed inset-y-0 left-0 top-14 z-30 hidden w-72 border-r bg-background lg:block">
-            <div class="h-full overflow-y-auto px-5 py-7">
+            <div scroll-region class="h-full overflow-y-auto px-5 py-7">
                 <DocsNavigation :navigation="documentation.navigation" />
             </div>
         </aside>
@@ -69,17 +66,22 @@
             </main>
         </div>
 
-        <aside class="fixed inset-y-0 right-0 top-14 hidden w-64 overflow-y-auto border-l bg-background px-6 py-8 xl:block">
+        <aside ref="tableOfContents" class="fixed inset-y-0 right-0 top-14 hidden w-64 overflow-y-auto border-l bg-background px-6 py-8 xl:block">
             <p class="mb-4 text-xs font-semibold">On this page</p>
             <nav v-if="headings.length" aria-label="On this page">
                 <a
                     v-for="heading in headings"
                     :key="heading.id"
                     :href="`#${heading.id}`"
+                    :aria-current="heading.id === activeHeadingId ? 'location' : undefined"
                     :class="[
-                        'block py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground',
-                        heading.level === 3 ? 'pl-3' : '',
+                        'block border-l py-1.5 text-sm transition-colors',
+                        heading.level === 3 ? 'pl-6' : 'pl-3',
+                        heading.id === activeHeadingId
+                            ? 'border-foreground font-medium text-foreground'
+                            : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground',
                     ]"
+                    @click="activeHeadingId = heading.id"
                 >
                     {{ heading.title }}
                 </a>
@@ -96,9 +98,10 @@ import { Badge } from '@/Components/Base/Badge'
 import { Button } from '@/Components/Base/Button'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/Components/Base/Sheet'
 import DocsNavigation from '@/Docs/Components/DocsNavigation.vue'
+import ThemeSelector from '@/Docs/Components/ThemeSelector.vue'
 import type { AppPageProps } from '@/Types'
 import { Link, usePage } from '@inertiajs/vue3'
-import { CodeXmlIcon, MenuIcon, MoonIcon, SunIcon } from '@lucide/vue'
+import { CodeXmlIcon, MenuIcon } from '@lucide/vue'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type PageHeading = {
@@ -111,14 +114,17 @@ const page = usePage<AppPageProps>()
 const documentation = page.props.documentation
 const workbench = page.props.workbench
 const mobileNavigationOpen = ref(false)
-const isDark = ref(false)
 const content = ref<HTMLElement>()
+const tableOfContents = ref<HTMLElement>()
 const headings = ref<PageHeading[]>([])
+const activeHeadingId = ref('')
 let observer: MutationObserver | undefined
+let headingElements: HTMLElement[] = []
+let scrollFrame: number | undefined
 
 onMounted(() => {
-    isDark.value = document.documentElement.classList.contains('dark')
     refreshHeadings()
+    window.addEventListener('scroll', queueActiveHeadingUpdate, { passive: true })
 
     observer = new MutationObserver(refreshHeadings)
     if (content.value) {
@@ -126,7 +132,14 @@ onMounted(() => {
     }
 })
 
-onBeforeUnmount(() => observer?.disconnect())
+onBeforeUnmount(() => {
+    observer?.disconnect()
+    window.removeEventListener('scroll', queueActiveHeadingUpdate)
+
+    if (scrollFrame !== undefined) {
+        window.cancelAnimationFrame(scrollFrame)
+    }
+})
 
 watch(
     () => page.url,
@@ -138,16 +151,61 @@ watch(
 )
 
 function refreshHeadings(): void {
-    headings.value = Array.from(content.value?.querySelectorAll<HTMLElement>('article h2[id], article h3[id]') ?? []).map(heading => ({
+    headingElements = Array.from(content.value?.querySelectorAll<HTMLElement>('article h2[id], article h3[id]') ?? [])
+    headings.value = headingElements.map(heading => ({
         id: heading.id,
         title: heading.textContent?.trim() || heading.id,
         level: Number(heading.tagName.slice(1)),
     }))
+
+    updateActiveHeading()
 }
 
-function toggleTheme(): void {
-    isDark.value = !isDark.value
-    document.documentElement.classList.toggle('dark', isDark.value)
-    localStorage.setItem('stacktrace-ui-theme', isDark.value ? 'dark' : 'light')
+function queueActiveHeadingUpdate(): void {
+    if (scrollFrame !== undefined) {
+        return
+    }
+
+    scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = undefined
+        updateActiveHeading()
+    })
 }
+
+function updateActiveHeading(): void {
+    if (!headingElements.length) {
+        activeHeadingId.value = ''
+        return
+    }
+
+    const pageBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+    let activeHeading = headingElements[0]!
+
+    if (pageBottom) {
+        activeHeading = headingElements[headingElements.length - 1]!
+    } else {
+        for (const heading of headingElements) {
+            if (heading.getBoundingClientRect().top > 112) {
+                break
+            }
+
+            activeHeading = heading
+        }
+    }
+
+    if (activeHeadingId.value === activeHeading.id) {
+        return
+    }
+
+    activeHeadingId.value = activeHeading.id
+    void nextTick(scrollActiveHeadingIntoView)
+}
+
+function scrollActiveHeadingIntoView(): void {
+    const activeLink = Array.from(tableOfContents.value?.querySelectorAll<HTMLAnchorElement>('a[href^="#"]') ?? [])
+        .find(link => link.hash === `#${activeHeadingId.value}`)
+
+    activeLink?.scrollIntoView({ block: 'nearest' })
+}
+
 </script>

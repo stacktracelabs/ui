@@ -8,6 +8,7 @@
                 <li v-for="item in section.items" :key="item.href">
                     <Link
                         :href="item.href"
+                        preserve-scroll
                         :class="[
                             'block rounded-md px-2 py-1.5 text-sm transition-colors',
                             isActive(item.href)

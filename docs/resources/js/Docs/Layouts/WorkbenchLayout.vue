@@ -23,15 +23,7 @@
                     <ButtonLink href="/docs" variant="ghost" size="sm">
                         Docs
                     </ButtonLink>
-                    <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        :aria-label="isDark ? 'Use light theme' : 'Use dark theme'"
-                        @click="toggleTheme"
-                    >
-                        <SunIcon v-if="isDark" />
-                        <MoonIcon v-else />
-                    </Button>
+                    <ThemeSelector />
                 </div>
             </div>
         </header>
@@ -69,23 +61,13 @@
 import { Badge } from '@/Components/Base/Badge'
 import { Button, ButtonLink } from '@/Components/Base/Button'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/Components/Base/Sheet'
+import ThemeSelector from '@/Docs/Components/ThemeSelector.vue'
 import WorkbenchNavigation from '@/Docs/Components/WorkbenchNavigation.vue'
 import type { AppPageProps } from '@/Types'
 import { Link, usePage } from '@inertiajs/vue3'
-import { MenuIcon, MoonIcon, SunIcon } from '@lucide/vue'
-import { onMounted, ref } from 'vue'
+import { MenuIcon } from '@lucide/vue'
+import { ref } from 'vue'
 
 const workbench = usePage<AppPageProps>().props.workbench
 const mobileNavigationOpen = ref(false)
-const isDark = ref(false)
-
-onMounted(() => {
-    isDark.value = document.documentElement.classList.contains('dark')
-})
-
-function toggleTheme(): void {
-    isDark.value = !isDark.value
-    document.documentElement.classList.toggle('dark', isDark.value)
-    localStorage.setItem('stacktrace-ui-theme', isDark.value ? 'dark' : 'light')
-}
 </script>

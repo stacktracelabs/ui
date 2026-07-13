@@ -22,6 +22,7 @@
                         <CodeXmlIcon />
                         GitHub
                     </Button>
+                    <ThemeSelector />
                 </nav>
             </div>
         </header>
@@ -87,6 +88,7 @@ import { Badge } from '@/Components/Base/Badge'
 import { Button, ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/Components/Base/Card'
 import CodeBlock from '@/Docs/Components/CodeBlock.vue'
+import ThemeSelector from '@/Docs/Components/ThemeSelector.vue'
 import type { AppPageProps } from '@/Types'
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { ArrowRightIcon, BlocksIcon, CodeXmlIcon, PanelsTopLeftIcon } from '@lucide/vue'

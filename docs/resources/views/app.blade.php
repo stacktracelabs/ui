@@ -8,8 +8,12 @@
             (() => {
                 const preference = localStorage.getItem('stacktrace-ui-theme');
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const resolvedPreference = preference === 'light' || preference === 'dark' ? preference : 'system';
+                const isDark = resolvedPreference === 'dark' || (resolvedPreference === 'system' && prefersDark);
 
-                document.documentElement.classList.toggle('dark', preference === 'dark' || (! preference && prefersDark));
+                document.documentElement.classList.toggle('dark', isDark);
+                document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+                document.documentElement.dataset.theme = resolvedPreference;
             })();
         </script>
 
