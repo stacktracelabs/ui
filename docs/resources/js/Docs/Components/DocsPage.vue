@@ -14,6 +14,7 @@
 
         <div class="docs-prose">
             <slot />
+            <ComponentApiReference :name="title" />
         </div>
 
         <nav v-if="previousItem || nextItem" aria-label="Pagination" class="mt-16 grid gap-4 border-t pt-8 sm:grid-cols-2">
@@ -46,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import ComponentApiReference from '@/Docs/Components/ComponentApiReference.vue'
 import type { AppPageProps, DocumentationNavigationItem } from '@/Types'
 import { Link, usePage } from '@inertiajs/vue3'
 import { ArrowLeftIcon, ArrowRightIcon } from '@lucide/vue'

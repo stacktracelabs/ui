@@ -69,7 +69,7 @@
             </main>
         </div>
 
-        <aside class="fixed inset-y-0 right-0 top-14 hidden w-64 border-l bg-background px-6 py-8 xl:block">
+        <aside class="fixed inset-y-0 right-0 top-14 hidden w-64 overflow-y-auto border-l bg-background px-6 py-8 xl:block">
             <p class="mb-4 text-xs font-semibold">On this page</p>
             <nav v-if="headings.length" aria-label="On this page">
                 <a
