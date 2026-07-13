@@ -61,7 +61,9 @@
         value: keep the actual checked model in sync and clear the mixed state
         when the user makes an explicit choice.
       </p>
-      <CodeBlock :code="indeterminateCode" language="vue" />
+      <ComponentPreview title="Indeterminate checkbox" :source="indeterminateExampleSource">
+        <IndeterminateExample />
+      </ComponentPreview>
 
       <h2 id="validation-and-accessibility">Validation and accessibility</h2>
       <p>
@@ -106,6 +108,8 @@ import ControlExample from '@/Docs/Examples/Checkbox/Control.vue'
 import controlExampleSource from '@/Docs/Examples/Checkbox/Control.vue?raw'
 import DefaultExample from '@/Docs/Examples/Checkbox/Default.vue'
 import defaultExampleSource from '@/Docs/Examples/Checkbox/Default.vue?raw'
+import IndeterminateExample from '@/Docs/Examples/Checkbox/Indeterminate.vue'
+import indeterminateExampleSource from '@/Docs/Examples/Checkbox/Indeterminate.vue?raw'
 import DocsLayout from '@/Docs/Layouts/DocsLayout.vue'
 
 const installationCode = 'npx shadcn-vue@latest add @stacktrace/checkbox'
@@ -119,12 +123,5 @@ const arrayModelCode = [
   '',
   "const channels = ref<string[]>(['email'])",
   '</' + 'script>',
-].join('\n')
-const indeterminateCode = [
-  '<Checkbox',
-  '  v-model="allSelected"',
-  '  :indeterminate="someSelected && !allSelected"',
-  '  aria-label="Select all rows"',
-  '/>',
 ].join('\n')
 </script>
