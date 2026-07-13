@@ -17,6 +17,7 @@ import { cn } from '@/Utils'
 import { provideCommandContext } from '.'
 
 const props = withDefaults(defineProps<ListboxRootProps & { class?: HTMLAttributes['class'] }>(), {
+  highlightOnHover: true,
   modelValue: '',
 })
 

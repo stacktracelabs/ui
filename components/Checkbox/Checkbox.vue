@@ -2,9 +2,10 @@
   <input
     ref="inputEl"
     type="checkbox"
+    data-slot="checkbox"
     v-model="checked"
     :value="value"
-    :class="cn('w-4 h-4 text-primary bg-background indeterminate:bg-primary dark:indeterminate:bg-background checked:bg-primary dark:checked:bg-background border rounded border-muted-foreground/40 appearance-none p-0 inline-flex align-middle flex-shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-1 disabled:bg-muted disabled:opacity-50 disabled:cursor-auto')"
+    :class="cn('peer border-input checked:bg-primary indeterminate:bg-primary checked:border-primary indeterminate:border-primary text-primary-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow appearance-none p-0 inline-grid place-content-center align-middle cursor-pointer outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50')"
   >
 </template>
 
@@ -45,17 +46,29 @@ input[type="checkbox"] {
   user-select: none;
 }
 
-input[type="checkbox"]:checked {
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+input[type="checkbox"]::before {
+  width: 0.875rem;
+  height: 0.875rem;
+  visibility: hidden;
+  content: "";
+  background-color: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
 }
 
-input[type="checkbox"]:indeterminate {
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3E%3C/svg%3E");
+input[type="checkbox"]:checked::before {
+  visibility: visible;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+}
+
+input[type="checkbox"]:indeterminate::before {
+  visibility: visible;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-linecap='round' stroke-width='2' d='M4 8h8'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-linecap='round' stroke-width='2' d='M4 8h8'/%3E%3C/svg%3E");
 }
 </style>
