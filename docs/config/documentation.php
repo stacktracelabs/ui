@@ -10,6 +10,7 @@ return [
             'items' => [
                 ['title' => 'Introduction', 'href' => '/docs', 'component' => 'Docs/Introduction'],
                 ['title' => 'Installation', 'href' => '/docs/installation', 'component' => 'Docs/Installation'],
+                ['title' => 'Frontend Package', 'href' => '/docs/frontend-package', 'component' => 'Docs/FrontendPackage'],
             ],
         ],
         [
@@ -96,7 +97,23 @@ return [
         [
             'title' => 'Composables',
             'items' => [
+                ['title' => 'useFilter', 'href' => '/docs/composables/filter', 'component' => 'Docs/Composables/Filter'],
+                ['title' => 'useFlash', 'href' => '/docs/composables/flash', 'component' => 'Docs/Composables/Flash'],
+                ['title' => 'useNavigation', 'href' => '/docs/composables/navigation', 'component' => 'Docs/Composables/Navigation'],
                 ['title' => 'useToggle', 'href' => '/docs/composables/toggle', 'component' => 'Docs/Composables/Toggle'],
+            ],
+        ],
+        [
+            'title' => 'Utilities',
+            'items' => [
+                ['title' => 'asyncRouter', 'href' => '/docs/utilities/async-router', 'component' => 'Docs/Utilities/AsyncRouter'],
+            ],
+        ],
+        [
+            'title' => 'Types',
+            'items' => [
+                ['title' => 'SelectOption', 'href' => '/docs/types/select-option', 'component' => 'Docs/Types/SelectOption'],
+                ['title' => 'SVGSource', 'href' => '/docs/types/svg-source', 'component' => 'Docs/Types/SVGSource'],
             ],
         ],
     ],

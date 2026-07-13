@@ -7,7 +7,7 @@ test('the landing page is available', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Home')
-            ->has('documentation.navigation', 4));
+            ->has('documentation.navigation', 6));
 });
 
 test('every documentation page in the navigation manifest resolves', function () {
@@ -25,4 +25,7 @@ test('every documentation page in the navigation manifest resolves', function ()
 test('unknown documentation pages return not found', function () {
     $this->get('/docs/fundamentals/not-a-guide')->assertNotFound();
     $this->get('/docs/components/not-a-component')->assertNotFound();
+    $this->get('/docs/composables/not-a-composable')->assertNotFound();
+    $this->get('/docs/utilities/not-a-utility')->assertNotFound();
+    $this->get('/docs/types/not-a-type')->assertNotFound();
 });
