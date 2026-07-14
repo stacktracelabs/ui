@@ -16,6 +16,7 @@
                                 : 'text-muted-foreground hover:bg-accent/60 hover:text-foreground',
                         ]"
                         @click="$emit('navigate')"
+                        @success="scrollPageToTop"
                     >
                         {{ item.title }}
                     </Link>
@@ -41,5 +42,9 @@ const page = usePage()
 
 function isActive(href: string): boolean {
     return page.url.split('?')[0] === href
+}
+
+function scrollPageToTop(): void {
+    window.scrollTo(0, 0)
 }
 </script>
