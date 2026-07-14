@@ -42,10 +42,8 @@ import 'vue-sonner/style.css'
 const props = defineProps<ToasterProps>()
 
 useFlash('toast', event => {
-  const message = event as { title: string, content?: string | null }
-
-  toast(message.title, {
-    description: message.content || undefined,
+  toast(event.title, {
+    description: event.content || undefined,
   })
 })
 </script>
