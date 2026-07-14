@@ -15,13 +15,35 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const rootDirectory = resolve(scriptDirectory, '..')
 const docsDirectory = join(rootDirectory, 'docs')
-const pagesDirectory = join(docsDirectory, 'resources/js/Pages/Docs/Components')
+const frontendPagesDirectory = join(docsDirectory, 'resources/js/Pages/Docs')
+const componentPagesDirectory = join(docsDirectory, 'resources/js/Pages/Docs/Components')
 const componentsDirectory = join(rootDirectory, 'components')
 const skillDirectory = join(rootDirectory, 'resources/boost/skills/stacktrace-ui-development')
 const referencesDirectory = join(skillDirectory, 'references')
 const legacyOutputDirectory = join(referencesDirectory, 'components')
 const outputDirectory = referencesDirectory
 const checkOnly = process.argv.includes('--check')
+const frontendPageSections = [
+  { category: 'Composable', directory: 'Composables', route: 'composables', outputPrefix: 'composable' },
+  { category: 'Utility', directory: 'Utilities', route: 'utilities', outputPrefix: 'utility' },
+  { category: 'Type', directory: 'Types', route: 'types', outputPrefix: 'type' },
+]
+const frontendPageDefinitions = [
+  { category: 'Guide', source: 'FrontendPackage.vue', href: '/docs/frontend-package', output: 'frontend-package.md' },
+  ...frontendPageSections.flatMap(section => readdirSync(join(frontendPagesDirectory, section.directory))
+    .filter(file => file.endsWith('.vue'))
+    .sort()
+    .map(file => {
+      const sourceName = file.slice(0, -4)
+
+      return {
+        category: section.category,
+        source: `${section.directory}/${file}`,
+        href: `/docs/${section.route}/${componentSlug(sourceName)}`,
+        outputPrefix: section.outputPrefix,
+      }
+    })),
+]
 
 const requireFromDocs = createRequire(pathToFileURL(join(docsDirectory, 'package.json')))
 const { parse } = requireFromDocs('@vue/compiler-sfc')
@@ -162,9 +184,86 @@ function createScriptContext(script, pagePath) {
       return value
     }
 
+    if (node.kind === ts.SyntaxKind.NullKeyword) {
+      return null
+    }
+
     if (ts.isArrayLiteralExpression(node)) {
-      const values = node.elements.map(element => evaluate(element, resolving))
-      return values.some(value => value === undefined) ? undefined : values
+      const values = []
+
+      for (const element of node.elements) {
+        if (ts.isSpreadElement(element)) {
+          const spread = evaluate(element.expression, resolving)
+
+          if (!Array.isArray(spread)) {
+            return undefined
+          }
+
+          values.push(...spread)
+          continue
+        }
+
+        const value = evaluate(element, resolving)
+
+        if (value === undefined) {
+          return undefined
+        }
+
+        values.push(value)
+      }
+
+      return values
+    }
+
+    if (ts.isObjectLiteralExpression(node)) {
+      const value = {}
+
+      for (const property of node.properties) {
+        if (ts.isSpreadAssignment(property)) {
+          const spread = evaluate(property.expression, resolving)
+
+          if (!spread || typeof spread !== 'object' || Array.isArray(spread)) {
+            return undefined
+          }
+
+          Object.assign(value, spread)
+          continue
+        }
+
+        if (ts.isShorthandPropertyAssignment(property)) {
+          const propertyValue = evaluate(property.name, resolving)
+
+          if (propertyValue === undefined) {
+            return undefined
+          }
+
+          value[property.name.text] = propertyValue
+          continue
+        }
+
+        if (!ts.isPropertyAssignment(property)) {
+          return undefined
+        }
+
+        const propertyName = property.name.text
+        const propertyValue = evaluate(property.initializer, resolving)
+
+        if (propertyName === undefined || propertyValue === undefined) {
+          return undefined
+        }
+
+        value[propertyName] = propertyValue
+      }
+
+      return value
+    }
+
+    if (ts.isPropertyAccessExpression(node)) {
+      const receiver = evaluate(node.expression, resolving)
+
+      return receiver && typeof receiver === 'object'
+        ? receiver[node.name.text]
+        : undefined
     }
 
     if (ts.isBinaryExpression(node) && node.operatorToken.kind === ts.SyntaxKind.PlusToken) {
@@ -325,6 +424,50 @@ function fencedCode(code, language = 'text', filename) {
   return `${label}\`\`\`${language}\n${normalizeExample(code)}\n\`\`\``
 }
 
+function escapeTableCell(value) {
+  return String(value)
+    .replaceAll('|', '\\|')
+    .replaceAll('\n', '<br>')
+}
+
+function renderApiTable(entries, nameLabel = 'Property', showDefault = false) {
+  if (!Array.isArray(entries) || !entries.length) {
+    return ''
+  }
+
+  const includeDefault = showDefault || entries.some(entry => entry.default !== undefined)
+  const headings = includeDefault
+    ? `| ${nameLabel} | Type | Default | Description |`
+    : `| ${nameLabel} | Type | Description |`
+  const separators = includeDefault
+    ? '| --- | --- | --- | --- |'
+    : '| --- | --- | --- |'
+  const rows = entries.map(entry => {
+    const name = `\`${escapeTableCell(entry.name)}\`${entry.required ? ' (required)' : ''}`
+    const type = `\`${escapeTableCell(entry.type)}\``
+    const description = escapeTableCell(entry.description)
+
+    if (!includeDefault) {
+      return `| ${name} | ${type} | ${description} |`
+    }
+
+    const defaultValue = entry.default === undefined
+      ? '—'
+      : `\`${escapeTableCell(entry.default)}\``
+
+    return `| ${name} | ${type} | ${defaultValue} | ${description} |`
+  })
+
+  return [headings, separators, ...rows].join('\n')
+}
+
+function referenceHeading(node, context) {
+  const level = Number(propValue(node, 'heading-level', context) ?? 2)
+  const name = propValue(node, 'name', context)
+
+  return `${'#'.repeat(level)} \`${name}\``
+}
+
 function renderNode(node, context) {
   if (node.type !== NODE.ELEMENT) {
     return ''
@@ -377,6 +520,63 @@ function renderNode(node, context) {
     return `${label}${fencedCode(source, 'vue')}`
   }
 
+  if (node.tag === 'ApiReferenceTable') {
+    return renderApiTable(
+      propValue(node, 'entries', context),
+      propValue(node, 'name-label', context) ?? 'Property',
+      propValue(node, 'show-default', context) ?? false,
+    )
+  }
+
+  if (node.tag === 'FunctionApiReference') {
+    const description = propValue(node, 'description', context)
+    const signature = propValue(node, 'signature', context)
+    const parameters = propValue(node, 'parameters', context) ?? []
+    const returns = propValue(node, 'returns', context)
+    const sections = [
+      referenceHeading(node, context),
+      description,
+      fencedCode(signature, 'typescript'),
+    ]
+
+    if (parameters.length) {
+      sections.push(
+        `${'#'.repeat(Number(propValue(node, 'heading-level', context) ?? 2) + 1)} Parameters`,
+        renderApiTable(parameters, 'Parameter'),
+      )
+    }
+
+    if (returns) {
+      sections.push(
+        `${'#'.repeat(Number(propValue(node, 'heading-level', context) ?? 2) + 1)} Returns`,
+        `\`${escapeTableCell(returns.type)}\` — ${returns.description}`,
+      )
+    }
+
+    return sections.filter(Boolean).join('\n\n')
+  }
+
+  if (node.tag === 'TypeApiReference') {
+    const sections = [
+      referenceHeading(node, context),
+      propValue(node, 'description', context),
+      fencedCode(propValue(node, 'definition', context), 'typescript'),
+    ]
+    const properties = propValue(node, 'properties', context) ?? []
+
+    if (properties.length) {
+      sections.push(renderApiTable(properties))
+    }
+
+    const content = renderChildren(node.children ?? [], context)
+
+    if (content) {
+      sections.push(content)
+    }
+
+    return sections.filter(Boolean).join('\n\n')
+  }
+
   if (node.tag === 'DocsComponentRecommendation') {
     const title = propValue(node, 'title', context) ?? 'Related component'
     const componentName = propValue(node, 'component-name', context)
@@ -426,8 +626,7 @@ function addContentsIfLong(markdown) {
   return `${markdown.slice(0, firstSection + 1)}${contents}\n${markdown.slice(firstSection + 1)}`
 }
 
-function parseComponentPage(componentName) {
-  const pagePath = join(pagesDirectory, `${componentName}.vue`)
+function parseDocumentationPage(pagePath, href) {
   const source = readFileSync(pagePath, 'utf8')
   const { descriptor } = parse(source, { filename: pagePath })
 
@@ -452,9 +651,8 @@ function parseComponentPage(componentName) {
     throw new Error(`Static title and description are required in ${pagePath}`)
   }
 
-  const slug = componentSlug(componentName)
   const body = renderChildren(docsPage.children ?? [], context)
-  const sourceLink = `${hostedDocsBase}/docs/components/${slug}`
+  const sourceLink = `${hostedDocsBase}${href}`
   let markdown = [
     generatedNotice,
     '',
@@ -470,7 +668,26 @@ function parseComponentPage(componentName) {
 
   markdown = addContentsIfLong(markdown)
 
-  return { componentName, description, markdown, slug, title }
+  return { description, markdown, title }
+}
+
+function parseComponentPage(componentName) {
+  const slug = componentSlug(componentName)
+  const pagePath = join(componentPagesDirectory, `${componentName}.vue`)
+  const page = parseDocumentationPage(pagePath, `/docs/components/${slug}`)
+
+  return { ...page, componentName, slug }
+}
+
+function parseFrontendPage(definition) {
+  const pagePath = join(frontendPagesDirectory, definition.source)
+  const page = parseDocumentationPage(pagePath, definition.href)
+
+  return {
+    ...definition,
+    ...page,
+    output: definition.output ?? `${definition.outputPrefix}-${componentSlug(page.title)}.md`,
+  }
 }
 
 function buildCatalog(pages, dataTable) {
@@ -508,6 +725,27 @@ function buildCatalog(pages, dataTable) {
   ].join('\n')
 }
 
+function buildFrontendCatalog(pages) {
+  const rows = pages.map(page => (
+    `| ${page.category} | ${page.title} | ${page.description} | [Read](${page.output}) |`
+  ))
+
+  return [
+    generatedNotice,
+    '',
+    '# Frontend package API catalog',
+    '',
+    'Use this catalog when working with the `@stacktrace/ui` frontend package shipped by Composer. Load only the guide or API reference relevant to the task.',
+    '',
+    '| Category | Export | Use it for | Detailed guidance |',
+    '| --- | --- | --- | --- |',
+    ...rows,
+    '',
+    'Import runtime exports from `@stacktrace/ui` and use `import type` for type-only exports. Do not install a separate npm package for this API.',
+    '',
+  ].join('\n')
+}
+
 function syncFile(path, content) {
   const existing = existsSync(path) ? readFileSync(path, 'utf8') : undefined
 
@@ -531,13 +769,25 @@ const pages = componentNames
   .filter(name => !skippedComponents.has(name))
   .map(parseComponentPage)
 const dataTable = parseComponentPage('DataTable')
-const expectedFiles = new Set([...pages.map(page => `${page.slug}.md`), 'components.md'])
+const frontendPages = frontendPageDefinitions.map(parseFrontendPage)
+const expectedFiles = new Set([
+  ...pages.map(page => `${page.slug}.md`),
+  ...frontendPages.map(page => page.output),
+  'components.md',
+  'frontend-api.md',
+])
 
 for (const page of pages) {
   syncFile(join(outputDirectory, `${page.slug}.md`), page.markdown)
 }
 
 syncFile(join(referencesDirectory, 'components.md'), buildCatalog(pages, dataTable))
+
+for (const page of frontendPages) {
+  syncFile(join(outputDirectory, page.output), page.markdown)
+}
+
+syncFile(join(referencesDirectory, 'frontend-api.md'), buildFrontendCatalog(frontendPages))
 
 if (existsSync(outputDirectory)) {
   for (const file of readdirSync(outputDirectory).filter(file => file.endsWith('.md'))) {
@@ -573,4 +823,4 @@ if (failures.length) {
   process.exit(1)
 }
 
-console.log(`${checkOnly ? 'Verified' : 'Generated'} ${pages.length} frontend component skill references.`)
+console.log(`${checkOnly ? 'Verified' : 'Generated'} ${pages.length} component and ${frontendPages.length} frontend package skill references.`)

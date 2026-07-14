@@ -1,6 +1,6 @@
 ---
 name: stacktrace-ui-development
-description: Build and modify Laravel, Inertia, and Vue interfaces with StackTrace UI. Use when creating or changing Vue pages, forms, navigation, dialogs, tables, frontend interactions, or PHP controllers and application code that prepare rendered UI with StackTrace\Ui classes such as Table, Menu, Breadcrumbs, Link, Icon, SelectOption, and Toast. Covers choosing, installing, composing, and consistently reusing @stacktrace registry components. Do not use for backend work unrelated to the rendered interface.
+description: Build and modify Laravel, Inertia, and Vue interfaces with StackTrace UI. Use when creating or changing Vue pages, forms, navigation, dialogs, tables, frontend interactions, @stacktrace/ui composables, utilities, or TypeScript types, or PHP controllers and application code that prepare rendered UI with StackTrace\Ui classes such as Table, Menu, Breadcrumbs, Link, Icon, SelectOption, and Toast. Covers choosing, installing, composing, and consistently reusing StackTrace registry components and its Composer-shipped frontend package. Do not use for backend work unrelated to the rendered interface.
 ---
 
 # StackTrace UI Development
@@ -21,6 +21,8 @@ Use StackTrace UI as the application's shared language across Laravel controller
 
 - Read [installation](references/installation.md) before adding a missing component or changing registry configuration.
 - Read the generated [component catalog](references/components.md) to choose among available components, then load only that component's detailed reference.
+- Read [frontend package setup](references/frontend-package.md) before configuring its Vite or TypeScript alias or changing how `@stacktrace/ui` is imported.
+- Read the generated [frontend API catalog](references/frontend-api.md) when using package composables, utilities, or types, then load only the relevant detailed reference.
 - Read [Button](references/button.md) whenever using `Button`, `ButtonLink`, `ButtonState`, button variants, icons, destructive actions, or processing feedback.
 - Read [composition](references/composition.md) when using `as`, `as-child`, Reka triggers, nested primitives, or when authoring/wrapping a component.
 - Read the [PHP UI API](references/php-api.md) when a controller, table class, action, filter, menu, breadcrumb, toast, or other backend code prepares UI data.
@@ -39,6 +41,14 @@ Load only the references relevant to the task.
 
 The registry also exposes the aggregate `all` item and shared `utils`; these are installation artifacts, not UI components.
 
+## Frontend package API at a glance
+
+- Composables: `useFilter`, `useFlash`, `useNavigation`, `useActiveLink`, `useToggle`, `onActivated`, and `onDeactivated`.
+- Utility: `asyncRouter` for promise-based imperative Inertia visits.
+- Shared types: filter and navigation contracts, `Toggle`, `SelectOption`, `SVGSource`, and `AsyncRouter`.
+
+The frontend package ships inside the Composer package. Import its public API from `@stacktrace/ui`; do not add a separate npm dependency for it.
+
 ## Implementation workflow
 
 ### Frontend work
@@ -48,6 +58,14 @@ The registry also exposes the aggregate `all` item and shared `utils`; these are
 3. Install the registry item if absent.
 4. Import from the application's configured component alias, normally `@/Components/<Component>`.
 5. Follow the component-specific guidance and nearby project conventions.
+
+### Frontend package work
+
+1. Read the frontend API catalog and the reference for the export being used.
+2. Confirm the Vite and TypeScript aliases resolve `@stacktrace/ui` to `vendor/stacktrace/ui`.
+3. Import runtime helpers from `@stacktrace/ui` and use `import type` for type-only exports.
+4. Prefer the package's composables, utilities, and contracts over application-local equivalents when their behavior fits.
+5. Keep application-specific state and domain behavior outside generic package helpers.
 
 ### Controller and backend-rendered UI work
 
