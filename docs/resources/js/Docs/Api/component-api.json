@@ -9474,6 +9474,13 @@
               "description": "Sets the destination represented by the component.",
               "type": "string | HTMLElement",
               "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"default\""
             }
           ],
           "source": "reka-ui"

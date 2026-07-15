@@ -8,6 +8,7 @@ Displays complementary content in a modal panel from an edge of the screen.
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Elevated](#elevated)
 - [Structure and focus](#structure-and-focus)
 - [Variants and state](#variants-and-state)
 
@@ -49,6 +50,64 @@ Use Sheet for a focused task or supporting details that should retain visual con
         </div>
       </div>
       <SheetFooter>
+        <SheetClose as-child>
+          <Button type="button">
+            Save changes
+          </Button>
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</template>
+
+<script setup lang="ts">
+import { Button } from '@/Components/Button'
+import { Input } from '@/Components/Input'
+import { Label } from '@/Components/Label'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/Components/Sheet'
+</script>
+```
+
+## Elevated
+
+Use `variant="elevated"` for an inset sheet on a translucent outer card. The extra viewport spacing keeps the layered edge visible instead of attaching it directly to the screen.
+
+```vue
+<template>
+  <Sheet>
+    <SheetTrigger as-child>
+      <Button variant="outline">
+        Open elevated sheet
+      </Button>
+    </SheetTrigger>
+    <SheetContent variant="elevated">
+      <SheetHeader>
+        <SheetTitle>Workspace settings</SheetTitle>
+        <SheetDescription>
+          Update the details shown to members of this workspace.
+        </SheetDescription>
+      </SheetHeader>
+      <div class="grid gap-4 px-4 py-2">
+        <div class="grid gap-2">
+          <Label for="sheet-workspace-name">Workspace name</Label>
+          <Input id="sheet-workspace-name" default-value="Just Create" />
+        </div>
+      </div>
+      <SheetFooter class="mt-auto">
+        <SheetClose as-child>
+          <Button type="button" variant="outline">
+            Cancel
+          </Button>
+        </SheetClose>
         <SheetClose as-child>
           <Button type="button">
             Save changes

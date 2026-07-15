@@ -25,12 +25,12 @@ export const dialogContentVariants = cva('border', {
 })
 
 export const dialogOverlayVariants = cva(
-  'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
+  'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/20 backdrop-blur-[1px]',
   {
     variants: {
       variant: {
-        default: 'bg-black/80',
-        elevated: 'bg-black/20 backdrop-blur-[1px] dark:bg-black/40',
+        default: '',
+        elevated: '',
       },
     },
     defaultVariants: {

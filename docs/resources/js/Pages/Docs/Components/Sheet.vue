@@ -20,6 +20,16 @@
         <SheetExample />
       </ComponentPreview>
 
+      <h2 id="elevated">Elevated</h2>
+      <p>
+        Use <code>variant=&quot;elevated&quot;</code> for an inset sheet on a
+        translucent outer card. The extra viewport spacing keeps the layered
+        edge visible instead of attaching it directly to the screen.
+      </p>
+      <ComponentPreview :source="sheetElevatedSource">
+        <SheetElevatedExample />
+      </ComponentPreview>
+
       <h2 id="structure-and-focus">Structure and focus</h2>
       <p>
         Sheet uses dialog semantics. Include one <code>SheetTitle</code> and add
@@ -92,6 +102,8 @@ import DocsComponentRecommendation from '@/Docs/Components/DocsComponentRecommen
 import DocsPage from '@/Docs/Components/DocsPage.vue'
 import SheetControlledExample from '@/Docs/Examples/Sheet/SheetControlledExample.vue'
 import sheetControlledSource from '@/Docs/Examples/Sheet/SheetControlledExample.vue?raw'
+import SheetElevatedExample from '@/Docs/Examples/Sheet/SheetElevatedExample.vue'
+import sheetElevatedSource from '@/Docs/Examples/Sheet/SheetElevatedExample.vue?raw'
 import SheetExample from '@/Docs/Examples/Sheet/SheetExample.vue'
 import sheetSource from '@/Docs/Examples/Sheet/SheetExample.vue?raw'
 import SheetSidesExample from '@/Docs/Examples/Sheet/SheetSidesExample.vue'
