@@ -19,6 +19,16 @@
         <DefaultExample />
       </ComponentPreview>
 
+      <h2 id="elevated">Elevated</h2>
+      <p>
+        Use <code>variant=&quot;elevated&quot;</code> for a lighter backdrop and a
+        layered, outlined surface. The stronger separation works well when the
+        page behind the dialog should remain visually present.
+      </p>
+      <ComponentPreview :source="elevatedExampleSource">
+        <ElevatedExample />
+      </ComponentPreview>
+
       <h2 id="structure">Structure and accessibility</h2>
       <p>
         Every dialog needs a <code>DialogTitle</code>. Add
@@ -76,6 +86,8 @@ import ComponentPreview from '@/Docs/Components/ComponentPreview.vue'
 import DocsComponentRecommendation from '@/Docs/Components/DocsComponentRecommendation.vue'
 import DocsPage from '@/Docs/Components/DocsPage.vue'
 import DefaultExample from '@/Docs/Examples/Dialog/Default.vue'
+import ElevatedExample from '@/Docs/Examples/Dialog/Elevated.vue'
+import elevatedExampleSource from '@/Docs/Examples/Dialog/Elevated.vue?raw'
 import exampleSource from '@/Docs/Examples/Dialog/Default.vue?raw'
 import DialogScrollExample from '@/Docs/Examples/Dialog/DialogScrollExample.vue'
 import scrollExampleSource from '@/Docs/Examples/Dialog/DialogScrollExample.vue?raw'

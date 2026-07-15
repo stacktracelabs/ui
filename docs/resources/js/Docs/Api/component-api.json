@@ -4046,6 +4046,13 @@
               "description": "Used to force mounting when more control is needed. Useful when controlling animation with Vue animation libraries.",
               "type": "boolean",
               "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"default\""
             }
           ],
           "source": "reka-ui"
@@ -4102,6 +4109,13 @@
               "description": "Used to force mounting when more control is needed. Useful when controlling animation with Vue animation libraries.",
               "type": "boolean",
               "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"default\""
             }
           ],
           "source": "reka-ui"
@@ -4133,6 +4147,13 @@
               "description": "Used to force mounting when more control is needed. Useful when controlling animation with Vue animation libraries.",
               "type": "boolean",
               "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"default\""
             }
           ],
           "source": "reka-ui"

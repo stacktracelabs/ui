@@ -1,12 +1,16 @@
 <template>
   <DialogPortal>
     <DialogOverlay
-      class="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+      :variant="props.variant"
+      class="grid place-items-center overflow-y-auto"
     >
       <DialogContent
+        data-slot="dialog-content"
+        :data-variant="props.variant ?? 'default'"
         :class="
           cn(
-            'relative z-50 grid w-full max-w-lg my-8 gap-4 border border-border bg-background p-6 shadow-lg duration-200 sm:rounded-lg md:w-full',
+            'bg-background relative z-50 my-8 grid w-full max-w-lg gap-4 p-6 duration-200 sm:rounded-lg md:w-full',
+            dialogContentVariants({ variant: props.variant }),
             props.class,
           )
         "
@@ -41,16 +45,20 @@ import {
   DialogContent,
   type DialogContentEmits,
   type DialogContentProps,
-  DialogOverlay,
   DialogPortal,
   useForwardPropsEmits,
 } from 'reka-ui'
 import { cn } from '@/Utils'
+import { type DialogContentVariants, dialogContentVariants } from '.'
+import DialogOverlay from './DialogOverlay.vue'
 
-const props = defineProps<DialogContentProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<DialogContentProps & {
+  class?: HTMLAttributes['class']
+  variant?: DialogContentVariants['variant']
+}>()
 const emits = defineEmits<DialogContentEmits>()
 
-const delegatedProps = reactiveOmit(props, 'class')
+const delegatedProps = reactiveOmit(props, 'class', 'variant')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
