@@ -7,6 +7,7 @@
     "paths": {
       "@stacktrace/ui": ["../dist/types/resources/js/main.d.ts"],
       "@internationalized/date": ["./node_modules/@internationalized/date"],
+      "@inertiajs/core": ["./node_modules/@inertiajs/core"],
       "@inertiajs/vue3": ["./node_modules/@inertiajs/vue3"],
       "@lucide/vue": ["./node_modules/@lucide/vue"],
       "@unovis/vue": ["./node_modules/@unovis/vue"],

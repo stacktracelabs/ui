@@ -4,17 +4,49 @@
 
 Displays transient toast feedback without interrupting the current task.
 
+## Contents
+
+- [Installation](#installation)
+- [Configure Inertia flash types](#configure-inertia-flash-types)
+- [Mount the toaster](#mount-the-toaster)
+- [Usage](#usage)
+- [Types and meaning](#types-and-meaning)
+- [Actions and duration](#actions-and-duration)
+- [Accessibility and live regions](#accessibility-and-live-regions)
+
 ## Installation
 
-Add the Sonner wrapper from the configured StackTrace registry.
+Add Sonner from the configured StackTrace registry.
 
 ```shell
 npx shadcn-vue@latest add @stacktrace/sonner
 ```
 
+## Configure Inertia flash types
+
+Sonner listens for the `toast` Inertia flash event through `useFlash`. Add its payload to your application's global `InertiaConfig` declaration so TypeScript can infer the toast title, content, and variant. Without this augmentation, the flash event is typed as an empty object.
+
+Merge this interface into your existing `resources/js/Types/globals.d.ts` declaration.
+
+*resources/js/Types/globals.d.ts*
+
+```ts
+declare module '@inertiajs/core' {
+  export interface InertiaConfig {
+    flashDataType: {
+      toast?: {
+        title: string
+        content: string | null
+        variant: 'default' | 'destructive'
+      }
+    }
+  }
+}
+```
+
 ## Mount the toaster
 
-Render one `Toaster` near the application root so toasts can be triggered from any frontend component. The local wrapper imports the vue-sonner styles, applies theme variables, supplies status icons, and forwards vue-sonner's Toaster props.
+Render one `Toaster` near the application root so toasts can be triggered from any frontend component. The component imports the vue-sonner styles, applies theme variables, supplies status icons, and forwards vue-sonner's Toaster props.
 
 ```vue
 <template>

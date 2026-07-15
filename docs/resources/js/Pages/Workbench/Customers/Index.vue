@@ -7,7 +7,8 @@
                 <div class="flex flex-col gap-1">
                     <h1 class="text-2xl font-semibold tracking-tight">Customers</h1>
                     <p class="text-sm text-muted-foreground">
-                        Query-backed customer data with server-side search, filters, sorting, and actions.
+                        Query-backed customer data with server-side search, filters, sorting,
+                        and actions, including an icon-only Sync row action.
                     </p>
                 </div>
 

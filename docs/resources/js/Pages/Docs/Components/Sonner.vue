@@ -6,13 +6,31 @@
       description="Displays transient toast feedback without interrupting the current task."
     >
       <h2 id="installation">Installation</h2>
-      <p>Add the Sonner wrapper from the configured StackTrace registry.</p>
+      <p>Add Sonner from the configured StackTrace registry.</p>
       <CodeBlock :code="installationCode" language="shell" />
+
+      <h2 id="configure-inertia-flash-types">Configure Inertia flash types</h2>
+      <p>
+        Sonner listens for the <code>toast</code> Inertia flash event through
+        <code>useFlash</code>. Add its payload to your application's
+        global <code>InertiaConfig</code> declaration so TypeScript can infer the
+        toast title, content, and variant. Without this augmentation, the flash
+        event is typed as an empty object.
+      </p>
+      <p>
+        Merge this interface into your existing
+        <code>resources/js/Types/globals.d.ts</code> declaration.
+      </p>
+      <CodeBlock
+        :code="inertiaFlashTypesCode"
+        language="ts"
+        filename="resources/js/Types/globals.d.ts"
+      />
 
       <h2 id="mount-the-toaster">Mount the toaster</h2>
       <p>
         Render one <code>Toaster</code> near the application root so toasts can
-        be triggered from any frontend component. The local wrapper imports the
+        be triggered from any frontend component. The component imports the
         vue-sonner styles, applies theme variables, supplies status icons, and
         forwards vue-sonner's Toaster props.
       </p>
@@ -90,6 +108,17 @@ import defaultExampleSource from '@/Docs/Examples/Sonner/Default.vue?raw'
 import DocsLayout from '@/Docs/Layouts/DocsLayout.vue'
 
 const installationCode = 'npx shadcn-vue@latest add @stacktrace/sonner'
+const inertiaFlashTypesCode = `declare module '@inertiajs/core' {
+  export interface InertiaConfig {
+    flashDataType: {
+      toast?: {
+        title: string
+        content: string | null
+        variant: 'default' | 'destructive'
+      }
+    }
+  }
+}`
 const toasterCode = [
   '<template>',
   '  <AppShell>',
