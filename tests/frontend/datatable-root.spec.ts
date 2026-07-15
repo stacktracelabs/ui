@@ -360,6 +360,40 @@ describe('DataTableRoot', () => {
     expect(wrapper.find('[data-test="select-row"]').exists()).toBe(false)
   })
 
+  it('clears rows that become non-selectable from uncontrolled selection', async () => {
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1)] }),
+        defaultSelection: [1],
+      },
+    })
+    const context = exposedContext(wrapper)
+
+    await wrapper.setProps({ table: tableValue({ rows: [row(1, [])] }) })
+    await nextTick()
+
+    expect(context.selectionState.selection.value).toEqual([])
+    expect(context.selectionState.isRowSelected(1)).toBe(false)
+    expect(wrapper.emitted('update:selection')?.at(-1)).toEqual([[]])
+  })
+
+  it('does not visually select a non-selectable row while a controlled clear is pending', async () => {
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1)] }),
+        selection: [1],
+      },
+    })
+    const context = exposedContext(wrapper)
+
+    await wrapper.setProps({ table: tableValue({ rows: [row(1, [])] }) })
+    await nextTick()
+
+    expect(context.selectionState.selection.value).toEqual([1])
+    expect(context.selectionState.isRowSelected(1)).toBe(false)
+    expect(wrapper.emitted('update:selection')?.at(-1)).toEqual([[]])
+  })
+
   it('emits updates without mutating a controlled selection', async () => {
     const wrapper = mount(DataTableRoot, {
       props: { table: tableValue(), selection: [] as Array<number> },

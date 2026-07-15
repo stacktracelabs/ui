@@ -589,7 +589,9 @@
             <li>
               Executable actions post <code>selection</code>, <code>action</code>, and
               <code>args</code> to the package route. For detail pages, reuse the payload returned
-              by <code>getActionsForResource()</code>.
+              by <code>getActionsForResource()</code>. A bulk Event action clears its executed
+              selection after emission; a bulk Executable action clears it after a successful
+              response. Failed and cancelled actions retain selection.
             </li>
           </ol>
         </section>

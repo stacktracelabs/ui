@@ -323,9 +323,24 @@ export function createDataTableContext<
   const isPaginationApplicable = computed(() => !table.value.isEmpty && rows.value.length > 0 && (table.value.pagination !== null || table.value.cursorPagination !== null))
   const hasPerPageSettings = computed(() => isPaginationApplicable.value && table.value.perPageOptions.length > 0)
 
+  const clearExecutedBulkSelection = (
+    action: DataTableAction<EventName>,
+    executedSelection: Array<ResourceKey>,
+  ) => {
+    if (!action.isBulk) {
+      return
+    }
+
+    const nextSelection = selection.value.filter(selected => !executedSelection.includes(selected))
+    if (nextSelection.length !== selection.value.length) {
+      selection.value = nextSelection
+    }
+  }
+
   const actionController = useDataTableActionController(
     emitEvent,
     useDataTableActionRunner<ResourceKey>(actionRunnerOptions),
+    clearExecutedBulkSelection,
   )
 
   return {

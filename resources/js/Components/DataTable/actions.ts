@@ -28,6 +28,11 @@ export interface DataTableActionRunner<ResourceKey extends DataTableResourceKey 
   ) => void
 }
 
+export type DataTableActionExecutedHandler<
+  ResourceKey extends DataTableResourceKey = DataTableResourceKey,
+  EventName extends string = string,
+> = (action: DataTableAction<EventName>, selection: Array<ResourceKey>) => void
+
 const defaultActionEndpoint = () => route('ui.data-table-action')
 // Inertia otherwise cancels an in-flight async mutation when another visit to
 // the non-page action endpoint begins. No local page props are changed.
@@ -101,6 +106,7 @@ export function useDataTableActionController<
 >(
   emitEvent: (event: DataTableEventPayload<ResourceKey, EventName>) => void,
   runner: DataTableActionRunner<ResourceKey> = useDataTableActionRunner<ResourceKey>(),
+  onActionExecuted?: DataTableActionExecutedHandler<ResourceKey, EventName>,
 ): DataTableActionController<ResourceKey, EventName> {
   const pendingAction = ref<DataTablePendingAction<ResourceKey> | null>(null) as Ref<DataTablePendingAction<ResourceKey> | null>
   const runningAction = shallowRef<DataTablePendingAction<ResourceKey> | null>(null)
@@ -143,7 +149,10 @@ export function useDataTableActionController<
 
     try {
       runner.run(action, [...selection], {
-        onSuccess: () => runOptions?.onSuccess?.(),
+        onSuccess: () => {
+          runOptions?.onSuccess?.()
+          onActionExecuted?.(action, [...selection])
+        },
         onError: () => {
           clearRunningAction()
           runOptions?.onError?.()
@@ -170,6 +179,7 @@ export function useDataTableActionController<
         selection: [...selection],
         action: action as DataTableEventAction<EventName>,
       })
+      onActionExecuted?.(action, [...selection])
       return
     }
 

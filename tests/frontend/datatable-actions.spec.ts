@@ -136,6 +136,96 @@ describe('DataTable actions and events', () => {
     })
   })
 
+  it('clears selection after emitting a bulk Event action', async () => {
+    const action = {
+      type: 'Event',
+      event: 'update-plan',
+      name: 'update-plan',
+      label: 'Update',
+      canRun: true,
+      isBulk: true,
+      icon: null,
+      isInline: true,
+    } satisfies DataTableAction<'update-plan'>
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1, [action]), row(2, [action])] }),
+        defaultSelection: [1, 2],
+      },
+      slots: {
+        default: () => h(DataTableBulkActions, null, {
+          default: () => h(DataTableActionActivation, { 'data-test': 'activate' }),
+        }),
+      },
+    })
+
+    await wrapper.get('[data-test="activate"]').trigger('click')
+
+    expect(wrapper.emitted('event')?.[0]?.[0]).toMatchObject({
+      name: 'update-plan',
+      selection: [1, 2],
+    })
+    expect(wrapper.emitted('update:selection')?.at(-1)).toEqual([[]])
+  })
+
+  it('clears only the successfully executed bulk selection', async () => {
+    const action = executableAction({ isInline: true })
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1, [action]), row(2, [action]), row(3, [action])] }),
+        defaultSelection: [1, 2],
+      },
+      slots: {
+        default: () => h(DataTableBulkActions, null, {
+          default: () => h(DataTableActionActivation, { 'data-test': 'activate' }),
+        }),
+      },
+    })
+    const context = (wrapper.vm as unknown as {
+      context: { selectionState: { toggleRow: (key: number) => void } }
+    }).context
+
+    await wrapper.get('[data-test="activate"]').trigger('click')
+    context.selectionState.toggleRow(3)
+
+    const visit = vi.mocked(inertiaRouter.post).mock.calls[0]?.[2] as unknown as {
+      onSuccess: VoidFunction
+      onFinish: VoidFunction
+    }
+    visit.onSuccess()
+    visit.onFinish()
+    await nextTick()
+
+    expect(wrapper.emitted('update:selection')?.at(-1)).toEqual([[3]])
+  })
+
+  it('retains selection when a bulk Executable action fails', async () => {
+    const action = executableAction({ isInline: true })
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1, [action]), row(2, [action])] }),
+        defaultSelection: [1, 2],
+      },
+      slots: {
+        default: () => h(DataTableBulkActions, null, {
+          default: () => h(DataTableActionActivation, { 'data-test': 'activate' }),
+        }),
+      },
+    })
+
+    await wrapper.get('[data-test="activate"]').trigger('click')
+
+    const visit = vi.mocked(inertiaRouter.post).mock.calls[0]?.[2] as unknown as {
+      onError: VoidFunction
+      onFinish: VoidFunction
+    }
+    visit.onError()
+    visit.onFinish()
+    await nextTick()
+
+    expect(wrapper.emitted('update:selection')).toBeUndefined()
+  })
+
   it.each([
     ['row menu', 'row'],
     ['bulk menu', 'bulk'],
@@ -171,6 +261,19 @@ describe('DataTable actions and events', () => {
     visitOptions.onFinish()
     await nextTick()
     expect(wrapper.find('[data-test="confirmation"]').exists()).toBe(false)
+    if (composition === 'bulk') {
+      expect(wrapper.emitted('update:selection')?.at(-1)).toEqual([[]])
+    }
+  })
+
+  it('retains bulk selection when a confirmation is cancelled', async () => {
+    const wrapper = mountConfirmableAction('bulk')
+
+    await wrapper.get('[data-test="activate"]').trigger('click')
+    await wrapper.get('[data-test="cancel"]').trigger('click')
+
+    expect(wrapper.find('[data-test="confirmation"]').exists()).toBe(false)
+    expect(wrapper.emitted('update:selection')).toBeUndefined()
   })
 
   it('runs distinct row executions concurrently with independent progress and cleanup', async () => {

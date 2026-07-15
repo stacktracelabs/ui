@@ -1744,68 +1744,70 @@ function Fr(e = {}) {
 		}
 	};
 }
-function Ir(e, n = Fr()) {
-	let r = b(null), i = w(null), a = w([]), o = t(() => r.value !== null), s = 0, c = (e, t, n) => E(e.action) === E(t) && e.selection.length === n.length && e.selection.every((e, t) => Object.is(e, n[t])), l = (e, t) => e.type === "Executable" && a.value.some((n) => c(n, e, t)), u = (e, t, r) => {
-		let o = ++s, c = {
-			id: o,
+function Ir(e, n = Fr(), r) {
+	let i = b(null), a = w(null), o = w([]), s = t(() => i.value !== null), c = 0, l = (e, t, n) => E(e.action) === E(t) && e.selection.length === n.length && e.selection.every((e, t) => Object.is(e, n[t])), u = (e, t) => e.type === "Executable" && o.value.some((n) => l(n, e, t)), d = (e, t, i) => {
+		let s = ++c, l = {
+			id: s,
 			action: e,
 			selection: [...t]
 		};
-		a.value = [...a.value, c], i.value = c;
-		let l = () => {
-			let e = a.value.filter((e) => e.id !== o);
-			e.length !== a.value.length && (a.value = e, i.value = e.at(-1) ?? null);
+		o.value = [...o.value, l], a.value = l;
+		let u = () => {
+			let e = o.value.filter((e) => e.id !== s);
+			e.length !== o.value.length && (o.value = e, a.value = e.at(-1) ?? null);
 		};
 		try {
 			n.run(e, [...t], {
-				onSuccess: () => r?.onSuccess?.(),
+				onSuccess: () => {
+					i?.onSuccess?.(), r?.(e, [...t]);
+				},
 				onError: () => {
-					l(), r?.onError?.();
+					u(), i?.onError?.();
 				},
 				onFinish: () => {
-					l(), r?.onFinish?.();
+					u(), i?.onFinish?.();
 				}
 			});
 		} catch (e) {
-			throw l(), e;
+			throw u(), e;
 		}
-	}, d = (t, n) => {
+	}, f = (t, n) => {
 		if (t.canRun) {
 			if (t.type === "Event") {
 				e({
 					name: t.event,
 					selection: [...n],
 					action: t
-				});
+				}), r?.(t, [...n]);
 				return;
 			}
 			if (t.type === "Executable") {
-				if (l(t, n)) return;
-				t.confirmable ? r.value = {
+				if (u(t, n)) return;
+				t.confirmable ? i.value = {
 					action: t,
 					selection: [...n]
-				} : u(t, n);
+				} : d(t, n);
 			}
 		}
-	}, f = () => {
-		r.value = null;
 	}, p = () => {
-		let e = r.value;
-		if (!e || l(e.action, e.selection)) return;
+		i.value = null;
+	}, m = () => {
+		let e = i.value;
+		if (!e || u(e.action, e.selection)) return;
 		let t = E(e);
-		u(e.action, e.selection, { onSuccess: () => {
-			r.value && E(r.value) === t && f();
+		d(e.action, e.selection, { onSuccess: () => {
+			i.value && E(i.value) === t && p();
 		} });
 	};
 	return {
 		...n,
-		pendingAction: r,
-		runningAction: i,
-		isConfirmingAction: o,
-		isActionRunning: l,
-		activateAction: d,
-		cancelAction: f,
-		confirmAction: p
+		pendingAction: i,
+		runningAction: a,
+		isConfirmingAction: s,
+		isActionRunning: u,
+		activateAction: f,
+		cancelAction: p,
+		confirmAction: m
 	};
 }
 //#endregion
@@ -1817,9 +1819,12 @@ function Lr(e, n, r = () => []) {
 		e.value = [...o.value];
 	}, p = () => {
 		u.value ? d() : f();
-	}, m = (t) => e.value.includes(t), h = (e) => a.value.includes(e);
+	}, m = (t) => o.value.includes(t) && e.value.includes(t), h = (e) => a.value.includes(e);
 	return j(i, (e, t) => {
 		t && (e.length !== t.length || e.some((e, n) => e !== t[n])) && d();
+	}), j(a, () => {
+		let t = e.value.filter((e) => o.value.includes(e));
+		t.length !== e.value.length && (e.value = t);
 	}), {
 		selection: e,
 		availableRows: i,
@@ -1925,7 +1930,11 @@ function pi(e, n, r, i = {}) {
 		placedBulkActions: M,
 		queryKey: s,
 		internalLinkComponent: N,
-		...Ir(r, Fr(i))
+		...Ir(r, Fr(i), (e, t) => {
+			if (!e.isBulk) return;
+			let r = n.value.filter((e) => !t.includes(e));
+			r.length !== n.value.length && (n.value = r);
+		})
 	};
 }
 //#endregion

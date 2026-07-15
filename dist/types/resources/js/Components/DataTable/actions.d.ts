@@ -12,6 +12,7 @@ export interface DataTableActionRunner<ResourceKey extends DataTableResourceKey 
     isRunning: ComputedRef<boolean>;
     run: (action: DataTableExecutableAction, selection: Array<ResourceKey>, options?: Partial<DataTableActionRunOptions>) => void;
 }
+export type DataTableActionExecutedHandler<ResourceKey extends DataTableResourceKey = DataTableResourceKey, EventName extends string = string> = (action: DataTableAction<EventName>, selection: Array<ResourceKey>) => void;
 export declare function useDataTableActionRunner<ResourceKey extends DataTableResourceKey = DataTableResourceKey>(options?: Partial<DataTableActionRunnerOptions>): DataTableActionRunner<ResourceKey>;
 export interface DataTableActionController<ResourceKey extends DataTableResourceKey = DataTableResourceKey, EventName extends string = string> extends DataTableActionRunner<ResourceKey> {
     pendingAction: Ref<DataTablePendingAction<ResourceKey> | null>;
@@ -22,4 +23,4 @@ export interface DataTableActionController<ResourceKey extends DataTableResource
     cancelAction: VoidFunction;
     confirmAction: VoidFunction;
 }
-export declare function useDataTableActionController<ResourceKey extends DataTableResourceKey = DataTableResourceKey, EventName extends string = string>(emitEvent: (event: DataTableEventPayload<ResourceKey, EventName>) => void, runner?: DataTableActionRunner<ResourceKey>): DataTableActionController<ResourceKey, EventName>;
+export declare function useDataTableActionController<ResourceKey extends DataTableResourceKey = DataTableResourceKey, EventName extends string = string>(emitEvent: (event: DataTableEventPayload<ResourceKey, EventName>) => void, runner?: DataTableActionRunner<ResourceKey>, onActionExecuted?: DataTableActionExecutedHandler<ResourceKey, EventName>): DataTableActionController<ResourceKey, EventName>;

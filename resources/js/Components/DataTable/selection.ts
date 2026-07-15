@@ -53,7 +53,8 @@ export function useDataTableSelection<ResourceKey extends DataTableResourceKey>(
     }
   }
 
-  const isRowSelected = (value: ResourceKey) => selection.value.includes(value)
+  const isRowSelected = (value: ResourceKey) =>
+    selectableRows.value.includes(value) && selection.value.includes(value)
   const isRowDisabled = (value: ResourceKey) => disabledRows.value.includes(value)
 
   const toggleRow = (value: ResourceKey) => {
@@ -80,6 +81,13 @@ export function useDataTableSelection<ResourceKey extends DataTableResourceKey>(
     }
   })
 
+  watch(disabledRows, () => {
+    const nextSelection = selection.value.filter(value => selectableRows.value.includes(value))
+    if (nextSelection.length !== selection.value.length) {
+      selection.value = nextSelection
+    }
+  })
+
   return {
     selection,
     availableRows,
@@ -98,4 +106,3 @@ export function useDataTableSelection<ResourceKey extends DataTableResourceKey>(
     withSelection,
   }
 }
-
