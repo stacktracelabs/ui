@@ -2,7 +2,10 @@
   <TableHeader :class="props.class">
     <slot>
       <TableRow>
-        <TableHead v-if="isSelectionApplicable" :class="cn('w-10 text-center', insetLeft)">
+        <TableHead
+          v-if="isSelectionApplicable"
+          :class="cn('w-10 text-center', headingDensity, insetLeft)"
+        >
           <DataTableSelectAll />
         </TableHead>
 
@@ -14,7 +17,7 @@
           />
         </DataTableHeadings>
 
-        <TableHead v-if="hasRowActions" :class="cn('w-10', insetRight)" />
+        <TableHead v-if="hasRowActions" :class="cn('w-10', headingDensity, insetRight)" />
       </TableRow>
     </slot>
   </TableHeader>
@@ -22,11 +25,12 @@
 
 <script setup lang="ts">
 import { DataTableHeadings, useDataTableContext } from '@stacktrace/ui'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { TableHead, TableHeader, TableRow } from '@/Components/Table'
 import { cn } from '@/Utils'
 import DataTableHeading from './DataTableHeading.vue'
 import DataTableSelectAll from './DataTableSelectAll.vue'
+import { createDataTableDensityStyle, useDataTableDensity } from './density'
 
 const props = defineProps<{
   insetLeft?: string
@@ -35,4 +39,6 @@ const props = defineProps<{
 }>()
 
 const { headings, hasRowActions, isSelectionApplicable } = useDataTableContext()
+const density = useDataTableDensity()
+const headingDensity = computed(() => createDataTableDensityStyle('heading', density.value))
 </script>

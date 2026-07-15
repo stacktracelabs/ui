@@ -27,7 +27,7 @@
             :inset-right="insetRight"
           />
 
-          <DataTableTable>
+          <DataTableTable :density="density">
             <DataTableHeader :inset-left="insetLeft" :inset-right="insetRight" />
             <DataTableBody :inset-left="insetLeft" :inset-right="insetRight" />
             <DataTableFooter :inset-left="insetLeft" :inset-right="insetRight" />
@@ -71,6 +71,7 @@ import DataTableHeader from './DataTableHeader.vue'
 import DataTablePagination from './DataTablePagination.vue'
 import DataTableTable from './DataTableTable.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
+import type { DataTableDensity } from './density'
 import messages from './messages'
 
 const props = defineProps<{
@@ -83,6 +84,7 @@ const props = defineProps<{
   emptyResultsMessage?: string | null
   emptyResultsDescription?: string | null
   borderless?: boolean
+  density?: DataTableDensity
   insetLeft?: string
   insetRight?: string
   class?: HTMLAttributes['class']

@@ -36,6 +36,8 @@ export { default as DataTableEmptyTable } from './DataTableEmptyTable.vue'
 export { default as DataTableEmptyResults } from './DataTableEmptyResults.vue'
 
 export { bindDataTableEvents } from '@stacktrace/ui'
+export { useDataTableDensity } from './density'
+export type { DataTableDensity } from './density'
 export type {
   DataTableAction,
   DataTableActionPlacement,

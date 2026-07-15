@@ -18,7 +18,7 @@
 
             <Card class="gap-0 py-0">
                 <CardContent class="p-0">
-                    <DataTable :table="customers" />
+                    <DataTable :table="customers" density="comfortable" />
                 </CardContent>
             </Card>
         </div>

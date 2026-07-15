@@ -86,7 +86,13 @@
             <p class="text-muted-foreground">
               The ready component supports controlled or initial selection through
               <code>v-model:selection</code> and <code>defaultSelection</code>. Its visual props
-              include empty-state messages, border treatment, insets, and a wrapper class.
+              include empty-state messages, border treatment, insets, density, and a wrapper class.
+            </p>
+            <p class="text-muted-foreground">
+              Set <code>density</code> to <code>compact</code>, <code>default</code>, or
+              <code>comfortable</code>. Use comfortable spacing for short tables and compact
+              spacing for data-heavy views. Density changes table spacing without resizing text,
+              icons, filters, or pagination.
             </p>
           </div>
 
@@ -664,7 +670,7 @@ return Inertia::render('CustomerList', [
 ]);`
 
 const displayingTableCode = `<template>
-  <DataTable :table="customers" />
+  <DataTable :table="customers" density="comfortable" />
 </template>
 
 <script setup lang="ts">
@@ -705,7 +711,7 @@ const compositionCode = `<template>
           <DataTableToolbar />
           <DataTableFilters />
 
-          <DataTableTable>
+          <DataTableTable density="comfortable">
             <DataTableHeader />
             <DataTableBody />
             <DataTableFooter />

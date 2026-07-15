@@ -3233,6 +3233,12 @@
               "required": false
             },
             {
+              "name": "density",
+              "description": "Configures density for this component.",
+              "type": "DataTableDensity",
+              "required": false
+            },
+            {
               "name": "emptyResultsDescription",
               "description": "Configures empty results description for this component.",
               "type": "string | null",
@@ -3362,7 +3368,15 @@
         {
           "name": "DataTableTable",
           "description": "Provides the styled table element when rows are available.",
-          "props": [],
+          "props": [
+            {
+              "name": "density",
+              "description": "Configures density for this component.",
+              "type": "DataTableDensity",
+              "required": false,
+              "default": "\"default\""
+            }
+          ],
           "source": "stacktrace-ui"
         },
         {

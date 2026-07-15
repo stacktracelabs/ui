@@ -1,6 +1,6 @@
 <template>
   <TableCell
-    :class="cn(createDataTableCellStyle(cell.style), props.class)"
+    :class="cn(cellDensity, createDataTableCellStyle(cell.style), props.class)"
     :style="{
       width: cell.width || undefined,
       minWidth: cell.minWidth || undefined,
@@ -15,9 +15,10 @@
 
 <script setup lang="ts">
 import { DataTableCellContent, useDataTableCellContext } from '@stacktrace/ui'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { TableCell } from '@/Components/Table'
 import { cn } from '@/Utils'
+import { createDataTableDensityStyle, useDataTableDensity } from './density'
 import { createDataTableCellStyle } from './styles'
 
 const props = defineProps<{
@@ -25,4 +26,6 @@ const props = defineProps<{
 }>()
 
 const { cell } = useDataTableCellContext()
+const density = useDataTableDensity()
+const cellDensity = computed(() => createDataTableDensityStyle('cell', density.value))
 </script>

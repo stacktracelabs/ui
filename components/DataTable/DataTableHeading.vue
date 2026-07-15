@@ -2,6 +2,7 @@
   <TableHead
     :class="cn(
       { 'px-0': !!heading.sortableAs },
+      headingDensity,
       createDataTableHeadingStyle(heading.style),
       isLast && !hasRowActions ? insetRight : undefined,
       props.class,
@@ -27,10 +28,11 @@
 <script setup lang="ts">
 import { DataTableSorting, useDataTableContext, useDataTableHeadingContext } from '@stacktrace/ui'
 import { ChevronsDownIcon, ChevronsUpDownIcon, ChevronsUpIcon } from '@lucide/vue'
-import type { HTMLAttributes } from 'vue'
+import { computed, type HTMLAttributes } from 'vue'
 import { Button } from '@/Components/Button'
 import { TableHead } from '@/Components/Table'
 import { cn } from '@/Utils'
+import { createDataTableDensityStyle, useDataTableDensity } from './density'
 import { createDataTableHeadingStyle } from './styles'
 
 const props = defineProps<{
@@ -41,4 +43,6 @@ const props = defineProps<{
 
 const { heading } = useDataTableHeadingContext()
 const { hasRowActions } = useDataTableContext()
+const density = useDataTableDensity()
+const headingDensity = computed(() => createDataTableDensityStyle('heading', density.value))
 </script>
