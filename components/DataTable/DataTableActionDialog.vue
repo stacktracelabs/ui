@@ -1,51 +1,43 @@
 <template>
-  <Dialog :control="control">
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>{{ action.title }}</DialogTitle>
-        <DialogDescription>{{ action.description }}</DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <Button @click="control.deactivate" variant="outline">{{ action.cancelLabel }}</Button>
-        <Button
-          :variant="action.isDestructive ? 'destructive' : 'default'"
-          @click="runAction"
-        >
-          <ButtonState :processing="isRunning">
-            {{ action.confirmLabel }}
-          </ButtonState>
-        </Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
+  <DataTableActionConfirmation v-slot="{ action, confirm, cancel, isRunning }">
+    <Dialog :open="true" @update:open="onOpenChange($event, cancel)">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle v-if="action.title">{{ action.title }}</DialogTitle>
+          <DialogDescription v-if="action.description">{{ action.description }}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" :disabled="isRunning" @click="cancel">
+            {{ action.cancelLabel }}
+          </Button>
+          <Button
+            :variant="action.isDestructive ? 'destructive' : 'default'"
+            :disabled="isRunning"
+            @click="confirm"
+          >
+            <ButtonState :processing="isRunning">
+              {{ action.confirmLabel }}
+            </ButtonState>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </DataTableActionConfirmation>
 </template>
 
-<script setup lang="ts" generic="ResourceKey = string | number">
+<script setup lang="ts">
+import { DataTableActionConfirmation } from '@stacktrace/ui'
 import { Button, ButtonState } from '@/Components/Button'
-import { type ExecutableAction, useActionRunner } from './internal'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/Components/Dialog'
-import { type Toggle } from '@stacktrace/ui'
 
-const props = defineProps<{
-  control: Toggle
-  action: ExecutableAction
-  selection: Array<ResourceKey>
-}>()
-
-const { run, isRunning } = useActionRunner<ResourceKey>()
-
-const runAction = () => {
-  run(props.action, props.selection, {
-    onSuccess: () => {
-      props.control.deactivate()
-    }
-  })
+const onOpenChange = (open: boolean, cancel: VoidFunction) => {
+  if (!open) cancel()
 }
 </script>

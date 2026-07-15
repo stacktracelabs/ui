@@ -1,28 +1,27 @@
 <template>
-  <template v-if="action.canRun">
-    <template v-if="action.type === 'Event'">
-      <DropdownMenuItem @select="emit('event', action.event)">{{ action.label }}</DropdownMenuItem>
-    </template>
-    <template v-else-if="action.type === 'Link'">
-      <DropdownMenuItem as-child>
-        <component class="w-full" :is="action.isExternal ? 'a' : Link" :href="action.url">{{ action.label }}</component>
-      </DropdownMenuItem>
-    </template>
-    <template v-else-if="action.type === 'Executable'">
-      <DropdownMenuItem @select="emit('exec', action)">{{ action.label }}</DropdownMenuItem>
-    </template>
-  </template>
+  <DataTableActionActivation v-slot="{ action, isRunning }" as-child>
+    <DropdownMenuItem v-if="action.type !== 'Link'">
+      <Icon v-if="action.icon" class="size-4" :src="action.icon.src" />
+      <ButtonState :processing="action.type === 'Executable' && isRunning">
+        {{ action.label }}
+      </ButtonState>
+    </DropdownMenuItem>
+    <DropdownMenuItem v-else as-child>
+      <component
+        :is="action.isExternal ? 'a' : Link"
+        class="w-full"
+        :href="action.url"
+      >
+        <Icon v-if="action.icon" class="size-4" :src="action.icon.src" />
+        {{ action.label }}
+      </component>
+    </DropdownMenuItem>
+  </DataTableActionActivation>
 </template>
 
-<script setup lang="ts" generic="ResourceKey = string | number">
-import { DropdownMenuItem } from '@/Components/DropdownMenu'
+<script setup lang="ts">
+import { DataTableActionActivation, Icon } from '@stacktrace/ui'
 import { Link } from '@inertiajs/vue3'
-import { type Action } from './internal'
-
-const emit = defineEmits(['event', 'exec'])
-
-defineProps<{
-  action: Action
-  selection: Array<ResourceKey>
-}>()
+import { ButtonState } from '@/Components/Button'
+import { DropdownMenuItem } from '@/Components/DropdownMenu'
 </script>

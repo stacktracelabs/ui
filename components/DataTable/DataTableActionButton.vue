@@ -1,36 +1,31 @@
 <template>
-  <template v-if="action.canRun">
-    <template v-if="action.type === 'Event'">
-      <Button :class="{ 'px-2': !bulk }" size="sm" :variant="bulk ? 'default' : 'ghost'" @click="emit('event', action.event)">{{ action.label }}</Button>
-    </template>
-    <template v-else-if="action.type === 'Link'">
-      <ButtonLink :class="{ 'px-2': !bulk }" size="sm" :variant="bulk ? 'default' : 'ghost'" :as="action.isExternal ? 'a' : undefined" :href="action.url">{{ action.label }}</ButtonLink>
-    </template>
-    <template v-else-if="action.type === 'Executable'">
-      <Button :class="{ 'px-2': !bulk }" size="sm" :variant="bulk ? 'default' : 'ghost'" @click="run(action, selection)">
-        <ButtonState :processing="isRunning">
-          <DataTableIcon class="w-4 h-4" v-if="action.icon" :src="action.icon.src" />
-          {{ action.label }}
-        </ButtonState>
-      </Button>
-    </template>
-  </template>
+  <DataTableActionActivation v-slot="{ action, isRunning }" as-child>
+    <Button
+      :as="action.type === 'Link' ? (action.isExternal ? 'a' : Link) : 'button'"
+      :class="cn({ 'px-2': !bulk }, props.class)"
+      size="sm"
+      :variant="bulk ? 'default' : 'ghost'"
+    >
+      <ButtonState :processing="action.type === 'Executable' && isRunning">
+        <DataTableIcon v-if="action.icon" class="size-4" :src="action.icon.src" />
+        {{ action.label }}
+      </ButtonState>
+    </Button>
+  </DataTableActionActivation>
 </template>
 
-<script setup lang="ts" generic="ResourceKey = string | number">
-import { Button, ButtonLink, ButtonState } from '@/Components/Button'
+<script setup lang="ts">
+import { DataTableActionActivation } from '@stacktrace/ui'
+import { Link } from '@inertiajs/vue3'
+import type { HTMLAttributes } from 'vue'
+import { Button, ButtonState } from '@/Components/Button'
+import { cn } from '@/Utils'
 import DataTableIcon from './DataTableIcon.vue'
-import { type Action, useActionRunner } from './internal'
 
-const emit = defineEmits(['event'])
-
-withDefaults(defineProps<{
-  action: Action
-  selection: Array<ResourceKey>
+const props = withDefaults(defineProps<{
   bulk?: boolean
+  class?: HTMLAttributes['class']
 }>(), {
   bulk: false,
 })
-
-const { run, isRunning } = useActionRunner<ResourceKey>()
 </script>

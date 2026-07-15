@@ -28,6 +28,11 @@ export type Filter<TFilter extends FilterData> = TFilter & FilterProps<TFilter>
 
 export interface FilterOptions {
   onSuccess: VoidFunction
+  /**
+   * Query keys removed whenever this filter changes. Defaults to the
+   * unqualified Laravel paginator keys for backwards compatibility.
+   */
+  resetQuery?: Array<string>
 }
 
 export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TFilter), options?: Partial<FilterOptions>): Filter<TFilter> {
@@ -50,26 +55,32 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
 
   const initialValue = getInitialValue()
 
-  const filter = reactive({
+  let filter: Filter<TFilter>
+
+  const data = () => (Object.keys(defaults) as Array<keyof TFilter>).reduce((carry, key) => {
+    carry[key] = filter[key]
+    return carry
+  }, {} as Partial<TFilter>) as TFilter
+
+  const appliedOnly = (keys: Array<keyof TFilter>) => {
+    const value = data()
+    return keys.some(key => !isSame(value[key], defaults[key]))
+  }
+
+  const reset = () => {
+    (Object.keys(defaults) as Array<keyof TFilter>).forEach(key => {
+      (filter as TFilter)[key] = defaults[key]
+    })
+    filter.applied = false
+  }
+
+  filter = reactive({
     ...initialValue,
     applied: isApplied(initialValue),
-    appliedOnly(keys: Array<keyof TFilter>): boolean {
-      const value = this.data()
-      return keys.some(key => !isSame(value[key], defaults[key]))
-    },
-    data() {
-      return (Object.keys(defaults) as Array<keyof TFilter>).reduce((carry, key) => {
-        carry[key] = (this as TFilter)[key]
-        return carry
-      }, {} as Partial<TFilter>) as TFilter
-    },
-    reset() {
-      (Object.keys(defaults) as Array<keyof TFilter>).forEach(key => {
-        (this as TFilter)[key] = defaults[key]
-      })
-      this.applied = false
-    },
-  })
+    appliedOnly,
+    data,
+    reset,
+  }) as Filter<TFilter>
 
   const toUrl = (data: TFilter) => {
     const query = parseQuery() as ParsedQuery & TFilter;
@@ -85,8 +96,8 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
       }
     });
 
-    delete query['page']
-    delete query['cursor']
+    const resetQuery = options?.resetQuery ?? ['page', 'cursor']
+    resetQuery.forEach(key => delete query[key])
 
     return urlWithQuery(query)
   }
@@ -126,5 +137,5 @@ export function useFilter<TFilter extends FilterData>(state: TFilter | (() => TF
     }
   })
 
-  return filter as Filter<TFilter>
+  return filter
 }
