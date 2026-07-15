@@ -19,7 +19,7 @@
           class="text-muted-foreground hover:text-destructive"
           @click.prevent="clear"
         >
-          <CircleXIcon class="size-3" />
+          <CircleXIcon />
           <span class="sr-only">{{ messages.clearSearch }}</span>
         </InputGroupButton>
       </InputGroupAddon>

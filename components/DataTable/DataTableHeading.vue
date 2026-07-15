@@ -16,9 +16,9 @@
     <DataTableSorting v-slot="{ isApplied, isAscending }" as-child>
       <Button class="h-8 px-1 text-sm" variant="ghost" size="sm">
         {{ heading.name }}
-        <ChevronsUpIcon v-if="isApplied && isAscending" class="ml-1.5 size-4" />
-        <ChevronsDownIcon v-else-if="isApplied" class="ml-1.5 size-4" />
-        <ChevronsUpDownIcon v-else class="ml-1.5 size-4" />
+        <ChevronsUpIcon v-if="isApplied && isAscending" />
+        <ChevronsDownIcon v-else-if="isApplied" />
+        <ChevronsUpDownIcon v-else />
       </Button>
     </DataTableSorting>
     <template v-if="!heading.sortableAs">{{ heading.name }}</template>

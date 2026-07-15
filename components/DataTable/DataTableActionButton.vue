@@ -7,7 +7,7 @@
       :variant="bulk ? 'default' : 'ghost'"
     >
       <ButtonState :processing="action.type === 'Executable' && isRunning">
-        <Icon v-if="action.icon" class="size-4" :src="action.icon.src" />
+        <Icon v-if="action.icon" :src="action.icon.src" />
         {{ action.label }}
       </ButtonState>
     </Button>

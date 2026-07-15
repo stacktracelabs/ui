@@ -1,10 +1,12 @@
 import { mount } from '@vue/test-utils'
 import { router as inertiaRouter } from '@inertiajs/vue3'
-import { nextTick } from 'vue'
+import { h, nextTick } from 'vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  DataTableEmptyResults,
   DataTableRoot,
   type DataTableContext,
+  type DataTableEmptyResultsSlotProps,
 } from '@/Components/DataTable'
 import { tableValue } from './fixtures'
 
@@ -76,6 +78,43 @@ describe('DataTable query isolation', () => {
     expect(query.has('orders_page')).toBe(false)
     expect(query.get('customers_page')).toBe('4')
     expect(query.get('customers_search')).toBe('jane')
+    expect(query.get('tab')).toBe('active')
+  })
+
+  it('resets filters from the contextual empty-results clear action', async () => {
+    vi.useFakeTimers()
+    window.history.replaceState({}, '', '/customers?employees=lt%3A0&page=3&tab=active')
+
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({
+          rows: [],
+          filter: {
+            defaultValue: { employees: null },
+            widgets: [],
+          },
+        }),
+      },
+      slots: {
+        default: () => h(DataTableEmptyResults, { as: 'div' }, {
+          default: ({ clear, searchApplied, filtersApplied }: DataTableEmptyResultsSlotProps) =>
+            h('button', {
+              'data-test': 'clear-empty-results',
+              onClick: clear,
+            }, `${searchApplied}:${filtersApplied}`),
+        }),
+      },
+    })
+
+    expect(wrapper.get('[data-test="clear-empty-results"]').text()).toBe('false:true')
+
+    await wrapper.get('[data-test="clear-empty-results"]').trigger('click')
+    await nextTick()
+    await vi.advanceTimersByTimeAsync(60)
+
+    const query = visitedQuery()
+    expect(query.has('employees')).toBe(false)
+    expect(query.has('page')).toBe(false)
     expect(query.get('tab')).toBe('active')
   })
 

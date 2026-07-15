@@ -4,6 +4,10 @@ export type DataTableEmptyResultsProps = PrimitiveProps;
 export interface DataTableEmptyResultsSlotProps {
     table: DataTableValue;
     clear: VoidFunction;
+    clearSearch: VoidFunction;
+    resetFilters: VoidFunction;
+    searchApplied: boolean;
+    filtersApplied: boolean;
 }
 declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<PrimitiveProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<PrimitiveProps> & Readonly<{}>, {
     asChild: boolean;

@@ -3,7 +3,7 @@
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
         <Button variant="outline" size="sm">
-          <SlidersHorizontalIcon class="mr-2 size-4" />
+          <SlidersHorizontalIcon />
           {{ messages.viewOptions }}
         </Button>
       </DropdownMenuTrigger>

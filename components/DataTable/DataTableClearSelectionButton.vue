@@ -1,7 +1,7 @@
 <template>
   <DataTableClearSelection as-child>
     <Button size="sm" variant="outline">
-      <XIcon class="mr-1 size-4" />
+      <XIcon />
       <slot>{{ messages.cancelSelection }}</slot>
     </Button>
   </DataTableClearSelection>

@@ -16,7 +16,7 @@
 
         <Button v-if="applied" class="h-8" variant="ghost" @click="reset">
           {{ messages.resetFilters }}
-          <XIcon class="ml-2 size-4" />
+          <XIcon />
         </Button>
       </slot>
     </div>

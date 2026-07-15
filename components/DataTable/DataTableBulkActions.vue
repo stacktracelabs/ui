@@ -7,7 +7,7 @@
     <DropdownMenu v-if="menuActions.length > 0">
       <DropdownMenuTrigger as-child>
         <Button size="sm">
-          <ChevronDownIcon class="mr-1 size-4" />
+          <ChevronDownIcon />
           {{ messages.actions }}
         </Button>
       </DropdownMenuTrigger>

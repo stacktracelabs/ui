@@ -5,7 +5,14 @@
     :as-child="props.asChild"
     v-bind="$attrs"
   >
-    <slot :table="context.table.value" :clear="context.clearSearch" />
+    <slot
+      :table="context.table.value"
+      :clear="clear"
+      :clear-search="context.clearSearch"
+      :reset-filters="context.filter.reset"
+      :search-applied="context.searchFilter.applied"
+      :filters-applied="context.filter.applied"
+    />
   </Primitive>
 </template>
 
@@ -18,6 +25,10 @@ export type DataTableEmptyResultsProps = PrimitiveProps
 export interface DataTableEmptyResultsSlotProps {
   table: DataTableValue
   clear: VoidFunction
+  clearSearch: VoidFunction
+  resetFilters: VoidFunction
+  searchApplied: boolean
+  filtersApplied: boolean
 }
 </script>
 
@@ -37,4 +48,14 @@ defineSlots<{
 }>()
 
 const context = useDataTableContext()
+const clear = () => {
+  if (context.searchFilter.applied) {
+    context.clearSearch()
+    return
+  }
+
+  if (context.filter.applied) {
+    context.filter.reset()
+  }
+}
 </script>

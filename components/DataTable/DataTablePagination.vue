@@ -25,7 +25,7 @@
                 class="px-2"
                 variant="outline"
               >
-                <ChevronsLeftIcon class="size-4" />
+                <ChevronsLeftIcon />
                 <span class="sr-only">{{ messages.paginatorFirst }}</span>
               </Button>
             </DataTablePaginationFirst>
@@ -38,7 +38,7 @@
                 class="px-2"
                 variant="outline"
               >
-                <ChevronLeftIcon class="size-4" />
+                <ChevronLeftIcon />
                 <span class="sr-only">{{ messages.paginatorPrevious }}</span>
               </Button>
             </DataTablePaginationPrevious>
@@ -59,7 +59,7 @@
                 class="px-2"
                 variant="outline"
               >
-                <ChevronRightIcon class="size-4" />
+                <ChevronRightIcon />
                 <span class="sr-only">{{ messages.paginatorNext }}</span>
               </Button>
             </DataTablePaginationNext>
@@ -72,7 +72,7 @@
                 class="px-2"
                 variant="outline"
               >
-                <ChevronsRightIcon class="size-4" />
+                <ChevronsRightIcon />
                 <span class="sr-only">{{ messages.paginatorLast }}</span>
               </Button>
             </DataTablePaginationLast>
@@ -88,7 +88,7 @@
               class="inline-flex gap-2 px-2"
               variant="outline"
             >
-              <ChevronLeftIcon class="size-4" />
+              <ChevronLeftIcon />
               {{ messages.paginatorPrevious }}
             </Button>
           </DataTablePaginationPrevious>
@@ -102,7 +102,7 @@
               variant="outline"
             >
               {{ messages.paginatorNext }}
-              <ChevronRightIcon class="size-4" />
+              <ChevronRightIcon />
             </Button>
           </DataTablePaginationNext>
         </div>

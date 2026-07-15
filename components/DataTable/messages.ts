@@ -18,6 +18,7 @@ export default {
   paginatorPrevious: 'Previous',
   paginatorNext: 'Next',
   searchEmptyTitle: 'No records found.',
-  searchEmptyDescription: 'Try to adjust your search criteria.',
+  searchEmptyDescription: 'Try adjusting your search or filters.',
   clearSearch: 'Clear Search',
+  clearFilters: 'Clear Filters',
 }

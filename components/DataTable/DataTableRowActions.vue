@@ -7,7 +7,7 @@
     <DropdownMenu v-if="menuActions.length > 0">
       <DropdownMenuTrigger as-child>
         <Button variant="ghost" class="px-2 data-[state=open]:bg-muted" size="sm">
-          <EllipsisIcon class="size-4" />
+          <EllipsisIcon />
           <span class="sr-only">{{ messages.actions }}</span>
         </Button>
       </DropdownMenuTrigger>

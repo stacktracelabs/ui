@@ -2053,15 +2053,25 @@ var mi = /* @__PURE__ */ c({
 		as: { default: "template" }
 	},
 	setup(e) {
-		let t = e, i = $();
-		return (e, a) => k(i).isEmptyResultsApplicable.value ? (_(), n(k(I), p({
+		let t = e, i = $(), a = () => {
+			if (i.searchFilter.applied) {
+				i.clearSearch();
+				return;
+			}
+			i.filter.applied && i.filter.reset();
+		};
+		return (e, o) => k(i).isEmptyResultsApplicable.value ? (_(), n(k(I), p({
 			key: 0,
 			as: t.as,
 			"as-child": t.asChild
 		}, e.$attrs), {
 			default: M(() => [S(e.$slots, "default", {
 				table: k(i).table.value,
-				clear: k(i).clearSearch
+				clear: a,
+				clearSearch: k(i).clearSearch,
+				resetFilters: k(i).filter.reset,
+				searchApplied: k(i).searchFilter.applied,
+				filtersApplied: k(i).filter.applied
 			})]),
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
