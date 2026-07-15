@@ -3,15 +3,21 @@
     <TableFooter :class="props.class">
       <slot>
         <TableRow>
-          <TableCell :class="insetLeft" />
+          <TableCell v-if="isSelectionApplicable" :class="insetLeft" />
           <DataTableFooterCells v-slot="{ cell, index }">
             <DataTableCell
               v-if="cell"
-              :class="!hasRowActions && index + 1 === table.footerCells.length ? insetRight : undefined"
+              :class="cn(
+                !isSelectionApplicable && index === 0 ? insetLeft : undefined,
+                !hasRowActions && index + 1 === table.footerCells.length ? insetRight : undefined,
+              )"
             />
             <TableCell
               v-else
-              :class="!hasRowActions && index + 1 === table.footerCells.length ? insetRight : undefined"
+              :class="cn(
+                !isSelectionApplicable && index === 0 ? insetLeft : undefined,
+                !hasRowActions && index + 1 === table.footerCells.length ? insetRight : undefined,
+              )"
             />
           </DataTableFooterCells>
           <TableCell v-if="hasRowActions" :class="insetRight" />
@@ -25,6 +31,7 @@
 import { DataTableFooter, DataTableFooterCells, useDataTableContext } from '@stacktrace/ui'
 import type { HTMLAttributes } from 'vue'
 import { TableCell, TableFooter, TableRow } from '@/Components/Table'
+import { cn } from '@/Utils'
 import DataTableCell from './DataTableCell.vue'
 
 const props = defineProps<{
@@ -33,5 +40,5 @@ const props = defineProps<{
   class?: HTMLAttributes['class']
 }>()
 
-const { table, hasRowActions } = useDataTableContext()
+const { table, hasRowActions, isSelectionApplicable } = useDataTableContext()
 </script>

@@ -66,6 +66,7 @@ export interface DataTableContext<ResourceValue = object, ResourceKey extends Da
     hasRowActions: ComputedRef<boolean>;
     hasBulkActions: ComputedRef<boolean>;
     showBulkActions: ComputedRef<boolean>;
+    isSelectionApplicable: ComputedRef<boolean>;
     isContentApplicable: ComputedRef<boolean>;
     isEmptyTableApplicable: ComputedRef<boolean>;
     isEmptyResultsApplicable: ComputedRef<boolean>;

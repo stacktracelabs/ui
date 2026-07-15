@@ -1,6 +1,6 @@
 <template>
   <Primitive
-    v-if="context.isContentApplicable.value && selection.totalCount.value > 0"
+    v-if="context.isSelectionApplicable.value && selection.totalCount.value > 0"
     :as="props.as"
     :as-child="props.asChild"
     v-bind="primitiveAttrs"

@@ -4,13 +4,16 @@
     :class="cn(createDataTableRowStyle({ highlight: row.highlightAs || 'default' }), props.class)"
   >
     <slot :row="row" :index="index">
-      <TableCell :class="cn('text-center', insetLeft)">
+      <TableCell v-if="isSelectionApplicable" :class="cn('text-center', insetLeft)">
         <DataTableSelectRow />
       </TableCell>
 
       <DataTableCells v-slot="{ index: cellIndex }">
         <DataTableCell
-          :class="!hasRowActions && cellIndex + 1 === row.cells.length ? insetRight : undefined"
+          :class="cn(
+            !isSelectionApplicable && cellIndex === 0 ? insetLeft : undefined,
+            !hasRowActions && cellIndex + 1 === row.cells.length ? insetRight : undefined,
+          )"
         />
       </DataTableCells>
 
@@ -38,5 +41,5 @@ const props = defineProps<{
 }>()
 
 const { row, index, isSelected } = useDataTableRowContext()
-const { hasRowActions } = useDataTableContext()
+const { hasRowActions, isSelectionApplicable } = useDataTableContext()
 </script>

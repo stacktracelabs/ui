@@ -170,6 +170,7 @@ export interface DataTableContext<
   hasRowActions: ComputedRef<boolean>
   hasBulkActions: ComputedRef<boolean>
   showBulkActions: ComputedRef<boolean>
+  isSelectionApplicable: ComputedRef<boolean>
   isContentApplicable: ComputedRef<boolean>
   isEmptyTableApplicable: ComputedRef<boolean>
   isEmptyResultsApplicable: ComputedRef<boolean>
@@ -313,6 +314,7 @@ export function createDataTableContext<
     filterByPlacement(bulkActions.value, placement)
 
   const isContentApplicable = computed(() => !table.value.isEmpty)
+  const isSelectionApplicable = computed(() => isContentApplicable.value && hasBulkActions.value)
   const isEmptyTableApplicable = computed(() => table.value.isEmpty)
   const isEmptyResultsApplicable = computed(() => !table.value.isEmpty && rows.value.length === 0)
   const isSearchApplicable = computed(() => !table.value.isEmpty && table.value.isSearchable)
@@ -336,6 +338,7 @@ export function createDataTableContext<
     hasRowActions,
     hasBulkActions,
     showBulkActions,
+    isSelectionApplicable,
     isContentApplicable,
     isEmptyTableApplicable,
     isEmptyResultsApplicable,

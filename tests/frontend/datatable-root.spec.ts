@@ -335,6 +335,31 @@ describe('DataTableRoot', () => {
     expect(rows.every(row => (row.element as HTMLInputElement).checked)).toBe(true)
   })
 
+  it('self-hides selection controls when the table has no runnable bulk actions', () => {
+    const wrapper = mount(DataTableRoot, {
+      props: {
+        table: tableValue({ rows: [row(1, [])] }),
+      },
+      slots: {
+        default: () => [
+          h(DataTableSelectAll, { as: 'span', 'data-test': 'select-all' }, {
+            default: () => 'select all',
+          }),
+          h(DataTableRows, null, {
+            default: () => h(DataTableSelectRow, { as: 'span', 'data-test': 'select-row' }, {
+              default: () => 'select row',
+            }),
+          }),
+        ],
+      },
+    })
+
+    expect(exposedContext(wrapper).hasBulkActions.value).toBe(false)
+    expect(exposedContext(wrapper).isSelectionApplicable.value).toBe(false)
+    expect(wrapper.find('[data-test="select-all"]').exists()).toBe(false)
+    expect(wrapper.find('[data-test="select-row"]').exists()).toBe(false)
+  })
+
   it('emits updates without mutating a controlled selection', async () => {
     const wrapper = mount(DataTableRoot, {
       props: { table: tableValue(), selection: [] as Array<number> },

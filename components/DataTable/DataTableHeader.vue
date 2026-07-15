@@ -2,7 +2,7 @@
   <TableHeader :class="props.class">
     <slot>
       <TableRow>
-        <TableHead :class="cn('w-10 text-center', insetLeft)">
+        <TableHead v-if="isSelectionApplicable" :class="cn('w-10 text-center', insetLeft)">
           <DataTableSelectAll />
         </TableHead>
 
@@ -10,6 +10,7 @@
           <DataTableHeading
             :is-last="index + 1 === headings.length"
             :inset-right="insetRight"
+            :class="!isSelectionApplicable && index === 0 ? insetLeft : undefined"
           />
         </DataTableHeadings>
 
@@ -33,5 +34,5 @@ const props = defineProps<{
   class?: HTMLAttributes['class']
 }>()
 
-const { headings, hasRowActions } = useDataTableContext()
+const { headings, hasRowActions, isSelectionApplicable } = useDataTableContext()
 </script>

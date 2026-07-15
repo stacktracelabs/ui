@@ -44,7 +44,7 @@ const attrs = useAttrs()
 const context = useDataTableContext()
 const rowContext = props.row === undefined ? useDataTableRowContext() : null
 const row = computed<DataTableRowValue>(() => props.row ?? rowContext!.row)
-const selectable = computed(() => context.isRowSelectable(row.value))
+const selectable = computed(() => context.isSelectionApplicable.value && context.isRowSelectable(row.value))
 const selected = computed(() => context.selectionState.isRowSelected(row.value.key))
 const toggle = () => context.selectionState.toggleRow(row.value.key)
 const primitiveAttrs = computed(() => ({
