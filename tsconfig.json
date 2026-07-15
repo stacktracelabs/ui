@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["resources/js/**/*", "resources/js/**/*.vue"],
+  "include": ["resources/js/**/*", "resources/js/**/*.vue", "tests/frontend/**/*"],
   "exclude": ["resources/js/**/__tests__/*"],
   "compilerOptions": {
     "skipLibCheck": true,

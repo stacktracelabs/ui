@@ -1,1 +1,0 @@
-- refaktorovat aby internal bol v stacktrace/ui

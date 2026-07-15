@@ -139,6 +139,14 @@ class Table implements Arrayable, JsonSerializable
     }
 
     /**
+     * Qualify a query parameter used by the table.
+     */
+    private function qualifyQueryField(string $field): string
+    {
+        return $this->queryPrefix ? $this->queryPrefix.$field : $field;
+    }
+
+    /**
      * Set how the row should be highlighted.
      */
     public function highlight(?Closure $closure): static
@@ -408,9 +416,15 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->cursorPagination) {
-                $this->items = $this->source->cursorPaginate($this->getPerPage())->withQueryString();
+                $this->items = $this->source->cursorPaginate(
+                    perPage: $this->getPerPage(),
+                    cursorName: $this->qualifyQueryField('cursor'),
+                )->withQueryString();
             } else {
-                $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
+                $this->items = $this->source->paginate(
+                    perPage: $this->getPerPage(),
+                    pageName: $this->qualifyQueryField('page'),
+                )->withQueryString();
             }
         } else if ($this->source instanceof EloquentBuilder) {
             $this->baseTotalCount = $this->source->clone()->count();
@@ -434,9 +448,15 @@ class Table implements Arrayable, JsonSerializable
             }
 
             if ($this->cursorPagination) {
-                $this->items = $this->source->cursorPaginate($this->getPerPage())->withQueryString();
+                $this->items = $this->source->cursorPaginate(
+                    perPage: $this->getPerPage(),
+                    cursorName: $this->qualifyQueryField('cursor'),
+                )->withQueryString();
             } else {
-                $this->items = $this->source->paginate($this->getPerPage())->withQueryString();
+                $this->items = $this->source->paginate(
+                    perPage: $this->getPerPage(),
+                    pageName: $this->qualifyQueryField('page'),
+                )->withQueryString();
             }
         } else if ($this->source instanceof Collection) {
             $this->items = $this->source->toBase();
@@ -497,7 +517,7 @@ class Table implements Arrayable, JsonSerializable
 
     protected function getSortColumn(): ?Column
     {
-        if ($sortBy = Request::input('sort_by')) {
+        if ($sortBy = Request::input($this->qualifyQueryField('sort_by'))) {
             return $this->getColumns()->first(fn (Column $column) => $column->getSortableAs() == $sortBy);
         }
 
@@ -511,7 +531,7 @@ class Table implements Arrayable, JsonSerializable
 
     protected function getSortDirection(): ?Direction
     {
-        return match (Request::input('sort_direction')) {
+        return match (Request::input($this->qualifyQueryField('sort_direction'))) {
             'asc' => Direction::Asc,
             'desc' => Direction::Desc,
             default => null,
@@ -629,7 +649,7 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function getPerPage(): int
     {
-        $limit = request()->integer('limit');
+        $limit = request()->integer($this->qualifyQueryField('limit'));
 
         if (in_array($limit, $this->perPageOptions)) {
             return $limit;
@@ -643,7 +663,7 @@ class Table implements Arrayable, JsonSerializable
      */
     protected function getSearchTerm(): ?string
     {
-        $term = request()->input('search');
+        $term = request()->input($this->qualifyQueryField('search'));
 
         if (is_string($term) && Str::length($term) > 0) {
             return $term;
@@ -739,6 +759,7 @@ class Table implements Arrayable, JsonSerializable
         $this->boot();
 
         return [
+            'queryPrefix' => $this->queryPrefix,
             'headings' => $this->renderHeaderColumns(),
             'rows' => $this->renderRows(),
             'footerCells' => $this->renderFooterCells(),
