@@ -6,3 +6,4 @@ composer.lock
 tsconfig.tsbuildinfo
 registry/
 .playwright-mcp/
+.playwright-cli/
