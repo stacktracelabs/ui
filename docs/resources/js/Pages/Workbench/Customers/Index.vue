@@ -19,7 +19,7 @@
 
             <Card class="gap-0 py-0">
                 <CardContent class="p-0">
-                    <DataTable :table="customers" @update-plan="openUpdatePlanDialog" />
+                    <DataTable :table="customers" v-bind="tableEvents" />
                 </CardContent>
             </Card>
         </div>
@@ -31,7 +31,11 @@
 <script setup lang="ts">
 import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
-import { DataTable, type DataTableValue } from '@/Components/Base/DataTable'
+import {
+    bindDataTableEvents,
+    DataTable,
+    type DataTableValue,
+} from '@/Components/Base/DataTable'
 import { useToggle } from '@stacktrace/ui'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'
 import { Head } from '@inertiajs/vue3'
@@ -39,7 +43,7 @@ import { shallowRef } from 'vue'
 import UpdatePlanDialog from './Components/UpdatePlanDialog.vue'
 
 defineProps<{
-    customers: DataTableValue
+    customers: DataTableValue<object, number, 'updatePlan'>
 }>()
 
 const updatePlanDialog = useToggle()
@@ -49,4 +53,8 @@ function openUpdatePlanDialog(selection: number[]): void {
     selectedCustomers.value = [...selection]
     updatePlanDialog.activate()
 }
+
+const tableEvents = bindDataTableEvents<number, 'updatePlan'>({
+    updatePlan: openUpdatePlanDialog,
+})
 </script>

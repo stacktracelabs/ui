@@ -96,8 +96,9 @@
             </h3>
             <p class="text-muted-foreground">
               All backend Event actions are emitted through one typed <code>event</code> envelope.
-              Use <code>bindDataTableEvents()</code> to map configured action names to handlers;
-              each handler receives the selected row keys and the complete event payload.
+              Use <code>bindDataTableEvents()</code> to create typed listener props that map configured
+              action names to handlers; each handler receives the selected row keys and the complete
+              event payload.
             </p>
             <CodeBlock :code="eventBindingCode" language="vue" />
           </div>
@@ -576,7 +577,7 @@
               exported visual parts over the headless core.
             </li>
             <li>
-              Listen to <code>@event</code> and use <code>bindDataTableEvents()</code> when you want
+              Bind the listener props returned by <code>bindDataTableEvents()</code> when you want
               named handlers for backend Event actions.
             </li>
             <li>
@@ -675,7 +676,7 @@ defineProps<{
 <\/script>`
 
 const eventBindingCode = `<template>
-  <DataTable :table="customers" @event="handleEvents" />
+  <DataTable :table="customers" v-bind="tableEvents" />
 </template>
 
 <script setup lang="ts">
@@ -689,7 +690,7 @@ defineProps<{
   customers: DataTableValue<object, number, 'updatePlan'>
 }>()
 
-const handleEvents = bindDataTableEvents<number, 'updatePlan'>({
+const tableEvents = bindDataTableEvents<number, 'updatePlan'>({
   updatePlan: selection => openUpdatePlanDialog(selection),
 })
 <\/script>`

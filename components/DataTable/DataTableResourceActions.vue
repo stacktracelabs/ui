@@ -5,7 +5,7 @@
     :force-mount="visible"
     :action-endpoint="actionEndpoint"
     as-child
-    @event="emit('event', $event)"
+    v-bind="emitsAsProps"
   >
     <div class="contents">
       <DataTableResourceActions placement="inline">
@@ -48,6 +48,7 @@ import {
   type DataTableResourceKey,
 } from '@stacktrace/ui'
 import { EllipsisIcon } from '@lucide/vue'
+import { useEmitAsProps } from 'reka-ui'
 import { computed } from 'vue'
 import { Button, type ButtonVariants } from '@/Components/Button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
@@ -76,6 +77,8 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   event: [payload: DataTableEventPayload<ResourceKey, EventName>]
 }>()
+
+const emitsAsProps = useEmitAsProps(emit)
 
 const menuActions = computed(() => props.actions.actions.filter(action => action.canRun && !action.isInline))
 </script>

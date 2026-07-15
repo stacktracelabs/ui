@@ -24,7 +24,7 @@
                                 v-slot="{ resource }"
                                 :actions="actions"
                                 visible
-                                @update-plan="openUpdatePlanDialog"
+                                v-bind="tableEvents"
                             >
                                 <DropdownMenuGroup>
                                     <DropdownMenuItem @select="copyId(resource.key)">
@@ -99,7 +99,11 @@
 <script setup lang="ts">
 import { Button, ButtonLink, ButtonState } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
-import { DataTableResourceActions, type DataTableResourceActionsValue } from '@/Components/Base/DataTable'
+import {
+    bindDataTableEvents,
+    DataTableResourceActions,
+    type DataTableResourceActionsValue,
+} from '@/Components/Base/DataTable'
 import { DropdownMenuGroup, DropdownMenuItem } from '@/Components/Base/DropdownMenu'
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/Components/Base/Field'
 import { Input } from '@/Components/Base/Input'
@@ -119,7 +123,7 @@ const props = defineProps<{
     company: string
     email: string
     plan: string
-    actions: DataTableResourceActionsValue<number>
+    actions: DataTableResourceActionsValue<number, object, 'updatePlan'>
 }>()
 
 const form = useForm({
@@ -140,6 +144,10 @@ function openUpdatePlanDialog(selection: number[]): void {
     selectedCustomers.value = [...selection]
     updatePlanDialog.activate()
 }
+
+const tableEvents = bindDataTableEvents<number, 'updatePlan'>({
+    updatePlan: openUpdatePlanDialog,
+})
 
 async function copyId(id: number): Promise<void> {
     await copy(String(id))

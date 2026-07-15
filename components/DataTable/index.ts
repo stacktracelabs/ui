@@ -48,6 +48,7 @@ export type {
   DataTableEventAction,
   DataTableEventHandler,
   DataTableEventHandlerMap,
+  DataTableEventListenerProps,
   DataTableEventPayload,
   DataTableExecutableAction,
   DataTableFilterValue,

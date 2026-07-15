@@ -91,7 +91,7 @@ const mountConfirmableAction = (composition: 'row' | 'bulk' | 'resource') => {
 describe('DataTable actions and events', () => {
   it('binds the single event envelope to a backend-named handler', () => {
     const handler = vi.fn()
-    const bind = bindDataTableEvents<number, 'update-plan'>({
+    const eventProps = bindDataTableEvents<number, 'update-plan'>({
       'update-plan': handler,
     })
     const event = {
@@ -109,9 +109,10 @@ describe('DataTable actions and events', () => {
       },
     } satisfies DataTableEventPayload<number, 'update-plan'>
 
-    bind(event)
+    eventProps.onEvent(event)
 
     expect(handler).toHaveBeenCalledWith([4, 7], event)
+    expect(Object.keys(eventProps)).toEqual(['onEvent'])
   })
 
   it('emits Event actions through the root event envelope', async () => {
