@@ -3212,7 +3212,319 @@
       "components": [
         {
           "name": "DataTable",
-          "description": "A backend-driven table with columns, actions, filters, search, sorting, and pagination.",
+          "description": "Provides the ready default composition for a backend-driven StackTrace data table.",
+          "props": [
+            {
+              "name": "actionEndpoint",
+              "description": "Configures action endpoint for this component.",
+              "type": "string | (() => string)",
+              "required": false
+            },
+            {
+              "name": "borderless",
+              "description": "Configures borderless for this component.",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "defaultSelection",
+              "description": "Configures default selection for this component.",
+              "type": "ResourceKey[]",
+              "required": false
+            },
+            {
+              "name": "emptyResultsDescription",
+              "description": "Configures empty results description for this component.",
+              "type": "string | null",
+              "required": false
+            },
+            {
+              "name": "emptyResultsMessage",
+              "description": "Configures empty results message for this component.",
+              "type": "string | null",
+              "required": false
+            },
+            {
+              "name": "emptyTableDescription",
+              "description": "Configures empty table description for this component.",
+              "type": "string | null",
+              "required": false
+            },
+            {
+              "name": "emptyTableMessage",
+              "description": "Configures empty table message for this component.",
+              "type": "string | null",
+              "required": false
+            },
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "selection",
+              "description": "Configures selection for this component.",
+              "type": "ResourceKey[]",
+              "required": false
+            },
+            {
+              "name": "table",
+              "description": "Configures table for this component.",
+              "type": "DataTableValue<ResourceValue, ResourceKey, EventName>",
+              "required": true
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableToolbar",
+          "description": "Composes search, selection state, bulk actions, and page-size controls.",
+          "props": [
+            {
+              "name": "borderless",
+              "description": "Configures borderless for this component.",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableSearch",
+          "description": "Renders the debounced backend search control when search is configured.",
+          "props": [
+            {
+              "name": "debounce",
+              "description": "Sets the delay in milliseconds before applying the changed value.",
+              "type": "number",
+              "required": false,
+              "default": "50"
+            },
+            {
+              "name": "placeholder",
+              "description": "Content displayed when no value has been selected.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableFilters",
+          "description": "Renders registered filter widgets and reset behavior when filters are available.",
+          "props": [
+            {
+              "name": "borderless",
+              "description": "Configures borderless for this component.",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableFilter",
+          "description": "Provides one styled filter control with injected table filter state.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableTable",
+          "description": "Provides the styled table element when rows are available.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableHeader",
+          "description": "Composes selection, sortable headings, and row-action spacing for the table header.",
+          "props": [
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableHeading",
+          "description": "Renders an injected heading with backend sorting behavior when sortable.",
+          "props": [
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "isLast",
+              "description": "Configures is last for this component.",
+              "type": "boolean",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableBody",
+          "description": "Composes injected table rows inside the table body.",
+          "props": [
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableRow",
+          "description": "Renders an injected table row, its cells, selection control, and actions.",
+          "props": [
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableCell",
+          "description": "Renders the injected cell value using its registered backend-selected component.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableFooter",
+          "description": "Renders injected footer summary cells when the table provides them.",
+          "props": [
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableSelectAll",
+          "description": "Selects or clears every currently available table row.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableSelectRow",
+          "description": "Selects or clears the injected table row.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableSelectionStatus",
+          "description": "Displays the number of currently selected rows.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableClearSelectionButton",
+          "description": "Clears the current table selection when any rows are selected.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableActionButton",
+          "description": "Renders an injected table action as a directly visible button.",
+          "props": [
+            {
+              "name": "bulk",
+              "description": "Configures bulk for this component.",
+              "type": "boolean",
+              "required": false,
+              "default": "false"
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableActionDropdownMenuItem",
+          "description": "Renders an injected table action as a dropdown menu item.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableActionDialog",
+          "description": "Renders confirmation UI for the pending executable table action.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableBulkActions",
+          "description": "Renders bulk actions that apply to the current row selection.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableRowActions",
+          "description": "Renders inline and menu actions for the injected row.",
           "props": [],
           "source": "stacktrace-ui"
         },
@@ -3221,9 +3533,15 @@
           "description": "Renders the actions available for one backend-driven table resource.",
           "props": [
             {
+              "name": "actionEndpoint",
+              "description": "Configures action endpoint for this component.",
+              "type": "string | (() => string)",
+              "required": false
+            },
+            {
               "name": "actions",
               "description": "Provides the actions available for the current resource.",
-              "type": "DataTableResourceActionsValue<ResourceKey, ResourceValue>",
+              "type": "DataTableResourceActionsValue<ResourceKey, ResourceValue, EventName>",
               "required": true
             },
             {
@@ -3259,6 +3577,100 @@
               "type": "boolean",
               "required": false,
               "default": "false"
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTablePagination",
+          "description": "Renders offset or cursor pagination controls from injected table state.",
+          "props": [
+            {
+              "name": "insetLeft",
+              "description": "Configures inset left for this component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "insetRight",
+              "description": "Configures inset right for this component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTablePerPage",
+          "description": "Renders the page-size selector when multiple page-size options are available.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableViewSettings",
+          "description": "Provides table display settings using injected table state.",
+          "props": [],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableEmpty",
+          "description": "Provides the shared visual treatment for a data table empty state.",
+          "props": [
+            {
+              "name": "description",
+              "description": "Provides supporting text displayed by the component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "icon",
+              "description": "Configures icon for this component.",
+              "type": "Component",
+              "required": false
+            },
+            {
+              "name": "title",
+              "description": "Provides the visible title for the component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableEmptyTable",
+          "description": "Renders the empty state when the underlying table contains no records.",
+          "props": [
+            {
+              "name": "description",
+              "description": "Provides supporting text displayed by the component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "title",
+              "description": "Provides the visible title for the component.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "source": "stacktrace-ui"
+        },
+        {
+          "name": "DataTableEmptyResults",
+          "description": "Renders the no-results state and a control for clearing the active query.",
+          "props": [
+            {
+              "name": "description",
+              "description": "Provides supporting text displayed by the component.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "title",
+              "description": "Provides the visible title for the component.",
+              "type": "string",
+              "required": false
             }
           ],
           "source": "stacktrace-ui"

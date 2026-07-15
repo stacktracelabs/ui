@@ -1,46 +1,140 @@
 <template>
-  <template v-if="table.rows.length > 0">
-    <div :class="cn('border-t py-2 flex justify-between items-center w-full', $attrs.class || '')" v-if="table.pagination">
-      <span class="pr-2 text-sm font-semibold"><span class="text-foreground/60 font-normal">{{ messages.paginatorTotal }}</span> {{ table.pagination.total }}</span>
+  <DataTablePagination v-slot="{ pagination, cursorPagination }" as-child>
+    <div
+      :class="cn(
+        'flex w-full items-center border-t py-2',
+        pagination ? 'justify-between' : 'justify-end',
+        insetLeft || 'pl-4',
+        insetRight || 'pr-4',
+        props.class,
+      )"
+    >
+      <slot :pagination="pagination" :cursor-pagination="cursorPagination">
+        <template v-if="pagination">
+          <span class="pr-2 text-sm font-semibold">
+            <span class="font-normal text-foreground/60">{{ messages.paginatorTotal }}</span>
+            {{ pagination.total }}
+          </span>
 
-      <div class="flex flex-row gap-2 items-center">
-        <Button class="px-2" :as="table.pagination.firstPageUrl ? Link : undefined" :disabled="!table.pagination.firstPageUrl" :href="table.pagination.firstPageUrl || undefined" variant="outline">
-          <ChevronsLeftIcon class="w-4 h-4" />
-        </Button>
-        <Button class="px-2" :as="table.pagination.prevPageUrl ? Link : undefined" :disabled="!table.pagination.prevPageUrl" :href="table.pagination.prevPageUrl || undefined" variant="outline">
-          <ChevronLeftIcon class="w-4 h-4" />
-        </Button>
-        <span class="px-2 text-sm font-semibold">{{ table.pagination.currentPage }} <span class="text-foreground/60 font-normal">{{ messages.paginatorOf }}</span> {{ table.pagination.lastPage }}</span>
-        <Button class="px-2" :as="table.pagination.nextPageUrl ? Link : undefined" :disabled="!table.pagination.nextPageUrl" :href="table.pagination.nextPageUrl || undefined" variant="outline">
-          <ChevronRightIcon class="w-4 h-4" />
-        </Button>
-        <Button class="px-2" :as="table.pagination.lastPageUrl ? Link : undefined" :disabled="!table.pagination.lastPageUrl" :href="table.pagination.lastPageUrl || undefined" variant="outline">
-          <ChevronsRightIcon class="w-4 h-4" />
-        </Button>
-      </div>
+          <div class="flex flex-row items-center gap-2">
+            <DataTablePaginationFirst v-slot="{ href, disabled }" as-child>
+              <Button
+                :as="href ? Link : 'button'"
+                :href="href || undefined"
+                :disabled="disabled"
+                class="px-2"
+                variant="outline"
+              >
+                <ChevronsLeftIcon class="size-4" />
+                <span class="sr-only">{{ messages.paginatorFirst }}</span>
+              </Button>
+            </DataTablePaginationFirst>
+
+            <DataTablePaginationPrevious v-slot="{ href, disabled }" as-child>
+              <Button
+                :as="href ? Link : 'button'"
+                :href="href || undefined"
+                :disabled="disabled"
+                class="px-2"
+                variant="outline"
+              >
+                <ChevronLeftIcon class="size-4" />
+                <span class="sr-only">{{ messages.paginatorPrevious }}</span>
+              </Button>
+            </DataTablePaginationPrevious>
+
+            <DataTablePaginationStatus v-slot="{ currentPage, lastPage }" as-child>
+              <span class="px-2 text-sm font-semibold">
+                {{ currentPage }}
+                <span class="font-normal text-foreground/60">{{ messages.paginatorOf }}</span>
+                {{ lastPage }}
+              </span>
+            </DataTablePaginationStatus>
+
+            <DataTablePaginationNext v-slot="{ href, disabled }" as-child>
+              <Button
+                :as="href ? Link : 'button'"
+                :href="href || undefined"
+                :disabled="disabled"
+                class="px-2"
+                variant="outline"
+              >
+                <ChevronRightIcon class="size-4" />
+                <span class="sr-only">{{ messages.paginatorNext }}</span>
+              </Button>
+            </DataTablePaginationNext>
+
+            <DataTablePaginationLast v-slot="{ href, disabled }" as-child>
+              <Button
+                :as="href ? Link : 'button'"
+                :href="href || undefined"
+                :disabled="disabled"
+                class="px-2"
+                variant="outline"
+              >
+                <ChevronsRightIcon class="size-4" />
+                <span class="sr-only">{{ messages.paginatorLast }}</span>
+              </Button>
+            </DataTablePaginationLast>
+          </div>
+        </template>
+
+        <div v-else-if="cursorPagination" class="flex flex-row items-center gap-2">
+          <DataTablePaginationPrevious v-slot="{ href, disabled }" as-child>
+            <Button
+              :as="href ? Link : 'button'"
+              :href="href || undefined"
+              :disabled="disabled"
+              class="inline-flex gap-2 px-2"
+              variant="outline"
+            >
+              <ChevronLeftIcon class="size-4" />
+              {{ messages.paginatorPrevious }}
+            </Button>
+          </DataTablePaginationPrevious>
+
+          <DataTablePaginationNext v-slot="{ href, disabled }" as-child>
+            <Button
+              :as="href ? Link : 'button'"
+              :href="href || undefined"
+              :disabled="disabled"
+              class="inline-flex gap-2 px-2"
+              variant="outline"
+            >
+              {{ messages.paginatorNext }}
+              <ChevronRightIcon class="size-4" />
+            </Button>
+          </DataTablePaginationNext>
+        </div>
+      </slot>
     </div>
-    <div v-else-if="table.cursorPagination" :class="cn('border-t py-2 flex justify-end items-center w-full', $attrs.class || '')">
-      <div class="flex flex-row gap-2 items-center">
-        <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.prevPageUrl ? Link : undefined" :disabled="!table.cursorPagination.prevPageUrl" :href="table.cursorPagination.prevPageUrl || undefined" variant="outline">
-          <ChevronLeftIcon class="w-4 h-4" />
-          {{ messages.paginatorPrevious }}
-        </Button>
-        <Button class="px-2 inline-flex gap-2" :as="table.cursorPagination.nextPageUrl ? Link : undefined" :disabled="!table.cursorPagination.nextPageUrl" :href="table.cursorPagination.nextPageUrl || undefined" variant="outline">
-          {{ messages.paginatorNext }}
-          <ChevronRightIcon class="w-4 h-4" />
-        </Button>
-      </div>
-    </div>
-  </template>
+  </DataTablePagination>
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
-import { injectContext } from './internal'
-import messages from './messages'
-import { cn } from '@/Utils'
+import {
+  DataTablePagination,
+  DataTablePaginationFirst,
+  DataTablePaginationLast,
+  DataTablePaginationNext,
+  DataTablePaginationPrevious,
+  DataTablePaginationStatus,
+} from '@stacktrace/ui'
 import { Link } from '@inertiajs/vue3'
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from '@lucide/vue'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsLeftIcon,
+  ChevronsRightIcon,
+} from '@lucide/vue'
+import type { HTMLAttributes } from 'vue'
+import { Button } from '@/Components/Button'
+import { cn } from '@/Utils'
+import messages from './messages'
 
-const { table } = injectContext()
+const props = defineProps<{
+  insetLeft?: string
+  insetRight?: string
+  class?: HTMLAttributes['class']
+}>()
 </script>

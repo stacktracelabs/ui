@@ -1,0 +1,88 @@
+import { configureDataTableStyle, type DataTableTextStyle } from '@stacktrace/ui'
+
+export type DataTableRowStyleProperty = 'highlight'
+export type DataTableRowStyle = Record<DataTableRowStyleProperty | string, string | null>
+
+export function createDataTableRowStyle(style: DataTableRowStyle): string {
+  return configureDataTableStyle(style, {
+    highlight: {
+      default: 'hover:bg-muted/50 data-[state=selected]:bg-muted',
+      muted: 'bg-muted/20 text-muted-foreground hover:bg-muted/50 data-[state=selected]:bg-muted',
+      destructive: 'bg-destructive/10 text-destructive hover:bg-destructive/20 data-[state=selected]:bg-destructive/30',
+    },
+  })
+}
+
+export function createDataTableCellStyle(style: DataTableTextStyle): string {
+  return configureDataTableStyle(style, {
+    fontWeight: {
+      thin: 'font-thin',
+      extralight: 'font-extralight',
+      light: 'font-light',
+      normal: 'font-normal',
+      medium: 'font-medium',
+      semibold: 'font-semibold',
+      bold: 'font-bold',
+      extrabold: 'font-extrabold',
+      black: 'font-black',
+    },
+    fontFamily: {
+      sans: 'font-sans',
+      serif: 'font-serif',
+      mono: 'font-mono',
+    },
+    whitespace: {
+      normal: 'whitespace-normal',
+      nowrap: 'whitespace-nowrap',
+      pre: 'whitespace-pre',
+      preLine: 'whitespace-pre-line',
+      preWrap: 'whitespace-pre-wrap',
+      breakSpaces: 'whitespace-break-spaces',
+    },
+    fontVariantNumeric: {
+      normal: 'normal-nums',
+      ordinal: 'ordinal',
+      slashedZero: 'slashed-zero',
+      lining: 'lining-nums',
+      oldStyle: 'oldstyle-nums',
+      proportional: 'proportional-nums',
+      tabular: 'tabular-nums',
+      diagonalFractions: 'diagonal-fractions',
+      stackedFractions: 'stacked-fractions',
+    },
+    textDecorationLine: {
+      underline: 'underline',
+      overline: 'overline',
+      lineThrough: 'line-through',
+      noUnderline: 'no-underline',
+    },
+    verticalAlign: {
+      baseline: 'align-baseline',
+      top: 'align-top',
+      middle: 'align-middle',
+      bottom: 'align-bottom',
+      textTop: 'align-text-top',
+      textBottom: 'align-text-bottom',
+      sub: 'align-sub',
+      super: 'align-super',
+    },
+    textAlign: {
+      left: 'text-left',
+      center: 'text-center',
+      right: 'text-right',
+      justify: 'text-justify',
+      start: 'text-start',
+      end: 'text-end',
+    },
+    fontStyle: {
+      italic: 'italic',
+      notItalic: 'not-italic',
+    },
+    color: {
+      foreground: 'text-foreground',
+      muted: 'text-muted-foreground',
+    },
+  })
+}
+
+export const createDataTableHeadingStyle = createDataTableCellStyle

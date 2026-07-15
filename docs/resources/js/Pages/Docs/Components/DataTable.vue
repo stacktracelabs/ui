@@ -84,13 +84,36 @@
             </p>
             <CodeBlock :code="displayingTableCode" language="vue" />
             <p class="text-muted-foreground">
-              Optional props include <code>emptyTableMessage</code>,
-              <code>emptyResultsMessage</code>, <code>emptyTableDescription</code>,
-              <code>emptyResultsDescription</code>, <code>borderless</code>,
-              <code>insetLeft</code>, and <code>insetRight</code>. The component also provides
-              <code>search</code>, <code>actions</code>, <code>empty-table</code>, and
-              <code>empty-results</code> slots.
+              The ready component supports controlled or initial selection through
+              <code>v-model:selection</code> and <code>defaultSelection</code>. Its visual props
+              include empty-state messages, border treatment, insets, and a wrapper class.
             </p>
+          </div>
+
+          <div class="space-y-4">
+            <h3 id="handling-event-actions" class="scroll-mt-24 text-xl font-semibold tracking-tight">
+              Handling event actions
+            </h3>
+            <p class="text-muted-foreground">
+              All backend Event actions are emitted through one typed <code>event</code> envelope.
+              Use <code>bindDataTableEvents()</code> to map configured action names to handlers;
+              each handler receives the selected row keys and the complete event payload.
+            </p>
+            <CodeBlock :code="eventBindingCode" language="vue" />
+          </div>
+
+          <div class="space-y-4">
+            <h3 id="composing-the-frontend" class="scroll-mt-24 text-xl font-semibold tracking-tight">
+              Composing the frontend
+            </h3>
+            <p class="text-muted-foreground">
+              <code>DataTable</code> is the default visual recipe. To create another display
+              variant, compose its exported visual parts inside the headless
+              <code>DataTableRoot</code> and <code>DataTableContent</code> primitives from
+              <code>@stacktrace/ui</code>. Every contextual part reads injected state and hides
+              itself when its capability is not applicable.
+            </p>
+            <CodeBlock :code="compositionCode" language="vue" />
           </div>
         </section>
 
@@ -156,9 +179,10 @@
 
           <div class="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
             When a page contains multiple tables, call <code>withQueryPrefix('prefix_')</code> to
-            avoid query-string collisions. Parameters such as <code>search</code>,
-            <code>sort_by</code>, <code>sort_direction</code>, <code>limit</code>, and filter
-            fields then become <code>prefix_search</code>, <code>prefix_sort_by</code>, and so on.
+            avoid query-string collisions. Search, sorting, limit, filter, page, and cursor keys
+            are independently qualified—for example, <code>prefix_search</code>,
+            <code>prefix_page</code>, and <code>prefix_cursor</code>. Updating one table preserves
+            the other tables' query parameters.
           </div>
         </section>
 
@@ -345,7 +369,8 @@
               <li>
                 <strong class="text-foreground">Event</strong> —
                 <code>StackTrace\Ui\Table\Actions\Event::make('Label', $eventName|Closure)</code>
-                emits a frontend event. The event name can depend on the resource.
+                emits the root component's typed <code>event</code> envelope. The configured name
+                can depend on the resource and is available as <code>event.name</code>.
               </li>
               <li>
                 <strong class="text-foreground">Executable</strong> — extend
@@ -359,7 +384,9 @@
             </ul>
             <p class="text-muted-foreground">
               Every action supports <code>can(Closure|bool)</code>, <code>bulk(bool)</code>,
-              <code>inline(bool)</code>, and <code>icon(string)</code>.
+              <code>inline(bool)</code>, and <code>icon(string)</code>. Inline controls whether an
+              action is rendered directly or in an actions menu; confirmability independently
+              controls whether an executable action opens the confirmation dialog.
             </p>
           </div>
 
@@ -545,12 +572,12 @@
           <ol class="list-decimal space-y-3 pl-6 text-muted-foreground">
             <li>Pass the table as an Inertia page prop.</li>
             <li>
-              Render <code>&lt;DataTable :table="customers" /&gt;</code>, optionally customizing
-              empty messages, border treatment, and insets.
+              Render the ready <code>&lt;DataTable :table="customers" /&gt;</code> recipe or compose
+              exported visual parts over the headless core.
             </li>
             <li>
-              Event actions emit their configured name. Listen with an event such as
-              <code>@updatePlan="onUpdatePlan"</code>; the handler receives selected row keys.
+              Listen to <code>@event</code> and use <code>bindDataTableEvents()</code> when you want
+              named handlers for backend Event actions.
             </li>
             <li>
               Executable actions post <code>selection</code>, <code>action</code>, and
@@ -645,6 +672,73 @@ import { DataTable, type DataTableValue } from '@/Components/DataTable'
 defineProps<{
   customers: DataTableValue
 }>()
+<\/script>`
+
+const eventBindingCode = `<template>
+  <DataTable :table="customers" @event="handleEvents" />
+</template>
+
+<script setup lang="ts">
+import {
+  bindDataTableEvents,
+  DataTable,
+  type DataTableValue,
+} from '@/Components/DataTable'
+
+defineProps<{
+  customers: DataTableValue<object, number, 'updatePlan'>
+}>()
+
+const handleEvents = bindDataTableEvents<number, 'updatePlan'>({
+  updatePlan: selection => openUpdatePlanDialog(selection),
+})
+<\/script>`
+
+const compositionCode = `<template>
+  <DataTableRoot :table="customers" as-child>
+    <div>
+      <DataTableEmptyTable />
+
+      <DataTableContent as-child>
+        <div>
+          <DataTableToolbar />
+          <DataTableFilters />
+
+          <DataTableTable>
+            <DataTableHeader />
+            <DataTableBody />
+            <DataTableFooter />
+          </DataTableTable>
+
+          <DataTablePagination />
+          <DataTableEmptyResults />
+          <DataTableActionDialog />
+        </div>
+      </DataTableContent>
+    </div>
+  </DataTableRoot>
+</template>
+
+<script setup lang="ts">
+import {
+  DataTableContent,
+  DataTableRoot,
+  type DataTableValue,
+} from '@stacktrace/ui'
+import {
+  DataTableActionDialog,
+  DataTableBody,
+  DataTableEmptyResults,
+  DataTableEmptyTable,
+  DataTableFilters,
+  DataTableFooter,
+  DataTableHeader,
+  DataTablePagination,
+  DataTableTable,
+  DataTableToolbar,
+} from '@/Components/DataTable'
+
+defineProps<{ customers: DataTableValue }>()
 <\/script>`
 
 const columnsCode = `use StackTrace\\Ui\\Table;

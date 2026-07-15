@@ -1,71 +1,41 @@
 <template>
-  <div class="flex flex-row justify-end gap-1" v-if="inlineActions.length > 0 || menuActions.length > 0">
-    <DataTableActionButton
-      v-for="action in inlineActions"
-      :action="action"
-      :selection="selection"
-      @event="onEvent"
-    />
+  <div v-if="inlineActions.length > 0 || menuActions.length > 0" class="flex flex-row justify-end gap-1">
+    <DataTableRowActions placement="inline">
+      <DataTableActionButton />
+    </DataTableRowActions>
 
     <DropdownMenu v-if="menuActions.length > 0">
       <DropdownMenuTrigger as-child>
-        <Button variant="ghost" class="px-2 data-[state=open]:bg-muted" size="sm"><EllipsisIcon class="w-4 h-4" /></Button>
+        <Button variant="ghost" class="px-2 data-[state=open]:bg-muted" size="sm">
+          <EllipsisIcon class="size-4" />
+          <span class="sr-only">{{ messages.actions }}</span>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" class="min-w-48">
-        <DataTableActionDropdownMenuItem
-          v-for="action in menuActions"
-          :action="action"
-          :selection="selection"
-          @event="onEvent"
-          @exec="onExecAction"
-        />
+        <DataTableRowActions placement="menu">
+          <DataTableActionDropdownMenuItem />
+        </DataTableRowActions>
       </DropdownMenuContent>
     </DropdownMenu>
-
-    <DataTableActionDialog
-      v-if="actionToRun"
-      :control="actionDialog"
-      :action="actionToRun"
-      :selection="selection"
-    />
   </div>
 </template>
 
-<script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
+<script setup lang="ts">
+import {
+  DataTableRowActions,
+  useDataTableContext,
+  useDataTableRowContext,
+} from '@stacktrace/ui'
+import { EllipsisIcon } from '@lucide/vue'
+import { computed } from 'vue'
 import { Button } from '@/Components/Button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
-import { useToggle } from '@stacktrace/ui'
-import { EllipsisIcon } from '@lucide/vue'
-import { computed, ref } from 'vue'
-import { type ExecutableAction, type Row, useActionRunner } from './internal'
-import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
 import DataTableActionButton from './DataTableActionButton.vue'
-import DataTableActionDialog from './DataTableActionDialog.vue'
+import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
+import messages from './messages'
 
-const emit = defineEmits(['event'])
-
-const props = defineProps<{
-  row: Row<ResourceKey, ResourceValue>
-}>()
-
-const onEvent = (event: string) => {
-  emit('event', { name: event, selection: [props.row.key] })
-}
-
-const { run } = useActionRunner<ResourceKey>()
-const actionToRun = ref<ExecutableAction>()
-const actionDialog = useToggle()
-const onExecAction = (action: ExecutableAction) => {
-  if (action.isInline) {
-    run(action, [props.row.key])
-    return
-  } else {
-    actionToRun.value = action
-    actionDialog.activate()
-  }
-}
-
-const selection = computed(() => [props.row.key])
-const inlineActions = computed(() => props.row.actions.filter(it => it.isInline && it.canRun))
-const menuActions = computed(() => props.row.actions.filter(it => !it.isInline && it.canRun))
+const { row } = useDataTableRowContext()
+const { rowActions } = useDataTableContext()
+const inlineActions = computed(() => rowActions(row, 'inline'))
+const menuActions = computed(() => rowActions(row, 'menu'))
 </script>

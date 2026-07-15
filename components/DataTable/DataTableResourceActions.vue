@@ -1,76 +1,81 @@
 <template>
-  <DropdownMenu v-if="runnableActions.length > 0 || visible">
-    <DropdownMenuTrigger>
-      <Button :variant="variant" :size="size" :class="cn('px-2 data-[state=open]:bg-muted', $attrs.class || '')">
-        <EllipsisIcon data-icon="inline-start" />
-        <template v-if="label">{{ label }}</template>
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent :align="align">
-      <slot :resource="actions.resource" :runnable-actions="runnableActions" />
+  <DataTableResourceActionsRoot
+    v-slot="{ resource, actions: runnableActions }"
+    :value="actions"
+    :force-mount="visible"
+    :action-endpoint="actionEndpoint"
+    as-child
+    @event="emit('event', $event)"
+  >
+    <div class="contents">
+      <DataTableResourceActions placement="inline">
+        <DataTableActionButton />
+      </DataTableResourceActions>
 
-      <DataTableActionDropdownMenuItem
-        v-for="action in runnableActions"
-        :action="action"
-        :selection="[actions.resource.key]"
-        @event="onEvent"
-        @exec="onExecAction"
-      />
-    </DropdownMenuContent>
-  </DropdownMenu>
+      <DropdownMenu v-if="menuActions.length > 0 || visible">
+        <DropdownMenuTrigger as-child>
+          <Button
+            :variant="variant"
+            :size="size"
+            :class="cn('px-2 data-[state=open]:bg-muted', props.class)"
+          >
+            <EllipsisIcon data-icon="inline-start" />
+            <template v-if="label">{{ label }}</template>
+            <span v-else class="sr-only">{{ messages.actions }}</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent :align="align">
+          <slot :resource="resource" :runnable-actions="runnableActions" />
 
-  <DataTableActionDialog
-    v-if="actionToRun"
-    :control="actionDialog"
-    :selection="[actions.resource.key]"
-    :action="actionToRun"
-  />
+          <DataTableResourceActions placement="menu">
+            <DataTableActionDropdownMenuItem />
+          </DataTableResourceActions>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DataTableActionDialog />
+    </div>
+  </DataTableResourceActionsRoot>
 </template>
 
-<script setup lang="ts" generic="ResourceKey = string | number, ResourceValue = object">
+<script setup lang="ts" generic="ResourceKey extends DataTableResourceKey = DataTableResourceKey, ResourceValue = object, EventName extends string = string">
+import {
+  DataTableResourceActions,
+  DataTableResourceActionsRoot,
+  type DataTableActionRunnerOptions,
+  type DataTableEventPayload,
+  type DataTableResourceActionsValue,
+  type DataTableResourceKey,
+} from '@stacktrace/ui'
+import { EllipsisIcon } from '@lucide/vue'
+import { computed } from 'vue'
 import { Button, type ButtonVariants } from '@/Components/Button'
-import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/Components/DropdownMenu'
 import { cn } from '@/Utils'
-import { useToggle } from '@stacktrace/ui'
-import { EllipsisIcon } from '@lucide/vue'
-import { computed, ref } from 'vue'
-import { type DataTableResourceActionsValue } from '.'
+import DataTableActionButton from './DataTableActionButton.vue'
 import DataTableActionDialog from './DataTableActionDialog.vue'
-import { type ExecutableAction, useActionRunner } from './internal'
-
-const emit = defineEmits() // eslint-disable-line vue/valid-define-emits
+import DataTableActionDropdownMenuItem from './DataTableActionDropdownMenuItem.vue'
+import messages from './messages'
 
 const props = withDefaults(defineProps<{
-  actions: DataTableResourceActionsValue<ResourceKey, ResourceValue>
+  actions: DataTableResourceActionsValue<ResourceKey, ResourceValue, EventName>
+  actionEndpoint?: DataTableActionRunnerOptions['endpoint']
   size?: ButtonVariants['size']
   variant?: ButtonVariants['variant']
   visible?: boolean
   align?: 'center' | 'end' | 'start'
-  label?: string | undefined
+  label?: string
+  class?: string
 }>(), {
   size: 'sm',
   variant: 'ghost',
   visible: false,
-  align: 'end'
+  align: 'end',
 })
 
-const runnableActions = computed(() => props.actions.actions.filter(it => it.canRun))
+const emit = defineEmits<{
+  event: [payload: DataTableEventPayload<ResourceKey, EventName>]
+}>()
 
-const onEvent = (event: string) => {
-  emit(event, [props.actions.resource.key])
-}
-
-const { run } = useActionRunner<ResourceKey>()
-const actionToRun = ref<ExecutableAction>()
-const actionDialog = useToggle()
-const onExecAction = (action: ExecutableAction) => {
-  if (action.isInline) {
-    run(action, [props.actions.resource.key])
-    return
-  } else {
-    actionToRun.value = action
-    actionDialog.activate()
-  }
-}
+const menuActions = computed(() => props.actions.actions.filter(action => action.canRun && !action.isInline))
 </script>

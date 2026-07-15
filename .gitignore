@@ -5,3 +5,4 @@ composer.lock
 !docs/composer.lock
 tsconfig.tsbuildinfo
 registry/
+.playwright-mcp/

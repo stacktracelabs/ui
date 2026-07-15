@@ -1,11 +1,80 @@
-import { registerNamespacedComponents } from "@stacktrace/ui";
-import type { DefineComponent, Plugin } from "vue";
-import { type TextStyle, configureStyle } from './internal'
+import { registerNamespacedComponents } from '@stacktrace/ui'
+import type { DefineComponent, Plugin } from 'vue'
 
 export { default as DataTable } from './DataTable.vue'
+export { default as DataTableToolbar } from './DataTableToolbar.vue'
+export { default as DataTableSearch } from './DataTableSearch.vue'
+export { default as DataTableFilters } from './DataTableFilters.vue'
+export { default as DataTableFilter } from './DataTableFilter.vue'
+
+export { default as DataTableTable } from './DataTableTable.vue'
+export { default as DataTableHeader } from './DataTableHeader.vue'
+export { default as DataTableHeading } from './DataTableHeading.vue'
+export { default as DataTableBody } from './DataTableBody.vue'
+export { default as DataTableRow } from './DataTableRow.vue'
+export { default as DataTableCell } from './DataTableCell.vue'
+export { default as DataTableFooter } from './DataTableFooter.vue'
+
+export { default as DataTableSelectAll } from './DataTableSelectAll.vue'
+export { default as DataTableSelectRow } from './DataTableSelectRow.vue'
+export { default as DataTableSelectionStatus } from './DataTableSelectionStatus.vue'
+export { default as DataTableClearSelectionButton } from './DataTableClearSelectionButton.vue'
+
+export { default as DataTableActionButton } from './DataTableActionButton.vue'
+export { default as DataTableActionDropdownMenuItem } from './DataTableActionDropdownMenuItem.vue'
+export { default as DataTableActionDialog } from './DataTableActionDialog.vue'
+export { default as DataTableBulkActions } from './DataTableBulkActions.vue'
+export { default as DataTableRowActions } from './DataTableRowActions.vue'
 export { default as DataTableResourceActions } from './DataTableResourceActions.vue'
 
-export type { DataTableValue, DataTableResourceActionsValue } from './internal'
+export { default as DataTablePagination } from './DataTablePagination.vue'
+export { default as DataTablePerPage } from './DataTablePerPage.vue'
+export { default as DataTableViewSettings } from './DataTableViewSettings.vue'
+
+export { default as DataTableEmpty } from './DataTableEmpty.vue'
+export { default as DataTableEmptyTable } from './DataTableEmptyTable.vue'
+export { default as DataTableEmptyResults } from './DataTableEmptyResults.vue'
+
+export { bindDataTableEvents } from '@stacktrace/ui'
+export type {
+  DataTableAction,
+  DataTableActionPlacement,
+  DataTableActionRunOptions,
+  DataTableActionRunnerOptions,
+  DataTableBaseAction,
+  DataTableCellLink,
+  DataTableCellValue,
+  DataTableCursorPaginationValue,
+  DataTableEventAction,
+  DataTableEventHandler,
+  DataTableEventHandlerMap,
+  DataTableEventPayload,
+  DataTableExecutableAction,
+  DataTableFilterValue,
+  DataTableFilterWidgetValue,
+  DataTableHeadingValue,
+  DataTableIconValue,
+  DataTableLinkAction,
+  DataTablePaginationValue,
+  DataTablePendingAction,
+  DataTableResource,
+  DataTableResourceActionsValue,
+  DataTableResourceKey,
+  DataTableRowValue,
+  DataTableTextStyle,
+  DataTableTextStyleProperty,
+  DataTableValue,
+} from '@stacktrace/ui'
+
+export {
+  createDataTableCellStyle,
+  createDataTableHeadingStyle,
+  createDataTableRowStyle,
+  createDataTableCellStyle as createCellStyle,
+  createDataTableHeadingStyle as createHeadingStyle,
+  createDataTableRowStyle as createRowStyle,
+} from './styles'
+export type { DataTableRowStyle, DataTableRowStyleProperty } from './styles'
 
 export const DataTablePlugin: Plugin = {
   install: app => {
@@ -14,88 +83,5 @@ export const DataTablePlugin: Plugin = {
 
     const filters = import.meta.glob<DefineComponent>('./Filters/**/*.vue', { eager: true })
     registerNamespacedComponents(app, filters, 'DataTable')
-  }
+  },
 }
-
-export type TableRowStyleProperty = 'highlight'
-export type TableRowStyle = Record<TableRowStyleProperty | string, string | null>
-
-export const createRowStyle = (style: TableRowStyle) => configureStyle(style, {
-  highlight: {
-    default: 'hover:bg-muted/50 data-[state=selected]:bg-muted',
-    muted: 'bg-muted/20 text-muted-foreground hover:bg-muted/50 data-[state=selected]:bg-muted',
-    destructive: 'bg-destructive/10 text-destructive hover:bg-destructive/20 data-[state=selected]:bg-destructive/30',
-  }
-})
-
-export const createCellStyle = (style: TextStyle) => configureStyle(style, {
-  fontWeight: {
-    thin: 'font-thin',
-    extralight: 'font-extralight',
-    light: 'font-light',
-    normal: 'font-normal',
-    medium: 'font-medium',
-    semibold: 'font-semibold',
-    bold: 'font-bold',
-    extrabold: 'font-extrabold',
-    black: 'font-black',
-  },
-  fontFamily: {
-    sans: 'font-sans',
-    serif: 'font-serif',
-    mono: 'font-mono',
-  },
-  whitespace: {
-    normal: 'whitespace-normal',
-    nowrap: 'whitespace-nowrap',
-    pre: 'whitespace-pre',
-    preLine: 'whitespace-pre-line',
-    preWrap: 'whitespace-pre-wrap',
-    breakSpaces: 'whitespace-break-spaces',
-  },
-  fontVariantNumeric: {
-    normal: 'normal-nums',
-    ordinal: 'ordinal',
-    slashedZero: 'slashed-zero',
-    lining: 'lining-nums',
-    oldStyle: 'oldstyle-nums',
-    proportional: 'proportional-nums',
-    tabular: 'tabular-nums',
-    diagonalFractions: 'diagonal-fractions',
-    stackedFractions: 'stacked-fractions',
-  },
-  textDecorationLine: {
-    underline: 'underline',
-    overline: 'overline',
-    lineThrough: 'line-through',
-    noUnderline: 'no-underline',
-  },
-  verticalAlign: {
-    baseline: 'align-baseline',
-    top: 'align-top',
-    middle: 'align-middle',
-    bottom: 'align-bottom',
-    textTop: 'align-text-top',
-    textBottom: 'align-text-bottom',
-    sub: 'align-sub',
-    super: 'align-super',
-  },
-  textAlign: {
-    left: 'text-left',
-    center: 'text-center',
-    right: 'text-right',
-    justify: 'text-justify',
-    start: 'text-start',
-    end: 'text-end',
-  },
-  fontStyle: {
-    italic: 'italic',
-    notItalic: 'not-italic',
-  },
-  color: {
-    foreground: 'text-foreground',
-    muted: 'text-muted-foreground',
-  },
-})
-
-export const createHeadingStyle = createCellStyle

@@ -1,28 +1,28 @@
 <template>
   <TableCell
-    :class="cn(createCellStyle(cell.style), $attrs.class || '')"
+    :class="cn(createDataTableCellStyle(cell.style), props.class)"
     :style="{
       width: cell.width || undefined,
       minWidth: cell.minWidth || undefined,
       maxWidth: cell.maxWidth || undefined,
     }"
   >
-    <Primitive v-if="cell.link" :as="cell.link.isExternal ? 'a' : Link" :href="cell.link.url">
-      <component :is="cell.component" v-bind="cell.props" />
-    </Primitive>
-    <component v-else :is="cell.component" v-bind="cell.props" />
+    <slot :cell="cell">
+      <DataTableCellContent />
+    </slot>
   </TableCell>
 </template>
 
 <script setup lang="ts">
-import { type Cell } from './internal'
-import { cn } from "@/Utils";
-import { Link } from "@inertiajs/vue3";
-import { Primitive } from "reka-ui";
-import { TableCell } from "@/Components/Table";
-import { createCellStyle } from '.'
+import { DataTableCellContent, useDataTableCellContext } from '@stacktrace/ui'
+import type { HTMLAttributes } from 'vue'
+import { TableCell } from '@/Components/Table'
+import { cn } from '@/Utils'
+import { createDataTableCellStyle } from './styles'
 
-defineProps<{
-  cell: Cell
+const props = defineProps<{
+  class?: HTMLAttributes['class']
 }>()
+
+const { cell } = useDataTableCellContext()
 </script>

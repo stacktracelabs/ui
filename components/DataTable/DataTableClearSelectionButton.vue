@@ -1,15 +1,15 @@
 <template>
-  <Button v-if="somethingSelected" @click="selectableRows.clearSelection()" size="sm" variant="outline">
-    <XIcon class="w-4 h-4 mr-1" />
-    {{ messages.cancelSelection }}
-  </Button>
+  <DataTableClearSelection as-child>
+    <Button size="sm" variant="outline">
+      <XIcon class="mr-1 size-4" />
+      <slot>{{ messages.cancelSelection }}</slot>
+    </Button>
+  </DataTableClearSelection>
 </template>
 
 <script setup lang="ts">
-import { Button } from '@/Components/Button'
-import { injectContext } from './internal'
-import messages from './messages'
+import { DataTableClearSelection } from '@stacktrace/ui'
 import { XIcon } from '@lucide/vue'
-
-const { somethingSelected, selectableRows } = injectContext()
+import { Button } from '@/Components/Button'
+import messages from './messages'
 </script>
