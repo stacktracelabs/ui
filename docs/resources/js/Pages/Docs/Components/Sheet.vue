@@ -60,10 +60,13 @@
 
       <h3 id="size">Size</h3>
       <p>
-        Adjust width and the responsive maximum width with utility classes on
-        <code>SheetContent</code>. Leave enough of the original screen visible
-        to preserve context, and test narrow viewports before increasing the
-        default size.
+        Set <code>size</code> to <code>sm</code>, <code>md</code>,
+        <code>lg</code>, or <code>full</code>. The default <code>sm</code> size
+        matches the original sheet width, while <code>lg</code> uses half of the
+        viewport on larger screens. For top and bottom sheets, the presets
+        control height instead of width. Utility classes are merged last, so
+        use <code>class</code> to refine or replace a preset for a specific
+        workflow.
       </p>
       <ComponentPreview :source="sheetSizeSource">
         <SheetSizeExample />

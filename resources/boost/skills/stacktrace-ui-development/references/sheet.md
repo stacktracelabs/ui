@@ -194,25 +194,27 @@ const sheetSides = ['top', 'right', 'bottom', 'left'] as const
 
 ### Size
 
-Adjust width and the responsive maximum width with utility classes on `SheetContent`. Leave enough of the original screen visible to preserve context, and test narrow viewports before increasing the default size.
+Set `size` to `sm`, `md`, `lg`, or `full`. The default `sm` size matches the original sheet width, while `lg` uses half of the viewport on larger screens. For top and bottom sheets, the presets control height instead of width. Utility classes are merged last, so use `class` to refine or replace a preset for a specific workflow.
 
 ```vue
 <template>
-  <Sheet>
-    <SheetTrigger as-child>
-      <Button variant="outline">
-        Open wide sheet
-      </Button>
-    </SheetTrigger>
-    <SheetContent class="w-[400px] sm:max-w-lg">
-      <SheetHeader>
-        <SheetTitle>Custom width</SheetTitle>
-        <SheetDescription>
-          Set the sheet width with utility classes on SheetContent.
-        </SheetDescription>
-      </SheetHeader>
-    </SheetContent>
-  </Sheet>
+  <div class="flex flex-wrap gap-2">
+    <Sheet v-for="size in sheetSizes" :key="size">
+      <SheetTrigger as-child>
+        <Button class="uppercase" variant="outline">
+          {{ size }}
+        </Button>
+      </SheetTrigger>
+      <SheetContent :size="size">
+        <SheetHeader>
+          <SheetTitle>{{ sizeLabels[size] }} sheet</SheetTitle>
+          <SheetDescription>
+            This preset is ready for workflows that need {{ sizeDescriptions[size] }}.
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -225,6 +227,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/Components/Sheet'
+
+const sheetSizes = ['sm', 'md', 'lg', 'full'] as const
+
+const sizeLabels = {
+  sm: 'Small',
+  md: 'Medium',
+  lg: 'Half-screen',
+  full: 'Full',
+}
+
+const sizeDescriptions = {
+  sm: 'a compact panel',
+  md: 'more room for forms',
+  lg: 'half of the viewport',
+  full: 'the available viewport',
+}
 </script>
 ```
 

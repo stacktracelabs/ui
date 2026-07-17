@@ -4,7 +4,8 @@
     <DialogContent
       data-slot="sheet-content"
       :data-variant="props.variant"
-      :class="cn(sheetContentVariants({ side: props.side, variant: props.variant }), props.class)"
+      :data-size="props.size"
+      :class="cn(sheetContentVariants({ side: props.side, size: props.size, variant: props.variant }), props.class)"
       v-bind="{ ...forwarded, ...$attrs }"
     >
       <slot />
@@ -38,6 +39,7 @@ import SheetOverlay from './SheetOverlay.vue'
 interface SheetContentProps extends DialogContentProps {
   class?: HTMLAttributes['class']
   side?: 'top' | 'right' | 'bottom' | 'left'
+  size?: SheetContentVariants['size']
   to?: string | HTMLElement
   variant?: SheetContentVariants['variant']
 }
@@ -48,11 +50,12 @@ defineOptions({
 
 const props = withDefaults(defineProps<SheetContentProps>(), {
   side: 'right',
+  size: 'sm',
   variant: 'elevated',
 })
 const emits = defineEmits<DialogContentEmits>()
 
-const delegatedProps = reactiveOmit(props, 'class', 'side', 'to', 'variant')
+const delegatedProps = reactiveOmit(props, 'class', 'side', 'size', 'to', 'variant')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>

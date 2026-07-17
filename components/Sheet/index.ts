@@ -15,9 +15,15 @@ export const sheetContentVariants = cva(
     variants: {
       side: {
         top: 'data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b',
-        right: 'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
+        right: 'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full border-l',
         bottom: 'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
-        left: 'data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm',
+        left: 'data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full border-r',
+      },
+      size: {
+        sm: '',
+        md: '',
+        lg: '',
+        full: '',
       },
       variant: {
         default: '',
@@ -46,9 +52,59 @@ export const sheetContentVariants = cva(
         variant: 'elevated',
         class: 'inset-y-4 left-4 h-auto',
       },
+      {
+        side: ['left', 'right'],
+        size: 'sm',
+        class: 'w-3/4 sm:max-w-sm',
+      },
+      {
+        side: ['left', 'right'],
+        size: 'md',
+        class: 'w-3/4 sm:max-w-lg',
+      },
+      {
+        side: ['left', 'right'],
+        size: 'lg',
+        class: 'w-[calc(100%-2rem)] max-w-none sm:w-1/2',
+      },
+      {
+        side: ['top', 'bottom'],
+        size: 'md',
+        class: 'h-[40dvh]',
+      },
+      {
+        side: ['top', 'bottom'],
+        size: 'lg',
+        class: 'h-1/2',
+      },
+      {
+        side: ['left', 'right'],
+        size: 'full',
+        variant: 'default',
+        class: 'w-full max-w-none',
+      },
+      {
+        side: ['left', 'right'],
+        size: 'full',
+        variant: 'elevated',
+        class: 'w-[calc(100%-2rem)] max-w-none',
+      },
+      {
+        side: ['top', 'bottom'],
+        size: 'full',
+        variant: 'default',
+        class: 'h-dvh max-h-none',
+      },
+      {
+        side: ['top', 'bottom'],
+        size: 'full',
+        variant: 'elevated',
+        class: 'h-[calc(100dvh-2rem)] max-h-none',
+      },
     ],
     defaultVariants: {
       side: 'right',
+      size: 'sm',
       variant: 'elevated',
     },
   },

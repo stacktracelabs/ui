@@ -9470,6 +9470,13 @@
               "default": "\"right\""
             },
             {
+              "name": "size",
+              "description": "Selects the component size.",
+              "type": "\"sm\" | \"md\" | \"lg\" | \"full\"",
+              "required": false,
+              "default": "\"sm\""
+            },
+            {
               "name": "to",
               "description": "Sets the destination represented by the component.",
               "type": "string | HTMLElement",
