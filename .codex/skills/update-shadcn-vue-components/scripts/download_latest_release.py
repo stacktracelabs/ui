@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download and unpack the latest unovue/shadcn-vue GitHub release."""
+"""Download and unpack an unovue/shadcn-vue GitHub release."""
 
 from __future__ import annotations
 
@@ -7,12 +7,14 @@ import argparse
 import json
 import shutil
 import tempfile
+import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
 
 
-API_URL = "https://api.github.com/repos/unovue/shadcn-vue/releases/latest"
+LATEST_RELEASE_API_URL = "https://api.github.com/repos/unovue/shadcn-vue/releases/latest"
+TAG_RELEASE_API_URL = "https://api.github.com/repos/unovue/shadcn-vue/releases/tags/{tag}"
 GITHUB_HEADERS = {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
@@ -46,9 +48,14 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="/private/tmp", help="Directory where the release folder should be created")
     parser.add_argument("--name", default=None, help="Optional output folder name")
+    parser.add_argument("--tag", default=None, help="Release tag to download; defaults to the latest release")
     args = parser.parse_args()
 
-    release = fetch_json(API_URL)
+    api_url = LATEST_RELEASE_API_URL
+    if args.tag:
+        api_url = TAG_RELEASE_API_URL.format(tag=urllib.parse.quote(args.tag, safe=""))
+
+    release = fetch_json(api_url)
     tag = release["tag_name"]
     zipball_url = release["zipball_url"]
 

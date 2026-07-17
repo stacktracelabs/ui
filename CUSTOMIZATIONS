@@ -1,0 +1,161 @@
+# shadcn-vue customizations
+
+This file records the local behavior that must survive shadcn-vue upgrades.
+
+Treat these entries as a preservation contract. When an affected component changes upstream, compare the recorded-version source, the target-version source, and the local source; apply the upstream delta without removing the behavior below. Update this file when a customization is added, changed, intentionally replaced by upstream, or removed.
+
+## Repository-wide adaptations
+
+- Keep Vue SFCs template-first and use single quotes in TypeScript where the surrounding code does.
+- Keep PascalCase component directories, `@/Components/<Group>` cross-component imports, `@/Utils` for `cn`, and `@lucide/vue` for icons.
+- Keep `components/` as the canonical source. Do not copy it into the docs app or edit generated registry JSON.
+- Preserve local-only component groups. Their absence from shadcn-vue is not a reason to remove them.
+- Do not treat import rewrites, SFC block order, quote style, or upstream-to-local path rewrites as component customizations.
+
+## Component-specific customizations
+
+### Alert
+
+- Adds the `positive` variant with green light/dark border, text, and icon styling.
+
+### AlertDialog
+
+- Accepts an optional `Toggle` as `control` and binds it to the root open state.
+- Adds `default` and `elevated` content and overlay variants; `elevated` is the default and uses a lighter blurred overlay plus the bordered outer halo.
+- Adds the exported `AlertDialogOverlay` wrapper and variant types.
+- `AlertDialogContent` accepts a `to` portal target and forwards it to `AlertDialogPortal`.
+
+### Breadcrumb
+
+- `BreadcrumbLink` defaults to Inertia's `Link` instead of an anchor.
+- Adds `BreadcrumbNavigation`, which renders an `@stacktrace/ui` `Menu` through `useNavigation`, including external links and the current-page state.
+
+### Button
+
+- Adds the `group/button` class used by nested state UI.
+- Adds `ButtonLink`, an Inertia `Link` that accepts button variants and sizes while forwarding Inertia props.
+- Adds `ButtonState` with processing and recently-successful states, labels/slots, a spinner, and support for Inertia's native `data-loading` state through the button group.
+- Keep `Button` itself a thin primitive; do not move request lifecycle behavior into it or duplicate that lifecycle in `ButtonLink`.
+
+### Checkbox
+
+- Uses a native checkbox input rather than Reka's `CheckboxRoot`.
+- Supports `v-model`, arbitrary values, and the DOM `indeterminate` property.
+- Uses CSS-mask check and indeterminate icons so their color follows `currentColor`.
+- Adds `CheckboxControl`, which pairs the checkbox with a generated-id `Label`.
+
+### Combobox
+
+- Exports Reka's `ComboboxTrigger` primitive directly rather than the upstream styled `ComboboxTrigger.vue` wrapper. Preserve this API unless consumers are intentionally migrated.
+
+### ConfirmationDialog
+
+- Entire group is local. It provides a shared programmatic confirmation/alert controller, destructive actions, optional async callbacks, loading states, delayed cleanup for exit animation, and an optional portal target.
+
+### DataTable
+
+- Entire group is local and built around the `@stacktrace/ui` data-table resource and event APIs.
+- Preserves the componentized toolbar, filters, table sections, selection controls, actions, pagination, view settings, empty states, and namespaced `Columns`/`Filters` plugin discovery.
+- Preserves Inertia-aware links/actions and localized messages.
+- Adds `compact`, `default`, and `comfortable` density modes with part-specific cell, heading, and action-cell spacing.
+- Adds configurable row highlighting and text-style-to-Tailwind mappings.
+
+### DateInput
+
+- Entire group is local. It combines a segmented Reka date field with a calendar popover, string `v-model` conversion, and an optional portal target.
+
+### DatePicker
+
+- Entire group is local. It combines `Button`, `Popover`, and `Calendar`, exposes a string `v-model`, a placeholder, and an optional portal target.
+
+### DateRangePicker
+
+- Entire group is local. It exposes separate string `from`/`until` models, renders two calendar months, formats the selected range, and accepts an optional portal target.
+
+### DateTimeInput
+
+- Entire group is local. It provides a styled segmented Reka date/time field.
+
+### Dialog
+
+- Accepts an optional `Toggle` as `control` and binds it to the root open state.
+- Adds `default` and `elevated` content and overlay variants; `elevated` is the default and uses a lighter blurred overlay plus the bordered outer halo.
+- Applies the same variant contract to `DialogContent`, `DialogOverlay`, and `DialogScrollContent`.
+- Preserves the scroll-content outside-pointer guard that prevents closing when the scrollbar area is clicked.
+
+### DropdownMenu
+
+- Adds `DropdownMenuLink`, which renders an Inertia `Link` through `DropdownMenuItem` and forwards menu-item and Inertia link props.
+
+### Filter
+
+- Entire group is local. Preserve the checkbox, date-range, multi-select, number, reset-button, and debounced search filter controls.
+
+### Form
+
+- This group is a local layout/form-control API, not shadcn-vue's `vee-validate` form group.
+- `FormControl` supports vertical and responsive horizontal layouts, labels, help, required markers, and error states using the local `Field` group.
+- `FormCombobox` and `FormSelect` accept `@stacktrace/ui` option records and provide complete model-bound controls.
+- Do not add upstream `FormDescription`, `FormItem`, `FormLabel`, `FormMessage`, `injectionKeys.ts`, or `useFormField.ts` unless the local API is intentionally redesigned.
+
+### Input
+
+- Adds `DebouncedInput` with `debounce`, `maxWait`, placeholder, attribute forwarding, immediate clearing, and synchronized `modelValue` behavior.
+
+### Logo
+
+- Entire group is local and provides the package's current SVG mark.
+
+### Marker
+
+- Entire group is local. It provides `default`, `separator`, and `border` variants plus dedicated content and icon wrappers.
+
+### NavigationMenu
+
+- `NavigationMenuLink` renders through Inertia's `Link` while retaining the Reka navigation-menu link behavior and styling.
+
+### Panel
+
+- Entire group is local. Preserve its primitive root and header/content/footer/item/title layout helpers, including labeled responsive items.
+
+### PinInput
+
+- Defaults `modelValue` to an empty array. Preserve this local default unless the API is intentionally migrated to the newer generic/OTP defaults upstream.
+
+### Popover
+
+- `PopoverContent` accepts a `to` portal target and forwards it to `PopoverPortal`.
+
+### Sheet
+
+- Accepts an optional `Toggle` as `control` and binds it to the root open state.
+- Adds `default` and `elevated` content and overlay variants; `elevated` is the default and renders as an inset floating sheet with a lighter blurred overlay and outer halo.
+- Adds `sm`, `md`, `lg`, and `full` sizes with side-aware width/height compound variants.
+- `SheetContent` accepts a `to` portal target and exposes `data-size` and `data-variant` hooks.
+
+### Sidebar
+
+- Adds `SidebarNavigation` and `SidebarNavigationButton` for nested `@stacktrace/ui` menus, active states, badges, icons, collapsible children, and Inertia-aware navigation buttons.
+- Preserves `SidebarMenuButtonChild` and the local navigation exports while merging upstream sidebar styling changes.
+- Keeps cookie-backed expanded/collapsed state and the keyboard shortcut behavior.
+
+### Sonner
+
+- Listens to `useFlash('toast', ...)` from `@stacktrace/ui` and converts flash events into `vue-sonner` toasts.
+- Preserves the local icon slots, `toaster group` class composition, theme CSS variables, and imported Sonner styles.
+
+### Switch
+
+- Adds `SwitchControl`, which pairs a switch with a generated-id `Label` and forwards root props and emits.
+
+### Table
+
+- Adds `TableEmpty`, `BulkSelect`, `RowSelect`, `SelectableTableRow`, and `Sorting` helpers.
+- Adds `useSelectableRows`, including disabled-row handling, computed selection state/counts, select-all, clearing, and guarded selection callbacks.
+- These helpers are consumed by `DataTable`; do not replace them with upstream `@tanstack/vue-table` `valueUpdater` utilities.
+
+### Tabs
+
+- Adds `default` and `ghost` list/item variants plus horizontal and vertical orientation styling shared through a local tabs context.
+- Adds Inertia-aware `TabsLink`/`TabsLinkList` and menu-driven `TabsNavigation`/`TabsNavigationItem` helpers with automatic active-link detection.
+- Preserves the local context helpers and navigation exports when applying upstream Tabs changes.

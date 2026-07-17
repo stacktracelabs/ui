@@ -1,4 +1,4 @@
 interface:
   display_name: "Update shadcn-vue Components"
-  short_description: "Sync canonical registry components from shadcn-vue"
-  default_prompt: "Use $update-shadcn-vue-components to update this repository’s canonical components/ source from the latest shadcn-vue release and validate the registry and docs consumer."
+  short_description: "Upgrade components while preserving local changes"
+  default_prompt: "Use $update-shadcn-vue-components to check for a newer stable shadcn-vue release, backport release-note-driven changes into components/, preserve CUSTOMIZATIONS, and validate the registry and docs consumer."
