@@ -122,11 +122,15 @@
 
       <h2 id="sizes-and-composition">Sizes and composition</h2>
       <p>
-        Use the default size for most forms and dialogs, <code>sm</code> for
-        dense interfaces such as toolbars and table rows, and <code>lg</code>
-        for prominent standalone calls to action. Reserve icon sizes for
-        icon-only controls.
+        Use the default size for most forms and dialogs, <code>xs</code> or
+        <code>sm</code> for dense interfaces such as toolbars and table rows,
+        and <code>lg</code> for prominent standalone calls to action. Reserve
+        the matching <code>icon-xs</code>, <code>icon-sm</code>,
+        <code>icon</code>, and <code>icon-lg</code> sizes for icon-only controls.
       </p>
+      <ComponentPreview title="Sizes" :source="sizesExampleSource">
+        <SizesExample />
+      </ComponentPreview>
       <DocsComponentRecommendation
         title="Group related buttons"
         component-href="/docs/components/button-group"
@@ -295,6 +299,8 @@ import ProcessingExample from '@/Docs/Examples/Button/Processing.vue'
 import processingExampleSource from '@/Docs/Examples/Button/Processing.vue?raw'
 import SecondaryExample from '@/Docs/Examples/Button/Secondary.vue'
 import secondaryExampleSource from '@/Docs/Examples/Button/Secondary.vue?raw'
+import SizesExample from '@/Docs/Examples/Button/Sizes.vue'
+import sizesExampleSource from '@/Docs/Examples/Button/Sizes.vue?raw'
 import DocsLayout from '@/Docs/Layouts/DocsLayout.vue'
 
 const installationCode = 'npx shadcn-vue@latest add @stacktrace/button'

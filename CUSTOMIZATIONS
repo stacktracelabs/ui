@@ -9,6 +9,7 @@ Treat these entries as a preservation contract. When an affected component chang
 - Keep Vue SFCs template-first and use single quotes in TypeScript where the surrounding code does.
 - Keep PascalCase component directories, `@/Components/<Group>` cross-component imports, `@/Utils` for `cn`, and `@lucide/vue` for icons.
 - Keep `components/` as the canonical source. Do not copy it into the docs app or edit generated registry JSON.
+- Keep the docs app's `shadcn-vue-utilities.css` import for upstream shimmer, scroll-fade, and scrollbar utilities used by components such as `Attachment` and `MessageScroller`.
 - Preserve local-only component groups. Their absence from shadcn-vue is not a reason to remove them.
 - Do not treat import rewrites, SFC block order, quote style, or upstream-to-local path rewrites as component customizations.
 
@@ -105,10 +106,6 @@ Treat these entries as a preservation contract. When an affected component chang
 ### Logo
 
 - Entire group is local and provides the package's current SVG mark.
-
-### Marker
-
-- Entire group is local. It provides `default`, `separator`, and `border` variants plus dedicated content and icon wrappers.
 
 ### NavigationMenu
 

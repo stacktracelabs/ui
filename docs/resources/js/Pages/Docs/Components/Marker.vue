@@ -46,8 +46,9 @@
 
       <h3 id="shimmer">Shimmer</h3>
       <p>
-        Marker content can carry an optional text animation for ongoing work.
-        Keep a reduced-motion fallback when adding this effect.
+        Add the shared <code>shimmer</code> utility to Marker content for an
+        ongoing-work animation. The utility includes a reduced-motion
+        fallback and is also used by Attachment upload states.
       </p>
       <ComponentPreview title="Shimmer" :source="shimmerExampleSource">
         <ShimmerExample />
