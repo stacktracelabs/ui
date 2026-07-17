@@ -19,6 +19,7 @@
 /public/hot
 /public/r
 /public/storage
+/resources/js/Docs/Api/component-api.json
 /storage/*.key
 /storage/pail
 /vendor

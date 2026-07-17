@@ -6,7 +6,7 @@
         "api:build": "node scripts/generate-component-api.mjs",
         "api:check": "node scripts/generate-component-api.mjs --check",
         "api:import-reka": "node scripts/import-reka-descriptions.mjs",
-        "build": "run-s api:build skills:build registry:build build:app",
+        "build": "run-s api:build registry:build build:app",
         "build:app": "run-p type-check \"build-only {@}\" --",
         "build-only": "vite build",
         "dev": "vite",
