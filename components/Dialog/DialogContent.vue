@@ -3,7 +3,7 @@
     <DialogOverlay :variant="props.variant" />
     <DialogContent
       data-slot="dialog-content"
-      :data-variant="props.variant ?? 'default'"
+      :data-variant="props.variant ?? 'elevated'"
       v-bind="forwarded"
       :class="
         cn(

@@ -8,7 +8,7 @@ A modal window layered over the page for focused content and actions.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Elevated](#elevated)
+- [Classic](#classic)
 - [Structure and accessibility](#structure-and-accessibility)
 - [Controlled state](#controlled-state)
 - [Scrollable content](#scrollable-content)
@@ -23,7 +23,7 @@ npx shadcn-vue@latest add @stacktrace/dialog
 
 ## Usage
 
-Use Dialog for a short, focused workflow that needs context from the current screen, such as editing a record or reviewing details. Avoid moving a full page or a long multi-step task into a modal.
+Use Dialog for a short, focused workflow that needs context from the current screen, such as editing a record or reviewing details. Avoid moving a full page or a long multi-step task into a modal. Dialogs use the elevated surface and lighter blurred backdrop by default.
 
 ```vue
 <template>
@@ -67,9 +67,9 @@ import { Input } from '@/Components/Input'
 </script>
 ```
 
-## Elevated
+## Classic
 
-Use `variant="elevated"` for a lighter backdrop and a layered, outlined surface. The stronger separation works well when the page behind the dialog should remain visually present.
+Use `variant="default"` for the original flat surface with a darker, non-blurred backdrop.
 
 ```vue
 <template>
@@ -77,7 +77,7 @@ Use `variant="elevated"` for a lighter backdrop and a layered, outlined surface.
     <DialogTrigger as-child>
       <Button variant="outline">Set spending limit</Button>
     </DialogTrigger>
-    <DialogContent variant="elevated" class="sm:max-w-md">
+    <DialogContent variant="default" class="sm:max-w-md">
       <DialogHeader>
         <DialogTitle>Spending limit</DialogTitle>
         <DialogDescription>Set a monthly limit for this workspace.</DialogDescription>

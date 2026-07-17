@@ -13,20 +13,20 @@
       <p>
         Use Dialog for a short, focused workflow that needs context from the
         current screen, such as editing a record or reviewing details. Avoid
-        moving a full page or a long multi-step task into a modal.
+        moving a full page or a long multi-step task into a modal. Dialogs use
+        the elevated surface and lighter blurred backdrop by default.
       </p>
       <ComponentPreview :source="exampleSource">
         <DefaultExample />
       </ComponentPreview>
 
-      <h2 id="elevated">Elevated</h2>
+      <h2 id="classic">Classic</h2>
       <p>
-        Use <code>variant=&quot;elevated&quot;</code> for a lighter backdrop and a
-        layered, outlined surface. The stronger separation works well when the
-        page behind the dialog should remain visually present.
+        Use <code>variant=&quot;default&quot;</code> for the original flat surface with a
+        darker, non-blurred backdrop.
       </p>
-      <ComponentPreview :source="elevatedExampleSource">
-        <ElevatedExample />
+      <ComponentPreview :source="classicExampleSource">
+        <ClassicExample />
       </ComponentPreview>
 
       <h2 id="structure">Structure and accessibility</h2>
@@ -85,9 +85,9 @@ import CodeBlock from '@/Docs/Components/CodeBlock.vue'
 import ComponentPreview from '@/Docs/Components/ComponentPreview.vue'
 import DocsComponentRecommendation from '@/Docs/Components/DocsComponentRecommendation.vue'
 import DocsPage from '@/Docs/Components/DocsPage.vue'
+import ClassicExample from '@/Docs/Examples/Dialog/Classic.vue'
+import classicExampleSource from '@/Docs/Examples/Dialog/Classic.vue?raw'
 import DefaultExample from '@/Docs/Examples/Dialog/Default.vue'
-import ElevatedExample from '@/Docs/Examples/Dialog/Elevated.vue'
-import elevatedExampleSource from '@/Docs/Examples/Dialog/Elevated.vue?raw'
 import exampleSource from '@/Docs/Examples/Dialog/Default.vue?raw'
 import DialogScrollExample from '@/Docs/Examples/Dialog/DialogScrollExample.vue'
 import scrollExampleSource from '@/Docs/Examples/Dialog/DialogScrollExample.vue?raw'

@@ -4052,7 +4052,7 @@
               "description": "Selects the visual and semantic variant.",
               "type": "\"default\" | \"elevated\"",
               "required": false,
-              "default": "\"default\""
+              "default": "\"elevated\""
             }
           ],
           "source": "reka-ui"
@@ -4115,7 +4115,7 @@
               "description": "Selects the visual and semantic variant.",
               "type": "\"default\" | \"elevated\"",
               "required": false,
-              "default": "\"default\""
+              "default": "\"elevated\""
             }
           ],
           "source": "reka-ui"
@@ -4153,7 +4153,7 @@
               "description": "Selects the visual and semantic variant.",
               "type": "\"default\" | \"elevated\"",
               "required": false,
-              "default": "\"default\""
+              "default": "\"elevated\""
             }
           ],
           "source": "reka-ui"
@@ -9480,7 +9480,7 @@
               "description": "Selects the visual and semantic variant.",
               "type": "\"default\" | \"elevated\"",
               "required": false,
-              "default": "\"default\""
+              "default": "\"elevated\""
             }
           ],
           "source": "reka-ui"

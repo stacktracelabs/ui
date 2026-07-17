@@ -49,9 +49,25 @@ export const sheetContentVariants = cva(
     ],
     defaultVariants: {
       side: 'right',
-      variant: 'default',
+      variant: 'elevated',
+    },
+  },
+)
+
+export const sheetOverlayVariants = cva(
+  'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
+  {
+    variants: {
+      variant: {
+        default: 'bg-black/80',
+        elevated: 'bg-black/20 backdrop-blur-[1px]',
+      },
+    },
+    defaultVariants: {
+      variant: 'elevated',
     },
   },
 )
 
 export type SheetContentVariants = VariantProps<typeof sheetContentVariants>
+export type SheetOverlayVariants = VariantProps<typeof sheetOverlayVariants>

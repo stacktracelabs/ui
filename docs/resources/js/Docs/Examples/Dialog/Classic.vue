@@ -3,7 +3,7 @@
     <DialogTrigger as-child>
       <Button variant="outline">Set spending limit</Button>
     </DialogTrigger>
-    <DialogContent variant="elevated" class="sm:max-w-md">
+    <DialogContent variant="default" class="sm:max-w-md">
       <DialogHeader>
         <DialogTitle>Spending limit</DialogTitle>
         <DialogDescription>Set a monthly limit for this workspace.</DialogDescription>

@@ -1,7 +1,7 @@
 <template>
   <DialogOverlay
     data-slot="dialog-overlay"
-    :data-variant="props.variant ?? 'default'"
+    :data-variant="props.variant ?? 'elevated'"
     v-bind="delegatedProps"
     :class="cn(dialogOverlayVariants({ variant: props.variant }), props.class)"
   >

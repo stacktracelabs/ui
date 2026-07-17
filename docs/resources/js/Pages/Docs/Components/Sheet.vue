@@ -14,20 +14,20 @@
         Use Sheet for a focused task or supporting details that should retain
         visual context from the current screen. Keep the task narrow; a large
         form, deep navigation, or content that should be linkable usually
-        belongs on its own page.
+        belongs on its own page. Sheets use the inset elevated surface and
+        lighter blurred backdrop by default.
       </p>
       <ComponentPreview :source="sheetSource">
         <SheetExample />
       </ComponentPreview>
 
-      <h2 id="elevated">Elevated</h2>
+      <h2 id="classic">Classic</h2>
       <p>
-        Use <code>variant=&quot;elevated&quot;</code> for an inset sheet on a
-        translucent outer card. The extra viewport spacing keeps the layered
-        edge visible instead of attaching it directly to the screen.
+        Use <code>variant=&quot;default&quot;</code> for the original edge-attached sheet
+        with a darker, non-blurred backdrop.
       </p>
-      <ComponentPreview :source="sheetElevatedSource">
-        <SheetElevatedExample />
+      <ComponentPreview :source="sheetClassicSource">
+        <SheetClassicExample />
       </ComponentPreview>
 
       <h2 id="structure-and-focus">Structure and focus</h2>
@@ -100,10 +100,10 @@ import CodeBlock from '@/Docs/Components/CodeBlock.vue'
 import ComponentPreview from '@/Docs/Components/ComponentPreview.vue'
 import DocsComponentRecommendation from '@/Docs/Components/DocsComponentRecommendation.vue'
 import DocsPage from '@/Docs/Components/DocsPage.vue'
+import SheetClassicExample from '@/Docs/Examples/Sheet/SheetClassicExample.vue'
+import sheetClassicSource from '@/Docs/Examples/Sheet/SheetClassicExample.vue?raw'
 import SheetControlledExample from '@/Docs/Examples/Sheet/SheetControlledExample.vue'
 import sheetControlledSource from '@/Docs/Examples/Sheet/SheetControlledExample.vue?raw'
-import SheetElevatedExample from '@/Docs/Examples/Sheet/SheetElevatedExample.vue'
-import sheetElevatedSource from '@/Docs/Examples/Sheet/SheetElevatedExample.vue?raw'
 import SheetExample from '@/Docs/Examples/Sheet/SheetExample.vue'
 import sheetSource from '@/Docs/Examples/Sheet/SheetExample.vue?raw'
 import SheetSidesExample from '@/Docs/Examples/Sheet/SheetSidesExample.vue'

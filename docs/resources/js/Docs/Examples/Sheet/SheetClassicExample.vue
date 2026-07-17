@@ -2,10 +2,10 @@
   <Sheet>
     <SheetTrigger as-child>
       <Button variant="outline">
-        Open elevated sheet
+        Open classic sheet
       </Button>
     </SheetTrigger>
-    <SheetContent variant="elevated">
+    <SheetContent variant="default">
       <SheetHeader>
         <SheetTitle>Workspace settings</SheetTitle>
         <SheetDescription>

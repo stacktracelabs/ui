@@ -6,7 +6,7 @@
     >
       <DialogContent
         data-slot="dialog-content"
-        :data-variant="props.variant ?? 'default'"
+        :data-variant="props.variant ?? 'elevated'"
         :class="
           cn(
             'bg-background relative z-50 my-8 grid w-full max-w-lg gap-4 p-6 duration-200 sm:rounded-lg md:w-full',

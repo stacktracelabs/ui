@@ -8,7 +8,7 @@ Displays complementary content in a modal panel from an edge of the screen.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Elevated](#elevated)
+- [Classic](#classic)
 - [Structure and focus](#structure-and-focus)
 - [Variants and state](#variants-and-state)
 
@@ -22,7 +22,7 @@ npx shadcn-vue@latest add @stacktrace/sheet
 
 ## Usage
 
-Use Sheet for a focused task or supporting details that should retain visual context from the current screen. Keep the task narrow; a large form, deep navigation, or content that should be linkable usually belongs on its own page.
+Use Sheet for a focused task or supporting details that should retain visual context from the current screen. Keep the task narrow; a large form, deep navigation, or content that should be linkable usually belongs on its own page. Sheets use the inset elevated surface and lighter blurred backdrop by default.
 
 ```vue
 <template>
@@ -77,19 +77,19 @@ import {
 </script>
 ```
 
-## Elevated
+## Classic
 
-Use `variant="elevated"` for an inset sheet on a translucent outer card. The extra viewport spacing keeps the layered edge visible instead of attaching it directly to the screen.
+Use `variant="default"` for the original edge-attached sheet with a darker, non-blurred backdrop.
 
 ```vue
 <template>
   <Sheet>
     <SheetTrigger as-child>
       <Button variant="outline">
-        Open elevated sheet
+        Open classic sheet
       </Button>
     </SheetTrigger>
-    <SheetContent variant="elevated">
+    <SheetContent variant="default">
       <SheetHeader>
         <SheetTitle>Workspace settings</SheetTitle>
         <SheetDescription>

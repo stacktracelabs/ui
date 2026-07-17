@@ -1,6 +1,6 @@
 <template>
   <DialogPortal :to="to">
-    <SheetOverlay />
+    <SheetOverlay :variant="props.variant" />
     <DialogContent
       data-slot="sheet-content"
       :data-variant="props.variant"
@@ -48,7 +48,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<SheetContentProps>(), {
   side: 'right',
-  variant: 'default',
+  variant: 'elevated',
 })
 const emits = defineEmits<DialogContentEmits>()
 
