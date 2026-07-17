@@ -293,6 +293,13 @@
               "description": "Sets the destination represented by the component.",
               "type": "string | HTMLElement",
               "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"elevated\""
             }
           ],
           "source": "reka-ui"
@@ -327,6 +334,38 @@
           "description": "Contains introductory content and controls.",
           "props": [],
           "source": "stacktrace-ui"
+        },
+        {
+          "name": "AlertDialogOverlay",
+          "description": "A layer that covers the inert portion of the view when the dialog is open.",
+          "props": [
+            {
+              "name": "as",
+              "description": "The element or component this component should render as. Can be overwritten by asChild.",
+              "type": "AsTag | Component",
+              "required": false
+            },
+            {
+              "name": "asChild",
+              "description": "Change the default rendered element for the one passed as a child, merging their props and behavior.",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "forceMount",
+              "description": "Used to force mounting when more control is needed. Useful when controlling animation with Vue animation libraries.",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "name": "variant",
+              "description": "Selects the visual and semantic variant.",
+              "type": "\"default\" | \"elevated\"",
+              "required": false,
+              "default": "\"elevated\""
+            }
+          ],
+          "source": "reka-ui"
         },
         {
           "name": "AlertDialogTitle",

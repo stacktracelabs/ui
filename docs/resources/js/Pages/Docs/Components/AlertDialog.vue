@@ -15,10 +15,21 @@
         current task can continue—for example, before deleting data or
         discarding unsaved work. Name the consequence in the description and
         label the action with the operation itself, such as
-        <em>Delete account</em>, rather than a vague <em>Continue</em>.
+        <em>Delete account</em>, rather than a vague <em>Continue</em>. Alert
+        dialogs use the elevated surface and lighter blurred backdrop by
+        default.
       </p>
       <ComponentPreview :source="defaultExampleSource">
         <DefaultExample />
+      </ComponentPreview>
+
+      <h2 id="classic">Classic</h2>
+      <p>
+        Use <code>variant=&quot;default&quot;</code> for the original flat surface with a
+        darker, non-blurred backdrop.
+      </p>
+      <ComponentPreview :source="classicExampleSource">
+        <ClassicExample />
       </ComponentPreview>
 
       <h2 id="structure">Structure and focus</h2>
@@ -72,6 +83,8 @@ import CodeBlock from '@/Docs/Components/CodeBlock.vue'
 import ComponentPreview from '@/Docs/Components/ComponentPreview.vue'
 import DocsComponentRecommendation from '@/Docs/Components/DocsComponentRecommendation.vue'
 import DocsPage from '@/Docs/Components/DocsPage.vue'
+import ClassicExample from '@/Docs/Examples/AlertDialog/Classic.vue'
+import classicExampleSource from '@/Docs/Examples/AlertDialog/Classic.vue?raw'
 import DefaultExample from '@/Docs/Examples/AlertDialog/Default.vue'
 import defaultExampleSource from '@/Docs/Examples/AlertDialog/Default.vue?raw'
 import DocsLayout from '@/Docs/Layouts/DocsLayout.vue'

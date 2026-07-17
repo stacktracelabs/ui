@@ -4,6 +4,15 @@
 
 A modal dialog that interrupts the user with important content and expects a response.
 
+## Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Classic](#classic)
+- [Structure and focus](#structure-and-focus)
+- [Controlled state](#controlled-state)
+- [When to use something else](#when-to-use-something-else)
+
 ## Installation
 
 Add the Alert Dialog component from the configured StackTrace registry.
@@ -14,7 +23,7 @@ npx shadcn-vue@latest add @stacktrace/alert-dialog
 
 ## Usage
 
-Use an alert dialog only when a decision must be resolved before the current task can continue—for example, before deleting data or discarding unsaved work. Name the consequence in the description and label the action with the operation itself, such as *Delete account*, rather than a vague *Continue*.
+Use an alert dialog only when a decision must be resolved before the current task can continue—for example, before deleting data or discarding unsaved work. Name the consequence in the description and label the action with the operation itself, such as *Delete account*, rather than a vague *Continue*. Alert dialogs use the elevated surface and lighter blurred backdrop by default.
 
 ```vue
 <template>
@@ -36,6 +45,49 @@ Use an alert dialog only when a decision must be resolved before the current tas
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction :class="buttonVariants({ variant: 'destructive' })">
           Delete account
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</template>
+
+<script setup lang="ts">
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/Components/AlertDialog'
+import { Button, buttonVariants } from '@/Components/Button'
+</script>
+```
+
+## Classic
+
+Use `variant="default"` for the original flat surface with a darker, non-blurred backdrop.
+
+```vue
+<template>
+  <AlertDialog>
+    <AlertDialogTrigger as-child>
+      <Button variant="outline">Discard changes</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent variant="default">
+      <AlertDialogHeader>
+        <AlertDialogTitle>Discard your changes?</AlertDialogTitle>
+        <AlertDialogDescription>
+          The edits made since your last save will be permanently lost.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Keep editing</AlertDialogCancel>
+        <AlertDialogAction :class="buttonVariants({ variant: 'destructive' })">
+          Discard changes
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
