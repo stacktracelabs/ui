@@ -18,7 +18,9 @@
 
             <Card class="gap-0 py-0">
                 <CardContent class="p-0">
-                    <DataTable :table="customers" density="comfortable" />
+                    <DataTable :table="customers" density="comfortable">
+                        <DataTableEmptyTable />
+                    </DataTable>
                 </CardContent>
             </Card>
         </div>
@@ -28,7 +30,11 @@
 <script setup lang="ts">
 import { ButtonLink } from '@/Components/Base/Button'
 import { Card, CardContent } from '@/Components/Base/Card'
-import { DataTable, type DataTableValue } from '@/Components/Base/DataTable'
+import {
+    DataTable,
+    DataTableEmptyTable,
+    type DataTableValue,
+} from '@/Components/Base/DataTable'
 import WorkbenchLayout from '@/Docs/Layouts/WorkbenchLayout.vue'
 import { Head } from '@inertiajs/vue3'
 

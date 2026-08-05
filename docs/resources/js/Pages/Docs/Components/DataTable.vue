@@ -79,14 +79,15 @@
               Displaying the table
             </h3>
             <p class="text-muted-foreground">
-              Render <code>DataTable</code> and pass the serialized value through its
-              <code>table</code> prop.
+              For normal application tables, render the ready <code>DataTable</code> recipe and
+              pass the serialized value through its <code>table</code> prop. Add
+              <code>DataTableEmptyTable</code> when the table should display a true-empty state.
             </p>
             <CodeBlock :code="displayingTableCode" language="vue" />
             <p class="text-muted-foreground">
               The ready component supports controlled or initial selection through
               <code>v-model:selection</code> and <code>defaultSelection</code>. Its visual props
-              include empty-state messages, border treatment, insets, density, and a wrapper class.
+              include border treatment, insets, density, and a wrapper class.
             </p>
             <p class="text-muted-foreground">
               Set <code>density</code> to <code>compact</code>, <code>default</code>, or
@@ -94,6 +95,36 @@
               spacing for data-heavy views. Density changes table spacing without resizing text,
               icons, filters, or pagination.
             </p>
+
+            <h4 id="empty-states" class="scroll-mt-24 text-lg font-semibold tracking-tight">
+              Empty states
+            </h4>
+            <p class="text-muted-foreground">
+              The ready <code>DataTable</code> intentionally has no props for empty-state titles,
+              descriptions, or actions. Configure the true-empty state directly on its
+              <code>DataTableEmptyTable</code> child instead.
+            </p>
+            <ul class="list-disc space-y-2 pl-6 text-muted-foreground">
+              <li>
+                <code>DataTableEmptyTable</code> renders only when the underlying table has no
+                records and no search or filter is active. It accepts <code>title</code>,
+                <code>description</code>, and <code>class</code>; its default slot is intended for
+                actions such as a create button. If you omit this child, the ready recipe renders
+                no true-empty placeholder.
+              </li>
+              <li>
+                <code>DataTableEmptyResults</code> is already included in the ready recipe. It
+                appears when search or filters produce no rows and provides the appropriate clear
+                action. Do not add it as another child of <code>DataTable</code>; use it explicitly
+                only when composing the granular table parts yourself.
+              </li>
+            </ul>
+            <p class="text-muted-foreground">
+              Customize only the true-empty state like this—the toolbar, filters, table,
+              pagination, dialogs, and empty-results behavior remain provided by
+              <code>DataTable</code>:
+            </p>
+            <CodeBlock :code="customEmptyTableCode" language="vue" />
           </div>
 
           <div class="space-y-4">
@@ -579,8 +610,9 @@
           <ol class="list-decimal space-y-3 pl-6 text-muted-foreground">
             <li>Pass the table as an Inertia page prop.</li>
             <li>
-              Render the ready <code>&lt;DataTable :table="customers" /&gt;</code> recipe or compose
-              exported visual parts over the headless core.
+              Render the ready <code>DataTable</code> recipe with a
+              <code>DataTableEmptyTable</code> child when a true-empty placeholder is required, or
+              compose exported visual parts over the headless core.
             </li>
             <li>
               Bind the listener props returned by <code>bindDataTableEvents()</code> when you want
@@ -672,25 +704,59 @@ return Inertia::render('CustomerList', [
 ]);`
 
 const displayingTableCode = `<template>
-  <DataTable :table="customers" density="comfortable" />
+  <DataTable :table="customers" density="comfortable">
+    <DataTableEmptyTable />
+  </DataTable>
 </template>
 
 <script setup lang="ts">
-import { DataTable, type DataTableValue } from '@/Components/DataTable'
+import {
+  DataTable,
+  DataTableEmptyTable,
+  type DataTableValue,
+} from '@/Components/DataTable'
 
 defineProps<{
   customers: DataTableValue
 }>()
 <\/script>`
 
+const customEmptyTableCode = `<template>
+  <DataTable :table="customers">
+    <DataTableEmptyTable
+      title="No customers yet"
+      description="Add the first customer to get started."
+    >
+      <Button as-child>
+        <Link href="/customers/create">Add customer</Link>
+      </Button>
+    </DataTableEmptyTable>
+  </DataTable>
+</template>
+
+<script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
+import { Button } from '@/Components/Button'
+import {
+  DataTable,
+  DataTableEmptyTable,
+  type DataTableValue,
+} from '@/Components/DataTable'
+
+defineProps<{ customers: DataTableValue }>()
+<\/script>`
+
 const eventBindingCode = `<template>
-  <DataTable :table="customers" v-bind="tableEvents" />
+  <DataTable :table="customers" v-bind="tableEvents">
+    <DataTableEmptyTable />
+  </DataTable>
 </template>
 
 <script setup lang="ts">
 import {
   bindDataTableEvents,
   DataTable,
+  DataTableEmptyTable,
   type DataTableValue,
 } from '@/Components/DataTable'
 

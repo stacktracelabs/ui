@@ -8,11 +8,6 @@
     v-bind="emitsAsProps"
   >
     <div :class="props.class">
-      <DataTableEmptyTable
-        :title="emptyTableMessage || messages.emptyTableTitle"
-        :description="emptyTableDescription || messages.emptyTableDescription"
-      />
-
       <DataTableContent as-child>
         <div>
           <DataTableToolbar
@@ -38,14 +33,13 @@
             :inset-right="insetRight"
           />
 
-          <DataTableEmptyResults
-            :title="emptyResultsMessage || messages.searchEmptyTitle"
-            :description="emptyResultsDescription || messages.searchEmptyDescription"
-          />
+          <DataTableEmptyResults />
 
           <DataTableActionDialog />
         </div>
       </DataTableContent>
+
+      <slot />
     </div>
   </DataTableRoot>
 </template>
@@ -64,7 +58,6 @@ import type { HTMLAttributes } from 'vue'
 import DataTableActionDialog from './DataTableActionDialog.vue'
 import DataTableBody from './DataTableBody.vue'
 import DataTableEmptyResults from './DataTableEmptyResults.vue'
-import DataTableEmptyTable from './DataTableEmptyTable.vue'
 import DataTableFilters from './DataTableFilters.vue'
 import DataTableFooter from './DataTableFooter.vue'
 import DataTableHeader from './DataTableHeader.vue'
@@ -72,17 +65,12 @@ import DataTablePagination from './DataTablePagination.vue'
 import DataTableTable from './DataTableTable.vue'
 import DataTableToolbar from './DataTableToolbar.vue'
 import type { DataTableDensity } from './density'
-import messages from './messages'
 
 const props = defineProps<{
   table: DataTableValue<ResourceValue, ResourceKey, EventName>
   selection?: Array<ResourceKey>
   defaultSelection?: Array<ResourceKey>
   actionEndpoint?: DataTableActionRunnerOptions['endpoint']
-  emptyTableMessage?: string | null
-  emptyTableDescription?: string | null
-  emptyResultsMessage?: string | null
-  emptyResultsDescription?: string | null
   borderless?: boolean
   density?: DataTableDensity
   insetLeft?: string

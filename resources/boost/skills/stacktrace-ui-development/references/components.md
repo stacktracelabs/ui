@@ -10,9 +10,11 @@ Use this catalog to select an existing component before writing a custom one. Re
 | Alert | Displays an important status or message that needs the user's attention. | [Read](alert.md) |
 | Alert Dialog | A modal dialog that interrupts the user with important content and expects a response. | [Read](alert-dialog.md) |
 | Aspect Ratio | Keeps media and other content at a predictable width-to-height ratio. | [Read](aspect-ratio.md) |
+| Attachment | Displays a file or image with its metadata, upload state, and actions. | [Read](attachment.md) |
 | Avatar | Displays a person or entity image with a reliable fallback. | [Read](avatar.md) |
 | Badge | Displays a compact label for status, category, or metadata. | [Read](badge.md) |
 | Breadcrumb | Displays the current page's location within a hierarchy of links. | [Read](breadcrumb.md) |
+| Bubble | Displays framed or unframed conversational content with alignment and reactions. | [Read](bubble.md) |
 | Button | Displays a button or an element styled like one. | [Read](button.md) |
 | Button Group | Groups related buttons together with consistent borders and spacing. | [Read](button-group.md) |
 | Calendar | Lets users choose one or more dates from an inline calendar grid. | [Read](calendar.md) |
@@ -47,6 +49,8 @@ Use this catalog to select an existing component before writing a custom one. Re
 | Logo | Renders the StackTrace mark as a small, current-color SVG. | [Read](logo.md) |
 | Marker | Displays an inline status, system note, bordered row, or labeled separator in a conversation. | [Read](marker.md) |
 | Menubar | Presents persistent, keyboard-accessible menus for application commands. | [Read](menubar.md) |
+| Message | Lays out one conversation message with optional avatar, header, footer, and alignment. | [Read](message.md) |
+| Message Scroller | Provides transcript anchoring, live-edge following, history restoration, and message navigation. | [Read](message-scroller.md) |
 | Native Select | A styled native select that preserves browser and platform selection behavior. | [Read](native-select.md) |
 | Navigation Menu | Organizes important site destinations into links and expandable navigation panels. | [Read](navigation-menu.md) |
 | Number Field | Edits a number with localized formatting and increment and decrement controls. | [Read](number-field.md) |

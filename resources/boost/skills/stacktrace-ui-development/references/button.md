@@ -131,7 +131,29 @@ import { Button } from '@/Components/Button'
 
 ## Sizes and composition
 
-Use the default size for most forms and dialogs, `sm` for dense interfaces such as toolbars and table rows, and `lg` for prominent standalone calls to action. Reserve icon sizes for icon-only controls.
+Use the default size for most forms and dialogs, `xs` or `sm` for dense interfaces such as toolbars and table rows, and `lg` for prominent standalone calls to action. Reserve the matching `icon-xs`, `icon-sm`, `icon`, and `icon-lg` sizes for icon-only controls.
+
+**Sizes example**
+
+```vue
+<template>
+  <div class="flex flex-wrap items-center justify-center gap-3">
+    <Button size="xs">Extra small</Button>
+    <Button size="sm">Small</Button>
+    <Button>Default</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon-xs" aria-label="Add item"><PlusIcon /></Button>
+    <Button size="icon-sm" aria-label="Add item"><PlusIcon /></Button>
+    <Button size="icon" aria-label="Add item"><PlusIcon /></Button>
+    <Button size="icon-lg" aria-label="Add item"><PlusIcon /></Button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { PlusIcon } from '@lucide/vue'
+import { Button } from '@/Components/Button'
+</script>
+```
 
 > **Group related buttons: [Button Group](https://ui.stacktrace.sk/docs/components/button-group)**
 >

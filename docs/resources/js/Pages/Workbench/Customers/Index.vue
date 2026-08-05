@@ -19,7 +19,9 @@
 
             <Card class="gap-0 py-0">
                 <CardContent class="p-0">
-                    <DataTable :table="customers" v-bind="tableEvents" />
+                    <DataTable :table="customers" v-bind="tableEvents">
+                        <DataTableEmptyTable />
+                    </DataTable>
                 </CardContent>
             </Card>
         </div>
@@ -34,6 +36,7 @@ import { Card, CardContent } from '@/Components/Base/Card'
 import {
     bindDataTableEvents,
     DataTable,
+    DataTableEmptyTable,
     type DataTableValue,
 } from '@/Components/Base/DataTable'
 import { useToggle } from '@stacktrace/ui'
