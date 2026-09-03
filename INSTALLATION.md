@@ -267,25 +267,7 @@ npx shadcn-vue@latest add https://ui.stacktrace.sk/registry/button.json
 
 For direct URLs, `components.json` must still include the `registries.@stacktrace` entry so nested registry dependencies like `@stacktrace/spinner` can resolve.
 
-## 11. Configure Sonner Flash Types
-
-If you install the `sonner` component, add the Inertia flash payload type to the `@inertiajs/core` declaration in `resources/js/Types/globals.d.ts`:
-
-```ts
-declare module '@inertiajs/core' {
-  export interface InertiaConfig {
-    flashDataType: {
-      toast?: {
-        title: string
-        content: string | null
-        variant: 'default' | 'destructive'
-      }
-    }
-  }
-}
-```
-
-## 12. Verify
+## 11. Verify
 
 Run:
 

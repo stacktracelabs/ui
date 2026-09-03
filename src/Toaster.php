@@ -1,9 +1,8 @@
 <?php
 
-
 namespace StackTrace\Ui;
 
-
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class Toaster
@@ -37,6 +36,7 @@ class Toaster
     public function make(string $title, ?string $content = null, string $variant = 'default'): static
     {
         Inertia::flash($this->flashKey(), [
+            'id' => (string) Str::uuid(),
             'title' => $title,
             'content' => $content,
             'variant' => $variant,

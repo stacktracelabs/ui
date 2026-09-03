@@ -3,6 +3,7 @@ import { beforeEach, vi } from 'vitest'
 const inertiaRouter = vi.hoisted(() => ({
   visit: vi.fn(),
   post: vi.fn(),
+  on: vi.fn(() => vi.fn()),
 }))
 
 vi.mock('@inertiajs/vue3', async () => {

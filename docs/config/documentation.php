@@ -104,6 +104,7 @@ return [
                 ['title' => 'useFilter', 'href' => '/docs/composables/filter', 'component' => 'Docs/Composables/Filter'],
                 ['title' => 'useFlash', 'href' => '/docs/composables/flash', 'component' => 'Docs/Composables/Flash'],
                 ['title' => 'useNavigation', 'href' => '/docs/composables/navigation', 'component' => 'Docs/Composables/Navigation'],
+                ['title' => 'useToastNotifications', 'href' => '/docs/composables/toast-notifications', 'component' => 'Docs/Composables/ToastNotifications'],
                 ['title' => 'useToggle', 'href' => '/docs/composables/toggle', 'component' => 'Docs/Composables/Toggle'],
             ],
         ],

@@ -35,15 +35,16 @@
 <script lang="ts" setup>
 import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from '@lucide/vue'
 import { toast, Toaster as Sonner, type ToasterProps } from 'vue-sonner'
-import { useFlash } from '@stacktrace/ui'
+import { useToastNotifications } from '@stacktrace/ui'
 import { cn } from '@/Utils'
 import 'vue-sonner/style.css'
 
 const props = defineProps<ToasterProps>()
 
-useFlash('toast', event => {
-  toast(event.title, {
-    description: event.content || undefined,
+useToastNotifications(notification => {
+  toast(notification.title, {
+    description: notification.content || undefined,
+    id: notification.id,
   })
 })
 </script>

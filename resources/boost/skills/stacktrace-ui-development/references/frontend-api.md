@@ -10,6 +10,7 @@ Use this catalog when working with the `@stacktrace/ui` frontend package shipped
 | Composable | useFilter | Synchronizes typed filter state with the current URL through debounced Inertia visits. | [Read](composable-use-filter.md) |
 | Composable | useFlash | Subscribes a Vue component to a typed Inertia flash event for its mounted lifetime. | [Read](composable-use-flash.md) |
 | Composable | useNavigation | Derives active, child, and badge state for typed application navigation trees. | [Read](composable-use-navigation.md) |
+| Composable | useToastNotifications | Subscribes to typed backend toast notifications and delivers each generated identifier once. | [Read](composable-use-toast-notifications.md) |
 | Composable | useToggle | A small reactive controller for explicit boolean active state. | [Read](composable-use-toggle.md) |
 | Utility | asyncRouter | A promise-based wrapper around imperative Inertia router visits. | [Read](utility-async-router.md) |
 | Type | SVGSource | A serialized SVG contract accepted anywhere the frontend package supports server-provided icons. | [Read](type-svg-source.md) |

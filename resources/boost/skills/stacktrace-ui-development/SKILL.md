@@ -43,7 +43,7 @@ The registry also exposes the aggregate `all` item and shared `utils`; these are
 
 ## Frontend package API at a glance
 
-- Composables: `useFilter`, `useFlash`, `useNavigation`, `useActiveLink`, `useToggle`, `onActivated`, and `onDeactivated`.
+- Composables: `useFilter`, `useFlash`, `useNavigation`, `useActiveLink`, `useToastNotifications`, `useToggle`, `onActivated`, and `onDeactivated`.
 - Utility: `asyncRouter` for promise-based imperative Inertia visits.
 - Shared types: filter and navigation contracts, `Toggle`, `SelectOption`, `SVGSource`, and `AsyncRouter`.
 

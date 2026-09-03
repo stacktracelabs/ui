@@ -138,7 +138,8 @@ Treat these entries as a preservation contract. When an affected component chang
 
 ### Sonner
 
-- Listens to `useFlash('toast', ...)` from `@stacktrace/ui` and converts flash events into `vue-sonner` toasts.
+- Listens through `useToastNotifications(...)` from `@stacktrace/ui` and converts typed backend notifications into `vue-sonner` toasts.
+- Relies on the frontend package to deduplicate generated notification identifiers; keep that behavior out of the registry component.
 - Preserves the local icon slots, `toaster group` class composition, theme CSS variables, and imported Sonner styles.
 
 ### Switch

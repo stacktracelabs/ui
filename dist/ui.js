@@ -1632,8 +1632,25 @@ function Dr(e) {
 	return t(() => d.value.map((e) => u(e)));
 }
 //#endregion
+//#region resources/js/Composables/useToastNotifications.ts
+var Or = 500, kr = /* @__PURE__ */ new Set();
+function Ar(e) {
+	if (kr.has(e)) return !1;
+	if (kr.add(e), kr.size > Or) {
+		let e = kr.values().next().value;
+		e !== void 0 && kr.delete(e);
+	}
+	return !0;
+}
+function jr(e) {
+	Sr("toast", (t) => {
+		let n = t;
+		Ar(n.id) && e(n);
+	});
+}
+//#endregion
 //#region resources/js/Composables/useToggle.ts
-function Or(e = !1) {
+function Mr(e = !1) {
 	let t = b(e);
 	return {
 		active: t,
@@ -1645,19 +1662,19 @@ function Or(e = !1) {
 		}
 	};
 }
-function kr(e, t) {
+function Nr(e, t) {
 	j(e.active, (e) => {
 		e && t();
 	});
 }
-function Ar(e, t) {
+function Pr(e, t) {
 	j(e.active, (e) => {
 		e || t();
 	});
 }
 //#endregion
 //#region resources/js/Components/Navigation/NavigationButton.vue
-var jr = /* @__PURE__ */ c({
+var Fr = /* @__PURE__ */ c({
 	__name: "NavigationButton",
 	props: {
 		item: {},
@@ -1701,7 +1718,7 @@ var jr = /* @__PURE__ */ c({
 			"data-child-state"
 		]));
 	}
-}), Mr = /* @__PURE__ */ c({
+}), Ir = /* @__PURE__ */ c({
 	__name: "NavigationButtonIcon",
 	setup(e) {
 		let i = le(), a = t(() => i.value?.icon);
@@ -1710,13 +1727,13 @@ var jr = /* @__PURE__ */ c({
 			src: a.value.src
 		}, null, 8, ["src"])) : a.value ? (_(), n(C(a.value), { key: 1 })) : r("", !0);
 	}
-}), Nr = () => route("ui.data-table-action"), Pr = () => void 0;
-function Fr(e = {}) {
+}), Lr = () => route("ui.data-table-action"), Rr = () => void 0;
+function zr(e = {}) {
 	let n = b(0);
 	return {
 		isRunning: t(() => n.value > 0),
 		run: (t, r, i) => {
-			let a = e.endpoint ?? Nr, o = typeof a == "function" ? a() : a;
+			let a = e.endpoint ?? Lr, o = typeof a == "function" ? a() : a;
 			n.value += 1;
 			let s = !1, c = () => {
 				s || (s = !0, n.value = Math.max(0, n.value - 1));
@@ -1728,7 +1745,7 @@ function Fr(e = {}) {
 					args: t.args
 				}, {
 					async: !0,
-					optimistic: Pr,
+					optimistic: Rr,
 					preserveScroll: !0,
 					onSuccess: () => i?.onSuccess?.(),
 					onError: () => {
@@ -1744,7 +1761,7 @@ function Fr(e = {}) {
 		}
 	};
 }
-function Ir(e, n = Fr(), r) {
+function Br(e, n = zr(), r) {
 	let i = b(null), a = w(null), o = w([]), s = t(() => i.value !== null), c = 0, l = (e, t, n) => E(e.action) === E(t) && e.selection.length === n.length && e.selection.every((e, t) => Object.is(e, n[t])), u = (e, t) => e.type === "Executable" && o.value.some((n) => l(n, e, t)), d = (e, t, i) => {
 		let s = ++c, l = {
 			id: s,
@@ -1812,7 +1829,7 @@ function Ir(e, n = Fr(), r) {
 }
 //#endregion
 //#region resources/js/Components/DataTable/selection.ts
-function Lr(e, n, r = () => []) {
+function Vr(e, n, r = () => []) {
 	let i = t(() => [...O(n)]), a = t(() => [...O(r)]), o = t(() => i.value.filter((e) => !a.value.includes(e))), s = t(() => e.value.filter((e) => o.value.includes(e)).length), c = t(() => o.value.length), l = t(() => s.value > 0), u = t(() => c.value > 0 && s.value === c.value), d = () => {
 		e.value = [];
 	}, f = () => {
@@ -1849,20 +1866,20 @@ function Lr(e, n, r = () => []) {
 }
 //#endregion
 //#region resources/js/Components/DataTable/context.ts
-var [Rr, zr] = L("DataTableRoot"), [Br, Vr] = L(["DataTableRow", "DataTableRows"]), [Hr, Ur] = L(["DataTableHeading", "DataTableHeadings"]), [Wr, Gr] = L(["DataTableCell", "DataTableCells"]), [Kr, qr] = L(["DataTableFooterCell", "DataTableFooterCells"]), [Jr, Yr] = L(["DataTableFilterWidget", "DataTableFilterWidgets"]), [Xr, Zr] = L("DataTableAction"), [Qr, $r] = L(["DataTableRoot", "DataTableResourceActionsRoot"]), [ei, ti] = L("DataTableResourceActionsRoot"), $ = () => Rr(), ni = () => Br(), ri = () => Hr(), ii = () => Wr(), ai = () => Kr(), oi = () => Jr(), si = () => Xr(), ci = () => Qr(), li = () => ei();
-function ui(e, t) {
+var [Hr, Ur] = L("DataTableRoot"), [Wr, Gr] = L(["DataTableRow", "DataTableRows"]), [Kr, qr] = L(["DataTableHeading", "DataTableHeadings"]), [Jr, Yr] = L(["DataTableCell", "DataTableCells"]), [Xr, Zr] = L(["DataTableFooterCell", "DataTableFooterCells"]), [Qr, $r] = L(["DataTableFilterWidget", "DataTableFilterWidgets"]), [ei, ti] = L("DataTableAction"), [ni, ri] = L(["DataTableRoot", "DataTableResourceActionsRoot"]), [ii, ai] = L("DataTableResourceActionsRoot"), $ = () => Hr(), oi = () => Wr(), si = () => Kr(), ci = () => Jr(), li = () => Xr(), ui = () => Qr(), di = () => ei(), fi = () => ni(), pi = () => ii();
+function mi(e, t) {
 	return `${e ?? ""}${t}`;
 }
-function di(e, t) {
+function hi(e, t) {
 	let n = [];
 	return Object.keys(e).forEach((r) => {
 		let i = e[r], a = t[r];
 		i && a?.[i] && n.push(a[i]);
 	}), n.join(" ");
 }
-var fi = (e, t = "all") => e.filter((e) => e.canRun ? t === "inline" ? e.isInline : t !== "menu" || !e.isInline : !1);
-function pi(e, n, r, i = {}) {
-	let a = t(() => e.value.rows), o = t(() => e.value.headings), s = (t) => ui(e.value.queryPrefix, t), c = [s("page"), s("cursor")], l = (e) => e.actions.some((e) => e.canRun && e.isBulk), u = Lr(n, () => a.value.map((e) => e.key), () => a.value.filter((e) => !l(e)).map((e) => e.key)), d = t(() => a.value.filter((e) => n.value.includes(e.key))), f = t(() => a.value.some((e) => e.actions.some((e) => e.canRun))), p = t(() => a.value.some((e) => e.actions.some((e) => e.canRun && e.isBulk))), m = t(() => {
+var gi = (e, t = "all") => e.filter((e) => e.canRun ? t === "inline" ? e.isInline : t !== "menu" || !e.isInline : !1);
+function _i(e, n, r, i = {}) {
+	let a = t(() => e.value.rows), o = t(() => e.value.headings), s = (t) => mi(e.value.queryPrefix, t), c = [s("page"), s("cursor")], l = (e) => e.actions.some((e) => e.canRun && e.isBulk), u = Vr(n, () => a.value.map((e) => e.key), () => a.value.filter((e) => !l(e)).map((e) => e.key)), d = t(() => a.value.filter((e) => n.value.includes(e.key))), f = t(() => a.value.some((e) => e.actions.some((e) => e.canRun))), p = t(() => a.value.some((e) => e.actions.some((e) => e.canRun && e.isBulk))), m = t(() => {
 		let e = /* @__PURE__ */ new Map();
 		return d.value.flatMap((e) => e.actions.filter((e) => e.canRun && e.isBulk)).forEach((t) => {
 			e.has(t.name) || e.set(t.name, t);
@@ -1894,7 +1911,7 @@ function pi(e, n, r, i = {}) {
 		D.value = e;
 	}, A = (e) => {
 		T.value === e ? E.value === "asc" ? E.value = "desc" : E.value === "desc" ? (T.value = null, E.value = null) : E.value = "asc" : (T.value = e, E.value = "asc");
-	}, j = (e, t = "all") => fi(e.actions, t), M = (e = "all") => fi(m.value, e), P = t(() => !e.value.isEmpty), F = t(() => P.value && p.value), I = t(() => e.value.isEmpty), L = t(() => !e.value.isEmpty && a.value.length === 0), ee = t(() => !e.value.isEmpty && e.value.isSearchable), R = t(() => !e.value.isEmpty && e.value.filter !== null), z = t(() => !e.value.isEmpty && a.value.length > 0 && e.value.footerCells.length > 0), B = t(() => !e.value.isEmpty && a.value.length > 0 && (e.value.pagination !== null || e.value.cursorPagination !== null));
+	}, j = (e, t = "all") => gi(e.actions, t), M = (e = "all") => gi(m.value, e), P = t(() => !e.value.isEmpty), F = t(() => P.value && p.value), I = t(() => e.value.isEmpty), L = t(() => !e.value.isEmpty && a.value.length === 0), ee = t(() => !e.value.isEmpty && e.value.isSearchable), R = t(() => !e.value.isEmpty && e.value.filter !== null), z = t(() => !e.value.isEmpty && a.value.length > 0 && e.value.footerCells.length > 0), B = t(() => !e.value.isEmpty && a.value.length > 0 && (e.value.pagination !== null || e.value.cursorPagination !== null));
 	return {
 		table: e,
 		rows: a,
@@ -1930,7 +1947,7 @@ function pi(e, n, r, i = {}) {
 		placedBulkActions: M,
 		queryKey: s,
 		internalLinkComponent: N,
-		...Ir(r, Fr(i), (e, t) => {
+		...Br(r, zr(i), (e, t) => {
 			if (!e.isBulk) return;
 			let r = n.value.filter((e) => !t.includes(e));
 			r.length !== n.value.length && (n.value = r);
@@ -1939,7 +1956,7 @@ function pi(e, n, r, i = {}) {
 }
 //#endregion
 //#region resources/js/Components/DataTable/DataTableRoot.vue
-var mi = /* @__PURE__ */ c({
+var vi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableRoot",
 	props: {
@@ -1961,8 +1978,8 @@ var mi = /* @__PURE__ */ c({
 				let t = [...e];
 				a.selection === void 0 && (s.value = t), o("update:selection", t);
 			}
-		}), l = pi(t(() => a.table), c, (e) => o("event", e), a.actionEndpoint === void 0 ? {} : { endpoint: a.actionEndpoint });
-		return zr(l), $r(l), r({ context: l }), (t, r) => (_(), n(k(I), p({
+		}), l = _i(t(() => a.table), c, (e) => o("event", e), a.actionEndpoint === void 0 ? {} : { endpoint: a.actionEndpoint });
+		return Ur(l), ri(l), r({ context: l }), (t, r) => (_(), n(k(I), p({
 			as: e.as,
 			"as-child": e.asChild
 		}, t.$attrs), {
@@ -1973,7 +1990,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"]));
 	}
-}), hi = /* @__PURE__ */ c({
+}), yi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableResourceActionsRoot",
 	props: {
@@ -1991,11 +2008,11 @@ var mi = /* @__PURE__ */ c({
 	},
 	emits: ["event"],
 	setup(e, { expose: i, emit: a }) {
-		let o = e, s = a, c = t(() => o.value), l = t(() => o.value.actions.filter((e) => e.canRun)), u = Ir((e) => s("event", e), Fr(o.actionEndpoint === void 0 ? {} : { endpoint: o.actionEndpoint }));
-		return ti({
+		let o = e, s = a, c = t(() => o.value), l = t(() => o.value.actions.filter((e) => e.canRun)), u = Br((e) => s("event", e), zr(o.actionEndpoint === void 0 ? {} : { endpoint: o.actionEndpoint }));
+		return ai({
 			value: c,
 			runnableActions: l
-		}), $r(u), i({ controller: u }), (t, i) => e.forceMount || l.value.length > 0 ? (_(), n(k(I), p({
+		}), ri(u), i({ controller: u }), (t, i) => e.forceMount || l.value.length > 0 ? (_(), n(k(I), p({
 			key: 0,
 			as: e.as,
 			"as-child": e.asChild
@@ -2009,7 +2026,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), gi = /* @__PURE__ */ c({
+}), bi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableContent",
 	props: {
@@ -2030,7 +2047,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), _i = /* @__PURE__ */ c({
+}), xi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableEmptyTable",
 	props: {
@@ -2051,7 +2068,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), vi = /* @__PURE__ */ c({
+}), Si = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableEmptyResults",
 	props: {
@@ -2085,7 +2102,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), yi = /* @__PURE__ */ c({
+}), Ci = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableSearch",
 	props: {
@@ -2113,7 +2130,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), bi = /* @__PURE__ */ c({
+}), wi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableFilters",
 	props: {
@@ -2138,7 +2155,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), xi = /* @__PURE__ */ c({
+}), Ti = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableFilterWidget",
 	props: {
@@ -2155,7 +2172,7 @@ var mi = /* @__PURE__ */ c({
 			...r.widget.props,
 			filter: i.filter
 		}));
-		return Yr(a), (e, t) => (_(), n(k(I), p({
+		return $r(a), (e, t) => (_(), n(k(I), p({
 			as: r.as,
 			"as-child": r.asChild
 		}, e.$attrs), {
@@ -2167,11 +2184,11 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"]));
 	}
-}), Si = /* @__PURE__ */ c({
+}), Ei = /* @__PURE__ */ c({
 	__name: "DataTableFilterWidgets",
 	setup(o) {
 		let s = $(), c = t(() => s.table.value.filter?.widgets ?? []);
-		return (t, o) => k(s).isFiltersApplicable.value && c.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(c.value, (e, r) => (_(), n(xi, {
+		return (t, o) => k(s).isFiltersApplicable.value && c.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(c.value, (e, r) => (_(), n(Ti, {
 			key: r,
 			widget: e,
 			index: r,
@@ -2186,7 +2203,7 @@ var mi = /* @__PURE__ */ c({
 			key: "0"
 		} : void 0]), 1032, ["widget", "index"]))), 128)) : r("", !0);
 	}
-}), Ci = /* @__PURE__ */ c({
+}), Di = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableHeading",
 	props: {
@@ -2200,7 +2217,7 @@ var mi = /* @__PURE__ */ c({
 	},
 	setup(e) {
 		let r = e;
-		return Ur({ heading: t(() => r.heading) }), (e, t) => (_(), n(k(I), p({
+		return qr({ heading: t(() => r.heading) }), (e, t) => (_(), n(k(I), p({
 			as: r.as,
 			"as-child": r.asChild
 		}, e.$attrs), {
@@ -2211,11 +2228,11 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"]));
 	}
-}), wi = /* @__PURE__ */ c({
+}), Oi = /* @__PURE__ */ c({
 	__name: "DataTableHeadings",
 	setup(t) {
 		let o = $();
-		return (t, s) => k(o).headings.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(o).headings.value, (e, r) => (_(), n(Ci, {
+		return (t, s) => k(o).headings.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(o).headings.value, (e, r) => (_(), n(Di, {
 			key: e.id,
 			heading: e,
 			index: r,
@@ -2229,7 +2246,7 @@ var mi = /* @__PURE__ */ c({
 			key: "0"
 		} : void 0]), 1032, ["heading", "index"]))), 128)) : r("", !0);
 	}
-}), Ti = /* @__PURE__ */ c({
+}), ki = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableRow",
 	props: {
@@ -2252,7 +2269,7 @@ var mi = /* @__PURE__ */ c({
 			isSelectable: t(() => i.isRowSelectable(r.row)),
 			isSelected: t(() => i.selectionState.isRowSelected(r.row.key))
 		};
-		return Vr(a), (e, t) => (_(), n(k(I), p({
+		return Gr(a), (e, t) => (_(), n(k(I), p({
 			as: r.as,
 			"as-child": r.asChild
 		}, e.$attrs, { "data-state": a.isSelected.value ? "selected" : void 0 }), {
@@ -2269,11 +2286,11 @@ var mi = /* @__PURE__ */ c({
 			"data-state"
 		]));
 	}
-}), Ei = /* @__PURE__ */ c({
+}), Ai = /* @__PURE__ */ c({
 	__name: "DataTableRows",
 	setup(t) {
 		let a = $();
-		return (t, o) => k(a).rows.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(a).rows.value, (e, r) => (_(), n(Ti, {
+		return (t, o) => k(a).rows.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(a).rows.value, (e, r) => (_(), n(ki, {
 			key: e.key,
 			row: e,
 			index: r,
@@ -2286,10 +2303,10 @@ var mi = /* @__PURE__ */ c({
 			_: 2
 		}, 1032, ["row", "index"]))), 128)) : r("", !0);
 	}
-}), Di = /* @__PURE__ */ c({
+}), ji = /* @__PURE__ */ c({
 	__name: "DataTableCellContent",
 	setup(e) {
-		let { cell: t } = ii();
+		let { cell: t } = ci();
 		return (e, r) => k(t).link ? (_(), n(k(I), {
 			key: 0,
 			as: k(t).link.isExternal ? "a" : k(N),
@@ -2302,7 +2319,7 @@ var mi = /* @__PURE__ */ c({
 			cell: k(t)
 		}, () => [(_(), n(C(k(t).component), m(l(k(t).props)), null, 16))]);
 	}
-}), Oi = /* @__PURE__ */ c({
+}), Mi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableCell",
 	props: {
@@ -2316,22 +2333,22 @@ var mi = /* @__PURE__ */ c({
 	},
 	setup(e) {
 		let r = e;
-		return Gr({ cell: t(() => r.cell) }), (e, t) => (_(), n(k(I), p({
+		return Yr({ cell: t(() => r.cell) }), (e, t) => (_(), n(k(I), p({
 			as: r.as,
 			"as-child": r.asChild
 		}, e.$attrs), {
 			default: M(() => [S(e.$slots, "default", {
 				cell: r.cell,
 				index: r.index
-			}, () => [s(Di)])]),
+			}, () => [s(ji)])]),
 			_: 3
 		}, 16, ["as", "as-child"]));
 	}
-}), ki = /* @__PURE__ */ c({
+}), Ni = /* @__PURE__ */ c({
 	__name: "DataTableCells",
 	setup(t) {
-		let o = ni();
-		return (t, s) => k(o).row.cells.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(o).row.cells, (e, r) => (_(), n(Oi, {
+		let o = oi();
+		return (t, s) => k(o).row.cells.length > 0 ? (_(!0), i(e, { key: 0 }, x(k(o).row.cells, (e, r) => (_(), n(Mi, {
 			key: e.column || r,
 			cell: e,
 			index: r,
@@ -2346,7 +2363,7 @@ var mi = /* @__PURE__ */ c({
 			key: "0"
 		} : void 0]), 1032, ["cell", "index"]))), 128)) : r("", !0);
 	}
-}), Ai = /* @__PURE__ */ c({
+}), Pi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableFooter",
 	props: {
@@ -2367,7 +2384,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), ji = /* @__PURE__ */ c({
+}), Fi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableFooterCell",
 	props: {
@@ -2381,22 +2398,22 @@ var mi = /* @__PURE__ */ c({
 	},
 	setup(e) {
 		let i = e, a = t(() => i.cell), o = t(() => i.cell), s = { cell: a }, c = { cell: o };
-		return qr(s), Gr(c), (e, t) => (_(), n(k(I), p({
+		return Zr(s), Yr(c), (e, t) => (_(), n(k(I), p({
 			as: i.as,
 			"as-child": i.asChild
 		}, e.$attrs), {
 			default: M(() => [S(e.$slots, "default", {
 				cell: i.cell,
 				index: i.index
-			}, () => [i.cell ? (_(), n(Di, { key: 0 })) : r("", !0)])]),
+			}, () => [i.cell ? (_(), n(ji, { key: 0 })) : r("", !0)])]),
 			_: 3
 		}, 16, ["as", "as-child"]));
 	}
-}), Mi = /* @__PURE__ */ c({
+}), Ii = /* @__PURE__ */ c({
 	__name: "DataTableFooterCells",
 	setup(t) {
 		let o = $();
-		return (t, s) => k(o).isFooterApplicable.value ? (_(!0), i(e, { key: 0 }, x(k(o).table.value.footerCells, (e, r) => (_(), n(ji, {
+		return (t, s) => k(o).isFooterApplicable.value ? (_(!0), i(e, { key: 0 }, x(k(o).table.value.footerCells, (e, r) => (_(), n(Fi, {
 			key: e?.column ?? `empty-${r}`,
 			cell: e,
 			index: r,
@@ -2410,7 +2427,7 @@ var mi = /* @__PURE__ */ c({
 			key: "0"
 		} : void 0]), 1032, ["cell", "index"]))), 128)) : r("", !0);
 	}
-}), Ni = /* @__PURE__ */ c({
+}), Li = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableSelectionStatus",
 	props: {
@@ -2435,7 +2452,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Pi = /* @__PURE__ */ c({
+}), Ri = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableClearSelection",
 	props: {
@@ -2463,7 +2480,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Fi = /* @__PURE__ */ c({
+}), zi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableSelectAll",
 	props: {
@@ -2495,7 +2512,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Ii = /* @__PURE__ */ c({
+}), Bi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableSelectRow",
 	props: {
@@ -2507,7 +2524,7 @@ var mi = /* @__PURE__ */ c({
 		as: { default: "button" }
 	},
 	setup(e) {
-		let i = e, a = A(), o = $(), s = i.row === void 0 ? ni() : null, c = t(() => i.row ?? s.row), l = t(() => o.isSelectionApplicable.value && o.isRowSelectable(c.value)), u = t(() => o.selectionState.isRowSelected(c.value.key)), d = () => o.selectionState.toggleRow(c.value.key), f = t(() => ({
+		let i = e, a = A(), o = $(), s = i.row === void 0 ? oi() : null, c = t(() => i.row ?? s.row), l = t(() => o.isSelectionApplicable.value && o.isRowSelectable(c.value)), u = t(() => o.selectionState.isRowSelected(c.value.key)), d = () => o.selectionState.toggleRow(c.value.key), f = t(() => ({
 			...a,
 			type: i.as === "button" ? "button" : void 0,
 			"aria-pressed": u.value,
@@ -2527,7 +2544,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Li = /* @__PURE__ */ c({
+}), Vi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableAction",
 	props: {
@@ -2542,7 +2559,7 @@ var mi = /* @__PURE__ */ c({
 	},
 	setup(e) {
 		let t = e;
-		return Zr({
+		return ti({
 			get action() {
 				return t.action;
 			},
@@ -2564,15 +2581,15 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Ri = /* @__PURE__ */ c({
+}), Hi = /* @__PURE__ */ c({
 	__name: "DataTableRowActions",
 	props: {
 		placement: { default: "all" },
 		row: {}
 	},
 	setup(r) {
-		let a = r, o = $(), s = a.row === void 0 ? ni() : null, c = t(() => a.row ?? s.row), l = t(() => o.rowActions(c.value, a.placement));
-		return (t, r) => (_(!0), i(e, null, x(l.value, (e, r) => (_(), n(Li, {
+		let a = r, o = $(), s = a.row === void 0 ? oi() : null, c = t(() => a.row ?? s.row), l = t(() => o.rowActions(c.value, a.placement));
+		return (t, r) => (_(!0), i(e, null, x(l.value, (e, r) => (_(), n(Vi, {
 			key: e.name,
 			action: e,
 			selection: [c.value.key],
@@ -2591,12 +2608,12 @@ var mi = /* @__PURE__ */ c({
 			"index"
 		]))), 128));
 	}
-}), zi = /* @__PURE__ */ c({
+}), Ui = /* @__PURE__ */ c({
 	__name: "DataTableBulkActions",
 	props: { placement: { default: "all" } },
 	setup(a) {
 		let o = a, s = $(), c = t(() => s.placedBulkActions(o.placement)), l = t(() => [...s.selectionState.selection.value]);
-		return (t, a) => k(s).showBulkActions.value && c.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(c.value, (e, r) => (_(), n(Li, {
+		return (t, a) => k(s).showBulkActions.value && c.value.length > 0 ? (_(!0), i(e, { key: 0 }, x(c.value, (e, r) => (_(), n(Vi, {
 			key: e.name,
 			action: e,
 			selection: l.value,
@@ -2615,12 +2632,12 @@ var mi = /* @__PURE__ */ c({
 			"index"
 		]))), 128)) : r("", !0);
 	}
-}), Bi = /* @__PURE__ */ c({
+}), Wi = /* @__PURE__ */ c({
 	__name: "DataTableResourceActions",
 	props: { placement: { default: "all" } },
 	setup(r) {
-		let a = r, o = li(), s = t(() => o.runnableActions.value.filter((e) => a.placement === "inline" ? e.isInline : a.placement !== "menu" || !e.isInline)), c = t(() => [o.value.value.resource.key]);
-		return (t, r) => (_(!0), i(e, null, x(s.value, (e, r) => (_(), n(Li, {
+		let a = r, o = pi(), s = t(() => o.runnableActions.value.filter((e) => a.placement === "inline" ? e.isInline : a.placement !== "menu" || !e.isInline)), c = t(() => [o.value.value.resource.key]);
+		return (t, r) => (_(!0), i(e, null, x(s.value, (e, r) => (_(), n(Vi, {
 			key: e.name,
 			action: e,
 			selection: c.value,
@@ -2639,7 +2656,7 @@ var mi = /* @__PURE__ */ c({
 			"index"
 		]))), 128));
 	}
-}), Vi = /* @__PURE__ */ c({
+}), Gi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableActionActivation",
 	props: {
@@ -2650,7 +2667,7 @@ var mi = /* @__PURE__ */ c({
 		as: {}
 	},
 	setup(e) {
-		let i = e, a = si(), s = ci(), c = A(), l = t(() => a.action), u = t(() => a.selection), d = t(() => s.isActionRunning(l.value, u.value)), f = () => {
+		let i = e, a = di(), s = fi(), c = A(), l = t(() => a.action), u = t(() => a.selection), d = t(() => s.isActionRunning(l.value, u.value)), f = () => {
 			d.value || s.activateAction(l.value, [...u.value]);
 		}, m = t(() => i.as ?? (l.value.type === "Link" ? l.value.isExternal ? "a" : N : "button")), h = t(() => ({
 			...c,
@@ -2672,7 +2689,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Hi = /* @__PURE__ */ c({
+}), Ki = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableActionConfirmation",
 	props: {
@@ -2683,7 +2700,7 @@ var mi = /* @__PURE__ */ c({
 		as: { default: "template" }
 	},
 	setup(e) {
-		let i = e, a = ci(), o = a.pendingAction, s = t(() => o.value ? a.isActionRunning(o.value.action, o.value.selection) : !1);
+		let i = e, a = fi(), o = a.pendingAction, s = t(() => o.value ? a.isActionRunning(o.value.action, o.value.selection) : !1);
 		return (e, t) => k(o) ? (_(), n(k(I), p({ key: 0 }, e.$attrs, {
 			as: i.as,
 			"as-child": i.asChild
@@ -2698,7 +2715,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Ui = /* @__PURE__ */ c({
+}), qi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTableSorting",
 	props: {
@@ -2710,7 +2727,7 @@ var mi = /* @__PURE__ */ c({
 		as: { default: "button" }
 	},
 	setup(e) {
-		let i = e, a = A(), s = $(), c = i.column === void 0 ? ri() : null, l = t(() => c?.heading.value), u = t(() => i.column ?? l.value?.sortableAs), d = t(() => s.sortBy.value === u.value), f = t(() => d.value && s.sortDirection.value === "asc"), m = t(() => d.value ? s.sortDirection.value : null), h = () => {
+		let i = e, a = A(), s = $(), c = i.column === void 0 ? si() : null, l = t(() => c?.heading.value), u = t(() => i.column ?? l.value?.sortableAs), d = t(() => s.sortBy.value === u.value), f = t(() => d.value && s.sortDirection.value === "asc"), m = t(() => d.value ? s.sortDirection.value : null), h = () => {
 			u.value && s.toggleSorting(u.value);
 		}, g = t(() => ({
 			...a,
@@ -2734,7 +2751,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Wi = /* @__PURE__ */ c({
+}), Ji = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePerPage",
 	props: {
@@ -2758,7 +2775,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), Gi = /* @__PURE__ */ c({
+}), Yi = /* @__PURE__ */ c({
 	__name: "DataTablePerPageOptions",
 	setup(t) {
 		let n = $();
@@ -2769,7 +2786,7 @@ var mi = /* @__PURE__ */ c({
 			index: r
 		})), 256)) : r("", !0);
 	}
-}), Ki = /* @__PURE__ */ c({
+}), Xi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePagination",
 	props: {
@@ -2793,7 +2810,7 @@ var mi = /* @__PURE__ */ c({
 			_: 3
 		}, 16, ["as", "as-child"])) : r("", !0);
 	}
-}), qi = /* @__PURE__ */ c({
+}), Zi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePaginationFirst",
 	props: {
@@ -2829,7 +2846,7 @@ var mi = /* @__PURE__ */ c({
 			"aria-disabled"
 		])) : r("", !0);
 	}
-}), Ji = /* @__PURE__ */ c({
+}), Qi = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePaginationPrevious",
 	props: {
@@ -2865,7 +2882,7 @@ var mi = /* @__PURE__ */ c({
 			"aria-disabled"
 		])) : r("", !0);
 	}
-}), Yi = /* @__PURE__ */ c({
+}), $i = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePaginationNext",
 	props: {
@@ -2901,7 +2918,7 @@ var mi = /* @__PURE__ */ c({
 			"aria-disabled"
 		])) : r("", !0);
 	}
-}), Xi = /* @__PURE__ */ c({
+}), ea = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePaginationLast",
 	props: {
@@ -2937,7 +2954,7 @@ var mi = /* @__PURE__ */ c({
 			"aria-disabled"
 		])) : r("", !0);
 	}
-}), Zi = /* @__PURE__ */ c({
+}), ta = /* @__PURE__ */ c({
 	inheritAttrs: !1,
 	__name: "DataTablePaginationStatus",
 	props: {
@@ -2966,12 +2983,12 @@ var mi = /* @__PURE__ */ c({
 });
 //#endregion
 //#region resources/js/Components/DataTable/events.ts
-function Qi(e) {
+function na(e) {
 	return { onEvent(t) {
 		e[t.name]?.([...t.selection], t);
 	} };
 }
 //#endregion
-export { Vi as DataTableActionActivation, Hi as DataTableActionConfirmation, zi as DataTableBulkActions, Oi as DataTableCell, Di as DataTableCellContent, ki as DataTableCells, Pi as DataTableClearSelection, gi as DataTableContent, vi as DataTableEmptyResults, _i as DataTableEmptyTable, xi as DataTableFilterWidget, Si as DataTableFilterWidgets, bi as DataTableFilters, Ai as DataTableFooter, ji as DataTableFooterCell, Mi as DataTableFooterCells, Ci as DataTableHeading, wi as DataTableHeadings, Ki as DataTablePagination, qi as DataTablePaginationFirst, Xi as DataTablePaginationLast, Yi as DataTablePaginationNext, Ji as DataTablePaginationPrevious, Zi as DataTablePaginationStatus, Wi as DataTablePerPage, Gi as DataTablePerPageOptions, Bi as DataTableResourceActions, hi as DataTableResourceActionsRoot, mi as DataTableRoot, Ti as DataTableRow, Ri as DataTableRowActions, Ei as DataTableRows, yi as DataTableSearch, Fi as DataTableSelectAll, Ii as DataTableSelectRow, Ni as DataTableSelectionStatus, Ui as DataTableSorting, oe as Icon, jr as NavigationButton, Mr as NavigationButtonIcon, Rn as asyncRouter, Qi as bindDataTableEvents, di as configureDataTableStyle, pi as createDataTableContext, _r as formatQuery, vr as getValueFromQuery, Q as isActivated, Tr as isEventAction, Cr as isLinkAction, wr as isLinkPathAction, Z as isRouteAction, kr as onActivated, Ar as onDeactivated, gr as parseQuery, $r as provideDataTableActionController, Zr as provideDataTableActionScopeContext, Gr as provideDataTableCellContext, zr as provideDataTableContext, Yr as provideDataTableFilterWidgetContext, qr as provideDataTableFooterCellContext, Ur as provideDataTableHeadingContext, ti as provideDataTableResourceActionsContext, Vr as provideDataTableRowContext, ui as qualifyDataTableQueryKey, Vn as registerNamespacedComponents, yr as urlWithQuery, Er as useActiveLink, Ir as useDataTableActionController, ci as useDataTableActionControllerContext, Fr as useDataTableActionRunner, si as useDataTableActionScopeContext, ii as useDataTableCellContext, $ as useDataTableContext, oi as useDataTableFilterWidgetContext, ai as useDataTableFooterCellContext, ri as useDataTableHeadingContext, li as useDataTableResourceActionsContext, ni as useDataTableRowContext, Lr as useDataTableSelection, X as useFilter, Sr as useFlash, Dr as useNavigation, Or as useToggle };
+export { Gi as DataTableActionActivation, Ki as DataTableActionConfirmation, Ui as DataTableBulkActions, Mi as DataTableCell, ji as DataTableCellContent, Ni as DataTableCells, Ri as DataTableClearSelection, bi as DataTableContent, Si as DataTableEmptyResults, xi as DataTableEmptyTable, Ti as DataTableFilterWidget, Ei as DataTableFilterWidgets, wi as DataTableFilters, Pi as DataTableFooter, Fi as DataTableFooterCell, Ii as DataTableFooterCells, Di as DataTableHeading, Oi as DataTableHeadings, Xi as DataTablePagination, Zi as DataTablePaginationFirst, ea as DataTablePaginationLast, $i as DataTablePaginationNext, Qi as DataTablePaginationPrevious, ta as DataTablePaginationStatus, Ji as DataTablePerPage, Yi as DataTablePerPageOptions, Wi as DataTableResourceActions, yi as DataTableResourceActionsRoot, vi as DataTableRoot, ki as DataTableRow, Hi as DataTableRowActions, Ai as DataTableRows, Ci as DataTableSearch, zi as DataTableSelectAll, Bi as DataTableSelectRow, Li as DataTableSelectionStatus, qi as DataTableSorting, oe as Icon, Fr as NavigationButton, Ir as NavigationButtonIcon, Rn as asyncRouter, na as bindDataTableEvents, hi as configureDataTableStyle, _i as createDataTableContext, _r as formatQuery, vr as getValueFromQuery, Q as isActivated, Tr as isEventAction, Cr as isLinkAction, wr as isLinkPathAction, Z as isRouteAction, Nr as onActivated, Pr as onDeactivated, gr as parseQuery, ri as provideDataTableActionController, ti as provideDataTableActionScopeContext, Yr as provideDataTableCellContext, Ur as provideDataTableContext, $r as provideDataTableFilterWidgetContext, Zr as provideDataTableFooterCellContext, qr as provideDataTableHeadingContext, ai as provideDataTableResourceActionsContext, Gr as provideDataTableRowContext, mi as qualifyDataTableQueryKey, Vn as registerNamespacedComponents, yr as urlWithQuery, Er as useActiveLink, Br as useDataTableActionController, fi as useDataTableActionControllerContext, zr as useDataTableActionRunner, di as useDataTableActionScopeContext, ci as useDataTableCellContext, $ as useDataTableContext, ui as useDataTableFilterWidgetContext, li as useDataTableFooterCellContext, si as useDataTableHeadingContext, pi as useDataTableResourceActionsContext, oi as useDataTableRowContext, Vr as useDataTableSelection, X as useFilter, Sr as useFlash, Dr as useNavigation, jr as useToastNotifications, Mr as useToggle };
 
 //# sourceMappingURL=ui.js.map
