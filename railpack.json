@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "node",
+  "exclude": [".git", ".coolify", "**/.env*", "**/vendor", "**/node_modules"],
+  "packages": { "node": "24" },
+  "steps": {
+    "composer": {
+      "inputs": [{ "image": "dunglas/frankenphp:php8.5-trixie" }, { "local": true, "include": ["."] }],
+      "commands": [
+        "apt-get update && apt-get install -y --no-install-recommends git unzip && rm -rf /var/lib/apt/lists/*",
+        { "image": "composer:2", "src": "/usr/bin/composer", "dest": "/usr/bin/composer" },
+        "composer --working-dir=docs install --no-dev --prefer-dist --no-interaction --optimize-autoloader"
+      ]
+    },
+    "install": {
+      "commands": [
+        "COPY:package.json package.json",
+        "COPY:package-lock.json package-lock.json",
+        "npm ci --include=dev"
+      ]
+    },
+    "build": {
+      "inputs": ["...", { "step": "composer", "include": ["/app/docs/vendor"] }],
+      "commands": [
+        "npm run build",
+        "npm --prefix docs ci --include=dev",
+        "npm --prefix docs run api:build",
+        "npm --prefix docs run registry:build",
+        "npm --prefix docs run build-only"
+      ]
+    }
+  },
+  "deploy": {
+    "base": { "step": "composer" },
+    "inputs": [{ "step": "build", "include": ["."], "exclude": ["node_modules", "docs/node_modules"] }],
+    "startCommand": "sh -c 'cd /app/docs && touch \"$DB_DATABASE\" && php artisan migrate --force && php artisan optimize:clear && php artisan optimize && exec frankenphp php-server --root public --listen :80'",
+    "variables": {
+      "APP_NAME": "StackTrace UI",
+      "APP_ENV": "production",
+      "APP_DEBUG": "false",
+      "LOG_CHANNEL": "stderr",
+      "CACHE_STORE": "database",
+      "SESSION_DRIVER": "database",
+      "QUEUE_CONNECTION": "database",
+      "DB_CONNECTION": "sqlite",
+      "DB_DATABASE": "/app/docs/database/database.sqlite"
+    }
+  }
+}
